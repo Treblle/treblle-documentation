@@ -1,0 +1,40 @@
+name: CI
+
+on:
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
+        types: [opened, synchronize]
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    check-code-style:
+        name: "Check code style"
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check-out code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 2
+
+            - name: Install dependencies
+              uses: ./.github/composite-actions/install
+
+            - name: Check commit messages
+              run: pnpm commitlint -f ${{ github.event.pull_request.base.sha }}
+
+            - name: "Check formatting"
+              run: pnpm format:check
+
+            - name: "Check types"
+              run: pnpm typecheck
+
+            - name: "Check code style"
+              run: pnpm lint
+
+            - name: "Run tests"
+              run: pnpm test
