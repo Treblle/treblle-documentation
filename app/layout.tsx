@@ -1,5 +1,6 @@
-import "nextra-theme-docs/style.css";
 import "./index.css";
+// Nextra theme must be imported after index.css so PandaCSS doesn't override default nextra styles
+import "nextra-theme-docs/style.css";
 
 import { Banner, Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
