@@ -1,0 +1,39 @@
+{
+    "name": "treblle-documentation",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "build": "next build",
+        "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
+        "commit": "cz",
+        "dev": "rm -rf .next && next dev",
+        "format:check": "prettier . --check",
+        "format:fix": "prettier . --write",
+        "lint": "next lint",
+        "prepare": "panda codegen",
+        "start": "next start",
+        "typecheck": "tsc --noEmit"
+    },
+    "dependencies": {
+        "next": "^15.5.4",
+        "nextra": "^4.5.1",
+        "nextra-theme-docs": "^4.5.1",
+        "react": "^19.1.1",
+        "react-dom": "^19.1.1"
+    },
+    "devDependencies": {
+        "@next/eslint-plugin-next": "^15.1.5",
+        "@pandacss/dev": "^1.4.1",
+        "@treblle/eslint-config": "^1.1.0",
+        "@treblle/prettier-config": "^1.0.2",
+        "@treblle/typescript-config": "^1.0.1",
+        "@types/node": "^24.6.0",
+        "@types/react": "^19.1.16",
+        "eslint": "^9.18.0",
+        "pagefind": "^1.4.0",
+        "prettier": "^3.4.2",
+        "prettier-plugin-packagejson": "^2.5.19",
+        "typescript": "^5.9.2",
+        "typescript-eslint": "^8.20.0"
+    }
+}
