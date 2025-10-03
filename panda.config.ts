@@ -1,5 +1,6 @@
 import { defineConfig } from "@pandacss/dev";
 
+import { recipes } from "./theme/recipes";
 import { semanticTokens } from "./theme/semantic-tokens";
 import { textStyles } from "./theme/text-styles";
 import { tokens } from "./theme/tokens";
@@ -20,6 +21,7 @@ export default defineConfig({
             semanticTokens,
             tokens,
             textStyles,
+            recipes,
         },
     },
 
