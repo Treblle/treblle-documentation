@@ -51,7 +51,7 @@ export function ResourcesMobileMenu({
                     className={css({ color: "darkElement.500", cursor: "pointer" })}
                     onClick={close}
                 />
-                Solutions
+                Resources
                 <Box css={{ width: "16px" }} />
             </Box>
             <Box
