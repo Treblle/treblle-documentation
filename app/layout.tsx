@@ -80,7 +80,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                                 content: "''",
                                 width: "1px",
                                 height: "80%",
-                                top:"7",
+                                top: "7px",
                                 left: "-10px",
                                 backgroundColor: "darkElement.200",
                             },
