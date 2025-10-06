@@ -25,10 +25,6 @@ export const colors = defineTokens.colors({
         },
     },
     neutral: {
-        //added this but not sure if it's correct
-        800: {
-            value:"#262626",
-        },
         obsidian: {
             value: "#14182F",
         },
