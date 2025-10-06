@@ -29,7 +29,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProperties>((propertie
 
     const { loading, disabled, loadingText, children, eventName, onClick, ...rest } = properties;
 
-    const trulyDisabled = disabled || loading;
+    const trulyDisabled = disabled && loading;
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         if (eventName) {

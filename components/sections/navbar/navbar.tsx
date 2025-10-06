@@ -34,7 +34,7 @@ export function Navbar() {
         <Box
             css={{
                 backgroundColor: isScrolled || isMobileOpened ? "neutral.midnight" : "transparent",
-                position: "relative",
+                position: "sticky",
                 transition: "background-color 0.3s ease",
                 top: 0,
                 left: 0,
