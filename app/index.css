@@ -3,8 +3,3 @@
 html {
     scroll-behavior: smooth;
 }
-
-.nextra-sidebar {
-    padding-right: 10px;
-    width: 200px;
-}

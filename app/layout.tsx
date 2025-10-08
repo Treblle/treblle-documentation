@@ -44,9 +44,18 @@ export default async function RootLayout({ children }: { readonly children: Reac
                     className={css({
                         backgroundColor: "neutral.midnight",
                         "& .nextra-sidebar": {
+                            position: "relative",
+                            top: 0,
                             borderRight: "0.5px solid",
                             borderColor: "neutral.800",
+                            display: "block",
+                            width: { base: "100vw", md: "252px"},
                             minWidth: "252px",
+                            height: "auto",
+                        },
+                        "& div:has(aside)": {
+                            display: "flex",
+                            flexDirection: { base: "column", md: "row" },
                         },
                         "& .active a": {
                             color: "electric.200",
@@ -68,7 +77,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                             },
                         },
                         "& article": {
-                            maxWidth: "1045px",
+                            maxWidth: "1054px",
                         },
                         "& .nextra-scrollbar .open ul": {
                             paddingLeft: "0px",
@@ -80,7 +89,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                                 content: "''",
                                 width: "1px",
                                 height: "80%",
-                                top:"7",
+                                top: "7px",
                                 left: "-10px",
                                 backgroundColor: "darkElement.200",
                             },
