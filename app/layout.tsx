@@ -8,20 +8,16 @@ import { getPageMap } from "nextra/page-map";
 import { Layout } from "nextra-theme-docs";
 
 import { Footer } from "~components/sections/footer/footer";
-// import { ButtonSimple } from "~components/button-simple";
 import { Navbar } from "~components/sections/navbar/navbar";
+import SectionHandler from "~components/ui/section-handler";
 import { css } from "~styled-system/css/css";
 import { Box } from "~styled-system/jsx";
 
 import { fontClassName } from "../styles/fonts";
 
-export const metadata = {
-    // Define your metadata here
-    // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
-};
-
 const navbar = <Navbar />;
 const footer = <Footer />;
+
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
     return (
@@ -46,12 +42,25 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         "& .nextra-sidebar": {
                             position: "relative",
                             top: 0,
+                            userSelect: "auto",
+                            opacity: 1,
+                            visibility: "visible",
                             borderRight: "0.5px solid",
                             borderColor: "neutral.800",
                             display: "block",
-                            width: { base: "100vw", md: "252px"},
+                            width: { base: "100vw", md: "252px" },
                             minWidth: "252px",
                             height: "auto",
+                            transition: "all 0.3s ease-in-out",
+                        
+                        },
+                        "& .nextra-sidebar.hidden": {
+                            opacity: 0,
+                            userSelect: "none",
+                            visibility: "hidden",
+                            position: "absolute",
+                            top: "-10%",
+                            transition: "all 0.3s ease-in-out",
                         },
                         "& div:has(aside)": {
                             display: "flex",
@@ -83,6 +92,9 @@ export default async function RootLayout({ children }: { readonly children: Reac
                             paddingLeft: "0px",
                             paddingTop: "15px",
                         },
+                        "& .nextra-toc, & .nextra-sidebar": {
+                            paddingTop: { base: "0px", md: "10px" },
+                        },
                         "& .nextra-toc div": {
                             "&::before": {
                                 position: "absolute",
@@ -94,6 +106,9 @@ export default async function RootLayout({ children }: { readonly children: Reac
                                 backgroundColor: "darkElement.200",
                             },
                         },
+                        "& .nextra-scrollbar a": {
+                            fontWeight: "normal",
+                        }
                     })}
                 >
                     <Layout
@@ -109,6 +124,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         feedback={{ content: "", labels: "", link: "" }}
                         toc={{ backToTop: false }}
                     >
+                        <SectionHandler title="Treblle Docs" sectionClass="nextra-sidebar" />
                         {children}
                     </Layout>
                 </Box>
