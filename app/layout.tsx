@@ -115,6 +115,10 @@ export default async function RootLayout({ children }: { readonly children: Reac
                             "&::before": {
                                 content: "''",
                             },
+                            "&::after": {
+                                content: "''",
+                            },
+                            padding: "0px",
                         },
                         "& article div a:nth-child(1), & article div a:nth-child(2)": {
                             "&::before": {
