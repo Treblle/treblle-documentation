@@ -51,6 +51,9 @@ importers:
       '@types/react':
         specifier: ^19.1.16
         version: 19.1.16
+      '@types/react-dom':
+        specifier: ^19.2.1
+        version: 19.2.1(@types/react@19.1.16)
       eslint:
         specifier: ^9.18.0
         version: 9.36.0
@@ -1047,6 +1050,11 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/react-dom@19.2.1':
+    resolution: {integrity: sha512-/EEvYBdT3BflCWvTMO7YkYBHVE9Ci6XdqZciZANQgKpaiDRGOLIlRo91jbTNRQjgPFWVaRxcYc0luVNFitz57A==}
+    peerDependencies:
+      '@types/react': ^19.2.0
 
   '@types/react@19.1.16':
     resolution: {integrity: sha512-WBM/nDbEZmDUORKnh5i1bTnAz6vTohUf9b8esSMu+b24+srbaxa04UbJgWx78CVfNXA20sNu0odEIluZDFdCog==}
@@ -5061,6 +5069,10 @@ snapshots:
       undici-types: 7.13.0
 
   '@types/normalize-package-data@2.4.4': {}
+
+  '@types/react-dom@19.2.1(@types/react@19.1.16)':
+    dependencies:
+      '@types/react': 19.1.16
 
   '@types/react@19.1.16':
     dependencies:

@@ -18,7 +18,6 @@ import { fontClassName } from "../styles/fonts";
 const navbar = <Navbar />;
 const footer = <Footer />;
 
-
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
     return (
         <html
@@ -39,6 +38,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                 <Box
                     className={css({
                         backgroundColor: "neutral.midnight",
+                        position: "relative",
                         "& .nextra-sidebar": {
                             position: "relative",
                             top: 0,
@@ -52,7 +52,9 @@ export default async function RootLayout({ children }: { readonly children: Reac
                             minWidth: "252px",
                             height: "auto",
                             transition: "all 0.3s ease-in-out",
-                        
+                        },
+                        "& .nextra-scrollbar li div": {
+                            width: { base: "100%", md: "200px" },
                         },
                         "& .nextra-sidebar.hidden": {
                             opacity: 0,
@@ -108,7 +110,61 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         },
                         "& .nextra-scrollbar a": {
                             fontWeight: "normal",
-                        }
+                        },
+                        "& article .nextra-breadcrumb a:nth-child(1)": {
+                            "&::before": {
+                                content: "''",
+                            },
+                        },
+                        "& article div a:nth-child(1), & article div a:nth-child(2)": {
+                            "&::before": {
+                                fontSize: "12px",
+                                width: "max-content",
+                                height: "16px",
+                                color: "neutral.400",
+                            },
+                            padding: "10px 30px",
+                        },
+                        "& article div a svg":{
+                            display: "none",
+                        },
+                        "& article div a:nth-child(1)": {
+                            position: "relative",
+                            "&::before": {
+                                position: "absolute",
+                                content: '"Previous"',
+                                top: "-7px",
+                                left: "33px",
+                            },
+                            "&::after": {
+                                content:"'←'",
+                                position: "absolute",
+                                width: "max-content",
+                                height: "16px",
+                                left: "3px",
+                                top: "12px",
+                                fontSize: "16px",
+                            }
+                            
+                        },
+                        "& article div a:nth-child(2)": {
+                            position: "relative",
+                            "&::before": {
+                                position: "absolute",
+                                content: "'Next'",
+                                top: "-7px",
+                                right: "33px",
+                            },
+                            "&::after": {
+                                content:"'→'",
+                                position: "absolute",
+                                width: "max-content",
+                                height: "16px",
+                                right: "3px",
+                                top: "12px",
+                                fontSize: "16px",
+                            }
+                        },
                     })}
                 >
                     <Layout
@@ -119,7 +175,6 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         footer={footer}
                         darkMode={false}
                         sidebar={{ toggleButton: false }}
-                        search={false}
                         editLink={false}
                         feedback={{ content: "", labels: "", link: "" }}
                         toc={{ backToTop: false }}
