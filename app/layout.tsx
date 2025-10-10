@@ -120,7 +120,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                             },
                             padding: "0px",
                         },
-                        "& article div a:nth-child(1), & article div a:nth-child(2)": {
+                        "& article div a:first-child, & article div a:last-child": {
                             "&::before": {
                                 fontSize: "12px",
                                 width: "max-content",
@@ -128,46 +128,6 @@ export default async function RootLayout({ children }: { readonly children: Reac
                                 color: "neutral.400",
                             },
                             padding: "10px 30px",
-                        },
-                        "& article div a svg":{
-                            display: "none",
-                        },
-                        "& article div a:nth-child(1)": {
-                            position: "relative",
-                            "&::before": {
-                                position: "absolute",
-                                content: '"Previous"',
-                                top: "-7px",
-                                left: "33px",
-                            },
-                            "&::after": {
-                                content:"'←'",
-                                position: "absolute",
-                                width: "max-content",
-                                height: "16px",
-                                left: "3px",
-                                top: "12px",
-                                fontSize: "16px",
-                            }
-                            
-                        },
-                        "& article div a:nth-child(2)": {
-                            position: "relative",
-                            "&::before": {
-                                position: "absolute",
-                                content: "'Next'",
-                                top: "-7px",
-                                right: "33px",
-                            },
-                            "&::after": {
-                                content:"'→'",
-                                position: "absolute",
-                                width: "max-content",
-                                height: "16px",
-                                right: "3px",
-                                top: "12px",
-                                fontSize: "16px",
-                            }
                         },
                     })}
                 >
@@ -182,6 +142,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         editLink={false}
                         feedback={{ content: "", labels: "", link: "" }}
                         toc={{ backToTop: false }}
+                        navigation={false}
                     >
                         <SectionHandler title="Treblle Docs" sectionClass="nextra-sidebar" />
                         {children}

@@ -21,7 +21,6 @@ export default function SectionHandler({ title, sectionClass }: Properties) {
     }
 
     const icon = <Icon icon="ArrowDown" className={css({ transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" })} />;
-    console.log(isOpen);
 
     return (
         <Box
