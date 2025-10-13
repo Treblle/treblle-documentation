@@ -55,10 +55,10 @@ export default function CustomPagination() {
         if (found) {
             const currentIndex = normalizedPages.indexOf(found);
             const previousIndex =
-                currentIndex > 0 ? currentIndex - 1 : currentIndex;
+                currentIndex > 0 ? currentIndex - 1 : -1;
             const nextIndex = currentIndex < normalizedPages.length - 1
                     ? currentIndex + 1
-                    : currentIndex;
+                    : normalizedPages.length + 1;
             setPrevious(normalizedPages[previousIndex]?.route ?? "");
             setNext(normalizedPages[nextIndex]?.route ?? "");
             setPreviousTitle(normalizedPages[previousIndex]?.title ?? "");
@@ -74,7 +74,7 @@ export default function CustomPagination() {
                 borderTopStyle: "solid",
                 borderTopColor: "lightElement.200",
                 display: "flex",
-                justifyContent: "space-between",
+                justifyContent: previous ? "space-between" : "flex-end",
                 alignItems: "center",
                 padding: "12px 0",
                 "& .previous-link, & .next-link": {
