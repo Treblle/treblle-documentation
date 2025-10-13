@@ -1,11 +1,11 @@
 "use client";
 import { usePathname } from "next/navigation";
+import { getPageMap } from "nextra/page-map";
 import { Link } from "nextra-theme-docs";
 import { useEffect, useState } from "react";
 
 import { Box } from "~styled-system/jsx";
 
-import getPages from "../helpers/get-pages";
 import { Icon } from "../theme/icons";
 
 type Page = {
@@ -26,7 +26,7 @@ export default function CustomPagination() {
 
     useEffect(() => {
         async function fetchPages() {
-            const allPages = await getPages();
+            const allPages = await getPageMap();
             setPages(allPages);
         }
         void fetchPages();
