@@ -1,5 +1,4 @@
 "use client";
-// import { usePathname } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { Link } from "nextra-theme-docs";
 import { useEffect, useState } from "react";
@@ -9,14 +8,22 @@ import { Box } from "~styled-system/jsx";
 import getPages from "../helpers/get-pages";
 import { Icon } from "../theme/icons";
 
-const allPages: Array<{ name: unknown; path: unknown; }> = [];
+type Page = {
+    name: string;
+    route: string;
+    title: string;
+    children?: Array<Page>;
+};
 
 export default function CustomPagination() {
-    // const page = usePathname();
+    const [currentPage, setCurrentPage] = useState({});
+    const pathname = usePathname();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [pages, setPages] = useState<Array<any>>([]);
     const [previous, setPrevious] = useState("");
     const [next, setNext] = useState("");
+    const [previousTitle, setPreviousTitle] = useState("");
+    const [nextTitle, setNextTitle] = useState("");
 
     useEffect(() => {
         async function fetchPages() {
@@ -25,24 +32,46 @@ export default function CustomPagination() {
         }
         void fetchPages();
     }, []);
-    console.log(pages);
 
-    for (const page of pages) {
+    const flattenArray = (array: Array<Page>): Array<Page> => {
+        return array.flatMap((item) => {
+            const { name, route, title, children } = item;
+            const current: Page = { name, route, title };
+            return children ? flattenArray(children) : [current];
+        });
+    };
+
+    function normalizePages() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        if(page.children) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            console.log(page.children);
-        }else {
+        const filtered = pages.filter((p) => !("data" in p) && p.name !== "--");
 
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            allPages.push({name: page.title, path:page.route});
-        }
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        return flattenArray(filtered);
     }
-    console.log(allPages);
+
+    useEffect(() => {
+        if (pages.length === 0) return;
+        const normalizedPages = normalizePages();
+        const found = normalizedPages.find((p) => p.route === pathname);
+        if (found) {
+            setCurrentPage(found);
+            const currentIndex = normalizedPages.indexOf(found);
+            const previousIndex =
+                currentIndex > 0 ? currentIndex - 1 : currentIndex;
+            const nextIndex = currentIndex < normalizedPages.length - 1
+                    ? currentIndex + 1
+                    : currentIndex;
+            setPrevious(normalizedPages[previousIndex]?.route ?? "");
+            setNext(normalizedPages[nextIndex]?.route ?? "");
+            setPreviousTitle(normalizedPages[previousIndex]?.title ?? "");
+            setNextTitle(normalizedPages[nextIndex]?.title ?? "");
+        }
+    }, [pages, pathname]);
 
     return (
         <Box
             css={{
+                marginTop: "64px",
                 borderTopWidth: "0.1px",
                 borderTopStyle: "solid",
                 borderTopColor: "lightElement.200",
@@ -84,12 +113,12 @@ export default function CustomPagination() {
             {previous && (
                 <Link href={previous} className="pagination-link previous-link">
                     <Icon icon="ArrowRight" style={{ rotate: "180deg" }} />
-                    Test
+                    {previousTitle}
                 </Link>
             )}
             {next && (
                 <Link href={next} className="pagination-link next-link">
-                    Test
+                    {nextTitle}
                     <Icon icon="ArrowRight" />
                 </Link>
             )}
