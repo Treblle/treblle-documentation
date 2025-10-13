@@ -16,7 +16,6 @@ type Page = {
 };
 
 export default function CustomPagination() {
-    const [currentPage, setCurrentPage] = useState({});
     const pathname = usePathname();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [pages, setPages] = useState<Array<any>>([]);
@@ -54,7 +53,6 @@ export default function CustomPagination() {
         const normalizedPages = normalizePages();
         const found = normalizedPages.find((p) => p.route === pathname);
         if (found) {
-            setCurrentPage(found);
             const currentIndex = normalizedPages.indexOf(found);
             const previousIndex =
                 currentIndex > 0 ? currentIndex - 1 : currentIndex;
