@@ -4,6 +4,7 @@ import { getPageMap } from "nextra/page-map";
 import { Link } from "nextra-theme-docs";
 import { useEffect, useState } from "react";
 
+import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx";
 
 import { Icon } from "../theme/icons";
@@ -54,9 +55,9 @@ export default function PaginationCards() {
         const found = normalizedPages.find((p) => p.route === pathname);
         if (found) {
             const currentIndex = normalizedPages.indexOf(found);
-            const previousIndex =
-                currentIndex > 0 ? currentIndex - 1 : -1;
-            const nextIndex = currentIndex < normalizedPages.length - 1
+            const previousIndex = currentIndex > 0 ? currentIndex - 1 : -1;
+            const nextIndex =
+                currentIndex < normalizedPages.length - 1
                     ? currentIndex + 1
                     : normalizedPages.length + 1;
             setPrevious(normalizedPages[previousIndex]?.route ?? "");
@@ -77,45 +78,64 @@ export default function PaginationCards() {
                 justifyContent: previous ? "space-between" : "flex-end",
                 alignItems: "center",
                 padding: "12px 0",
-                "& .previous-link, & .next-link": {
-                    marginTop: "22.5px",
-                    position: "relative",
-                    color: "lightElement.300",
-                    textDecoration: "none",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "8px",
-                    fontSize: "18px",
-                },
-                "& .pagination-link::before": {
-                    position: "absolute",
-                    color: "lightElement.200",
-                    fontWeight: "normal",
-                    fontStretch: "normal",
-                    fontStyle: "normal",
-                    lineHeight: 1.17,
-                    letterSpacing: "normal",
-                },
-                "& .previous-link::before": {
-                    content: '"Previous"',
-                    top: "-7px",
-                    left: "53px",
-                },
-                "& .next-link::before": {
-                    content: '"Next"',
-                    top: "-7px",
-                    right: "53px",
-                },
             }}
         >
             {previous && (
-                <Link href={previous} className="pagination-link previous-link">
+                <Link
+                    href={previous}
+                    className={css({
+                        marginTop: "22.5px",
+                        position: "relative",
+                        color: "lightElement.300 !important",
+                        textDecoration: "none !important",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        fontSize: "18px",
+                        "&::before": {
+                            position: "absolute",
+                            color: "lightElement.200",
+                            fontWeight: "normal",
+                            fontStretch: "normal",
+                            fontStyle: "normal",
+                            lineHeight: 1.17,
+                            letterSpacing: "normal",
+                            content: '"Previous"',
+                            top: "-7px",
+                            left: "53px",
+                        },
+                    })}
+                >
                     <Icon icon="ArrowRight" style={{ rotate: "180deg" }} />
                     {previousTitle}
                 </Link>
             )}
             {next && (
-                <Link href={next} className="pagination-link next-link">
+                <Link
+                    href={next}
+                    className={css({
+                        marginTop: "22.5px",
+                        position: "relative",
+                        color: "lightElement.300 !important",
+                        textDecoration: "none !important",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        fontSize: "18px",
+                        "&::before": {
+                            position: "absolute",
+                            color: "lightElement.200",
+                            fontWeight: "normal",
+                            fontStretch: "normal",
+                            fontStyle: "normal",
+                            lineHeight: 1.17,
+                            letterSpacing: "normal",
+                            content: '"Next"',
+                            top: "-7px",
+                            right: "53px",
+                        },
+                    })}
+                >
                     {nextTitle}
                     <Icon icon="ArrowRight" />
                 </Link>
