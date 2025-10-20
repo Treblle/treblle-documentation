@@ -1,26 +1,20 @@
 import "./index.css";
+import "./layout.css";
 // Nextra theme must be imported after index.css so PandaCSS doesn't override default nextra styles
 import "nextra-theme-docs/style.css";
 
-import { Banner, Head } from "nextra/components";
+// import Image from "next/image";
+import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
-import { Footer, Layout, Navbar } from "nextra-theme-docs";
+import { Layout } from "nextra-theme-docs";
+
+import { Footer } from "~components/sections/footer/footer";
+import { Navbar } from "~components/sections/navbar/navbar";
+import MobileSidebarToggle from "~components/ui/mobile-sidebar-toggle";
+// import { css } from "~styled-system/css/css";
+import { Box } from "~styled-system/jsx";
 
 import { fontClassName } from "../styles/fonts";
-
-export const metadata = {
-    // Define your metadata here
-    // For more information on metadata API, see: https://nextjs.org/docs/app/building-your-application/optimizing/metadata
-};
-
-const banner = <Banner storageKey="some-key">Nextra 4.0 is released 🎉</Banner>;
-const navbar = (
-    <Navbar
-        logo={<b>Nextra</b>}
-        // ... Your additional navbar options
-    />
-);
-const footer = <Footer>MIT {new Date().getFullYear()} © Nextra.</Footer>;
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
     return (
@@ -39,16 +33,24 @@ export default async function RootLayout({ children }: { readonly children: Reac
                 {/* Your additional tags should be passed as `children` of `<Head>` element */}
             </Head>
             <body>
-                <Layout
-                    banner={banner}
-                    navbar={navbar}
-                    pageMap={await getPageMap()}
-                    docsRepositoryBase="https://github.com/shuding/nextra/tree/main/docs"
-                    footer={footer}
-                    // ... Your additional layout options
-                >
-                    {children}
-                </Layout>
+                <Box className="layout">
+                    <Layout
+                        banner={false}
+                        navbar={<Navbar />}
+                        pageMap={await getPageMap()}
+                        docsRepositoryBase="https://github.com/Treblle/treblle-documentation"
+                        footer={<Footer />}
+                        darkMode={false}
+                        sidebar={{ toggleButton: false }}
+                        editLink={false}
+                        feedback={{ content: "", labels: "", link: "" }}
+                        toc={{ backToTop: false }}
+                        navigation={false}
+                    >
+                        <MobileSidebarToggle title="Treblle Docs" sectionClass="nextra-sidebar" />
+                        {children}
+                    </Layout>
+                </Box>
             </body>
         </html>
     );

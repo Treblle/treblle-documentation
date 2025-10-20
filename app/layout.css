@@ -1,0 +1,128 @@
+.layout {
+    position: relative;
+    background-color: var(--colors-neutral-midnight);
+}
+
+.layout .nextra-sidebar {
+    position: relative;
+    top: 0;
+    user-select: auto;
+    opacity: 1;
+    visibility: visible;
+    border-right: 0.5px solid;
+    border-color: var(--colors-dark-element-100);
+    display: block;
+    min-width: 252px;
+    height: auto;
+    transition: all 0.3s ease-in-out;
+    width: 252px;
+}
+
+.layout .nextra-scrollbar li div {
+    width: 200px;
+}
+
+.layout .nextra-sidebar.hidden {
+    opacity: 0;
+    user-select: none;
+    visibility: hidden;
+    position: absolute;
+    top: "-10%";
+    transition: all 0.3s ease-in-out;
+}
+
+.layout div:has(aside) {
+    display: flex;
+    flex-direction: row;
+}
+
+.layout .active a {
+    color: var(--colors-electric-200);
+    font-weight: 600;
+    border-radius: 4px;
+    background-color: var(--colors-dark-element-100);
+    position: relative;
+}
+
+.layout .active a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2px;
+    height: 24px;
+    background-color: var(--colors-electric-200);
+    overflow: "hidden";
+    border-radius: "4px";
+}
+
+.layout article {
+    max-width: 1054px;
+}
+
+.layout .nextra-scrollbar .open ul {
+    padding-left: 0px;
+    padding-top: 15px;
+}
+
+.layout .nextra-toc,
+.layout .nextra-sidebar {
+    padding-bottom: 10px;
+}
+
+.layout .nextra-toc div::before {
+    position: absolute;
+    content: " ";
+    width: 1px;
+    height: 80%;
+    top: 7px;
+    left: -10px;
+    background-color: var(--colors-dark-element-200);
+}
+
+.layout .nextra-scrollbar a {
+    font-weight: normal;
+}
+
+.layout article .nextra-breadcrumb a:nth-child(1) {
+    padding: 0px;
+}
+
+.layout article .nextra-breadcrumb a:nth-child(1)::before {
+    content: "''";
+}
+.layout article .nextra-breadcrumb a:nth-child(1)::after {
+    content: "''";
+}
+
+.layout article div a:first-child,
+.layout article div a:last-child {
+    padding: 10px 30px;
+}
+
+.layout article div a:first-child::before, .layout article div a:last-child::before {
+    font-size: 12px;
+    width: max-content;
+    height: 16px;
+    color: var(--colors-neutral-400);
+}
+
+@media (max-width: 767px) {
+    .layout .nextra-sidebar {
+        width: 100vw;
+    }
+
+    .layout .nextra-scrollbar li div {
+        width: 100%;
+    }
+
+    .layout div:has(aside) {
+        flex-direction: column;
+    }
+
+    .layout .nextra-toc,
+    .layout .nextra-sidebar {
+        padding-bottom: 0px;
+    }
+}
