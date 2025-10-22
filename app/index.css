@@ -3,3 +3,31 @@
 html {
     scroll-behavior: smooth;
 }
+
+.nextra-code div {
+    background-color: transparent;
+}
+
+.nextra-code div button {
+    border: none;
+}
+
+.nextra-code div button svg {
+    display: block;
+}
+
+.nextra-code div svg {
+    display: none;
+}
+
+pre {
+    background-color: transparent;
+}
+
+code span span:first-child {
+    color: #5192ff;
+}
+
+/* code span span:nth-child(2) {
+    color: #04e8b0;
+} */
