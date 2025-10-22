@@ -3,7 +3,8 @@ title: Components test
 ---
 
 import {InfoCards} from "../../components/info-cards";
-import {InfoCard} from "../../components/ui/infor-card";
+import {InfoCard} from "../../components/ui/info-card";
+import {BadgeCard} from "../../components/ui/badge-card";
 import {BadgeCards} from "../../components/badge-cards";
 import {FAQ} from "../../components/sections/FAQ/faq";
 
@@ -76,31 +77,70 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
 
 They are used to build web applications and mobile apps as well as integrated with other systems, and automate processes. Like when you pay for a product via Stripe, you are using the Stripe’s payment APIs.
 
-export const info = [
-  ["AWS Api Gateway", "Serverless Lambda function for automatic API discovery across multiple AWS regions."],
-  ["Azure API Gateway", "Serverless Lambda function for automatic API discovery across multiple Azure regions."],
-  ["Kong", "Serverless Lambda function for automatic API discovery across multiple AWS regions."],
-  ["Mulesoft", "Serverless Lambda function for automatic API discovery across multiple AWS regions."]
-];
-
-<InfoCards info={info} />
+<InfoCards> 
+    <InfoCard type="group">
+        <InfoCard.title>AWS Api Gateway</InfoCard.title>
+        <InfoCard.description>
+            Serverless Lambda function for automatic API discovery across multiple AWS regions.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>AWS Api Gateway</InfoCard.title>
+        <InfoCard.description>
+            Serverless Lambda function for automatic API discovery across multiple AWS regions.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>AWS Api Gateway</InfoCard.title>
+        <InfoCard.description>
+            Serverless Lambda function for automatic API discovery across multiple AWS regions.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>AWS Api Gateway</InfoCard.title>
+        <InfoCard.description>
+            Serverless Lambda function for automatic API discovery across multiple AWS regions.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
 
 HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) - are interfaces that allow communication between different software systems using the HTTP protocol.
 
-<InfoCard title="Build your own SDK" description="Serverless Lambda function for automatic API discovery across multiple AWS regions." type="individual" />
+<InfoCard type="individual">
+    <InfoCard.title>Build your own SDK</InfoCard.title>
+    <InfoCard.description>
+        Serverless Lambda function for automatic API discovery across multiple AWS regions.
+    </InfoCard.description>
+</InfoCard>
 
 HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) - are interfaces that allow communication between different software systems using the HTTP protocol.
 
-export const badges = [
-    ["/badges/iso-logo.png", "ISO 27001 Certified", "ISO 27001 Certified"],
-    ["/badges/iso-logo.png", "ISO 27002 Certified1", "ISO 27002 Certified"],
-    ["/badges/iso-logo.png", "ISO 27003 Certified2", "ISO 27003 Certified"],
-    ["/badges/iso-logo.png", "ISO 27004 Certified3", "ISO 27004 Certified"],
-    ["/badges/iso-logo.png", "ISO 27005 Certified4", "ISO 27005 Certified"],
-    ["/badges/iso-logo.png", "ISO 27006 Certified5", "ISO 27006 Certified"],
-];
-
-<BadgeCards badgeCardData={badges} />
+<BadgeCards>
+    <BadgeCard>
+        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
+    </BadgeCard>
+    <BadgeCard>
+        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
+    </BadgeCard>
+    <BadgeCard>
+        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
+    </BadgeCard>
+    <BadgeCard>
+        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
+    </BadgeCard>
+    <BadgeCard>
+        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
+    </BadgeCard>
+    <BadgeCard>
+        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
+    </BadgeCard>
+</BadgeCards>
 
 export const questions = [
     ["Can I use the free plan without adding a credit card?", "You can create a free account by choosing the Free plan that includes 250,000 API requests per month. Once you realize that you need more than 250,000 API requests, you can choose among one of our paid plans. Only then will we ask you for your credit card information."],

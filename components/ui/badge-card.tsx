@@ -4,12 +4,10 @@ import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx/box";
 
 type BadgeCardProperties = {
-    readonly imageSrc: string;
-    readonly imageAlt: string;
-    readonly title: string;
+    readonly children?: React.ReactNode;
 };
 
-export function BadgeCard({ imageSrc, imageAlt, title }: BadgeCardProperties) {
+export function BadgeCard({ children }: BadgeCardProperties) {
     return  <Box className={css({
             display: "flex",
             alignItems: "center",
@@ -22,7 +20,14 @@ export function BadgeCard({ imageSrc, imageAlt, title }: BadgeCardProperties) {
             border: "1px solid",
             borderColor: "darkElement.200",
         })}>
-            <Image src={imageSrc} alt={imageAlt} width={101.5} height={101.5}/>
-            <p>{title}</p>
+           {children}
         </Box>
+}
+
+BadgeCard.Image = function BadgeCardImage({ src, alt }: { readonly src: string; readonly alt: string }) {
+    return <Image src={src} alt={alt} width={64} height={64} />;
+}
+
+BadgeCard.Title = function BadgeCardTitle({ children }: { readonly children: string }) {
+    return <h3>{children}</h3>;
 }

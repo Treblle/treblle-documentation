@@ -4,12 +4,11 @@ import { Box } from "~styled-system/jsx";
 import { Icon } from "../../theme/icons";
 
 type InfoCardProperties = {
-    readonly title : string,
-    readonly description : string,
+    readonly children: React.ReactNode;
     readonly type: "individual" | "group"
 }
 
-export function InfoCard({ title, description, type }: InfoCardProperties) {
+export function InfoCard({ children, type }: InfoCardProperties) {
     return <Box className={css({
             border: "1px solid",
             borderColor: "darkElement.200",
@@ -24,7 +23,12 @@ export function InfoCard({ title, description, type }: InfoCardProperties) {
                 backgroundColor:"#1b1e31",
             }
         })}>
-            <Box className={css({
+            {children}
+        </Box>
+}
+
+InfoCard.title = function InfoCardTitle({ children }: {readonly children: React.ReactNode }) {
+    return <Box className={css({
                 display: "flex",
                 alignItems: "center",
                 gap:"5px",
@@ -32,13 +36,15 @@ export function InfoCard({ title, description, type }: InfoCardProperties) {
                 paddingY: "4px",
                 marginBottom: "17px",
             })}>
-                <h3 className={css({fontSize:"20px"})}>{title}</h3>
+                <h3 className={css({fontSize:"20px"})}>{children}</h3>
                 <Icon icon="ArrowRight" />
             </Box>
-            <p className={css({
+}
+
+InfoCard.description = function InfoCardDescription({ children }: {readonly children: React.ReactNode }) {
+    return <p className={css({
                 fontSize: "14px",
                 color: "darkElement.500",
                 lineHeight:"1.29",
-            })}>{description}</p>
-        </Box>
+            })}>{children}</p>
 }
