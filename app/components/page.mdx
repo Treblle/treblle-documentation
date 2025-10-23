@@ -4,8 +4,6 @@ title: Components test
 
 import { InfoCards } from "~components/cards/info-cards";
 import { InfoCard } from "~components/cards/info-card";
-import { BadgeCard } from "~components/cards/badge-card";
-import { BadgeCards } from "~components/cards/badge-cards";
 import { FAQ } from "~components/sections/FAQ/faq";
 import { Question } from "~components/sections/FAQ/faq-question";
 import { TipCard } from "~components/cards/tip";
@@ -119,32 +117,32 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
 
 HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) - are interfaces that allow communication between different software systems using the HTTP protocol.
 
-<BadgeCards>
-    <BadgeCard>
-        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
-        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
-    </BadgeCard>
-    <BadgeCard>
-        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
-        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
-    </BadgeCard>
-    <BadgeCard>
-        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
-        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
-    </BadgeCard>
-    <BadgeCard>
-        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
-        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
-    </BadgeCard>
-    <BadgeCard>
-        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
-        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
-    </BadgeCard>
-    <BadgeCard>
-        <BadgeCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
-        <BadgeCard.Title>ISO 27001 Certified</BadgeCard.Title>
-    </BadgeCard>
-</BadgeCards>
+<InfoCards>
+    <InfoCard type="badge">
+        <InfoCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <InfoCard.Name>ISO 27001 Certified</InfoCard.Name>
+    </InfoCard>
+    <InfoCard type="badge">
+        <InfoCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <InfoCard.Name>ISO 27001 Certified</InfoCard.Name>
+    </InfoCard>
+    <InfoCard type="badge">
+        <InfoCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <InfoCard.Name>ISO 27001 Certified</InfoCard.Name>
+    </InfoCard>
+    <InfoCard type="badge">
+        <InfoCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <InfoCard.Name>ISO 27001 Certified</InfoCard.Name>
+    </InfoCard>
+    <InfoCard type="badge">
+        <InfoCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <InfoCard.Name>ISO 27001 Certified</InfoCard.Name>
+    </InfoCard>
+    <InfoCard type="badge">
+        <InfoCard.Image src="/badges/iso-logo.png" alt="ISO Logo" />
+        <InfoCard.Name>ISO 27001 Certified</InfoCard.Name>
+    </InfoCard>
+</InfoCards>
 
 <FAQ>
     <Question> 
