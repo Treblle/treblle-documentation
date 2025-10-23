@@ -18,5 +18,9 @@ export default {
             </div>
         ),
     },
-
+    index: {
+        theme: {
+            breadcrumb: false,
+        }
+    }
 };

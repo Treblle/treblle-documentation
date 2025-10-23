@@ -46,6 +46,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         feedback={{ content: "", labels: "", link: "" }}
                         toc={{ backToTop: false }}
                         navigation={false}
+                        copyPageButton={false}
                     >
                         <MobileSidebarToggle title="Treblle Docs" sectionClass="nextra-sidebar" />
                         {children}
