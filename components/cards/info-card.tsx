@@ -1,31 +1,42 @@
+import { Card } from "~components/ui/card";
 import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx";
 
 import { Icon } from "../../theme/icons";
 
+type InfoCardType = "group" | "tip" | "caution" | "individual" | "note";
+
 type InfoCardProperties = {
     readonly children: React.ReactNode;
-    readonly type: "individual" | "group"
+    readonly type: InfoCardType;
 }
 
 export function InfoCard({ children, type }: InfoCardProperties) {
-    return <Box className={css({
-            border: "1px solid",
-            borderColor: "darkElement.200",
-            borderRadius: "12px",
-            padding: "16px",
-            display: "flex",
-            flexDirection: "column",
-            maxWidth: type === "individual" ? "100%" : "400px",
-            marginTop: type === "individual" ? "40px" : "0",
-            marginBottom: type === "individual" ? "60px" : "0",
-            "&:hover": {
-                backgroundColor:"#1b1e31",
-            }
-        })}>
-            {children}
-        </Box>
+    switch(type) {
+        case "group": {
+            return <Card variant="group">{children}</Card>;
+        }
+        case "tip": {
+            return <Card variant="tip">{children}</Card>;
+        }
+        case "caution": {
+            return <Card variant="caution">{children}</Card>;
+        }
+        case "individual": {
+            return <Card variant="individual">{children}</Card>;
+        }
+        case "note": {
+            return <Card variant="note">{children}</Card>;
+        }
+        default: {
+            return <Card variant="group">{children}</Card>;
+        }
+    }
 }
+
+// InfoCard.icon = function InfoCardIcon({ children }: {readonly children: React.ReactNode }) {
+//     return 
+// }
 
 InfoCard.title = function InfoCardTitle({ children }: {readonly children: React.ReactNode }) {
     return <Box className={css({

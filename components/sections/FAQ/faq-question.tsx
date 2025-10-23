@@ -1,17 +1,22 @@
 "use client";
 import { ChevronDown } from 'lucide-react';
-import { useState } from "react";
+import { Children, isValidElement, useState } from "react";
 
 import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx";
 
 type QuestionProperties = {
-    readonly question: string;
-    readonly answer: string;
+    readonly children: React.ReactNode;
 };
 
-export function Question({ question, answer }: QuestionProperties) {
+export function Question({ children }: QuestionProperties) {
     const [isOpen, setIsOpen] = useState(true);
+
+    const [first, second] = Children.toArray(children);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const question = isValidElement(first) ? first.props.children : undefined;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const answer = isValidElement(second) ? second.props.children : undefined;
 
 
     return <Box className={css({

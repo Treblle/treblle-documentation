@@ -2,11 +2,15 @@
 title: Components test
 ---
 
-import {InfoCards} from "../../components/info-cards";
-import {InfoCard} from "../../components/ui/info-card";
-import {BadgeCard} from "../../components/ui/badge-card";
-import {BadgeCards} from "../../components/badge-cards";
-import {FAQ} from "../../components/sections/FAQ/faq";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { BadgeCard } from "~components/cards/badge-card";
+import { BadgeCards } from "~components/cards/badge-cards";
+import { FAQ } from "~components/sections/FAQ/faq";
+import { Question } from "~components/sections/FAQ/faq-question";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { NoteCard } from "~components/cards/note";
 
 # Api Catalog
 
@@ -18,7 +22,7 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
 
 They are used to build web applications and mobile apps as well as integrated with other systems, and automate processes. Like when you pay for a product via Stripe, you are using the Stripe’s payment APIs.
 
-``` js copy filename="Javascript"
+```js copy filename="Javascript"
 code: "integer",
   status: "boolean",
   message: "string",
@@ -77,7 +81,7 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
 
 They are used to build web applications and mobile apps as well as integrated with other systems, and automate processes. Like when you pay for a product via Stripe, you are using the Stripe’s payment APIs.
 
-<InfoCards> 
+<InfoCards>
     <InfoCard type="group">
         <InfoCard.title>AWS Api Gateway</InfoCard.title>
         <InfoCard.description>
@@ -142,10 +146,32 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
     </BadgeCard>
 </BadgeCards>
 
-export const questions = [
-    ["Can I use the free plan without adding a credit card?", "You can create a free account by choosing the Free plan that includes 250,000 API requests per month. Once you realize that you need more than 250,000 API requests, you can choose among one of our paid plans. Only then will we ask you for your credit card information."],
-    ["How does Treblle help with API monitoring?", "Treblle provides real-time monitoring of your API performance, including response times, error rates, and usage statistics. This helps you identify and resolve issues quickly."],
-    ["Is Treblle compatible with all programming languages?", "Yes, Treblle is designed to work with any programming language that can make HTTP requests, making it a versatile choice for developers."],
-];
+<FAQ>
+    <Question> 
+        ## Can I use the free plan without adding a credit card?
+        You can create a free account by choosing the Free plan that includes 250,000 API requests per month. Once you realize that you need more than 250,000 API requests, you can choose among one of our paid plans. Only then will we ask you for your credit card information.
+    </Question>
 
-<FAQ questions={questions} />
+    <Question>
+        ## How does Treblle help with API monitoring?
+        Treblle provides real-time monitoring of your API performance, including response times, error rates, and usage statistics. This helps you identify and resolve issues quickly.
+    </Question>
+
+    <Question>
+        ## Is Treblle compatible with all programming languages?
+        Yes, Treblle is designed to work with any programming language that can make HTTP requests, making it a versatile choice for developers.
+    </Question>
+
+</FAQ>
+
+<TipCard>
+    Remember to always secure your API keys and never expose them in public repositories.
+</TipCard>
+
+<CautionCard>
+    Ensure that your API endpoints are properly validated to prevent unauthorized access.
+</CautionCard>
+
+<NoteCard>
+    Note that API performance can vary based on network conditions and server load.
+</NoteCard>
