@@ -10,7 +10,7 @@ type QuestionProperties = {
 };
 
 export function Question({ children }: QuestionProperties) {
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     const [first, second] = Children.toArray(children);
     const question = isValidElement(first)
