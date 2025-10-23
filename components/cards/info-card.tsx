@@ -16,25 +16,25 @@ type InfoCardProperties = {
 export function InfoCard({ children, type }: InfoCardProperties) {
     switch(type) {
         case "group": {
-            return <Card variant="group" size="md">{children}</Card>;
+            return <Card variant="group" size="group">{children}</Card>;
         }
         case "tip": {
-            return <Card variant="tip" size="lg">{children}</Card>;
+            return <Card variant="tip" size="individual">{children}</Card>;
         }
         case "caution": {
-            return <Card variant="caution" size="lg">{children}</Card>;
+            return <Card variant="caution" size="individual">{children}</Card>;
         }
         case "individual": {
-            return <Card variant="individual" size="lg">{children}</Card>;
+            return <Card variant="individual" size="individual">{children}</Card>;
         }
         case "note": {
-            return <Card variant="note" size="lg">{children}</Card>;
+            return <Card variant="note" size="individual">{children}</Card>;
         }
         case "badge": {
-            return <Card variant="badge" size="sm">{children}</Card>;
+            return <Card variant="badge" size="badge">{children}</Card>;
         }
         default: {
-            return <Card variant="group" size="md">{children}</Card>;
+            return <Card variant="group" size="group">{children}</Card>;
         }
     }
 }

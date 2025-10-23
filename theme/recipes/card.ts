@@ -51,7 +51,7 @@ export const card = defineRecipe({
             },
         },
         size: {
-            sm: {
+            badge: {
                 width: {
                     base: "100%",
                     sm: "150px",
@@ -59,10 +59,10 @@ export const card = defineRecipe({
                     lg: "260px",
                 },
             },
-            md: {
+            group: {
                 maxWidth: { base: "100%", md: "100%", xl: "400px" },
             },
-            lg: {
+            individual: {
                 maxWidth: "100%",
             },
         },
