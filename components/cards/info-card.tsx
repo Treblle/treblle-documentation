@@ -62,9 +62,9 @@ InfoCard.title = function InfoCardTitle({ children }: {readonly children: React.
 }
 
 InfoCard.description = function InfoCardDescription({ children }: {readonly children: React.ReactNode }) {
-    return <p className={css({
+    return <Box className={css({
                 fontSize: "14px",
                 color: "darkElement.500",
                 lineHeight:"1.29",
-            })}>{children}</p>
+            })}>{children}</Box>
 }

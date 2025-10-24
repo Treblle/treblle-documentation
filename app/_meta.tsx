@@ -19,8 +19,10 @@ export default {
         ),
     },
     index: {
+        title: "Quick start",
         theme: {
-            breadcrumb: false,
+            "breadcrumb": false,
+            "toc": false,
         }
     }
 };

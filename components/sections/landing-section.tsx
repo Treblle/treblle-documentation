@@ -6,9 +6,13 @@ import { Search } from "nextra/components";
 import LandingPageCards from "~components/cards/landing-page-cards";
 import { css } from "~styled-system/css/css";
 import { Box } from "~styled-system/jsx";
+
+import { Icon } from "../../theme/icons";
 export function LandingPage() {
     return (
-        <Box>
+        <Box className={css({
+            maxWidth: "1300px",
+        })}>
             <Box
                 className={css({
                     maxWidth: "1300px",
@@ -101,8 +105,7 @@ export function LandingPage() {
             <Box className={css({ display: "flex", justifyContent: "space-between", gap: "24px", marginTop: "-50px"})}>
                 <LandingPageCards icon={<Info className={css({ width: "23px", height: "23px" })} />} title="Getting Started" description="Set up your workspace in just a few clicks." />
                 <LandingPageCards icon={<SquareCode className={css({ width: "23px", height: "23px" })} />} title="Integrate Treblle" description="Connect your API to unlock real-time monitoring and insights." />
-                <LandingPageCards icon={<SquareCode className={css({ width: "23px", height: "23px" })} />} title="Explore Treblle" description="Discover powerful tools to improve 
-performance and collaboration." />
+                <LandingPageCards icon={<Icon icon="ApiCube" />} title="Explore Treblle" description="Discover powerful tools to improve performance and collaboration." />
             </Box>
         </Box>
     );
