@@ -22,7 +22,6 @@ export default {
         title: "Quick start",
         theme: {
             "breadcrumb": false,
-            "toc": false,
         }
     }
 };

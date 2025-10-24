@@ -68,7 +68,7 @@ export function LandingPage() {
                     </button>
                     <h1
                         className={css({
-                            fontSize: "46px",
+                            fontSize: {base: "32px", lg: "48px"},
                             fontWeight: 600,
                             lineHeight: 1.13,
                             color: "#fff",
@@ -102,7 +102,7 @@ export function LandingPage() {
                     />
                 </Box>
             </Box>
-            <Box className={css({ display: "flex", justifyContent: "space-between", gap: "24px", marginTop: "-50px"})}>
+            <Box className={css({ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "24px", marginTop: "-50px"})}>
                 <LandingPageCards icon={<Info className={css({ width: "23px", height: "23px" })} />} title="Getting Started" description="Set up your workspace in just a few clicks." />
                 <LandingPageCards icon={<SquareCode className={css({ width: "23px", height: "23px" })} />} title="Integrate Treblle" description="Connect your API to unlock real-time monitoring and insights." />
                 <LandingPageCards icon={<Icon icon="ApiCube" />} title="Explore Treblle" description="Discover powerful tools to improve performance and collaboration." />

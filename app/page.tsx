@@ -42,3 +42,4 @@ export default function LandingPageCards({icon, title, description} : LandingPag
         </Box>
     );
 }
+
