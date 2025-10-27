@@ -8,6 +8,7 @@ export const card = defineRecipe({
         borderRadius: "12px",
         padding: "16px",
         display: "flex",
+        marginY: "12px",
         flexDirection: "column",
         _hover: {
             backgroundColor: "#1b1e31",

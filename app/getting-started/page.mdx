@@ -1,0 +1,101 @@
+---
+title: "Getting Started"
+metaTitle: "Getting Started with Treblle | Treblle Docs"
+description: "Create a Treblle account and set up your API in minutes. Gain real-time insights, auto-generated docs, security scoring, and more. Start improving your APIs today!"
+---
+
+import { Steps } from "nextra/components";
+import Image from "next/image";
+import { NoteCard } from "~components/cards/note";
+import { ImageCard } from "~components/cards/image-card";
+
+# Getting Started
+
+This quickstart helps you integrate the Treblle SDK into your API and get started with Treblle.
+
+<Steps>
+
+### Create a Treblle Account
+
+    Go to the Treblle website and [sign up for a free Treblle account](https://treblle.com/).
+
+    <ImageCard src="/getting-started/create-account.png" alt="Create Account" />
+
+
+### Create Your Workspace
+
+    After logging in, you'll enter your Treblle account settings page. Click on the Treblle Platform button from the Apps section.
+
+    <ImageCard src="/getting-started/account-settings.png" alt="Account Settings" />
+
+    Create a new workspace by clicking on the "Create new workspace" button. You can also join an existing workspace by clicking on the "Join workspace" button.
+
+    <ImageCard src="/getting-started/create-workspace.png" alt="Create Workspace" />
+
+    Team members can be invited to your workspace at this stage or at a later time.
+
+    <ImageCard src="/getting-started/invite-team.png" alt="Invite Team" />
+
+    The Treblle Homepage provides a bird's-eye view of all your APIs and important metrics related to them. This is also where you can add new APIs.
+
+    <ImageCard src="/getting-started/home-dashboard.png" alt="Home Dashboard" />
+
+### Add an API
+
+    When you're ready to add a new API, enter a logical API name and the base URL of the API.
+
+    <NoteCard>
+        A base URL includes only the essential parts of the URL (scheme, domain, and optionally, port). Paths, queries, and fragments are excluded.
+        Example: https://api.example.com
+    </NoteCard>
+
+    To help with understanding the status of the API, it is also mandatory to add the environment type (Development, Staging, Production) and the framework being used.
+
+    <ImageCard src="/getting-started/add-new-api.png" alt="Add New API" />
+
+    Based on what language and framework you are using, Treblle will provide you with the necessary SDK to integrate Treblle into your API.
+
+    As suggested by Treblle, follow the next steps and [install the SDK](https://github.com/Treblle?view_as=public#available-sdks).
+
+    Can't find your platform? Check our complete [integrations list](/integrations/).
+
+### Configure Your API
+
+    Add your Treblle credentials to your project:
+
+    ```
+    TREBLLE_API_KEY=your_api_key
+    TREBLLE_SDK_TOKEN=your_sdk_token
+    ```
+
+### Enable Treblle
+
+    Add the Treblle middleware to your API routes. The exact implementation varies by platform, but here's a general example:
+
+    ```php
+    Route::middleware(['treblle'])->group(function () {
+        // Your API routes go here
+    });
+    ```
+
+</Steps>
+
+## Observing your first API request in Treblle
+
+Once you've added the Treblle API key and SDK token to your API middleware, Treblle will start capturing and monitoring all your API activities.
+
+<ImageCard src="/getting-started/first-request.png" alt="First Request" />
+
+Once integrated, Treblle automatically provides you with:
+
+- Real-time API monitoring and logging
+- Auto-generated [API documentation](/treblle/api-documentation/) with OpenAPI support
+- [API governance scoring](/treblle/api-governance/)
+- [API security](/treblle/api-security/)
+- One-click testing
+- API management on the go
+- [Error reporting](/treblle/problems/)
+
+Found a missing integration? Suggest it or contribute on [GitHub](https://github.com/Treblle)
+
+The Treblle documentation is open source, and we welcome contributions from developers like you!
