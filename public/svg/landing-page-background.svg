@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1298px" height="948px" viewBox="0 0 1298 948" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group</title>
+    <defs>
+        <linearGradient x1="61.380405%" y1="76.7532579%" x2="82.0398652%" y2="23.2467421%" id="linearGradient-1">
+            <stop stop-color="#01041A" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#0058FF" offset="100%"></stop>
+        </linearGradient>
+        <radialGradient cx="50%" cy="-1.5959456e-14%" fx="50%" fy="-1.5959456e-14%" r="100%" gradientTransform="translate(0.5, -0), scale(0.5293, 1), rotate(90), scale(1, 0.9419), translate(-0.5, 0)" id="radialGradient-2">
+            <stop stop-color="#0058FF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#01041A" stop-opacity="0" offset="100%"></stop>
+        </radialGradient>
+        <linearGradient x1="5.45077399%" y1="6.31421629%" x2="107.092562%" y2="107.055055%" id="linearGradient-3">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#0058FE" offset="7.96950523%"></stop>
+            <stop stop-color="#0058FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="72.9743379%" y1="3.91323381%" x2="46.8089765%" y2="80.7820099%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#0058FE" offset="7.96950523%"></stop>
+            <stop stop-color="#0058FE" stop-opacity="0.0530568914" offset="100%"></stop>
+            <stop stop-color="#0058FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="6.85745121%" y1="40.1975227%" x2="34.5128291%" y2="50%" id="linearGradient-5">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#0058FE" offset="7.96950523%"></stop>
+            <stop stop-color="#0058FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0.458585119%" y1="46.9786902%" x2="69.3249997%" y2="49.5009655%" id="linearGradient-6">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#0058FE" offset="7.96950523%"></stop>
+            <stop stop-color="#0058FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="46.9819935%" y1="-3.04582766e-15%" x2="43.9387074%" y2="101.490242%" id="linearGradient-7">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#0058FE" offset="7.96950523%"></stop>
+            <stop stop-color="#0058FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0.458585119%" y1="46.9491029%" x2="96.843309%" y2="65.6021621%" id="linearGradient-8">
+            <stop stop-color="#FFFFFF" offset="0%"></stop>
+            <stop stop-color="#0058FE" offset="7.96950523%"></stop>
+            <stop stop-color="#0058FF" stop-opacity="0" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group">
+            <rect id="Rectangle-Copy-2" fill="url(#linearGradient-1)" opacity="0.323842076" x="2" y="0" width="1296" height="948" rx="20"></rect>
+            <rect id="gradient-top-copy" fill="url(#radialGradient-2)" x="0" y="0" width="1298" height="687"></rect>
+            <g id="lines-copy" transform="translate(85, 14)">
+                <polyline id="Stroke-1" stroke="url(#linearGradient-3)" points="934.790559 64.2557766 935.050288 179.730923 1070.22719 258.003225 1070.31691 335.904265 1176.08404 274.311412"></polyline>
+                <polyline id="Stroke-2" stroke="url(#linearGradient-4)" points="771.259057 566 967.538247 453.657437 832.609745 375.643034 967.758308 299.990357"></polyline>
+                <polyline id="Stroke-5" stroke="url(#linearGradient-5)" points="490.969731 401.301316 625.317386 478.683721 624.250138 399.257006 887.844593 551.599961"></polyline>
+                <polyline id="Stroke-8" stroke="url(#linearGradient-6)" points="564.554967 19 699.399412 95.9742986 766.075033 57.0020509 1036.87839 213.373778"></polyline>
+                <polyline id="Stroke-11" stroke="url(#linearGradient-7)" points="149.357669 67.6173002 216.701973 106.893738 216.733141 186.442317 148.200697 223.963521 216.75203 263.599886"></polyline>
+                <polyline id="Stroke-12" stroke="url(#linearGradient-8)" points="0.776918888 311.812557 68.420619 351.219362 135.029183 311.404451 461.894846 502.093761"></polyline>
+            </g>
+        </g>
+    </g>
+</svg>

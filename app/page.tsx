@@ -19,10 +19,8 @@ export default function Home() {
                 className={css({
                     maxWidth: "1400px",
                     height: "80vh",
-                    backgroundImage: `
-            url('/svg/lines.svg'),
-            radial-gradient(circle at 50% 0%, rgba(0, 88, 255, 0.5), rgba(1, 4, 26, 0) 73%)
-        `,
+                    backgroundImage: "url('/svg/landing-page-background.svg')",
+                    backgroundSize: "cover",
                     borderRadius: "20px",
                     marginTop: "24px",
                 })}

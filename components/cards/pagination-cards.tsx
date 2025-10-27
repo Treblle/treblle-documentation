@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx";
 
-import { Icon } from "../theme/icons";
+import { Icon } from "../../theme/icons";
 
 type Page = {
     name: string;

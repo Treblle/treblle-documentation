@@ -1,8 +1,6 @@
 import type { MDXComponents } from "nextra/mdx-components";
 import { useMDXComponents as getThemeComponents } from "nextra-theme-docs";
 
-import { CustomBox } from "./components/custom-box";
-
 // Get the default MDX components
 const themeComponents = getThemeComponents();
 
@@ -10,7 +8,6 @@ const themeComponents = getThemeComponents();
 export function useMDXComponents(components: MDXComponents) {
     return {
         ...themeComponents,
-        CustomBox,
         ...components,
     };
 }
