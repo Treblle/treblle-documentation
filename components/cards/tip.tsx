@@ -1,8 +1,7 @@
-import { Rocket } from "lucide-react";
-
 import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx";
 
+import { Icon } from "../../theme/icons";
 import { InfoCard } from "./info-card";
 
 export function TipCard({ children }: { readonly children: React.ReactNode }) {
@@ -15,12 +14,7 @@ export function TipCard({ children }: { readonly children: React.ReactNode }) {
                     alignItems: "center",
                 })}
             >
-                <Rocket
-                    size={16}
-                    className={css({
-                        color: "garden.300",
-                    })}
-                />
+                <Icon icon="Launch" className={css({ color: "garden.300"})} />
                 <h1
                     className={css({
                         fontSize: "18px",
