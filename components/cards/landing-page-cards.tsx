@@ -11,7 +11,7 @@ export default function LandingPageCards({icon, title, description} : LandingPag
     return (
         <Box
             className={css({
-                width: {base: "100%", lg: "300px"},
+                width: {base: "100%", md: "280px", lg: "300px", xl: "400px"},
                 display: "flex",
                 flexDirection: "column",
                 gap: "8px",

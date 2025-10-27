@@ -11,11 +11,13 @@ import { Icon } from "../../theme/icons";
 export function LandingPage() {
     return (
         <Box className={css({
-            maxWidth: "1300px",
+            maxWidth: "1400px",
+            margin: "0 auto",
+            marginBottom: "80px",
         })}>
             <Box
                 className={css({
-                    maxWidth: "1300px",
+                    maxWidth: "1400px",
                     height: "80vh",
                     backgroundImage: `
             url('/svg/lines.svg'),
@@ -102,7 +104,13 @@ export function LandingPage() {
                     />
                 </Box>
             </Box>
-            <Box className={css({ display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: "24px", marginTop: "-50px"})}>
+            <Box className={css({ 
+                paddingX: {base: "16px", md: "24px", lg: "32px", xl: "0px"},
+                display: "flex", 
+                flexWrap: "wrap", 
+                justifyContent: "space-between",
+                gap: {md: "12px", lg: "18px", xl: "24px"}, 
+                marginTop: "-80px"})}>
                 <LandingPageCards icon={<Info className={css({ width: "23px", height: "23px" })} />} title="Getting Started" description="Set up your workspace in just a few clicks." />
                 <LandingPageCards icon={<SquareCode className={css({ width: "23px", height: "23px" })} />} title="Integrate Treblle" description="Connect your API to unlock real-time monitoring and insights." />
                 <LandingPageCards icon={<Icon icon="ApiCube" />} title="Explore Treblle" description="Discover powerful tools to improve performance and collaboration." />
