@@ -15,15 +15,6 @@ export function TipCard({ children }: { readonly children: React.ReactNode }) {
                 })}
             >
                 <Icon icon="Launch" className={css({ color: "garden.300"})} />
-                {/* <Image
-                    src={Rocket}
-                    width={16}
-                    height={16}
-                    className={css({
-                        color: "garden.300",
-                    })}
-                    alt="Tip icon"
-                /> */}
                 <h1
                     className={css({
                         fontSize: "18px",

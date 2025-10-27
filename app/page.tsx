@@ -1,7 +1,5 @@
 
-import { ChevronRight } from "lucide-react";
-import { Info } from "lucide-react";
-import { SquareCode } from 'lucide-react';
+import { ChevronRight, Info, SquareCode } from "lucide-react";
 import { Search } from "nextra/components";
 
 import LandingPageCards from "~components/landing-page/landing-page-cards";
