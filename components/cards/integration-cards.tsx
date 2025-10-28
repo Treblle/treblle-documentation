@@ -46,10 +46,10 @@ IntegrationCards.Card = function IntegrationCardsCard({children, icon, title, li
                 fontSize: "20px",
             })}>{title}</h3>
         </Box>
-        <p className={css({
+        <Box className={css({
             fontSize: "14px",
             color:"darkElement.500",
-        })}>{children}</p>
+        })}>{children}</Box>
 
         {link && linkTitle && <Link href={link} className={css({
             color: "electric.200",
