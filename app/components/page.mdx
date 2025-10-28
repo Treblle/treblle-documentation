@@ -11,7 +11,10 @@ import { CautionCard } from "~components/cards/caution";
 import { NoteCard } from "~components/cards/note";
 import { InfoTable } from "~components/tables/info-table";
 import { IntegrationCards } from "~components/cards/integration-cards";
-import { Dumbbell } from 'lucide-react';
+import { Puzzle } from "lucide-react";
+import { Rocket } from "lucide-react";
+import { css } from "~styled-system/css";
+
 
 # Api Catalog
 
@@ -173,14 +176,58 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
     Ensure that your API endpoints are properly validated to prevent unauthorized access.
 </CautionCard>
 
-<NoteCard>
-    Note that API performance can vary based on network conditions and server load.
-</NoteCard>
+<NoteCard>Note that API performance can vary based on network conditions and server load.</NoteCard>
 
 <InfoTable title="Section" description="Description">
-    <InfoTable.Row title="Getting Started" description="Initial setup, configuration, and first API connection" />
-    <InfoTable.Row title="Platform Features" description="Core functionality including monitoring, analytics and governance" />
-    <InfoTable.Row title="Integrations" description="Initial setup, configuration, and first API connection" />
-    <InfoTable.Row title="Onboarding Checklist" description="Complete step-by-step checklist for deploying Treblle across your organization" />
+    <InfoTable.Row
+        title="Getting Started"
+        description="Initial setup, configuration, and first API connection"
+    />
+    <InfoTable.Row
+        title="Platform Features"
+        description="Core functionality including monitoring, analytics and governance"
+    />
+    <InfoTable.Row
+        title="Integrations"
+        description="Initial setup, configuration, and first API connection"
+    />
+    <InfoTable.Row
+        title="Onboarding Checklist"
+        description="Complete step-by-step checklist for deploying Treblle across your organization"
+    />
 </InfoTable>
 
+<IntegrationCards>
+    <IntegrationCards.Card title="SDK Integration" icon={<Puzzle className={css({width: "16px", height: "16px", color:"atomic.200"})} />}>
+        Best for: Lambda function for automatic API
+        discovery across multiple AWS regions.
+
+        Frameworks supported:
+
+        - Node.js (Express, Fastify, NextJS)
+        - Python (Django, Flask)
+        - Java (Spring Boot, AWS Lambda)
+        - PHP (Laravel, Symfony)
+        - .NET Core
+        - Go, Ruby on Rails
+
+        Choose SDK for: Deep Integration, rich metadata, easy setup
+    </IntegrationCards.Card>
+        
+   <IntegrationCards.Card title="SDK Integration" icon={<Rocket className={css({width: "16px", height: "16px", color:"product.alfred.200"})} />}>
+        Best for: Lambda function for automatic API
+        discovery across multiple AWS regions.
+
+        Frameworks supported:
+
+        - Node.js (Express, Fastify, NextJS)
+        - Python (Django, Flask)
+        - Java (Spring Boot, AWS Lambda)
+        - PHP (Laravel, Symfony)
+        - .NET Core
+        - Go, Ruby on Rails
+
+        Choose SDK for: Deep Integration, rich metadata, easy setup
+    </IntegrationCards.Card>
+
+</IntegrationCards>

@@ -30,6 +30,9 @@ export function Question({ children }: QuestionProperties) {
                 borderY: "1px solid #29304b",
                 padding: "24px",
             })}
+            onClick={() => {
+                setIsOpen(!isOpen);
+            }}
         >
             <Box
                 className={css({
@@ -45,18 +48,13 @@ export function Question({ children }: QuestionProperties) {
                 >
                     {question}
                 </h3>
-                <button
-                    onClick={() => {
-                        setIsOpen(!isOpen);
-                    }}
-                >
-                    <ChevronDown
-                        className={css({
-                            transform: isOpen ? "rotate(0deg)" : "rotate(180deg)",
-                            transition: "transform 0.5s ease",
-                        })}
-                    />
-                </button>
+
+                <ChevronDown
+                    className={css({
+                        transform: isOpen ? "rotate(0deg)" : "rotate(180deg)",
+                        transition: "transform 0.5s ease",
+                    })}
+                />
             </Box>
 
             <p
