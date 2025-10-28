@@ -8,6 +8,8 @@ type IntegrationCardsProperties = {
     readonly children: React.ReactNode;
     readonly icon?: React.ReactNode;
     readonly title?: string;
+    readonly link?: string;
+    readonly linkTitle?: string;
 };
 
 export function IntegrationCards({children}: IntegrationCardsProperties) {
@@ -23,7 +25,7 @@ export function IntegrationCards({children}: IntegrationCardsProperties) {
     </Box>
 }
 
-IntegrationCards.Card = function IntegrationCardsCard({children, icon, title}: IntegrationCardsProperties) {
+IntegrationCards.Card = function IntegrationCardsCard({children, icon, title, link, linkTitle}: IntegrationCardsProperties) {
     return <Box className={css({
         display: "flex",
         flexDirection: "column",
@@ -49,7 +51,7 @@ IntegrationCards.Card = function IntegrationCardsCard({children, icon, title}: I
             color:"darkElement.500",
         })}>{children}</p>
 
-        <Link href="#" className={css({
+        {link && linkTitle && <Link href={link} className={css({
             color: "electric.200",
             fontSize: "14px",
             textDecoration: "underline",
@@ -59,6 +61,7 @@ IntegrationCards.Card = function IntegrationCardsCard({children, icon, title}: I
             paddingX: "0 !important",
         })}>
             <BookOpen className={css({width: "16px", height: "16px"})} />
-            Browse all SDKs</Link>
+            {linkTitle}
+        </Link>}
     </Box>
 }
