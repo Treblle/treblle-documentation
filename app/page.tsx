@@ -55,13 +55,14 @@ export default function Home() {
                                 marginTop: "60px",
                             })}
                         >
-                            <p
+                            <Link
+                                href="https://treblle.com/news?category=release-notes"
                                 className={css({
                                     fontSize: "14px",
                                 })}
                             >
                                 Release Notes
-                            </p>
+                            </Link>
                             <ChevronRight
                                 className={css({
                                     width: "16px",
@@ -110,7 +111,7 @@ export default function Home() {
                         paddingX: { base: "16px", md: "24px", lg: "32px", xl: "0px" },
                         display: "flex",
                         flexWrap: "wrap",
-                        justifyContent: "space-between",
+                        justifyContent: "center",
                         gap: { md: "12px", lg: "18px", xl: "24px" },
                         marginTop: "-80px",
                     })}

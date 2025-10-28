@@ -13,6 +13,7 @@ export function NoteCard({ children }: { readonly children: React.ReactNode }) {
                     display: "flex",
                     gap: "10px",
                     alignItems: "center",
+                    marginBottom: "18px",
                 })}
             >
                 <Info
@@ -31,7 +32,7 @@ export function NoteCard({ children }: { readonly children: React.ReactNode }) {
                     Note
                 </h1>
             </Box>
-            {children}
+            <p className={css({ marginTop: "0" })}>{children}</p>
         </InfoCard>
     );
 }

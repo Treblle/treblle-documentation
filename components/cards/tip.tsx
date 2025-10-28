@@ -12,9 +12,10 @@ export function TipCard({ children }: { readonly children: React.ReactNode }) {
                     display: "flex",
                     gap: "10px",
                     alignItems: "center",
+                    marginBottom: "18px",
                 })}
             >
-                <Icon icon="Launch" className={css({ color: "garden.300"})} />
+                <Icon icon="Launch" className={css({ color: "garden.300" })} />
                 <h1
                     className={css({
                         fontSize: "18px",
@@ -25,7 +26,7 @@ export function TipCard({ children }: { readonly children: React.ReactNode }) {
                     Tip
                 </h1>
             </Box>
-            {children}
+            <p className={css({ marginTop: "0" })}>{children}</p>
         </InfoCard>
     );
 }

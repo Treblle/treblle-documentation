@@ -13,6 +13,7 @@ export function CautionCard({ children }: { readonly children: React.ReactNode }
                     display: "flex",
                     gap: "10px",
                     alignItems: "center",
+                    marginBottom: "18px",
                 })}
             >
                 <TriangleAlert
@@ -31,7 +32,8 @@ export function CautionCard({ children }: { readonly children: React.ReactNode }
                     Caution
                 </h1>
             </Box>
-            {children}
+            <p className={css({ marginTop: "0" })}>{children}</p>
+
         </InfoCard>
     );
 }

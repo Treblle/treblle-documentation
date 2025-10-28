@@ -12,6 +12,7 @@ import { Puzzle } from "lucide-react";
 import { Rocket } from "lucide-react";
 import { css } from "~styled-system/css";
 import { CircleCheck } from 'lucide-react';
+import Link from "next/link";
 
 
 # Treblle Onboarding Checklist
@@ -81,7 +82,8 @@ Set up Single Sign-On (SSO) for secure, centralized access:
 3. Configure and test authentication
 4. Enable for your workspace
 
-📖 **Reference:** [Single Sign-On Setup](/admin/single-sign-on/)
+📖 **Reference:** <Link href="/admin/single-sign-on/">Single Sign-On Setup</Link>
+{/* 📖 **Reference:** [Single Sign-On Setup](/admin/single-sign-on/) */}
 
 </Steps>
 
@@ -122,6 +124,8 @@ Select the integration approach that best fits your architecture and team size:
         **Choose API Gateway for**: Infrastructure-level visibility, scales automatically
 
         **Note:** Contact the [Treblle team](mailto:support@treblle.com) when integrating with API Gateway for assistance.
+    
+    
     </IntegrationCards.Card>
 </IntegrationCards>
 

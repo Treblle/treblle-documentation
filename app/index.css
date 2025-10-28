@@ -28,6 +28,18 @@ code span span:first-child {
     color: #5192ff;
 }
 
-/* code span span:nth-child(2) {
-    color: #04e8b0;
-} */
+table tr, th, td {
+    font-size: 14px;
+}
+
+table td:has(strong) {
+    color: #ffffff;
+}
+
+table td {
+    color: #bcc0d9;
+}
+
+#heading-2 {
+    margin-bottom: 16px;
+}

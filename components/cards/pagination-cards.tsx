@@ -73,7 +73,7 @@ export default function PaginationCards() {
                 marginTop: "64px",
                 borderTopWidth: "0.1px",
                 borderTopStyle: "solid",
-                borderTopColor: "lightElement.200",
+                borderTopColor: "#29304b",
                 display: "flex",
                 justifyContent: previous ? "space-between" : "flex-end",
                 alignItems: "center",

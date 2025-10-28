@@ -4,8 +4,8 @@
 }
 
 .layout .nextra-sidebar {
-    position: relative;
-    top: 0;
+    position: fixed;
+    top: "10px";
     user-select: auto;
     opacity: 1;
     visibility: visible;
@@ -16,6 +16,10 @@
     height: auto;
     transition: all 0.3s ease-in-out;
     width: 252px;
+}
+
+article {
+    margin-left:250px;
 }
 
 .layout .nextra-scrollbar li div {
@@ -42,6 +46,7 @@
     border-radius: 4px;
     background-color: var(--colors-dark-element-100);
     position: relative;
+    padding: 8px;
 }
 
 .layout .active a::after {
@@ -110,6 +115,7 @@
 
 @media (max-width: 767px) {
     .layout .nextra-sidebar {
+        position: sticky;
         width: 100vw;
     }
 
@@ -124,5 +130,9 @@
     .layout .nextra-toc,
     .layout .nextra-sidebar {
         padding-bottom: 0px;
+    }
+
+    article {
+        margin-left: 0px;
     }
 }
