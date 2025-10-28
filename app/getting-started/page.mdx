@@ -64,7 +64,7 @@ This quickstart helps you integrate the Treblle SDK into your API and get starte
 
     Add your Treblle credentials to your project:
 
-    ```
+    ``` js copy
     TREBLLE_API_KEY=your_api_key
     TREBLLE_SDK_TOKEN=your_sdk_token
     ```
@@ -73,7 +73,7 @@ This quickstart helps you integrate the Treblle SDK into your API and get starte
 
     Add the Treblle middleware to your API routes. The exact implementation varies by platform, but here's a general example:
 
-    ```php
+    ```php copy
     Route::middleware(['treblle'])->group(function () {
         // Your API routes go here
     });

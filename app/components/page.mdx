@@ -9,6 +9,9 @@ import { Question } from "~components/sections/FAQ/faq-question";
 import { TipCard } from "~components/cards/tip";
 import { CautionCard } from "~components/cards/caution";
 import { NoteCard } from "~components/cards/note";
+import { InfoTable } from "~components/tables/info-table";
+import { IntegrationCards } from "~components/cards/integration-cards";
+import { Dumbbell } from 'lucide-react';
 
 # Api Catalog
 
@@ -173,3 +176,11 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
 <NoteCard>
     Note that API performance can vary based on network conditions and server load.
 </NoteCard>
+
+<InfoTable title="Section" description="Description">
+    <InfoTable.Row title="Getting Started" description="Initial setup, configuration, and first API connection" />
+    <InfoTable.Row title="Platform Features" description="Core functionality including monitoring, analytics and governance" />
+    <InfoTable.Row title="Integrations" description="Initial setup, configuration, and first API connection" />
+    <InfoTable.Row title="Onboarding Checklist" description="Complete step-by-step checklist for deploying Treblle across your organization" />
+</InfoTable>
+
