@@ -12,128 +12,128 @@ export type FooterLinkGroup = {
 const productLinks: Array<FooterLink> = [
     {
         title: "API Intelligence",
-        url: "/product/api-intelligence",
+        url: "https://treblle.com/product/api-intelligence",
     },
     {
         title: "API Documentation",
-        url: "/product/api-documentation",
+        url: "https://treblle.com/product/api-documentation",
     },
     {
         title: "API Governance",
-        url: "/product/api-governance",
+        url: "https://treblle.com/product/api-governance",
     },
     {
         title: "API Analytics",
-        url: "/product/api-analytics",
+        url: "https://treblle.com/product/api-analytics",
     },
     {
         title: "API Security",
-        url: "/product/api-security",
+        url: "https://treblle.com/product/api-security",
     },
     {
         title: "API Assistant",
-        url: "/product/alfred",
+        url: "https://treblle.com/product/alfred",
     },
     {
         title: "API Testing",
-        url: "/product/aspen",
+        url: "https://treblle.com/product/aspen",
     },
     {
         title: "API Insights",
-        url: "/product/api-insights",
+        url: "https://treblle.com/product/api-insights",
     },
 ];
 
 const solutionLinks: Array<FooterLink> = [
     {
         title: "AI Innovations",
-        url: "/solutions/ai-innovations",
+        url: "https://treblle.com/solutions/ai-innovations",
     },
     {
         title: "Security Initiatives",
-        url: "/solutions/security-initiatives",
+        url: "https://treblle.com/solutions/security-initiatives",
     },
     {
         title: "Governance Initiatives",
-        url: "/solutions/governance-initiatives",
+        url: "https://treblle.com/solutions/governance-initiatives",
     },
     {
         title: "Observability Initiatives",
-        url: "/solutions/observability-initiatives",
+        url: "https://treblle.com/solutions/observability-initiatives",
     },
     {
         title: "Digital Transformation",
-        url: "/solutions/digital-transformation",
+        url: "https://treblle.com/solutions/digital-transformation",
     },
     {
         title: "Developer Experience",
-        url: "/solutions/developer-experience",
+        url: "https://treblle.com/solutions/developer-experience",
     },
     {
         title: "Scaling API Teams",
-        url: "/solutions/scaling-api-teams",
+        url: "https://treblle.com/solutions/scaling-api-teams",
     },
     {
         title: "API Monetization",
-        url: "/solutions/api-monetization",
+        url: "https://treblle.com/solutions/api-monetization",
     },
     {
         title: "Customer Tracking",
-        url: "/solutions/customer-tracking",
+        url: "https://treblle.com/solutions/customer-tracking",
     },
 ];
 
 const industryLinks: Array<FooterLink> = [
     {
         title: "Financial Services",
-        url: "/industries/financial-services",
+        url: "https://treblle.com/industries/financial-services",
     },
     {
         title: "Insurance",
-        url: "/industries/insurance",
+        url: "https://treblle.com/industries/insurance",
     },
     {
         title: "Healthcare",
-        url: "/industries/healthcare",
+        url: "https://treblle.com/industries/healthcare",
     },
     {
         title: "Travel",
-        url: "/industries/travel",
+        url: "https://treblle.com/industries/travel",
     },
     {
         title: "Automotive",
-        url: "/industries/automotive",
+        url: "https://treblle.com/industries/automotive",
     },
     {
         title: "IoT",
-        url: "/industries/iot",
+        url: "https://treblle.com/industries/iot",
     },
     {
         title: "Sports-Tech",
-        url: "/industries/sports-tech",
+        url: "https://treblle.com/industries/sports-tech",
     },
     {
         title: "Telecommunications",
-        url: "/industries/telecommunications",
+        url: "https://treblle.com/industries/telecommunications",
     },
 ];
 
 const resourceLinks: Array<FooterLink> = [
     {
         title: "eBooks",
-        url: "/ebooks",
+        url: "https://treblle.com/ebooks",
     },
     {
         title: "Events",
-        url: "/events",
+        url: "https://treblle.com/events",
     },
     {
         title: "News",
-        url: "/news",
+        url: "https://treblle.com/news",
     },
     {
         title: "Knowledge base",
-        url: "/knowledgebase",
+        url: "https://treblle.com/knowledgebase",
     },
     {
         title: "Documentation",
@@ -147,38 +147,38 @@ const resourceLinks: Array<FooterLink> = [
     },
     {
         title: "Pricing",
-        url: "/pricing",
+        url: "https://treblle.com/pricing",
     },
     {
         title: "Only for LLMs",
-        url: "/llm-info",
+        url: "https://treblle.com/llm-info",
     },
 ];
 
 const companyLinks: Array<FooterLink> = [
     {
         title: "About Us",
-        url: "/about-us",
+        url: "https://treblle.com/about-us",
     },
     {
         title: "Careers",
-        url: "/careers",
+        url: "https://treblle.com/careers",
     },
     {
         title: "Enterprise",
-        url: "/enterprise",
+        url: "https://treblle.com/enterprise",
     },
     {
         title: "Book a Demo",
-        url: "/book-a-demo",
+        url: "https://treblle.com/book-a-demo",
     },
     {
         title: "Blog",
-        url: "/blog",
+        url: "https://treblle.com/blog",
     },
     {
         title: "Customers",
-        url: "/customers",
+        url: "https://treblle.com/customers",
     },
     {
         title: "Security",

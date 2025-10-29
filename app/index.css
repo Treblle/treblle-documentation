@@ -20,6 +20,10 @@ html {
     display: none;
 }
 
+.nextra-code div span {
+    font-size:16px;
+}
+
 pre {
     background-color: transparent;
 }

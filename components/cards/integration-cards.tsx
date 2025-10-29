@@ -29,7 +29,7 @@ IntegrationCards.Card = function IntegrationCardsCard({children, icon, title, li
     return <Box className={css({
         display: "flex",
         flexDirection: "column",
-        width: "400px",
+        width: {base:"100%",md:"300px",lg: "350px", xl:"400px"},
         border: "1px solid #29304b",
         borderRadius: "8px",
         padding: "24px",

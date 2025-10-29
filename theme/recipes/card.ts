@@ -61,7 +61,7 @@ export const card = defineRecipe({
                 },
             },
             group: {
-                maxWidth: { base: "100%", md: "100%", xl: "400px" },
+                width: { base: "100%", md: "100%",lg:"300px",xl:"400px" },
             },
             individual: {
                 maxWidth: "100%",

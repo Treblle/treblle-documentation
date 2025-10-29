@@ -83,56 +83,56 @@ export function SolutionsMobileMenu({
                 >
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/financial-services"
+                        href="https://treblle.com/industries/financial-services"
                         onClick={closeMainMenu}
                     >
                         Financial Services
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/healthcare"
+                        href="https://treblle.com/industries/healthcare"
                         onClick={closeMainMenu}
                     >
                         Healthcare
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/insurance"
+                        href="https://treblle.com/industries/insurance"
                         onClick={closeMainMenu}
                     >
                         Insurance
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/automotive"
+                        href="https://treblle.com/industries/automotive"
                         onClick={closeMainMenu}
                     >
                         Automotive
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/iot"
+                        href="https://treblle.com/industries/iot"
                         onClick={closeMainMenu}
                     >
                         IoT
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/sports-tech"
+                        href="https://treblle.com/industries/sports-tech"
                         onClick={closeMainMenu}
                     >
                         Sports-Tech
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/telecommunications"
+                        href="https://treblle.com/industries/telecommunications"
                         onClick={closeMainMenu}
                     >
                         Telecommunications
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/industries/travel"
+                        href="https://treblle.com/industries/travel"
                         onClick={closeMainMenu}
                     >
                         Travel
@@ -160,63 +160,63 @@ export function SolutionsMobileMenu({
                 >
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/security-initiatives"
+                        href="https://treblle.com/solutions/security-initiatives"
                         onClick={closeMainMenu}
                     >
                         Security Initiatives
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/governance-initiatives"
+                        href="https://treblle.com/solutions/governance-initiatives"
                         onClick={closeMainMenu}
                     >
                         Governance Initiatives
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/ai-innovations"
+                        href="https://treblle.com/solutions/ai-innovations"
                         onClick={closeMainMenu}
                     >
                         AI Innovations
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/api-monetization"
+                        href="https://treblle.com/solutions/api-monetization"
                         onClick={closeMainMenu}
                     >
                         API Monetization
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/developer-experience"
+                        href="https://treblle.com/solutions/developer-experience"
                         onClick={closeMainMenu}
                     >
                         Developer Experience
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/digital-transformation"
+                        href="https://treblle.com/solutions/digital-transformation"
                         onClick={closeMainMenu}
                     >
                         Digital Transformation
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/observability-initiatives"
+                        href="https://treblle.com/solutions/observability-initiatives"
                         onClick={closeMainMenu}
                     >
                         Observability Initiatives
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/scaling-api-teams"
+                        href="https://treblle.com/solutions/scaling-api-teams"
                         onClick={closeMainMenu}
                     >
                         Scaling API Teams
                     </Link>
                     <Link
                         className={cx("group", MenuLink)}
-                        href="/solutions/customer-tracking"
+                        href="https://treblle.com/solutions/customer-tracking"
                         onClick={closeMainMenu}
                     >
                         Customer Tracking
