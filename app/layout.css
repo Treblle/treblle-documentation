@@ -86,6 +86,16 @@ article {
     background-color: var(--colors-dark-element-200);
 }
 
+/* .layout .nextra-toc ul li::before {
+    content : " ";
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    left:0;
+    top:0;
+    background-color: red;
+}  */
+
 .layout .nextra-scrollbar a {
     font-weight: normal;
 }
