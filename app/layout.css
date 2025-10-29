@@ -127,6 +127,7 @@ article {
     .layout .nextra-sidebar {
         position: relative;
         width: 100vw;
+        top:0;
     }
 
     .layout .nextra-scrollbar li div {

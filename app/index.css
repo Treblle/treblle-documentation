@@ -9,7 +9,20 @@ html {
 }
 
 .nextra-code div button {
+    width: 30px;
+    height: 30px;
     border: none;
+    border-radius: 50%;
+    padding: 7px;
+}
+
+.nextra-code div button:hover {
+    background-color: #29304b;
+}
+
+.nextra-code div button svg  {
+    width: 18px;
+    height: 18px;
 }
 
 .nextra-code div button svg {
@@ -33,7 +46,7 @@ code span span:first-child {
 }
 
 table tr, th, td {
-    font-size: 14px;
+    font-size: 16px;
 }
 
 table td:has(strong) {
@@ -41,9 +54,26 @@ table td:has(strong) {
 }
 
 table td {
+    font-size: 14px;
     color: #bcc0d9;
 }
 
 #heading-2 {
     margin-bottom: 16px;
+}
+
+a[target=_blank] {
+  padding:0 !important;
+}
+
+.nextra-steps h3::before {
+    background-color: #29304b !important;
+    font-size: 14px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+article div:has(time) {
+    display: none;
 }

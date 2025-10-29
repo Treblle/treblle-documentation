@@ -104,6 +104,10 @@ export default function PaginationCards() {
                             top: "-7px",
                             left: "53px",
                         },
+                         "&:hover": {
+                            color: "#ffffffff !important",
+                            cursor: "pointer",
+                        },
                     })}
                 >
                     <Icon icon="ArrowRight" style={{ rotate: "180deg" }} />
@@ -122,6 +126,10 @@ export default function PaginationCards() {
                         alignItems: "center",
                         gap: "8px",
                         fontSize: "18px",
+                        "&:hover": {
+                            color: "#ffffffff !important",
+                            cursor: "pointer",
+                        },
                         "&::before": {
                             position: "absolute",
                             color: "lightElement.200",

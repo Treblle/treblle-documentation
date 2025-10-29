@@ -1,6 +1,7 @@
 import { ChevronRight, Info, SquareCode } from "lucide-react";
+import { Search } from "lucide-react";
 import Link from "next/link";
-import { Search } from "nextra/components";
+import { Search as SearchComponent } from "nextra/components";
 
 import LandingPageCards from "~components/landing-page/landing-page-cards";
 import { css } from "~styled-system/css/css";
@@ -26,6 +27,7 @@ export default function Home() {
                         backgroundSize: "cover",
                         borderRadius: "20px",
                         marginTop: "24px",
+                        paddingTop: "80px",
                     })}
                 >
                     <Box
@@ -93,17 +95,52 @@ export default function Home() {
                             API Intelligence Platform, helping engineering and product teams build,
                             ship, and understand their REST APIs in one place.
                         </p>
-                        <Search
+                        <Box
                             className={css({
-                                maxWidth: "300px",
-                                height: "32px",
                                 backgroundColor: "#1b1e314c",
                                 borderRadius: "22px",
                                 border: "0.2px solid darkElement.400",
                                 overflow: "hidden",
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                paddingX: "12px",
+                                outline: "1px solid #29304b",
                             })}
-                            placeholder="Search"
-                        />
+                        >
+                            <Search
+                                className={css({
+                                    width: "16px",
+                                    height: "16px",
+                                    backgroundColor: "transparent",
+                                })}
+                            />
+                            <SearchComponent
+                                placeholder="Search"
+                                className={css({
+                                    borderRadius: "22px",
+                                    outline: "none !important",
+                                    border: "none !important",
+                                    boxShadow: "none !important",
+                                    "&:focus": {
+                                        outline: "none !important",
+                                        border: "none !important",
+                                        boxShadow: "none !important",
+                                    },
+                                    "& input": {
+                                        backgroundColor: "transparent",
+                                        outline: "none !important",
+                                        border: "none !important",
+                                        "&:focus": {
+                                            outline: "none !important",
+                                            border: "none !important",
+                                            boxShadow: "none !important",
+                                        },
+                                    },
+                                })}
+                            />
+                        </Box>
                     </Box>
                 </Box>
                 <Box
@@ -113,7 +150,7 @@ export default function Home() {
                         flexWrap: "wrap",
                         justifyContent: "center",
                         gap: { md: "12px", lg: "18px", xl: "24px" },
-                        marginTop: "-80px",
+                        marginTop: "-130px",
                     })}
                 >
                     <Link href="/getting-started">
@@ -123,16 +160,25 @@ export default function Home() {
                             description="Set up your workspace in just a few clicks."
                         />
                     </Link>
-                    <LandingPageCards
-                        icon={<SquareCode className={css({ width: "23px", height: "23px" })} />}
-                        title="Integrate Treblle"
-                        description="Connect your API to unlock real-time monitoring and insights."
-                    />
-                    <LandingPageCards
-                        icon={<Icon icon="ApiCube" />}
-                        title="Explore Treblle"
-                        description="Discover powerful tools to improve performance and collaboration."
-                    />
+                    <Link href="#">
+                        <LandingPageCards
+                            icon={<SquareCode className={css({ width: "23px", height: "23px" })} />}
+                            title="Integrate Treblle"
+                            description="Connect your API to unlock real-time monitoring and insights."
+                        />
+                    </Link>
+                    <Link href="#">
+                        <LandingPageCards
+                            icon={
+                                <Icon
+                                    icon="ApiCube"
+                                    className={css({ width: "23px", height: "23px" })}
+                                />
+                            }
+                            title="Explore Treblle"
+                            description="Discover powerful tools to improve performance and collaboration."
+                        />
+                    </Link>
                 </Box>
             </Box>
         </Box>
