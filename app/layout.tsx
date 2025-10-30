@@ -17,7 +17,6 @@ import { Box } from "~styled-system/jsx";
 import { fontClassName } from "../styles/fonts";
 import MyStatsig from "./my-statsig";
 
-
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
     return (
         <html
