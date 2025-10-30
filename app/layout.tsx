@@ -10,6 +10,7 @@ import { Layout } from "nextra-theme-docs";
 
 import { Footer } from "~components/sections/footer/footer";
 import { Navbar } from "~components/sections/navbar/navbar";
+import { GoogleAnalytics } from "~components/third-party/google-analytics";
 import MobileSidebarToggle from "~components/ui/mobile-sidebar-toggle";
 // import { css } from "~styled-system/css/css";
 import { Box } from "~styled-system/jsx";
@@ -49,6 +50,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         navigation={false}
                         copyPageButton={false}
                     >
+                        <GoogleAnalytics />
                         <MyStatsig>
                             <MobileSidebarToggle title="Treblle Docs" sectionClass="nextra-sidebar" />
                             {children}
