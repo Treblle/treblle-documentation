@@ -72,7 +72,7 @@ export function Navbar() {
                         </Box>
                         <Link
                             eventName="navbar_enterprise"
-                            href="/enterprise"
+                            href="https://treblle.com/enterprise"
                             className={DesktopLink}
                         >
                             Enterprise
@@ -90,7 +90,7 @@ export function Navbar() {
                         >
                             Documentation
                         </Link>
-                        <Link eventName="navbar_pricing" href="/pricing" className={DesktopLink}>
+                        <Link eventName="navbar_pricing" href="https://treblle.com/pricing" className={DesktopLink}>
                             Pricing
                         </Link>
                         <Box className={cx("group", DesktopLink)}>
@@ -148,7 +148,7 @@ export function Navbar() {
                         asChild
                         css={{ display: { base: "none", lg: "inline-flex" } }}
                     >
-                        <Link href="/book-a-demo">Book a Demo</Link>
+                        <Link href="https://treblle.com/book-a-demo">Book a Demo</Link>
                     </Button>
                     <ButtonIcon
                         className={css({

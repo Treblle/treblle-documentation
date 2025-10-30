@@ -56,21 +56,21 @@ export function ResourcesMenu() {
                         <Link
                             eventName="navbar_resources_ebooks"
                             className={cx("group", MenuLink)}
-                            href="/ebooks"
+                            href="https://treblle.com/ebooks"
                         >
                             eBooks
                         </Link>
                         <Link
                             eventName="navbar_resources_knowledgebase"
                             className={cx("group", MenuLink)}
-                            href="/knowledgebase"
+                            href="https://treblle.com/knowledgebase"
                         >
                             Knowledge base
                         </Link>
                         <Link
                             eventName="navbar_resources_events"
                             className={cx("group", MenuLink)}
-                            href="/events"
+                            href="https://treblle.com/events"
                         >
                             Events
                         </Link>
@@ -85,7 +85,7 @@ export function ResourcesMenu() {
                         <Link
                             eventName="navbar_resources_news"
                             className={cx("group", MenuLink)}
-                            href="/news"
+                            href="https://treblle.com/news"
                         >
                             News
                         </Link>
@@ -128,13 +128,13 @@ export function ResourcesMenu() {
                             width: "160px",
                         }}
                     >
-                        <Link className={cx("group", MenuLink)} href="/blog">
+                        <Link className={cx("group", MenuLink)} href="https://treblle.com/blog">
                             Blog
                         </Link>
-                        <Link className={cx("group", MenuLink)} href="/about-us">
+                        <Link className={cx("group", MenuLink)} href="https://treblle.com/about-us">
                             About Us
                         </Link>
-                        <Link className={cx("group", MenuLink)} href="/customers">
+                        <Link className={cx("group", MenuLink)} href="https://treblle.com/customers">
                             Customers
                         </Link>
                     </Box>

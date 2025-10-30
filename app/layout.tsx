@@ -10,11 +10,13 @@ import { Layout } from "nextra-theme-docs";
 
 import { Footer } from "~components/sections/footer/footer";
 import { Navbar } from "~components/sections/navbar/navbar";
+import { GoogleAnalytics } from "~components/third-party/google-analytics";
 import MobileSidebarToggle from "~components/ui/mobile-sidebar-toggle";
 // import { css } from "~styled-system/css/css";
 import { Box } from "~styled-system/jsx";
 
 import { fontClassName } from "../styles/fonts";
+import MyStatsig from "./my-statsig";
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
     return (
@@ -46,9 +48,13 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         feedback={{ content: "", labels: "", link: "" }}
                         toc={{ backToTop: false }}
                         navigation={false}
+                        copyPageButton={false}
                     >
-                        <MobileSidebarToggle title="Treblle Docs" sectionClass="nextra-sidebar" />
-                        {children}
+                        <GoogleAnalytics />
+                        <MyStatsig>
+                            <MobileSidebarToggle title="Treblle Docs" sectionClass="nextra-sidebar" />
+                            {children}
+                        </MyStatsig>
                     </Layout>
                 </Box>
             </body>

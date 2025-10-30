@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx";
 
-import { Icon } from "../theme/icons";
+import { Icon } from "../../theme/icons";
 
 type Page = {
     name: string;
@@ -73,7 +73,7 @@ export default function PaginationCards() {
                 marginTop: "64px",
                 borderTopWidth: "0.1px",
                 borderTopStyle: "solid",
-                borderTopColor: "lightElement.200",
+                borderTopColor: "#29304b",
                 display: "flex",
                 justifyContent: previous ? "space-between" : "flex-end",
                 alignItems: "center",
@@ -104,6 +104,10 @@ export default function PaginationCards() {
                             top: "-7px",
                             left: "53px",
                         },
+                         "&:hover": {
+                            color: "#ffffffff !important",
+                            cursor: "pointer",
+                        },
                     })}
                 >
                     <Icon icon="ArrowRight" style={{ rotate: "180deg" }} />
@@ -122,6 +126,10 @@ export default function PaginationCards() {
                         alignItems: "center",
                         gap: "8px",
                         fontSize: "18px",
+                        "&:hover": {
+                            color: "#ffffffff !important",
+                            cursor: "pointer",
+                        },
                         "&::before": {
                             position: "absolute",
                             color: "lightElement.200",

@@ -80,7 +80,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                 >
                     <Link
                         eventName="navbar_product_intelligence"
-                        href="/product/api-intelligence"
+                        href="https://treblle.com/product/api-intelligence"
                         className={cx("group", ProductLink)}
                         onClick={closeMainMenu}
                     >
@@ -102,7 +102,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                     </Link>
                     <Link
                         eventName="navbar_product_documentation"
-                        href="/product/api-documentation"
+                        href="https://treblle.com/product/api-documentation"
                         className={cx("group", ProductLink)}
                         onClick={closeMainMenu}
                     >
@@ -124,7 +124,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                     </Link>
                     <Link
                         eventName="navbar_product_security"
-                        href="/product/api-security"
+                        href="https://treblle.com/product/api-security"
                         className={cx("group", ProductLink)}
                         onClick={closeMainMenu}
                     >
@@ -146,7 +146,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                     </Link>
                     <Link
                         eventName="navbar_product_analytics"
-                        href="/product/api-analytics"
+                        href="https://treblle.com/product/api-analytics"
                         className={cx("group", ProductLink)}
                         onClick={closeMainMenu}
                     >
@@ -168,7 +168,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                     </Link>
                     <Link
                         eventName="navbar_product_governance"
-                        href="/product/api-governance"
+                        href="https://treblle.com/product/api-governance"
                         className={cx("group", ProductLink)}
                         onClick={closeMainMenu}
                     >
@@ -190,7 +190,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                     </Link>
                     <Link
                         eventName="navbar_product_assistant"
-                        href="/product/alfred"
+                        href="https://treblle.com/product/alfred"
                         className={cx("group", ProductLink)}
                         onClick={closeMainMenu}
                     >
@@ -212,7 +212,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                     </Link>
                     <Link
                         eventName="navbar_product_testing"
-                        href="/product/aspen"
+                        href="https://treblle.com/product/aspen"
                         className={cx("group", ProductLink)}
                         onClick={closeMainMenu}
                     >
@@ -250,7 +250,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                         <Box css={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                             <Link
                                 className={cx("group", WhatsNewLink)}
-                                href="/news?category=release-notes"
+                                href="https://treblle.com/news?category=release-notes"
                                 onClick={closeMainMenu}
                             >
                                 <styled.span
@@ -273,7 +273,7 @@ export function ProductMobileMenu({ isActive, close, closeMainMenu }: ProductMob
                             </Link>
                             <Link
                                 className={cx("group", WhatsNewLink)}
-                                href="/product/aspen"
+                                href="https://treblle.com/product/aspen"
                                 target="_blank"
                                 onClick={closeMainMenu}
                             >

@@ -14,6 +14,12 @@ importers:
       '@statsig/react-bindings':
         specifier: ^3.25.6
         version: 3.25.6(react@19.1.1)
+      '@statsig/web-analytics':
+        specifier: ^3.29.1
+        version: 3.29.1
+      lucide-react:
+        specifier: ^0.546.0
+        version: 0.546.0(react@19.1.1)
       next:
         specifier: ^15.5.4
         version: 15.5.4(@opentelemetry/api@1.9.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -853,13 +859,22 @@ packages:
   '@statsig/client-core@3.25.6':
     resolution: {integrity: sha512-LJz3GkvzT5nC4IzDKjSVhMZZmETXu7Q7hz0/oQQnefhSFKQ/RHif4QbbAi4t7TH+iQ+JjLnvbNbAvXVj5bH2mg==}
 
+  '@statsig/client-core@3.29.1':
+    resolution: {integrity: sha512-KvBl5m2eyWEhYejx4jwFgoBwWCY8Me4cOfTf8bWdyZLwgDEhww6kYVWufVFE5v9oEGffDE0qO5gIXFkB0WqPLA==}
+
   '@statsig/js-client@3.25.6':
     resolution: {integrity: sha512-KYycNfVZofkE6mOz62R9eSGC4+xdGRiBVtsN3YJJi+DpjTxOFUHOuXgMadcjgUcxdFQW/gesr1svzhWlMQMWpA==}
+
+  '@statsig/js-client@3.29.1':
+    resolution: {integrity: sha512-3EZQBpsQC5B13fSCeE6Ud9iwvcAdxOs5+q0nndoznPhuOPB7qchc0AKnURnrcWaSv07UYVl40/jK9evxT0CbzQ==}
 
   '@statsig/react-bindings@3.25.6':
     resolution: {integrity: sha512-lZuQP3RbPwFA1RxJH96f8SmhY7nc/r+QRy4uRx2hf7r4bOgeMg9A3pmdP/NbVX5/jZATIPHBdomBPCffW6YPlg==}
     peerDependencies:
       react: ^16.6.3 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
+  '@statsig/web-analytics@3.29.1':
+    resolution: {integrity: sha512-xp9P0eu7jABQitkD6kiA0O85Umw9sAuriZFo2+lGvKVj3UwD2uscH6KCIfLe0aaHBW1kGzgbYBiLuqEbLO5MGg==}
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -2696,6 +2711,11 @@ packages:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
     hasBin: true
 
+  lucide-react@0.546.0:
+    resolution: {integrity: sha512-Z94u6fKT43lKeYHiVyvyR8fT7pwCzDu7RyMPpTvh054+xahSgj4HFQ+NmflvzdXsoAjYGdCguGaFKYuvq0ThCQ==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
+
   magic-string@0.30.17:
     resolution: {integrity: sha512-sNPKHvyjVf7gyjwS4xGTaW/mCnF8wnjtifKBEhxfZ7E/S8tQ0rssrwGNn6q8JH/ohItJfSQp9mBtQYuTlH5QnA==}
 
@@ -3911,6 +3931,9 @@ packages:
   web-namespaces@2.0.1:
     resolution: {integrity: sha512-bKr1DkiNa2krS7qxNtdrtHAmzuYGFQLiQ13TsorsdT6ULTkPLKuu5+GsFpDlg6JFjUTwX2DyhMPG2be8uPrqsQ==}
 
+  web-vitals@5.0.3:
+    resolution: {integrity: sha512-4KmOFYxj7qT6RAdCH0SWwq8eKeXNhAFXR4PmgF6nrWFmrJ41n7lq3UCA6UK0GebQ4uu+XP8e8zGjaDO3wZlqTg==}
+
   which-boxed-primitive@1.1.1:
     resolution: {integrity: sha512-TbX3mj8n0odCBFVlY8AxkqcHASw3L60jIuF8jFP78az3C2YhmGvqbHBpAjTRH2/xqYunrJ9g1jSyjCjpoWzIAA==}
     engines: {node: '>= 0.4'}
@@ -4831,15 +4854,27 @@ snapshots:
 
   '@statsig/client-core@3.25.6': {}
 
+  '@statsig/client-core@3.29.1': {}
+
   '@statsig/js-client@3.25.6':
     dependencies:
       '@statsig/client-core': 3.25.6
+
+  '@statsig/js-client@3.29.1':
+    dependencies:
+      '@statsig/client-core': 3.29.1
 
   '@statsig/react-bindings@3.25.6(react@19.1.1)':
     dependencies:
       '@statsig/client-core': 3.25.6
       '@statsig/js-client': 3.25.6
       react: 19.1.1
+
+  '@statsig/web-analytics@3.29.1':
+    dependencies:
+      '@statsig/client-core': 3.29.1
+      '@statsig/js-client': 3.29.1
+      web-vitals: 5.0.3
 
   '@swc/helpers@0.5.15':
     dependencies:
@@ -7297,6 +7332,10 @@ snapshots:
     dependencies:
       js-tokens: 4.0.0
 
+  lucide-react@0.546.0(react@19.1.1):
+    dependencies:
+      react: 19.1.1
+
   magic-string@0.30.17:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -9096,6 +9135,8 @@ snapshots:
   vscode-uri@3.0.8: {}
 
   web-namespaces@2.0.1: {}
+
+  web-vitals@5.0.3: {}
 
   which-boxed-primitive@1.1.1:
     dependencies:

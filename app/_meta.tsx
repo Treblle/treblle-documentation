@@ -18,5 +18,10 @@ export default {
             </div>
         ),
     },
-
+    index: {
+        title: "Quick start",
+        theme: {
+            "breadcrumb": false,
+        }
+    }
 };

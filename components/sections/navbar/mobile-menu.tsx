@@ -66,7 +66,7 @@ export function MobileMenu({ isOpened, setIsMenuOpened }: MobileMenuProperties) 
                 </Box>
                 <Link
                     eventName="navbar_enterprise"
-                    href="/enterprise"
+                    href="https://treblle.com/enterprise"
                     className={MobileLink}
                     onClick={closeMenu}
                 >
@@ -92,7 +92,7 @@ export function MobileMenu({ isOpened, setIsMenuOpened }: MobileMenuProperties) 
                 </Link>
                 <Link
                     eventName="navbar_pricing"
-                    href="/pricing"
+                    href="https://treblle.com/pricing"
                     className={MobileLink}
                     onClick={closeMenu}
                 >
@@ -109,7 +109,7 @@ export function MobileMenu({ isOpened, setIsMenuOpened }: MobileMenuProperties) 
                 </Box>
                 <Link
                     eventName="navbar_demo"
-                    href="/book-a-demo"
+                    href="https://treblle.com/book-a-demo"
                     className={MobileLink}
                     onClick={closeMenu}
                 >
