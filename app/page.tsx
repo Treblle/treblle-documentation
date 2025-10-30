@@ -55,6 +55,9 @@ export default function Home() {
                                 gap: "8px",
                                 cursor: "pointer",
                                 marginTop: "60px",
+                                "&:hover": {
+                                    outline: "1px solid #29304b"
+                                }
                             })}
                         >
                             <Link
@@ -155,14 +158,14 @@ export default function Home() {
                 >
                     <Link href="/getting-started">
                         <LandingPageCards
-                            icon={<Info className={css({ width: "23px", height: "23px" })} />}
+                            icon={<Info className={css({ width: "23px", height: "23px", color:"#9ea2bd" })} />}
                             title="Getting Started"
                             description="Set up your workspace in just a few clicks."
                         />
                     </Link>
                     <Link href="#">
                         <LandingPageCards
-                            icon={<SquareCode className={css({ width: "23px", height: "23px" })} />}
+                            icon={<SquareCode className={css({ width: "23px", height: "23px", color:"#9ea2bd" })} />}
                             title="Integrate Treblle"
                             description="Connect your API to unlock real-time monitoring and insights."
                         />
@@ -172,7 +175,7 @@ export default function Home() {
                             icon={
                                 <Icon
                                     icon="ApiCube"
-                                    className={css({ width: "23px", height: "23px" })}
+                                    className={css({ width: "23px", height: "23px", color:"#9ea2bd" })}
                                 />
                             }
                             title="Explore Treblle"
