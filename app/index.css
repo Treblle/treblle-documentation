@@ -69,6 +69,10 @@ a[target=_blank] {
   padding:0 !important;
 }
 
+a[href^="mailto:"] {
+    padding:0 !important;
+}
+
 .nextra-steps h3::before {
     background-color: #29304b !important;
     font-size: 14px !important;
