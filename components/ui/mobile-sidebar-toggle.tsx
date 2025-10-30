@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { Button } from "nextra/components";
 import { useState } from "react";
 
@@ -13,6 +14,8 @@ type Properties = {
 };
 
 export default function MobileSidebarToggle({ title, sectionClass }: Properties) {
+    const path = usePathname();
+
     const [isOpen, setIsOpen] = useState(true);
     function toggleSection() {
         setIsOpen(!isOpen);
@@ -20,8 +23,17 @@ export default function MobileSidebarToggle({ title, sectionClass }: Properties)
         document.querySelector(`.${sectionClass}`)?.classList.toggle("hidden");
     }
 
-    const icon = <Icon icon="ArrowDown" className={css({ transition: "transform 0.2s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" })} />;
+    const icon = (
+        <Icon
+            icon="ArrowDown"
+            className={css({
+                transition: "transform 0.2s",
+                transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
+            })}
+        />
+    );
 
+    if (path === "/") return;
     return (
         <Box
             className={css({
