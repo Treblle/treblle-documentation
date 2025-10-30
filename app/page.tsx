@@ -64,6 +64,7 @@ export default function Home() {
                                 href="https://treblle.com/news?category=release-notes"
                                 className={css({
                                     fontSize: "14px",
+                                    color: "#fff",
                                 })}
                             >
                                 Release Notes
@@ -72,6 +73,7 @@ export default function Home() {
                                 className={css({
                                     width: "16px",
                                     height: "16px",
+                                    color: "#fff",
                                 })}
                             />
                         </button>
@@ -96,7 +98,7 @@ export default function Home() {
                             })}
                         >
                             API Intelligence Platform, helping engineering and product teams build,
-                            ship, and understand their REST APIs in one place.
+                            ship, and understand their APIs in one place.
                         </p>
                         <Box
                             className={css({
@@ -117,6 +119,7 @@ export default function Home() {
                                     width: "16px",
                                     height: "16px",
                                     backgroundColor: "transparent",
+                                    color: "#fff",
                                 })}
                             />
                             <SearchComponent
@@ -125,6 +128,7 @@ export default function Home() {
                                     borderRadius: "22px",
                                     outline: "none !important",
                                     border: "none !important",
+                                    color: "#fff",
                                     boxShadow: "none !important",
                                     "&:focus": {
                                         outline: "none !important",
@@ -139,6 +143,9 @@ export default function Home() {
                                             outline: "none !important",
                                             border: "none !important",
                                             boxShadow: "none !important",
+                                        },
+                                        "&::placeholder": {
+                                            color: "#fff",
                                         },
                                     },
                                 })}

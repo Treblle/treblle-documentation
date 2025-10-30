@@ -32,6 +32,7 @@ export default function LandingPageCards({icon, title, description} : LandingPag
             <h1
                 className={css({
                     fontSize: "24px",
+                    color:"#fff",
                 })}
             >
                 {title}
