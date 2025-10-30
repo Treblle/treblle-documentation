@@ -18,6 +18,10 @@ html {
     background-color: #29304b;
 }
 
+.nextra-code div button:has(svg[viewBox="0 0 20 20"]) {
+    background-color: #29304b;
+}
+
 .nextra-code div button svg  {
     width: 18px;
     height: 18px;
