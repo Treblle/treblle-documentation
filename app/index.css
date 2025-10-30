@@ -46,7 +46,10 @@ code span span:first-child {
 }
 
 table tr, th, td {
+    text-align: start;
     font-size: 16px;
+    padding: 23px 163px 23px 23px;
+    background-color: transparent;
 }
 
 table td:has(strong) {
