@@ -34,7 +34,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
             >
                 {/* Your additional tags should be passed as `children` of `<Head>` element */}
             </Head>
-            <body>
+            <body suppressHydrationWarning>
                 <Box className="layout">
                     <Layout
                         banner={false}
