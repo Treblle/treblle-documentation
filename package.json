@@ -28,9 +28,6 @@
     "devDependencies": {
         "@next/eslint-plugin-next": "^15.1.5",
         "@pandacss/dev": "^1.4.1",
-        "@treblle/eslint-config": "^1.1.0",
-        "@treblle/prettier-config": "^1.0.2",
-        "@treblle/typescript-config": "^1.0.1",
         "@types/node": "^24.6.0",
         "@types/react": "^19.1.16",
         "eslint": "^9.18.0",
