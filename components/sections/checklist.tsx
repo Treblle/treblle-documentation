@@ -3,6 +3,7 @@ import { Box } from "~styled-system/jsx";
 
 type ChecklistProperties = {
     readonly children?: React.ReactNode;
+    readonly id?: string;
 };
 
 export function Checklist({ children }: ChecklistProperties) {
@@ -17,7 +18,7 @@ export function Checklist({ children }: ChecklistProperties) {
     );
 }
 
-Checklist.item = function ChecklistItem({ children }: ChecklistProperties) {
+Checklist.item = function ChecklistItem({ children, id }: ChecklistProperties) {
     return (
         <Box
             className={css({
@@ -28,6 +29,7 @@ Checklist.item = function ChecklistItem({ children }: ChecklistProperties) {
             })}
         >
             <input
+                id={id}
                 type="checkbox"
                 className={css({
                     appearance: "none",
@@ -54,7 +56,7 @@ Checklist.item = function ChecklistItem({ children }: ChecklistProperties) {
                     },
                 })}
             />
-            {children}
+        <label htmlFor={id}>{children}</label>
         </Box>
     );
 };
