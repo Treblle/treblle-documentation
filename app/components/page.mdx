@@ -14,6 +14,7 @@ import { IntegrationCards } from "~components/cards/integration-cards";
 import { Puzzle } from "lucide-react";
 import { Rocket } from "lucide-react";
 import { css } from "~styled-system/css";
+import { Checklist } from "~components/sections/checklist";
 
 
 # Api Catalog
@@ -231,3 +232,16 @@ HTTP APIs or as it is commonly known - APIs(Application Programming Interfaces) 
     </IntegrationCards.Card>
 
 </IntegrationCards>
+
+## Success checklist
+
+<Checklist >
+    <Checklist.item>Workspace configured with proper branding and settings</Checklist.item>
+    <Checklist.item>Team members invited with appropriate roles</Checklist.item>
+    <Checklist.item>SSO configured (if required by organization)</Checklist.item>
+    <Checklist.item>Integration deployed and tested across environments</Checklist.item>
+    <Checklist.item>IT team coordinated network access and security requirements</Checklist.item>
+    <Checklist.item>Data validation completed in Treblle dashboard</Checklist.item>
+    <Checklist.item>Team training completed for key users</Checklist.item>
+    <Checklist.item>Monitoring setup with alerts and governance tracking</Checklist.item>
+</Checklist>

@@ -63,8 +63,8 @@ table td {
     color: #bcc0d9;
 }
 
-#heading-2 {
-    margin-bottom: 16px;
+h2 {
+    padding-bottom: 16px;
 }
 
 a[target=_blank] {
