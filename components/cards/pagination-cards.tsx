@@ -67,6 +67,15 @@ export default function PaginationCards() {
         }
     }, [pages, pathname]);
 
+
+
+// .layout article div a:first-child::before, .layout article div a:last-child::before {
+//     font-size: 12px;
+//     width: max-content;
+//     height: 16px;
+//     color: var(--colors-neutral-400);
+// }
+
     return (
         <Box
             css={{
@@ -92,9 +101,10 @@ export default function PaginationCards() {
                         alignItems: "center",
                         gap: "8px",
                         fontSize: "18px",
+                        padding: "10px 30px",
                         "&::before": {
                             position: "absolute",
-                            color: "lightElement.200",
+                            color: "lightElement.400",
                             fontWeight: "normal",
                             fontStretch: "normal",
                             fontStyle: "normal",
@@ -103,6 +113,9 @@ export default function PaginationCards() {
                             content: '"Previous"',
                             top: "-7px",
                             left: "53px",
+                            fontSize: "12px",
+                            width: "max-content",
+                            height: "16px",
                         },
                          "&:hover": {
                             color: "#ffffffff !important",
@@ -126,13 +139,13 @@ export default function PaginationCards() {
                         alignItems: "center",
                         gap: "8px",
                         fontSize: "18px",
+                        padding: "10px 30px",
                         "&:hover": {
                             color: "#ffffffff !important",
                             cursor: "pointer",
                         },
                         "&::before": {
                             position: "absolute",
-                            color: "lightElement.200",
                             fontWeight: "normal",
                             fontStretch: "normal",
                             fontStyle: "normal",
@@ -141,6 +154,10 @@ export default function PaginationCards() {
                             content: '"Next"',
                             top: "-7px",
                             right: "53px",
+                            fontSize: "12px",
+                            width: "max-content",
+                            height: "16px",
+                            color: "lightElement.300",
                         },
                     })}
                 >

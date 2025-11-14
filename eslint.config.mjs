@@ -15,7 +15,6 @@ export default tseslint.config(
         extends: [base, browser, react, next, tsTypechecked],
         languageOptions: {
             parserOptions: {
-                projectService: true,
                 tsconfigRootDir: import.meta.dirname,
             },
         },
