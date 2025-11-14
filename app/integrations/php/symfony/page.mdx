@@ -6,6 +6,7 @@ image: "/og-images/treblle-symfony.jpg"
 ---
 
 import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
 
 <div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
   <a href="https://github.com/Treblle/treblle-symfony" title="View source on GitHub" aria-label="View source on GitHub" className="relative no-underline">
@@ -72,7 +73,7 @@ treblle:
 
 ## Overriding data providers
 
-Treblle SDK allows you to take over control over how the data is collected, processed, and sent to the Trebble service.
+Treblle SDK allows you to take over control over how the data is collected, processed, and sent to the Treblle service.
 
 By default, the SDK will take all values from the `masked` configuration key and combine it with well-known keys such as `password` or `ssn` to compile a list of sensitive information. These values will never be sent in a plain text, but rather will be masked.
 
@@ -133,3 +134,5 @@ Treblle\Contract\RequestDataProvider: '@App\Utils\AcmeRequestDataProvider'
 ```
 
 Now all instances depending on the `RequestDataProvider` interface will use your service.
+
+<PaginationCards />

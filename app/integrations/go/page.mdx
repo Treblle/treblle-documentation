@@ -7,6 +7,7 @@ image: "/og-images/treblle-go.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
 
 <div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
   <a href="https://github.com/Treblle/treblle-go" title="View source on GitHub" aria-label="View source on GitHub" className="relative no-underline">
@@ -98,3 +99,5 @@ apiRouter.HandleFunc("/users", yourHandler)
 <TipCard>
 The middleware works seamlessly with both the standard `net/http` package and popular routers like `gorilla/mux`, giving you flexibility in how you structure your Go applications.
 </TipCard>
+
+<PaginationCards />

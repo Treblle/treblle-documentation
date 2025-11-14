@@ -7,6 +7,7 @@ image: "/og-images/treblle-nodejs.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
 import { InfoTable } from "~components/tables/info-table";
 
 <div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
@@ -208,3 +209,5 @@ Enable debug mode:
 <NoteCard>
 Debug mode should only be enabled in development environments as it may expose sensitive configuration details in logs.
 </NoteCard>
+
+<PaginationCards />

@@ -6,6 +6,7 @@ image: "/og-images/treblle-nextjs.jpg"
 ---
 
 import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { CautionCard } from "~components/cards/caution";
 import { InfoTable } from "~components/tables/info-table";
@@ -221,3 +222,5 @@ const treblle = withTreblle({
 <TipCard>
 For full body and error detail capture, prefer wrapping route handlers over middleware
 </TipCard>
+
+<PaginationCards />

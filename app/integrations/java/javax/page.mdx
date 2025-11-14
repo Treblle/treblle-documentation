@@ -6,6 +6,7 @@ image: "/og-images/java-javax.jpg"
 ---
 
 import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 
 <div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
@@ -159,3 +160,5 @@ treblleFilter.setInitParameter("urlPatterns", "/api/v1/*,/api/v2/*");
 <NoteCard>
 Configure URL patterns carefully to ensure you're only monitoring the endpoints you need, which can help reduce overhead and keep your Treblle dashboard focused on relevant traffic.
 </NoteCard>
+
+<PaginationCards />

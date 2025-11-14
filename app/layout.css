@@ -99,17 +99,7 @@
     content: "''";
 }
 
-.layout article div a:first-child,
-.layout article div a:last-child {
-    padding: 10px 30px;
-}
 
-.layout article div a:first-child::before, .layout article div a:last-child::before {
-    font-size: 12px;
-    width: max-content;
-    height: 16px;
-    color: var(--colors-neutral-400);
-}
 
 @media (max-width: 767px) {
     .layout .nextra-sidebar {

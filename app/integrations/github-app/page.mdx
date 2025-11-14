@@ -9,6 +9,7 @@ import { InfoCards } from "~components/cards/info-cards";
 import { InfoCard } from "~components/cards/info-card";
 import { ImageCard } from "~components/cards/image-card";
 import { FAQ } from "~components/sections/FAQ/faq";
+import PaginationCards from "~components/cards/pagination-cards";
 import { Question } from "~components/sections/FAQ/faq-question";
 import { TipCard } from "~components/cards/tip";
 import { CautionCard } from "~components/cards/caution";
@@ -92,27 +93,27 @@ After installation, you'll be redirected to the Treblle setup page:
 <InfoTable title="Framework Support" description="The Treblle GitHub Application supports automatic API discovery for the following technologies">
     <InfoTable.Row
         title="Spring Boot"
-        description="Version 2.0+ | ✅ Full Support"
+        description="Version 2.0+ | Full Support"
     />
     <InfoTable.Row
         title=".NET Core"
-        description="Version 3.1+ | ✅ Full Support"
+        description="Version 3.1+ | Full Support"
     />
     <InfoTable.Row
         title="Express"
-        description="Version 4.0+ | ✅ Full Support"
+        description="Version 4.0+ | Full Support"
     />
     <InfoTable.Row
         title="Laravel"
-        description="Version 5.5+ | ✅ Full Support"
+        description="Version 5.5+ | Full Support"
     />
     <InfoTable.Row
         title="FastAPI"
-        description="Version 0.60+ | ✅ Full Support"
+        description="Version 0.60+ | Full Support"
     />
     <InfoTable.Row
         title="Django"
-        description="Version 3.9+ | ✅ Full Support"
+        description="Version 3.9+ | Full Support"
     />
 </InfoTable>
 
@@ -282,10 +283,10 @@ Private Cloud and On-premises deployments require a custom Enterprise agreement.
 ### Data Access
 
 The Treblle GitHub Application:
-- ✅ **Only reads** repository metadata and specific API-related files
-- ✅ **Never stores** your complete source code
-- ✅ **Uses minimal permissions** required for API discovery
-- ✅ **Encrypts all data** in transit and at rest
+- **Only reads** repository metadata and specific API-related files
+- **Never stores** your complete source code
+- **Uses minimal permissions** required for API discovery
+- **Encrypts all data** in transit and at rest
 
 ### Permissions Required
 
@@ -341,3 +342,5 @@ You can revoke these permissions at any time in your GitHub organization setting
         Navigate to your GitHub organization settings → Installed GitHub Apps → Treblle → Uninstall. This will immediately revoke all permissions and stop API discovery.
     </Question>
 </FAQ>
+
+<PaginationCards />

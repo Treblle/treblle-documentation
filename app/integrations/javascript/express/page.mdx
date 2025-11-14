@@ -7,6 +7,7 @@ image: "/og-images/treblle-express.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
 
 <div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
   <a href="https://github.com/Treblle/treblle-node" title="View source on GitHub" aria-label="View source on GitHub" className="relative no-underline">
@@ -177,3 +178,5 @@ useTreblle(app, {
 <TipCard>
 For production environments, consider using environment-based configuration to automatically enable or disable debug mode without code changes.
 </TipCard>
+
+<PaginationCards />

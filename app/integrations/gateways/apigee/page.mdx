@@ -7,6 +7,7 @@ image: "/og-images/api-gateways-apigee.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
 import { CautionCard } from "~components/cards/caution";
 import { InfoTable } from "~components/tables/info-table";
 
@@ -47,15 +48,15 @@ The Apigee API Gateway integration automatically:
 <InfoTable title="Framework" description="Supported Versions and Status">
     <InfoTable.Row
         title="Apigee Edge"
-        description="All Versions - ✅ Full Support"
+        description="All Versions - Full Support"
     />
     <InfoTable.Row
         title="Apigee X"
-        description="All Versions - ✅ Full Support"
+        description="All Versions - Full Support"
     />
     <InfoTable.Row
         title="Apigee Hybrid"
-        description="All Versions - ✅ Full Support"
+        description="All Versions - Full Support"
     />
 </InfoTable>
 
@@ -317,7 +318,6 @@ For most use cases, environment-level deployment is recommended as it provides a
 Customize sensitive data detection by modifying the `maskingKeywords` variable in `treblle-payload-processor.js`:
 
 ```javascript
-// Default masking keywords
 var maskingKeywords = 'password,secret,token,key,authorization,auth,credential,private,confidential,ssn,social_security,credit_card,card_number,cvv,pin,api_key,access_token,refresh_token,bearer,x-api-key,x-auth-token';
 
 // Add your custom keywords
@@ -409,3 +409,5 @@ The JavaScript policy captures the following data:
 - Response time
 - Payload size
 - Load time
+
+<PaginationCards />

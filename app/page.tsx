@@ -163,14 +163,14 @@ export default function Home() {
                         marginTop: "-130px",
                     })}
                 >
-                    <Link href="/getting-started">
+                    <Link href="/guides/getting-started">
                         <LandingPageCards
                             icon={<Info className={css({ width: "23px", height: "23px", color:"#9ea2bd" })} />}
                             title="Getting Started"
                             description="Set up your workspace in just a few clicks."
                         />
                     </Link>
-                    <Link href="#">
+                    <Link href="/integrations/integrations">
                         <LandingPageCards
                             icon={<SquareCode className={css({ width: "23px", height: "23px", color:"#9ea2bd" })} />}
                             title="Integrate Treblle"

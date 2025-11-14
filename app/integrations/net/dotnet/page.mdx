@@ -6,6 +6,7 @@ image: "/og-images/treblle-net.jpg"
 ---
 
 import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { CautionCard } from "~components/cards/caution";
 import { InfoTable } from "~components/tables/info-table";
@@ -355,31 +356,31 @@ Enable debug mode to see detailed logging of SDK operations:
 **Configuration Status:**
 ```
 [TREBLLE DEBUG] === TREBLLE CONFIGURATION ===
-[TREBLLE DEBUG] ✅ SDK Token: ab12****ef78
-[TREBLLE DEBUG] ✅ API Key: cd34****gh90
-[TREBLLE DEBUG] 🔧 Debug Mode: ENABLED
+[TREBLLE DEBUG] SDK Token: ab12****ef78
+[TREBLLE DEBUG] API Key: cd34****gh90
+[TREBLLE DEBUG] Debug Mode: ENABLED
 ```
 
 **Request Tracking:**
 ```
-[TREBLLE DEBUG] 🚀 Request Started: POST /api/users
-[TREBLLE DEBUG] 🔒 Applied data masking to 12 fields
-[TREBLLE DEBUG] 📊 Payload size: 2.34 KB
-[TREBLLE DEBUG] ✅ Request Completed: POST /api/users - Status: 201 - Load Time: 155ms
-[TREBLLE DEBUG] 📤 Payload sent to Treblle - Response: 200
+[TREBLLE DEBUG] Request Started: POST /api/users
+[TREBLLE DEBUG] Applied data masking to 12 fields
+[TREBLLE DEBUG] Payload size: 2.34 KB
+[TREBLLE DEBUG] Request Completed: POST /api/users - Status: 201 - Load Time: 155ms
+[TREBLLE DEBUG] Payload sent to Treblle - Response: 200
 ```
 
 **Skipped Requests:**
 ```
-[TREBLLE DEBUG] ⏭️ Request skipped: Missing SDK Token or API Key configuration
-[TREBLLE DEBUG] ⏭️ Request skipped: Filtered out (static asset)
-[TREBLLE DEBUG] ⏭️ Request skipped: Response content type not tracked (text/html)
+[TREBLLE DEBUG] Request skipped: Missing SDK Token or API Key configuration
+[TREBLLE DEBUG] Request skipped: Filtered out (static asset)
+[TREBLLE DEBUG] Request skipped: Response content type not tracked (text/html)
 ```
 
 **Error Tracking:**
 ```
-[TREBLLE DEBUG] ❌ Error in request capture: NullReferenceException
-[TREBLLE DEBUG] ❌ Error in payload sending: HTTP 401: Unauthorized
+[TREBLLE DEBUG] Error in request capture: NullReferenceException
+[TREBLLE DEBUG] Error in payload sending: HTTP 401: Unauthorized
 ```
 
 ## ASP.NET Web API Integration
@@ -439,7 +440,7 @@ public class ProductsController : ApiController
     <InfoCard type="group">
         <InfoCard.title>Requests (Accepted)</InfoCard.title>
         <InfoCard.description>
-            application/json ✅ | application/x-www-form-urlencoded ✅ | multipart/form-data ✅
+            application/json | application/x-www-form-urlencoded | multipart/form-data
         </InfoCard.description>
     </InfoCard>
     <InfoCard type="group">
@@ -605,3 +606,5 @@ protected void Application_Start()
 ```
 
 3. **Need help?**: If this causes issues, please [open an issue on GitHub](https://github.com/Treblle/treblle-net/issues)
+
+<PaginationCards />

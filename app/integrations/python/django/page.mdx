@@ -7,6 +7,7 @@ image: "/og-images/treblle-django.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
 
 <div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
   <a href="https://github.com/Treblle/treblle-python" title="View source on GitHub" aria-label="View source on GitHub" className="relative no-underline">
@@ -186,3 +187,5 @@ TREBLLE = {
 <TipCard>
 Treblle automatically masks common sensitive fields, but you can extend this list to include any custom fields specific to your application.
 </TipCard>
+
+<PaginationCards />

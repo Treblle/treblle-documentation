@@ -6,6 +6,7 @@ image: "/og-images/treblle-lumen.jpg"
 ---
 
 import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
 
 <div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
   <a href="https://github.com/Treblle/treblle-lumen" title="View source on GitHub" aria-label="View source on GitHub" className="relative no-underline">
@@ -114,3 +115,5 @@ Define which environments Treblle should not log at all. By default, Treblle wil
 Treblle **masks sensitive information** from both the request and response data as well as the request headers data **before it even leaves your server**. The following parameters are automatically masked: password, pwd, secret, password_confirmation, cc, card_number, ccv, ssn, credit_score.
 
 You can customize this list by editing the array configuration file.
+
+<PaginationCards />

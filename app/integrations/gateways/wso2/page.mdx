@@ -7,6 +7,7 @@ image: "/og-images/treblle-wso2.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
 import { CautionCard } from "~components/cards/caution";
 import { ImageCard } from "~components/cards/image-card";
 
@@ -296,8 +297,8 @@ echo %TREBLLE_GATEWAY_URL%
    ```
 
 2. **Look for success messages** (not 403 Forbidden errors):
-   - ✅ Good: `Event successfully published.`
-   - ❌ Bad: `Event publishing failed for project id: your-project-id with status code: 403`
+   - Good: `Event successfully published.`
+   - Bad: `Event publishing failed for project id: your-project-id with status code: 403`
 
 3. **Check your Treblle dashboard** to see captured API requests.
 
@@ -398,3 +399,5 @@ The Treblle dashboard provides real-time insights into API requests, compliance 
 <TipCard>
 That's it! Your WSO2 API Manager is now integrated with Treblle. All API requests will be automatically captured and sent to your Treblle dashboard.
 </TipCard>
+
+<PaginationCards />

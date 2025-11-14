@@ -6,6 +6,7 @@ image: "/og-images/treblle-fastify.jpg"
 ---
 
 import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { CautionCard } from "~components/cards/caution";
 import { InfoCard } from "~components/cards/info-card";
@@ -162,3 +163,5 @@ await fastify.register(fastifyTreblle, {
   debug: true,
 });
 ```
+
+<PaginationCards />
