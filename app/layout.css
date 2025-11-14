@@ -16,8 +16,8 @@
     height: auto;
     transition: all 1s ease-in-out;
     width: 252px;
-    height: fit-content;
-    overflow-y: auto;
+    max-height: calc(100vh - 65px);
+    overflow-y: scroll;
 }
 
 .layout .nextra-scrollbar li div {
