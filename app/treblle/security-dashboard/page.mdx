@@ -1,0 +1,146 @@
+---
+title: "Security Dashboard"
+metaTitle: "Security Dashboard – Monitor API Security Across Your Workspace | Treblle Docs"
+description: "Comprehensive security monitoring for your entire API landscape. Detect weak authentication, identify zombie endpoints, and visualize security risks across all APIs with BOLA, BFLA analysis, and more."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+
+# Security Dashboard
+
+Treblle's Security Dashboard provides a unified security view across your entire API landscape, helping you maintain clean APIs and satisfy auditor requirements.
+
+This workspace-level dashboard enables you to detect vulnerabilities, monitor authentication health, and visualize security metrics at scale.
+
+<NoteCard>
+The Security Dashboard is available for **Team** and **Enterprise** plans.
+</NoteCard>
+
+## What is the Security Dashboard?
+
+The Security Dashboard is a comprehensive security monitoring tool built for your complete API portfolio. It provides:
+
+- **Authentication Analysis**: Detect APIs with weak or missing authentication
+- **Zombie Endpoint Detection**: Identify unused or inactive endpoints
+- **Security Risk Visualization**: View security metrics by API type, authentication method, BOLA, BFLA, and more
+- **Real-time Monitoring**: Track security issues across all workspace APIs
+- **Customizable Widgets**: Focus on security metrics that matter most to your organization
+
+## Accessing the Security Dashboard
+
+### Navigate to Security
+
+1. **Open Workspace Navigation**
+   
+   From the left navigation bar at the workspace level, click on **Security**.
+
+<ImageCard src="/platform/security/security.jpg" alt="Security Dashboard Navigation" />
+
+2. **View Security Overview**
+   
+   The Security Dashboard displays an overview of security metrics across all your workspace APIs.
+
+## Customizing Your Security Dashboard
+
+### Enable Dashboard Widgets
+
+1. **Access Customize Dashboard**
+   
+   Click the **grid icon** (four squares) in the top-right corner of the Security Dashboard.
+
+2. **Widget Selection Panel**
+   
+   A "Customize Dashboard" panel opens with the following options:
+   
+   - **Enable all widgets**: Toggle to activate or deactivate all widgets at once
+   - **Individual widget toggles**: Select specific widgets to display
+
+<ImageCard src="/platform/security/widgets.jpg" alt="Security Dashboard Widgets" />
+
+3. **Choose Your Widgets**
+   
+   Enable the security widgets that align with your monitoring priorities.
+
+4. **Save Configuration**
+   
+   Your widget preferences are automatically saved and will persist across sessions.
+
+## Security Dashboard Widgets
+
+### Overview Widgets
+
+#### Zombie APIs
+- **Description**: Number of zombie APIs across your workspace
+- **What it shows**: APIs with endpoints that haven't received traffic in an extended period
+- **Why it matters**: Zombie endpoints increase attack surface and maintenance burden
+- **Metric**: Total count with percentage change over time
+
+#### Security Fail
+- **Description**: Number of failed security checks across your APIs
+- **What it shows**: APIs failing critical security validations
+- **Why it matters**: Indicates immediate security risks requiring attention
+- **Metric**: Total count with percentage change trend
+
+#### Problematic APIs
+- **Description**: Number of APIs with security problems
+- **What it shows**: APIs with detected security issues or vulnerabilities
+- **Why it matters**: Helps prioritize remediation efforts
+- **Metric**: Total count with percentage change indicator
+
+#### Compliance Fail
+- **Description**: Number of failed compliance checks across APIs
+- **What it shows**: APIs not meeting regulatory compliance standards
+- **Why it matters**: Essential for maintaining GDPR, PCI DSS, HIPAA compliance
+- **Metric**: Total count with percentage change
+
+### Geographic and Network Analysis
+
+#### Risky IPs
+- **Description**: World map with risky IP locations
+- **What it shows**: Geographic distribution of requests from IP addresses with poor reputation scores
+- **Why it matters**: Identifies potential attack sources and geographic threat patterns
+- **Visual**: Interactive world map with clustered markers
+- **Details**: Click on markers to see specific IP addresses and locations
+
+<ImageCard src="/platform/security/dashboard-2.jpg" alt="Risky IPs Map" />
+
+### Security Audit and Analysis
+
+#### Security Audit
+- **Description**: API security risk breakdown and trend analysis
+- **What it shows**: 
+  - Table of APIs with High Risk and Medium Risk percentages
+  - Line graph showing failed request trends over time
+- **Why it matters**: Provides quantitative security metrics for risk assessment
+
+#### Authentication Type
+- **Description**: List of APIs by authentication method
+- **What it shows**: 
+  - API name
+  - Authentication method (Basic, Bearer, No Auth, Digest, Custom)
+  - Security status (Risky, Secure, No Auth)
+- **Why it matters**: Quickly identify APIs with weak or missing authentication
+
+<ImageCard src="/platform/security/dashboard-1.jpg" alt="Security Audit Dashboard" />
+
+### Vulnerability Analysis
+
+#### BOLA (Broken Object Level Authorization)
+- **Description**: APIs with BOLA vulnerabilities
+- **What it shows**: 
+  - API name
+  - BOLA issue count
+  - HTTP status code (typically 403 Forbidden)
+  - Visual bar chart of vulnerability distribution
+- **Why it matters**: BOLA is a critical OWASP API Security Top 10 vulnerability
+
+#### BFLA (Broken Function Level Authorization)
+- **Description**: APIs with BFLA vulnerabilities
+- **What it shows**: 
+  - API name
+  - BFLA issue count
+  - Visual bar chart showing vulnerability severity
+- **Why it matters**: Function-level authorization issues can expose privileged operations
+
+The Security Dashboard provides comprehensive visibility into your API security posture, enabling proactive threat detection, vulnerability management, and compliance monitoring across your entire API landscape.

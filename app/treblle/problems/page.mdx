@@ -1,0 +1,46 @@
+---
+title: "Problems Dashboard"
+metaTitle: "Identify and Fix API Issues | Treblle Docs"
+description: "Treblle automatically detects API errors, security risks, and documentation issues. View, filter, and analyze problems in your API with categorized threat levels and real-time insights."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+
+# Problems Dashboard
+
+Treblle identifies both codebase and non-codebase errors captured by the Treblle SDK. For instance, it can detect misspellings that might affect your API documentation.
+
+## Steps to view the Problems Tab
+
+1. Click on **Problems** in the left navigation bar.
+
+<ImageCard src="/platform/problems/problems.png" alt="Problems Navigation" />
+
+2. The Problem dashboard will display all the problems.
+
+<ImageCard src="/platform/problems/overview.png" alt="Problems Dashboard Overview" />
+
+The Problems tab provides the following details for each issue:
+
+<ImageCard src="/platform/problems/dashboard.png" alt="Problems Dashboard Details" />
+
+- **HTTP Method:** Associated with the problem (if applicable).
+- **Severity Level:** Categorized as Low, Medium, or High.
+- **Occurrences:** Number of times this problem has occurred in the project.
+- **Total Problems Count:** Number of problems across all endpoints.
+- **Error Description:** Description of the problem.
+- **Graph:** Displays "Requests with Problems" for a selected period.
+
+<ImageCard src="/platform/problems/problems-graph.gif" alt="Problems Graph Animation" />
+
+Treblle performs 15 security checks on every API request and assigns them under **Low**, **Medium**, and **High** threat levels.
+
+## Viewing Problems in Requests
+
+To inspect specific requests with problems, you can:
+
+- **Filter** requests using the **Filter** option ( Requests, User Information, Security & Compliance, Metadata ).
+- **Sort** requests using the **SORT BY** option ( Created at, Path, Threat level, Load time ).
+- Toggle between table or list views for convenience.
+
+<ImageCard src="/platform/problems/filter.png" alt="Filter Options" />

@@ -1,0 +1,178 @@
+---
+title: "Treblle with SailsJS"
+metaTitle: "Set Up Treblle in SailsJS | Treblle Docs"
+description: "Integrate Treblle with SailsJS using our official SDK to capture API requests, track errors, and secure sensitive data. Follow our configuration guide to get started with Treblle for SailsJS."
+image: "/og-images/treblle-sailsjs.jpg"
+---
+
+import { InfoCard } from "~components/cards/info-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<CautionCard>
+**Legacy Notice**: The dedicated SailsJS integration is in maintenance mode. We recommend using our unified JavaScript SDK (`treblle-node`) instead, which provides better support and more frequent updates. Support for this integration will end on December 31, 2025. To migrate, follow the updated setup guide below.
+</CautionCard>
+
+# Treblle with SailsJS
+
+## Recommended: Using the Unified SDK
+
+We now recommend using our unified JavaScript SDK which works with SailsJS:
+
+```sh copy
+npm install treblle@^2.0.0
+```
+
+Initialize in your SailsJS application using Koa support (since SailsJS runs on Koa):
+
+```ts copy
+// config/routes.js or similar
+const { koaTreblle } = require("treblle");
+
+module.exports.routes = {
+  // Your routes here
+};
+
+// In your Sails.js bootstrap:
+// Register Treblle middleware
+app.use(koaTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+}));
+```
+
+---
+
+## Legacy Integration (Deprecated)
+
+<CautionCard>
+The original SailsJS-specific integration is still available but no longer actively maintained.
+</CautionCard>
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-sails" target="_blank">treblle-sails</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The legacy Treblle SDK for SailsJS framework (maintenance mode, support ending December 31, 2025).
+    </InfoCard.description>
+</InfoCard>
+
+### Legacy Installation
+
+If you're still using the legacy integration:
+
+```sh copy
+npm i @treblle/sails --save
+```
+
+### Legacy Credentials
+
+`@treblle/sails` supports configuration through:
+
+**Environment Variables:**
+- `TREBLLE_API_KEY`
+- `TREBLLE_PROJECT_ID`
+
+**Config file in `config/local.js`:**
+```js copy
+treblle: {
+  apiKey: '<YOUR_TREBLLE_API_KEY>',
+  projectId: '<YOUR_TREBLLE_PROJECT_ID>'
+}
+```
+
+### Legacy Setup
+
+Create `config/treblle.js`:
+
+```js copy
+module.exports.treblle = {
+  apiKey: '<YOUR_TREBLLE_API_KEY>',
+  projectId: '<YOUR_TREBLLE_PROJECT_ID>',
+  additionalFieldsToMask: ['key1', 'key2'], // optional
+  routesToMonitor: [], // optional
+}
+```
+
+### Legacy routesToMonitor Option
+
+By default, monitors these routes:
+
+```js copy
+routesToMonitor: [
+  'GET r|^((?![^?]*\\/[^?\\/]+\\.[^?\\/]+(\\?.*)?).)*$|',
+  'POST /*',
+  'PATCH /*',
+  'PUT /*',
+  'DELETE /*',
+]
+```
+
+To monitor only specific routes:
+
+```js copy
+module.exports.treblle = {
+  routesToMonitor: ['/api/*'],
+}
+```
+
+---
+
+## Migration Guide
+
+To migrate from the legacy integration to the unified SDK:
+
+<InfoTable title="Step" description="Action">
+    <InfoTable.Row
+        title="1. Install new package"
+        description={<>
+            ```sh copy
+            npm install treblle@^2.0.0
+            npm uninstall @treblle/sails
+            ```
+        </>}
+    />
+    <InfoTable.Row
+        title="2. Update environment variables"
+        description="Change from `TREBLLE_API_KEY` / `TREBLLE_PROJECT_ID` to `TREBLLE_SDK_TOKEN` / `TREBLLE_API_KEY`"
+    />
+    <InfoTable.Row
+        title="3. Update middleware registration"
+        description="Use the Koa middleware from the unified SDK"
+    />
+    <InfoTable.Row
+        title="4. Test API endpoints"
+        description="Ensure requests are being captured correctly"
+    />
+</InfoTable>
+
+<NoteCard>
+For questions during migration, contact support at support@treblle.com
+</NoteCard>
+
+---
+
+## Status
+
+<InfoTable title="Item" description="Details">
+    <InfoTable.Row
+        title="Current Version"
+        description="Legacy (v1.x)"
+    />
+    <InfoTable.Row
+        title="Support Deadline"
+        description="December 31, 2025"
+    />
+    <InfoTable.Row
+        title="Recommendation"
+        description="Migrate to unified SDK immediately"
+    />
+    <InfoTable.Row
+        title="Migration Time"
+        description="10-15 minutes"
+    />
+</InfoTable>

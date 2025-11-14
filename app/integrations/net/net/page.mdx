@@ -1,0 +1,607 @@
+---
+title: "Treblle with .NET"
+metaTitle: "Set Up Treblle in .NET | Treblle Docs"
+description: "Integrate Treblle with .NET to capture API requests, track errors, and enhance security. Follow our setup guide to configure Treblle for real-time API Intelligence."
+image: "/og-images/treblle-net.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { FAQ } from "~components/sections/FAQ/faq";
+import { Question } from "~components/sections/FAQ/faq-question";
+import { Checklist } from "~components/sections/checklist";
+
+<div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
+  <a href="https://github.com/Treblle/treblle-net" title="View source on GitHub" aria-label="View source on GitHub" className="relative no-underline">
+    <div>
+      <svg width="80" height="80" viewBox="0 0 250 250" style={{fill:'#151513', color:'#fff', position: 'absolute', top: 0, border: 0, right: 0}} aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style={{transformOrigin: '130px 106px'}} className="octo-arm"></path>
+        <path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" className="octo-body"></path>
+      </svg>
+    </div>
+    <div className="grid grid-cols-4 gap-4 px-2 py-2">
+      <div className="col-span-4">
+      	<h3 className="text-xl font-semibold">treblle-net</h3>
+      	<p className="text-sm font-medium">
+          The official Treblle SDK for .NET. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+        </p>
+      </div>
+    </div>
+  </a>
+</div>
+
+## Requirements
+
+- **.NET Framework 4.6.2** or higher (supports 4.6.2, 4.7.x, 4.8, and 4.8.1)
+- **ASP.NET Web API 5.2.7+**
+- **Newtonsoft.Json 13.0.3+**
+
+## Installation
+
+You can install Treblle .NET via NuGet Package Manager Console, .NET CLI, or the NuGet Package Manager UI.
+
+### Via NuGet Package Manager Console
+
+```powershell
+Install-Package Treblle.Net
+```
+
+### Via .NET CLI
+
+```bash
+dotnet add package Treblle.Net
+```
+
+### Via NuGet Package Manager UI
+
+1. Right-click on your project in Solution Explorer
+2. Select "Manage NuGet Packages"
+3. Search for "Treblle.Net"
+4. Click "Install"
+
+## Quick Start
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Step 1: Configure Credentials</InfoCard.title>
+        <InfoCard.description>
+            Add your Treblle API Key and SDK Token to Web.config. Get these from your Treblle Dashboard → API Settings.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Step 2: Register Handler</InfoCard.title>
+        <InfoCard.description>
+            Add TreblleHandler to WebApiConfig.cs for automatic tracking of all API endpoints.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+### Step 1: Configure Your Credentials
+
+Add your Treblle credentials to `Web.config`:
+
+```xml
+<configuration>
+  <appSettings>
+    <add key="Treblle:ApiKey" value="{Your_API_Key}" />
+    <add key="Treblle:SdkToken" value="{Your_SDK_Token}" />
+  </appSettings>
+</configuration>
+```
+
+<NoteCard>
+**Get your credentials**: Visit your [Treblle Dashboard](https://platform.treblle.com) → Find your API → Navigate to Settings → Copy SDK Token and API Key
+</NoteCard>
+
+### Step 2: Register the Handler (Automatic Tracking - Recommended)
+
+Simply register the Treblle handler in your `WebApiConfig.cs` and **all API endpoints will be tracked automatically**:
+
+```csharp
+using Treblle.Net;
+
+public static class WebApiConfig
+{
+    public static void Register(HttpConfiguration config)
+    {
+        // Add Treblle handler - tracks all endpoints automatically
+        config.MessageHandlers.Add(new TreblleHandler());
+
+        // Your existing Web API configuration
+        config.MapHttpAttributeRoutes();
+        config.Routes.MapHttpRoute(
+            name: "DefaultApi",
+            routeTemplate: "api/{controller}/{id}",
+            defaults: new { id = RouteParameter.Optional }
+        );
+    }
+}
+```
+
+That's it! All your API endpoints are now being monitored. 🎉
+
+### Alternative: Manual Tracking (Legacy)
+
+For fine-grained control, you can use the `[Treblle]` attribute on specific controllers or methods:
+
+```csharp
+[Treblle]
+public class ProductsController : ApiController
+{
+    public IHttpActionResult Get()
+    {
+        return Ok(_productService.GetAll());
+    }
+}
+```
+
+## Configuration
+
+### Required Settings
+
+These two settings are **required** for the SDK to function:
+
+```xml
+<configuration>
+  <appSettings>
+    <add key="Treblle:ApiKey" value="{Your_API_Key}" />
+    <add key="Treblle:SdkToken" value="{Your_SDK_Token}" />
+  </appSettings>
+</configuration>
+```
+
+### Optional Settings
+
+<InfoTable title="Configuration Option" description="Description & Default Value">
+    <InfoTable.Row
+        title="Treblle:ExcludedPaths"
+        description="Comma-separated paths to exclude from tracking. Type: string. Default: (none)"
+    />
+    <InfoTable.Row
+        title="Treblle:AdditionalFieldsToMask"
+        description="Comma-separated field names to mask. Type: string. Default: (none)"
+    />
+    <InfoTable.Row
+        title="Treblle:DisableMasking"
+        description="Disable data masking. Type: bool. Default: false"
+    />
+    <InfoTable.Row
+        title="Treblle:Debug"
+        description="Enable detailed debug logging. Type: bool. Default: false"
+    />
+</InfoTable>
+
+### Complete Configuration Example
+
+```xml
+<configuration>
+  <appSettings>
+    <!-- Required -->
+    <add key="Treblle:ApiKey" value="{Your_API_Key}" />
+    <add key="Treblle:SdkToken" value="{Your_SDK_Token}" />
+
+    <!-- Optional -->
+    <add key="Treblle:ExcludedPaths" value="/health,/admin/*,/internal/*" />
+    <add key="Treblle:AdditionalFieldsToMask" value="apiKey,authToken,internalId" />
+    <add key="Treblle:Debug" value="false" />
+    <add key="Treblle:DisableMasking" value="false" />
+  </appSettings>
+</configuration>
+```
+
+## Advanced Features
+
+### Data Masking
+
+The SDK **automatically masks sensitive fields** before sending data to Treblle. This happens on your server before any data leaves your infrastructure.
+
+#### Default Masked Fields
+
+The following fields are automatically masked:
+
+**Authentication & Secrets:**
+- `password`, `pwd`
+- `secret`
+- `password_confirmation`, `passwordConfirmation`
+
+**Financial Data:**
+- `cc`, `card_number`, `cardNumber`, `ccv`
+- `credit_score`, `creditScore`
+
+**Personal Information:**
+- `email`
+- `ssn`
+- `account.*` (all account fields)
+
+**Nested Fields:**
+- `user.email`, `user.dob`, `user.password`, `user.ss`
+- `user.payments.cc`
+
+#### Masking Strategies
+
+Different field types use different masking strategies:
+
+<InfoTable title="Field Type" description="Strategy & Example">
+    <InfoTable.Row
+        title="Passwords/Secrets"
+        description="Complete masking. Example: *****"
+    />
+    <InfoTable.Row
+        title="Credit Cards"
+        description="Last 4 digits visible. Example: ****-****-****-1234"
+    />
+    <InfoTable.Row
+        title="Emails"
+        description="Partial masking. Example: j***@example.com"
+    />
+    <InfoTable.Row
+        title="SSN"
+        description="Last 4 digits visible. Example: ***-**-1234"
+    />
+    <InfoTable.Row
+        title="Dates"
+        description="Year masked. Example: 12/25/****"
+    />
+</InfoTable>
+
+#### Custom Field Masking
+
+Add your own fields to mask:
+
+```xml
+<add key="Treblle:AdditionalFieldsToMask" value="apiKey: DefaultStringMasker,authToken: DefaultStringMasker,dob: DateMasker" />
+```
+
+**Available Maskers:**
+- `DefaultStringMasker` - Complete masking
+- `CreditCardMasker` - Credit card number masking
+- `EmailMasker` - Email address masking
+- `SocialSecurityMasker` - SSN masking
+- `DateMasker` - Date masking
+
+**Simple format** (uses DefaultStringMasker):
+```xml
+<add key="Treblle:AdditionalFieldsToMask" value="customSecret,apiToken,internalId" />
+```
+
+#### Disabling Masking
+
+```xml
+<add key="Treblle:DisableMasking" value="true" />
+```
+
+<CautionCard>
+**Warning**: This sends all data (passwords, credit cards, emails, etc.) in **plain text**. Only use this in development/testing environments.
+</CautionCard>
+
+### Path Exclusion
+
+#### Automatic Exclusions
+
+The SDK **automatically excludes** common non-API requests:
+
+**File Extensions:**
+- `.css`, `.js`, `.map`
+- `.jpg`, `.jpeg`, `.png`, `.gif`, `.svg`, `.ico`
+- `.woff`, `.woff2`, `.ttf`, `.eot`
+- `.mp4`, `.mp3`, `.webm`
+- `.pdf`, `.zip`, `.rar`, `.tar`, `.gz`
+- `.html`, `.htm`
+
+**Default Paths:**
+- `/swagger/*`, `/swagger-ui/*`, `/swagger-resources/*`
+- `/assets/*`, `/static/*`, `/public/*`
+- `/css/*`, `/js/*`, `/images/*`, `/img/*`, `/fonts/*`
+- `/favicon.ico`, `/robots.txt`, `/sitemap.xml`
+- `/_next/*`, `/_nuxt/*`, `/node_modules/*`
+- `/.well-known/*`
+
+**Content Types:**
+- HTML, CSS, JavaScript
+- Images, videos, audio
+- Fonts
+- Binary files
+
+#### Custom Path Exclusions
+
+Exclude specific endpoints using pattern matching:
+
+```xml
+<add key="Treblle:ExcludedPaths" value="/health,/admin/*,internal,/debug/info" />
+```
+
+**Pattern Matching:**
+
+<InfoTable title="Pattern" description="Behavior & Example">
+    <InfoTable.Row
+        title="/health"
+        description="Exact match - Excludes only /health"
+    />
+    <InfoTable.Row
+        title="/admin/*"
+        description="Wildcard match - Excludes all paths starting with /admin/"
+    />
+    <InfoTable.Row
+        title="internal"
+        description="Segment match - Excludes any path containing 'internal'"
+    />
+    <InfoTable.Row
+        title="/api/v1/status,/api/v2/status"
+        description="Multiple patterns - Comma-separated list"
+    />
+</InfoTable>
+
+**Examples:**
+- `/health` → Matches `/health` only
+- `/admin/*` → Matches `/admin/users`, `/admin/settings`, etc.
+- `swagger` → Matches `/swagger`, `/api/swagger`, `/v1/swagger/docs`, etc.
+- `/api/internal/*,/debug/*` → Matches both patterns
+
+### Debug Mode
+
+Enable debug mode to see detailed logging of SDK operations:
+
+```xml
+<add key="Treblle:Debug" value="true" />
+```
+
+#### Debug Output Includes:
+
+**Configuration Status:**
+```
+[TREBLLE DEBUG] === TREBLLE CONFIGURATION ===
+[TREBLLE DEBUG] ✅ SDK Token: ab12****ef78
+[TREBLLE DEBUG] ✅ API Key: cd34****gh90
+[TREBLLE DEBUG] 🔧 Debug Mode: ENABLED
+```
+
+**Request Tracking:**
+```
+[TREBLLE DEBUG] 🚀 Request Started: POST /api/users
+[TREBLLE DEBUG] 🔒 Applied data masking to 12 fields
+[TREBLLE DEBUG] 📊 Payload size: 2.34 KB
+[TREBLLE DEBUG] ✅ Request Completed: POST /api/users - Status: 201 - Load Time: 155ms
+[TREBLLE DEBUG] 📤 Payload sent to Treblle - Response: 200
+```
+
+**Skipped Requests:**
+```
+[TREBLLE DEBUG] ⏭️ Request skipped: Missing SDK Token or API Key configuration
+[TREBLLE DEBUG] ⏭️ Request skipped: Filtered out (static asset)
+[TREBLLE DEBUG] ⏭️ Request skipped: Response content type not tracked (text/html)
+```
+
+**Error Tracking:**
+```
+[TREBLLE DEBUG] ❌ Error in request capture: NullReferenceException
+[TREBLLE DEBUG] ❌ Error in payload sending: HTTP 401: Unauthorized
+```
+
+## ASP.NET Web API Integration
+
+### Tracking with Handler (Recommended)
+
+The recommended approach is to register the `TreblleHandler` in your `WebApiConfig.cs`, which automatically tracks all API endpoints:
+
+```csharp
+using Treblle.Net;
+
+public static class WebApiConfig
+{
+    public static void Register(HttpConfiguration config)
+    {
+        // Add Treblle handler - tracks all endpoints automatically
+        config.MessageHandlers.Add(new TreblleHandler());
+
+        // Your existing configuration
+        config.MapHttpAttributeRoutes();
+        config.Routes.MapHttpRoute(
+            name: "DefaultApi",
+            routeTemplate: "api/{controller}/{id}",
+            defaults: new { id = RouteParameter.Optional }
+        );
+    }
+}
+```
+
+All controllers will now be tracked automatically without any additional attributes.
+
+### Tracking Specific Methods (Legacy)
+
+For fine-grained control, you can use the `[Treblle]` attribute on specific controllers or methods:
+
+```csharp
+public class ProductsController : ApiController
+{
+    [Treblle]
+    public IHttpActionResult GetPublic()
+    {
+        // This endpoint is tracked
+        return Ok(_productService.GetAll());
+    }
+
+    public IHttpActionResult GetInternal()
+    {
+        // This endpoint is NOT tracked
+        return Ok(_productService.GetInternalProducts());
+    }
+}
+```
+
+## Supported Content Types
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Requests (Accepted)</InfoCard.title>
+        <InfoCard.description>
+            application/json ✅ | application/x-www-form-urlencoded ✅ | multipart/form-data ✅
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Responses (Tracked)</InfoCard.title>
+        <InfoCard.description>
+            All JSON-based content types including application/json, application/vnd.api+json, application/ld+json, application/hal+json, application/problem+json, text/json, and empty responses (201, 204, etc.) ✅
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<NoteCard>
+XML-based content types (application/xml, text/xml), HTML (text/html), and binary content types are not supported by this SDK.
+</NoteCard>
+
+## Migration Guide (v1 → v2)
+
+Upgrading from Treblle.Net v1.x to v2.x requires a few configuration changes.
+
+### Breaking Changes
+
+#### 1. Configuration Key Changes
+
+The configuration keys have been renamed to use the `Treblle:` prefix:
+
+**Old (v1.x):**
+```xml
+<appSettings>
+  <add key="TreblleApiKey" value="{Your_API_Key}" />
+  <add key="TreblleProjectId" value="{Your_Project_Id}" />
+</appSettings>
+```
+
+**New (v2.x):**
+```xml
+<appSettings>
+  <add key="Treblle:ApiKey" value="{Your_API_Key}" />
+  <add key="Treblle:SdkToken" value="{Your_SDK_Token}" />
+</appSettings>
+```
+
+<NoteCard>
+`TreblleProjectId` is now called `Treblle:SdkToken`. You can find your SDK Token in the [Treblle Dashboard](https://platform.treblle.com).
+</NoteCard>
+
+#### 2. Additional Configuration Keys
+
+All optional configuration keys now use the `Treblle:` prefix:
+
+<InfoTable title="v1.x Key" description="v2.x Key">
+    <InfoTable.Row
+        title="AdditionalFieldsToMask"
+        description="Treblle:AdditionalFieldsToMask"
+    />
+    <InfoTable.Row
+        title="DisableMasking"
+        description="Treblle:DisableMasking"
+    />
+    <InfoTable.Row
+        title="Debug"
+        description="Treblle:Debug"
+    />
+    <InfoTable.Row
+        title="N/A"
+        description="Treblle:ExcludedPaths (new feature)"
+    />
+</InfoTable>
+
+### Step-by-Step Migration
+
+#### Step 1: Update NuGet Package
+
+```powershell
+# Update to v2.x
+Update-Package Treblle.Net
+```
+
+Or via .NET CLI:
+```bash
+dotnet add package Treblle.Net --version 2.0.1
+```
+
+#### Step 2: Update Web.config
+
+Replace your old configuration:
+
+```xml
+<!-- OLD - Remove this -->
+<appSettings>
+  <add key="TreblleApiKey" value="your-api-key-here" />
+  <add key="TreblleProjectId" value="your-project-id-here" />
+  <add key="AdditionalFieldsToMask" value="field1,field2" />
+</appSettings>
+```
+
+With the new configuration:
+
+```xml
+<!-- NEW - Use this -->
+<appSettings>
+  <add key="Treblle:ApiKey" value="your-api-key-here" />
+  <add key="Treblle:SdkToken" value="your-sdk-token-here" />
+  <add key="Treblle:AdditionalFieldsToMask" value="field1,field2" />
+</appSettings>
+```
+
+## Important: Global HTTP Configuration
+
+The Treblle SDK modifies some global `ServicePointManager` settings when first initialized. These changes affect **all HTTP clients** in your application, including third-party libraries.
+
+### Modified Settings
+
+The SDK configures the following global settings for optimal performance and security:
+
+<InfoTable title="Setting" description="Value & Purpose">
+    <InfoTable.Row
+        title="SecurityProtocol"
+        description="TLS 1.2 + TLS 1.1 - Ensures secure HTTPS communication"
+    />
+    <InfoTable.Row
+        title="DefaultConnectionLimit"
+        description="10 - Allows up to 10 concurrent connections per endpoint"
+    />
+    <InfoTable.Row
+        title="MaxServicePointIdleTime"
+        description="90 seconds - Keeps connections alive for connection reuse"
+    />
+    <InfoTable.Row
+        title="Expect100Continue"
+        description="Disabled - Improves request performance"
+    />
+    <InfoTable.Row
+        title="UseNagleAlgorithm"
+        description="Disabled - Reduces latency for small packets"
+    />
+</InfoTable>
+
+### Impact on Your Application
+
+These settings will apply to **all** `HttpClient`, `WebClient`, and `HttpWebRequest` instances in your application, not just Treblle's HTTP calls.
+
+<TipCard>
+These are generally beneficial defaults that improve performance and security for most applications.
+</TipCard>
+
+### When You Need Different Settings
+
+If your application requires different `ServicePointManager` settings:
+
+1. **Configure after Treblle initializes**: Add your custom settings in `Global.asax.cs` or your startup code after the first Treblle request
+2. **Override specific settings**: You can change any setting after Treblle loads - your changes will persist
+
+```csharp
+// In Global.asax.cs Application_Start
+protected void Application_Start()
+{
+    // Your Web API config (Treblle gets initialized here)
+    GlobalConfiguration.Configure(WebApiConfig.Register);
+
+    // Override Treblle's settings if needed
+    ServicePointManager.DefaultConnectionLimit = 100; // Your custom value
+    ServicePointManager.UseNagleAlgorithm = true;      // Your custom value
+}
+```
+
+3. **Need help?**: If this causes issues, please [open an issue on GitHub](https://github.com/Treblle/treblle-net/issues)

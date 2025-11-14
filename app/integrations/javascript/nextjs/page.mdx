@@ -1,0 +1,223 @@
+---
+title: "Treblle with Next.js"
+metaTitle: "Set Up Treblle in Next.js | Treblle Docs"
+description: "Integrate Treblle with Next.js using our official SDK to capture API requests, track errors, and secure sensitive data. Supports both Pages Router and App Router with Edge runtime compatibility."
+image: "/og-images/treblle-nextjs.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import Link from "next/link";
+
+# Treblle with Next.js
+
+To integrate Treblle in your <Link href="https://nextjs.org" target="_blank">Next.js</Link> application, we provide an <Link href="https://github.com/Treblle/treblle-nextjs" target="_blank">official SDK for Next.js</Link>.
+
+The SDK supports both Next.js routing patterns and is compatible with Edge runtime environments.
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Pages Router</InfoCard.title>
+        <InfoCard.description>
+            `pages/api/*` handlers
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>App Router</InfoCard.title>
+        <InfoCard.description>
+            `app/api/*` route method exports
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+## Requirements
+
+- Node.js: 18+ (recommended)
+- Next.js: 12.x or later
+- Runtimes: Node.js and Edge runtime supported
+
+## Installation
+
+```sh copy
+npm install @treblle/next
+# or
+pnpm add @treblle/next
+# or
+yarn add @treblle/next
+```
+
+## Setting up credentials
+
+Create a <Link href="https://treblle.com" target="_blank">free account</Link> and create a new workspace (or join an existing one) to get your credentials:
+- `sdkToken` (SDK Token)
+- `apiKey` (API Key)
+
+Add these to your `.env` file (keep them server-only):
+
+```env copy
+TREBLLE_SDK_TOKEN=your_sdk_token
+TREBLLE_API_KEY=your_api_key
+```
+
+<CautionCard>
+Keep keys server-only. Do not expose with `NEXT_PUBLIC_` prefix.
+</CautionCard>
+
+## Pages Router (pages/api)
+
+For Next.js applications using the Pages Router, wrap your API handlers with `withTrebllePages`:
+
+```typescript copy
+// pages/api/users.ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { withTrebllePages } from '@treblle/next/integrations/nextjs';
+
+const treblle = withTrebllePages({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN!,
+  apiKey: process.env.TREBLLE_API_KEY!,
+  // debug: process.env.NODE_ENV !== 'production',
+});
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'GET') return res.status(200).json({ users: [] });
+  return res.status(405).json({ error: 'Method not allowed' });
+}
+
+export default treblle(handler);
+```
+
+## App Router (app/api)
+
+For Next.js applications using the App Router, wrap your route handlers with `withTreblle`:
+
+```typescript copy
+// app/api/users/route.ts
+import { NextResponse } from 'next/server';
+import { withTreblle } from '@treblle/next/integrations/nextjs';
+
+const treblle = withTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN!,
+  apiKey: process.env.TREBLLE_API_KEY!,
+  // debug: process.env.NODE_ENV !== 'production',
+});
+
+export const GET = treblle(async () => {
+  return NextResponse.json({ users: [] });
+});
+
+export const POST = treblle(async (req: Request) => {
+  const body = await req.json();
+  return NextResponse.json({ success: true, user: body }, { status: 201 });
+});
+
+// To run on Edge (optional):
+// export const runtime = 'edge';
+```
+
+## Global Middleware (Optional)
+
+Use middleware for coarse-grained visibility on every request. Note that middleware can't read request bodies for non-GET methods.
+
+```typescript copy
+// middleware.ts
+import { NextResponse } from 'next/server';
+import { withTreblleMiddleware } from '@treblle/next/integrations/nextjs';
+
+const treblle = withTreblleMiddleware({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN!,
+  apiKey: process.env.TREBLLE_API_KEY!,
+  // blocklistPaths: [/^\/_next\//, 'static', 'images'],
+});
+
+export default treblle(async () => NextResponse.next());
+
+// Limit to API routes (optional):
+// export const config = { matcher: ['/api/:path*'] };
+```
+
+## Configuration Options
+
+Pass these options to `withTreblle`, `withTrebllePages`, or `withTreblleMiddleware`:
+
+```typescript copy
+const treblle = withTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN!,              // Required: Your Treblle SDK token
+  apiKey: process.env.TREBLLE_API_KEY!,                  // Required: Your Treblle API key
+  additionalFieldsToMask: ['customSecret', 'internalId'], // Optional: Extra field names to mask
+  blocklistPaths: ['admin', /^\/api\/v1\/internal/],      // Optional: Paths to exclude
+  ignoreDefaultBlockedPaths: false,                       // Optional: Disable default filters
+  debug: process.env.NODE_ENV !== 'production',           // Optional: Print errors to console
+});
+```
+
+### Production-only enablement:
+
+```typescript copy
+const maybeTreblle = process.env.NODE_ENV === 'production'
+  ? withTreblle({ sdkToken: process.env.TREBLLE_SDK_TOKEN!, apiKey: process.env.TREBLLE_API_KEY! })
+  : ((h: any) => h); // no-op passthrough
+
+export const GET = maybeTreblle(async () => NextResponse.json({ ok: true }));
+```
+
+## Masked Fields
+
+The following fields are automatically masked in request/response bodies:
+
+- `password`, `pwd`, `secret`, `password_confirmation`, `passwordConfirmation`
+- `cc`, `card_number`, `cardNumber`, `ccv`
+- `ssn`
+- `credit_score`, `creditScore`
+
+Add more fields via the `additionalFieldsToMask` option.
+
+## Blocked Paths
+
+The following paths are ignored by default to reduce noise:
+
+**Files**: `favicon.ico`, `robots.txt`, `sitemap.xml`, `manifest.json`, `sw.js`, `service-worker.js`, `browserconfig.xml`, `crossdomain.xml`, `ads.txt`, `apple-touch-icon*`
+
+**Directories**: `/.well-known/`, `/static/`, `/assets/`, `/public/`, `/images/`, `/css/`, `/js/`
+
+**Extensions**: `.css`, `.js`, `.png`, `.jpg`, `.jpeg`, `.gif`, `.svg`, `.ico`, `.woff`, `.woff2`, `.ttf`, `.eot`
+
+Override defaults:
+
+```typescript copy
+const treblle = withTreblle({
+  // ... other config
+  ignoreDefaultBlockedPaths: true,
+  blocklistPaths: ['favicon.ico'], // Only block this specific file
+});
+```
+
+## Edge Runtime Notes
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>App Router Edge Support</InfoCard.title>
+        <InfoCard.description>
+            App Router handlers can opt into Edge with `export const runtime = 'edge'`
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Middleware Edge Default</InfoCard.title>
+        <InfoCard.description>
+            Middleware runs at the edge by default
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Body Reading Limitation</InfoCard.title>
+        <InfoCard.description>
+            Bodies of non-GET requests are not readable in middleware
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<TipCard>
+For full body and error detail capture, prefer wrapping route handlers over middleware
+</TipCard>

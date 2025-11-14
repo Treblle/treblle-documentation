@@ -1,0 +1,89 @@
+---
+title: "API Security"
+metaTitle: "API Security | Treblle Docs"
+description: "Treblle runs 13 security checks on every API request, assigning threat levels and identifying vulnerabilities like SQL injection and missing SSL. Monitor and secure your API traffic effortlessly."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+
+# API Security
+
+Treblle performs 13 automated security checks on every API request and assigns a **Threat Level** based on detected vulnerabilities. 
+
+The system analyzes each request into three threat levels: Low, Medium, or High. By default, it marks requests without detected threats as Low Threat Level.
+
+## Steps to view API Security
+
+1. You can go to the **Request** tab in the left navigation bar.
+
+<ImageCard src="/platform/api-security/request.png" alt="Request Tab" />
+
+2. You can select a specific request or use filters to narrow down requests by **Security Threat Level** (Low, Medium, High).
+
+<ImageCard src="/platform/api-security/filter.png" alt="Security Filter" />
+
+3. Click on any request to open its detailed view on the right side of the dashboard. Go to the **Security** tab.
+
+<ImageCard src="/platform/api-security/security.png" alt="Security Tab" />
+
+4. This security audit graph shows the percentage of passed and failed checks and the total number of requests categorized by threat level (Low, Medium, High).
+
+<ImageCard src="/platform/api-security/overall.png" alt="Security Overview" />
+
+5. The overall security status of the API shows the 13 security checks with threat level.
+
+<ImageCard src="/platform/api-security/status.png" alt="Security Status" />
+
+6. When you click on any threat level, you will see details about it, helping you understand how to improve it.
+
+<ImageCard src="/platform/api-security/description.png" alt="Threat Details" />
+
+## How Threat Levels Are Calculated
+
+Treblle uses an ETL process to calculate the threat level:
+- IP address analysis (proxy, crawler, TOR detection) using services like [ipstack](https://ipstack.com/).
+- Internal security checks, such as:
+  - Missing SSL (Medium Threat Level).
+  - Detected SQL Injection patterns (High Threat Level).
+
+Each request undergoes these checks to ensure accurate threat level assignment.
+
+### Low Threat Level
+
+Detected issues include:
+
+- **IDs vs UUIDs:** Check if endpoints use UUIDs instead of sequential IDs for improved security.
+
+- **Rate Limiting:** Verifies the presence of `x-ratelimit-*` headers to prevent abusive behavior.
+
+- **Content Labeling:** Ensures the `Content-Type` header uses `application/json.`
+
+- **MIME Sniffing Protection:** Confirms the `X-Content-Type-Options` header is set to `nosniff`.
+
+- **Force Secure Connection:** Looks for the `strict-transport-security` header to enforce HTTPS.
+
+- **Embedding Prevention:** Validates the `X-Frame-Options` header to mitigate clickjacking attacks.
+
+- **Security Policies:** Checks for a `Content-Security-Policy` header. CSP helps prevent various attacks, including cross-site scripting (XSS) and data injection attacks.
+
+- **Content-Type Specification:** Confirms that the `Accept` header specifies `application/json.`
+
+- **Method Limiting:** Verifies the presence of the `Allow` header to specify allowed HTTP methods.
+
+### Medium Threat Level
+
+Detected issues include:
+
+- **Authorization:** Ensures proper usage and configuration of authorization mechanisms.
+
+### High Threat Level
+
+Detected issues include:
+
+- **SQL Injection:** Analyzes payloads for common SQL injection patterns.
+
+- **IP Reputation:** Evaluate the reputation of the request's IP address for potential malicious activity.
+
+- **Secure Connection:**  Confirms that requests use HTTPS instead of HTTP.
+
+Treblle helps you monitor and secure your API traffic in real time, ensuring a safer API ecosystem.

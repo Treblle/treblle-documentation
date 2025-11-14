@@ -1,0 +1,332 @@
+---
+title: "Kong Plugin for Treblle"
+metaTitle: "Kong Plugin for Treblle | Treblle Docs"
+description: "Set up the Treblle plugin for Kong Gateway to capture API requests, enhance security, and gain real-time insights. Follow our installation and configuration guide."
+image: "/og-images/treblle-kong.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+
+<div className="max-w-full mx-auto shadow-lg rounded-lg overflow-hidden">
+  <a
+    href="https://github.com/Treblle/treblle-kong"
+    title="View source on GitHub"
+    aria-label="View source on GitHub"
+    className="relative no-underline"
+  >
+    <div>
+      <svg
+        width="80"
+        height="80"
+        viewBox="0 0 250 250"
+        style={{fill:'#151513', color:'#fff', position: 'absolute', top: 0, border: 0, right: 0}}
+        aria-hidden="true"
+      >
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
+        <path
+          d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2"
+          fill="currentColor"
+          style={{transformOrigin: '130px 106px'}}
+          className="octo-arm"
+        ></path>
+        <path
+          d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z"
+          fill="currentColor"
+          className="octo-body"
+        ></path>
+      </svg>
+    </div>
+    <div className="grid grid-cols-4 gap-4 px-2 py-2">
+      <div className="col-span-4">
+        <h3 className="text-xl font-semibold">treblle-kong</h3>
+        <p className="text-sm font-medium">The official Treblle plugin for Kong.</p>
+      </div>
+    </div>
+  </a>
+</div>
+
+The [Kong](https://konghq.com/) plugin captures API requests and responses in real time through Kong Gateway and sends them to Treblle for monitoring, security, and analytics.
+
+## Prerequisites
+
+- Docker installed (for MacOS or Linux)
+- Git installed
+- A Treblle account with an API key and Project ID
+
+## Installation Options
+
+- MacOS with Docker
+- Linux with Docker
+
+### MacOS Installation
+
+1. **Clone the repository**
+
+    ```bash
+     git clone https://github.com/Treblle/treblle-kong.git
+     cd treblle-kong
+    ```
+
+2. **Build the Docker image**
+
+    ```bash
+     docker build -t k:v1 .
+    ```
+
+3. **Start the container**
+
+    ```bash
+     docker-compose up -d
+    ```
+
+### Linux Installation
+
+1. **Prepare the project directory structure**
+
+    ```
+     kong-treblle-sandbox/
+     │
+     ├── docker-compose.yml
+     ├── kong.conf
+     ├── Dockerfile
+     └── kong.yml
+    ```
+
+2. **Creating the Dockerfile**
+
+     The Dockerfile builds a custom Kong image with the Treblle plugin installed. It installs necessary dependencies, adds the Treblle plugin via luarocks, and configures Kong to use it.
+
+    ```dockerfile
+     FROM kong:3.4.0
+
+     USER root
+     RUN apk add --no-cache git unzip curl luarocks
+     RUN luarocks install --server=http://luarocks.org/manifests/treblle kong-plugin-treblle
+     COPY kong.conf /etc/kong/kong.conf
+     USER kong
+    ```
+
+3. **Creating the kong.conf**
+
+     The kong.conf file configures database connections and enables the Treblle plugin. It sets up PostgreSQL connection parameters and adds Treblle to the list of available plugins.
+
+    ```ini
+     database = on
+     pg_host = postgres
+     pg_port = 5432
+     pg_user = kong
+     pg_password = kong
+     pg_database = kong
+     plugins = bundled,treblle
+    ```
+
+4. **Creating the docker-compose.yml**
+
+     The docker-compose.yml orchestrates three containers: a PostgreSQL database, a Kong migration service that initializes the database, and the Kong service itself with the Treblle plugin enabled.
+
+    ```yaml
+     services:
+       postgres:
+         image: postgres:13
+         environment:
+           POSTGRES_DB: kong
+           POSTGRES_PASSWORD: kong
+           POSTGRES_USER: kong
+         volumes:
+           - postgres_data:/var/lib/postgresql/data
+         healthcheck:
+           test: ["CMD", "pg_isready", "-U", "kong"]
+           interval: 30s
+           timeout: 30s
+           retries: 3
+
+       kong-migration:
+         image: kong:3.4.0
+         command: kong migrations bootstrap
+         environment:
+           KONG_DATABASE: postgres
+           KONG_PG_HOST: postgres
+           KONG_PG_PASSWORD: kong
+           KONG_PG_USER: kong
+         depends_on:
+           postgres:
+             condition: service_healthy
+
+       kong:
+         build: 
+           context: .
+           dockerfile: Dockerfile
+         container_name: kong-treblle
+         environment:
+           KONG_DATABASE: postgres
+           KONG_PG_HOST: postgres
+           KONG_PG_PASSWORD: kong
+           KONG_PG_USER: kong
+           KONG_PLUGINS: bundled,treblle
+           KONG_PROXY_ACCESS_LOG: /dev/stdout
+           KONG_ADMIN_ACCESS_LOG: /dev/stdout
+           KONG_PROXY_ERROR_LOG: /dev/stderr
+           KONG_ADMIN_ERROR_LOG: /dev/stderr
+           KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+         ports:
+           - "9000:8000"   # Proxy port
+           - "9001:8001"   # Admin API port
+           - "9443:8443"
+           - "9444:8444"
+         depends_on:
+           postgres:
+             condition: service_healthy
+           kong-migration:
+             condition: service_completed_successfully
+         healthcheck:
+           test: ["CMD", "kong", "health"]
+           interval: 10s
+           timeout: 10s
+           retries: 10
+
+     volumes:
+       postgres_data:
+    ```
+
+5. **Start the containers**
+
+    ```bash
+     docker-compose up -d
+    ```
+
+## Configuration Steps
+
+Follow these steps to configure Treblle with Kong. Commands vary slightly between MacOS and Linux installations.
+
+### For MacOS
+
+```bash
+# Verify plugin is enabled
+curl -i -X GET http://localhost:8001/plugins/enabled
+
+# Create a service
+curl -i -X POST http://localhost:8001/services \
+  --data "name=httpbin-service" \
+  --data "url=https://httpbin.org"
+
+# Create a route
+curl -i -X POST http://localhost:8001/services/httpbin-service/routes \
+  --data "name=httpbin-route-post" \
+  --data "paths[]=/httpbin" \
+  --data "methods[]=POST"
+
+# Add Treblle plugin
+curl -i -X POST http://localhost:8001/services/httpbin-service/plugins \
+  --data "name=treblle" \
+  --data "config.api_key=YOUR_TREBLLE_API_KEY" \
+  --data "config.project_id=YOUR_TREBLLE_PROJECT_ID" \
+  --data "config.mask_keywords[]=Authorization" \
+  --data "config.mask_keywords[]=User-Agent" \
+  --data "config.mask_keywords[]=Cookie"
+
+# Test
+curl -i -X POST http://localhost:8000/httpbin/post \
+  -H "Content-Type: application/json" \
+  -d '{"test": "data", "foo": "bar"}'
+```
+
+### For Linux
+
+```bash
+# Create a service
+curl -i -X POST http://localhost:9001/services \
+  --data name=httpbin-service \
+  --data url=https://httpbin.org
+
+# Create a route
+curl -i -X POST http://localhost:9001/services/httpbin-service/routes \
+  --data "name=httpbin-route" \
+  --data "paths[]=/test" \
+  --data "methods[]=POST"
+
+# Add Treblle plugin
+curl -i -X POST http://localhost:9001/services/httpbin-service/plugins \
+  --data "name=treblle" \
+  --data "config.api_key=YOUR_TREBLLE_API_KEY" \
+  --data "config.project_id=YOUR_TREBLLE_PROJECT_ID" \
+  --data "config.mask_keywords[]=Authorization" \
+  --data "config.mask_keywords[]=API_Key" \
+  --data "config.mask_keywords[]=Secure-Token"
+
+# Test
+curl -X POST http://localhost:9000/test/post
+```
+
+## Troubleshooting
+
+### Enable Debug Logs
+
+To print Treblle debug logs, set the debug flag to true:
+
+```bash
+curl -i -X POST http://localhost:8001/services/httpbin-service/plugins \
+  --data "name=treblle" \
+  --data "config.api_key=YOUR_TREBLLE_API_KEY" \
+  --data "config.project_id=YOUR_TREBLLE_PROJECT_ID" \
+  --data "config.debug=true"
+```
+
+### Verification Commands (Linux)
+
+Use these commands to verify your setup:
+
+```bash
+# Check Docker containers
+docker-compose ps
+
+# View Kong logs
+docker-compose logs kong
+```
+
+## Configuration Parameters
+
+<InfoTable title="Parameter" description="Default and Description">
+    <InfoTable.Row
+        title="config.api_key"
+        description="The Treblle SDK token (required)"
+    />
+    <InfoTable.Row
+        title="config.project_id"
+        description="The Treblle API ID (required)"
+    />
+    <InfoTable.Row
+        title="config.mask_keywords"
+        description="Masking keywords for the payload"
+    />
+    <InfoTable.Row
+        title="config.debug"
+        description="Enables debug logging - Default: false"
+    />
+    <InfoTable.Row
+        title="config.enable_compression"
+        description="Compresses requests before sending - Default: false"
+    />
+    <InfoTable.Row
+        title="config.connect_timeout"
+        description="Connection timeout (ms) - Default: 1000"
+    />
+    <InfoTable.Row
+        title="config.send_timeout"
+        description="Send timeout (ms) - Default: 5000"
+    />
+    <InfoTable.Row
+        title="config.request_max_body_size_limit"
+        description="Max request body size (bytes) - Default: 100000"
+    />
+    <InfoTable.Row
+        title="config.response_max_body_size_limit"
+        description="Max response body size (bytes) - Default: 100000"
+    />
+</InfoTable>
+
+<TipCard>
+For more advanced configuration options, refer to our [GitHub repository](https://github.com/Treblle/treblle-kong).
+</TipCard>

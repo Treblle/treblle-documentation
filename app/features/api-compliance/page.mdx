@@ -1,0 +1,75 @@
+---
+title: "API Compliance"
+metaTitle: "Ensure API Compliance with GDPR, CCPA & PCI | Treblle Docs"
+description: "Use Treblle's API Compliance feature to track GDPR, CCPA, and PCI DSS adherence. Identify sensitive data, monitor compliance trends, and manage team access effortlessly."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { YoutubeEmbed } from "~components/video/youtube-embed";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+# API Compliance
+
+<YoutubeEmbed postId="D6bdO84P458" />
+
+The API Compliance feature helps you ensure your API adheres to regulatory requirements such as <Link href="https://gdpr-info.eu/" target="_blank">GDPR</Link>, <Link href="https://doca.gov.in/ccpa/" target="_blank">CCPA</Link>, and <Link href="https://www.pcisecuritystandards.org/" target="_blank">PCI DSS</Link> by identifying sensitive data within API requests and responses.
+
+## Steps to Use API Compliance
+
+### 1. Check the Dashboard
+
+- After logging into Treblle, go to the **Dashboard**.
+- The **API Compliance percentage** overviews your API's compliance status.
+
+<ImageCard src="/platform/api-compliance/dashboard.png" alt="Compliance Dashboard" />
+
+### 2. Access the Compliance Section
+
+- Click the **Compliance** tab in the left-hand menu to enter the compliance dashboard.
+- You can switch between **Calendar View** and **Graph View** for tracking compliance status.
+
+<ImageCard src="/platform/api-compliance/general-view.png" alt="General View" />
+
+### 3. Use the Calendar View
+
+- In the **Calendar View**, hover over a date to view the compliance percentage for that day.
+
+<ImageCard src="/platform/api-compliance/calender-view.png" alt="Calendar View" />
+
+- Clicking on a date shows all requests flagged as non-compliant for that day.
+
+<ImageCard src="/platform/api-compliance/non-compliant-requests.png" alt="Non-Compliant Requests" />
+
+### 4. Use the Graph View
+
+- Monitor your API's compliance trend in the Graph View to spot patterns or improvements.
+
+<ImageCard src="/platform/api-compliance/graph-view.png" alt="Graph View" />
+
+### 5. Invite Team Members
+
+- Use the **Invite** option to share the compliance status with your team members.
+
+<ImageCard src="/platform/api-compliance/invite.png" alt="Invite Team" />
+
+### 6. View Individual Request Compliance
+
+- Navigate to any specific API request to see detailed compliance checks for that request.
+- Treblle performs real-time compliance validation against multiple standards:
+  - **GDPR**: Checks for personal data handling (email addresses, names, etc.)
+  - **PCI DSS**: Validates credit card data protection and payment information security
+  - **CCPA**: Monitors California consumer data privacy requirements
+  - **HIPAA**: Ensures health information privacy and security standards
+- Each request displays a **Request Compliance Score** (percentage) and individual pass/fail status for each regulation.
+- Click on any compliance standard to see specific checks performed and detailed explanations of what was validated.
+
+<ImageCard src="/platform/api-compliance/request-compliance.jpg" alt="Request Compliance" />
+
+### 7. Manage Access
+
+- Customize permissions for team members to control access to sensitive compliance logs, ensuring only authorized personnel can view or modify the data.
+
+<ImageCard src="/platform/api-compliance/manage-access.png" alt="Manage Access" />
+
+<PaginationCards />

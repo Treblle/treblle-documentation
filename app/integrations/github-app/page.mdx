@@ -1,0 +1,343 @@
+---
+title: "GitHub Integration"
+metaTitle: "Treblle GitHub Integration | Automatic API Discovery & Refactoring"
+description: "Automatically discover APIs in your GitHub organization with Treblle's GitHub Application. Get AI-powered code reviews, refactoring suggestions, and automated PRs to improve your API codebase."
+image: "/og-images/treblle-github-integration.jpg"
+---
+
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { ImageCard } from "~components/cards/image-card";
+import { FAQ } from "~components/sections/FAQ/faq";
+import { Question } from "~components/sections/FAQ/faq-question";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { NoteCard } from "~components/cards/note";
+import { InfoTable } from "~components/tables/info-table";
+import { Checklist } from "~components/sections/checklist";
+import Link from "next/link";
+
+# GitHub Integration
+
+The Treblle GitHub Application is an intelligent API discovery and refactoring tool that integrates directly with your GitHub organization. 
+
+It automatically identifies APIs across your repositories and provides AI-powered analysis, refactoring suggestions, and automated code improvements.
+
+<NoteCard>
+The Treblle GitHub Application requires a **Treblle Enterprise Plan**. <Link href="https://treblle.com/contact">Contact sales</Link> to upgrade your account.
+</NoteCard>
+
+## Key Features
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Automatic API Discovery</InfoCard.title>
+        <InfoCard.description>
+            Scan your GitHub organization and automatically discover APIs across all repositories with metadata including language, framework, endpoints, and activity information.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>AI-Powered Code Review</InfoCard.title>
+        <InfoCard.description>
+            Get automated AI reviews analyzing security vulnerabilities, performance bottlenecks, API design patterns, and comprehensive code quality scoring.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Automated Refactoring</InfoCard.title>
+        <InfoCard.description>
+            Enable one-click refactoring to create PRs with suggested improvements, Treblle SDK integration, and detailed change descriptions ready for team review.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+## Installation
+
+### Prerequisites
+
+- GitHub organization admin access
+- Treblle Enterprise Plan subscription
+- Treblle SDK Token (found in Dashboard → Settings)
+
+### Step 1: Install the GitHub App
+
+1. Navigate to the [Treblle GitHub App](https://github.com/apps/treblle)
+2. Click **Install** or **Configure**
+3. Select your GitHub organization
+4. Choose installation scope:
+   - **All repositories**: Discovers APIs across your entire organization
+   - **Selected repositories**: Limit discovery to specific repositories
+
+<ImageCard src="/platform/github/install-app.jpg" alt="Install GitHub App" />
+
+### Step 2: Configure the Application
+
+After installation, you'll be redirected to the Treblle setup page:
+
+1. Enter your **Treblle SDK Token**
+   - Find this in: Treblle Dashboard → Settings → API Keys
+2. Click **Complete Setup**
+
+<ImageCard src="/platform/github/setup-token.jpg" alt="Configure Treblle Token" />
+
+### Step 3: Review Discovered APIs
+
+1. Log in to your [Treblle Dashboard](https://app.treblle.com)
+2. Navigate to **APIs** → **Discovered APIs**
+3. Review the automatically discovered APIs from your GitHub organization
+
+<ImageCard src="/platform/github/discovered-apis.jpg" alt="Discovered APIs Dashboard" />
+
+## Supported Languages & Frameworks
+
+<InfoTable title="Framework Support" description="The Treblle GitHub Application supports automatic API discovery for the following technologies">
+    <InfoTable.Row
+        title="Spring Boot"
+        description="Version 2.0+ | ✅ Full Support"
+    />
+    <InfoTable.Row
+        title=".NET Core"
+        description="Version 3.1+ | ✅ Full Support"
+    />
+    <InfoTable.Row
+        title="Express"
+        description="Version 4.0+ | ✅ Full Support"
+    />
+    <InfoTable.Row
+        title="Laravel"
+        description="Version 5.5+ | ✅ Full Support"
+    />
+    <InfoTable.Row
+        title="FastAPI"
+        description="Version 0.60+ | ✅ Full Support"
+    />
+    <InfoTable.Row
+        title="Django"
+        description="Version 3.9+ | ✅ Full Support"
+    />
+</InfoTable>
+
+<TipCard>
+More frameworks are being added regularly. Check back for updates or <Link href="mailto:support@treblle.com">contact support</Link> to request support for your framework.
+</TipCard>
+
+## Detection Algorithm
+
+### Privacy-First Approach
+
+Treblle uses a proprietary API detection algorithm designed for speed, security, and privacy. The application **does not**:
+
+- Clone entire repositories
+- Access all files in your codebase
+- Store your source code
+- Require read access to sensitive files
+
+### How It Works
+
+The detection algorithm looks for common, non-invasive patterns that indicate the presence of an API:
+
+**Laravel Applications:**
+- Checks for `routes/api.php` file
+- Detects Laravel framework dependencies in `composer.json`
+
+**Spring Boot Applications:**
+- Identifies `spring-boot-starter-web` dependency
+- Looks for `@RestController` annotations
+
+**.NET Core Applications:**
+- Detects `ApiController` attributes
+- Identifies `Route` attributes and routing configuration
+
+**Express Applications:**
+- Checks for API routes in `app.js`, `server.js`, or similar entry points
+- Identifies Express framework usage in `package.json`
+
+**FastAPI Applications:**
+- Detects `FastAPI` imports in Python files
+- Identifies API route decorators
+
+**Django Applications:**
+- Checks for Django REST framework dependencies
+- Identifies API URL patterns in `urls.py`
+
+<InfoCard type="individual">
+    <InfoCard.title>Minimized Repository Access</InfoCard.title>
+    <InfoCard.description>
+        The algorithm is designed to minimize repository access while maximizing detection accuracy, ensuring your codebase remains secure and private.
+    </InfoCard.description>
+</InfoCard>
+
+## Using AI Code Review
+
+### Request a Code Review
+
+1. Navigate to **APIs** → **Discovered APIs** in your Treblle Dashboard
+2. Select the API you want to review
+3. Click **Request AI Review**
+4. Wait for the analysis to complete (typically 2-5 minutes)
+
+<ImageCard src="/platform/github/request-review.jpg" alt="Request AI Review" />
+
+### Review Results
+
+The AI review provides comprehensive analysis across multiple dimensions:
+
+**Security Score:**
+- SQL injection vulnerabilities
+- Authentication/authorization issues
+- Data validation problems
+- Secret management concerns
+
+**Performance Score:**
+- N+1 query problems
+- Inefficient database queries
+- Caching opportunities
+- Resource utilization
+
+**API Design Score:**
+- REST best practices compliance
+- Endpoint naming conventions
+- Response structure consistency
+- HTTP status code usage
+
+<ImageCard src="/platform/github/review-results.jpg" alt="AI Review Results" />
+
+### Understanding Recommendations
+
+Each recommendation includes:
+- **Priority level**: Critical, High, Medium, or Low
+- **Description**: Clear explanation of the issue
+- **Impact**: How it affects your API
+- **Suggested fix**: Specific code changes to address the issue
+
+## Automated Refactoring
+
+### Enable Auto-Refactoring
+
+1. Review the AI analysis results
+2. Click **Enable Auto-Refactoring**
+3. Confirm the changes you want to apply
+4. Wait for Treblle to create the Pull Request (typically 5-10 minutes)
+
+<ImageCard src="/platform/github/enable-refactoring.jpg" alt="Enable Auto-Refactoring" />
+
+### What Gets Changed
+
+The automated refactoring process:
+
+1. **Fixes identified issues** based on AI recommendations
+2. **Integrates Treblle SDK** for your language/framework
+3. **Updates dependencies** if needed
+4. **Adds configuration files** for Treblle monitoring
+5. **Maintains code style** and formatting conventions
+
+### Review the Pull Request
+
+Once created, the PR includes:
+
+- **Detailed description** of all changes made
+- **Before/after code comparisons**
+- **Rationale** for each modification
+- **Test results** (if tests exist)
+- **Treblle SDK setup instructions**
+
+<ImageCard src="/platform/github/pull-request.jpg" alt="Generated Pull Request" />
+
+<Checklist>
+    <Checklist.item id="review">Review all code changes carefully</Checklist.item>
+    <Checklist.item id="verify">Verify Treblle SDK configuration</Checklist.item>
+    <Checklist.item id="tests">Run tests in your CI/CD pipeline</Checklist.item>
+    <Checklist.item id="staging">Test in a staging environment</Checklist.item>
+    <Checklist.item id="approval">Get team approval before merging</Checklist.item>
+</Checklist>
+
+## Deployment Options
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>SaaS Deployment (Default)</InfoCard.title>
+        <InfoCard.description>
+            Hosted processing on Treblle's servers with fast setup, automatic updates, and 99.9% uptime SLA. No infrastructure required.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Private Cloud Deployment</InfoCard.title>
+        <InfoCard.description>
+            Deploy in your AWS, Azure, or GCP environment with private processing, data control, and custom compliance for data sovereignty requirements.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>On-Premises Deployment</InfoCard.title>
+        <InfoCard.description>
+            Self-hosted solution with air-gapped support, complete data isolation, and custom security policies for maximum control.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<NoteCard>
+Private Cloud and On-premises deployments require a custom Enterprise agreement. <Link href="https://treblle.com/contact">Contact sales</Link> for more information.
+</NoteCard>
+
+## Security & Privacy
+
+### Data Access
+
+The Treblle GitHub Application:
+- ✅ **Only reads** repository metadata and specific API-related files
+- ✅ **Never stores** your complete source code
+- ✅ **Uses minimal permissions** required for API discovery
+- ✅ **Encrypts all data** in transit and at rest
+
+### Permissions Required
+
+<InfoTable title="GitHub Permissions" description="The GitHub App requests these permissions for operation">
+    <InfoTable.Row
+        title="Repository contents"
+        description="Read-only | Detect API patterns and frameworks"
+    />
+    <InfoTable.Row
+        title="Pull requests"
+        description="Read & Write | Create refactoring PRs"
+    />
+    <InfoTable.Row
+        title="Metadata"
+        description="Read-only | Access repository information"
+    />
+</InfoTable>
+
+<CautionCard>
+You can revoke these permissions at any time in your GitHub organization settings without affecting your existing Treblle integrations.
+</CautionCard>
+
+## Frequently Asked Questions
+
+<FAQ>
+    <Question> 
+        ## Does Treblle store my source code?
+        No, Treblle only reads specific files needed for API detection (like route files and configuration) and never stores your complete source code. All analysis is performed in real-time and data is encrypted both in transit and at rest.
+    </Question>
+
+    <Question>
+        ## How long does API discovery take?
+        Initial discovery typically completes within 5-10 minutes depending on the number of repositories. The system scans incrementally, so you'll see results appearing progressively in your dashboard.
+    </Question>
+
+    <Question>
+        ## Can I customize which issues get auto-refactored?
+        Yes, before enabling auto-refactoring, you can review and select which AI recommendations to apply. You have full control over what changes are included in the generated pull request.
+    </Question>
+
+    <Question>
+        ## What happens if I don't have tests in my repository?
+        The refactoring process will still work, but the generated PR won't include test results. We recommend reviewing changes extra carefully and testing manually in a staging environment before merging.
+    </Question>
+
+    <Question>
+        ## Can I use this with private repositories?
+        Yes, the Treblle GitHub Application works with both public and private repositories. The same privacy-first principles apply regardless of repository visibility.
+    </Question>
+
+    <Question>
+        ## How do I uninstall the GitHub App?
+        Navigate to your GitHub organization settings → Installed GitHub Apps → Treblle → Uninstall. This will immediately revoke all permissions and stop API discovery.
+    </Question>
+</FAQ>
