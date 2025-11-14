@@ -7,6 +7,7 @@ description: "Complete step-by-step checklist for deploying Treblle across your 
 import { Steps } from "nextra/components";
 import { YoutubeEmbed } from "~components/video/youtube-embed";
 import PaginationCards from "~components/cards/pagination-cards";
+import { InfoTable } from "~components/tables/info-table";
 import { IntegrationCards } from "~components/cards/integration-cards";
 import { Puzzle } from "lucide-react";
 import { Rocket } from "lucide-react";
@@ -261,12 +262,24 @@ Reference: [Security & Compliance](https://docs.treblle.com/security/certificati
 
 ### Common Troubleshooting
 
-| Issue                 | Solution                                              |
-| --------------------- | ----------------------------------------------------- |
-| **No data appearing** | Verify SDK Token/API Key are correct                  |
-| **Connection errors** | Check firewall allows `*.treblle.com`                 |
-| **Missing requests**  | Ensure integration is deployed to correct environment |
-| **Login issues**      | Verify SSO configuration with IT team                 |
+<InfoTable title="Issue" description="Solution">
+    <InfoTable.Row
+        title="No data appearing"
+        description="Verify SDK Token/API Key are correct"
+    />
+    <InfoTable.Row
+        title="Connection errors"
+        description="Check firewall allows *.treblle.com"
+    />
+    <InfoTable.Row
+        title="Missing requests"
+        description="Ensure integration is deployed to correct environment"
+    />
+    <InfoTable.Row
+        title="Login issues"
+        description="Verify SSO configuration with IT team"
+    />
+</InfoTable>
 
 ---
 

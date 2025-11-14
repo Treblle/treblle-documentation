@@ -5,6 +5,7 @@ description: "Manage your Treblle subscription plans, billing information, and p
 ---
 
 import { ImageCard } from "~components/cards/image-card";
+import { InfoTable } from "~components/tables/info-table";
 import PaginationCards from "~components/cards/pagination-cards";
 
 # Billing and Subscription Management
@@ -19,12 +20,24 @@ Treblle provides four main subscription tiers to accommodate different usage lev
 
 ### Available Plans
 
-| Plan | Cost | Target | API Projects | API Requests | Data Retention | Support |
-|------|------|--------|--------------|--------------|----------------|---------|
-| **Free** | $0/month | Individual developers and small teams | 1 API Project | 250,000 | 7 Days | Community support |
-| **Starter** | $30/month | Individuals and small teams who seek more API usage | 5 API Projects | 5 Million | 15 Days | Email support |
-| **Team** | $300/month | Small and mid-size teams responsible for building and maintaining APIs | 10 API Projects | 50 Million | 30 Days | Priority support |
-| **Enterprise** | Custom pricing | Organizations that want to scale API operations with enterprise support | Custom number of APIs | Unlimited | Custom retention period | Dedicated support and custom integrations |
+<InfoTable title="Plan" description="Cost & Features">
+    <InfoTable.Row
+        title="Free - $0/month"
+        description="Individual developers and small teams. 1 API Project, 250K requests, 7 days retention, community support"
+    />
+    <InfoTable.Row
+        title="Starter - $30/month"
+        description="Individuals and small teams seeking more API usage. 5 API Projects, 5M requests, 15 days retention, email support"
+    />
+    <InfoTable.Row
+        title="Team - $300/month"
+        description="Small and mid-size teams building and maintaining APIs. 10 API Projects, 50M requests, 30 days retention, priority support"
+    />
+    <InfoTable.Row
+        title="Enterprise - Custom pricing"
+        description="Organizations scaling API operations with enterprise support. Custom APIs, unlimited requests, custom retention, dedicated support and integrations"
+    />
+</InfoTable>
 
 ### Billing Frequency
 
