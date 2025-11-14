@@ -177,7 +177,7 @@ export default function Home() {
                             description="Connect your API to unlock real-time monitoring and insights."
                         />
                     </Link>
-                    <Link href="#">
+                    <Link href="/treblle/profile">
                         <LandingPageCards
                             icon={
                                 <Icon
