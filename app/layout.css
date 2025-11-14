@@ -20,11 +20,6 @@
     overflow-y: auto;
 }
 
-
-article {
-    /* margin-left:250px; */
-}
-
 .layout .nextra-scrollbar li div {
     width: 200px;
 }
