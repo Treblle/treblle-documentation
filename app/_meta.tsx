@@ -24,4 +24,9 @@ export default {
             breadcrumb: false,
         },
     },
+    integrations: {
+        theme: {
+            collapsed: false,
+        }
+    }
 };

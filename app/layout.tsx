@@ -43,7 +43,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         docsRepositoryBase="https://github.com/Treblle/treblle-documentation"
                         footer={<Footer />}
                         darkMode={false}
-                        sidebar={{ toggleButton: false }}
+                        sidebar={{ toggleButton: false, autoCollapse: false, defaultMenuCollapseLevel: 1 }}
                         editLink={false}
                         feedback={{ content: "", labels: "", link: "" }}
                         toc={{ backToTop: false }}
