@@ -17,7 +17,7 @@ import PaginationCards from "~components/cards/pagination-cards";
 
 To install the SDK you will need to be using [Composer](https://getcomposer.org) in your project. To install it please see the [docs](https://getcomposer.org/download).
 
-```bash
+```bash copy
 composer require treblle/treblle-symfony
 ```
 
@@ -25,7 +25,7 @@ composer require treblle/treblle-symfony
 
 Enable it by adding it to the list of registered bundles depending on the Symfony version you're using.
 
-```php
+```php copy
 // config/bundles.php
 {
     return [
@@ -39,7 +39,7 @@ Enable it by adding it to the list of registered bundles depending on the Symfon
 
 Configure the SDK by adding the following snippet to your project configuration. If you have Symfony 3.4 add it to `app/config/config_prod.yml`. For Symfony 4 or newer add the value to `config/packages/treblle.yaml`.
 
-```yaml
+```yaml copy
 treblle:
   project_id: "%env(TREBLLE_PROJECT_ID)%"
   api_key: "%env(TREBLLE_API_KEY)%"
@@ -59,7 +59,7 @@ By default, the SDK will take all values from the `masked` configuration key and
 
 Default service configuration for Treblle looks like this:
 
-```yaml
+```yaml copy
 services:
   _defaults:
     autowire: true
@@ -103,13 +103,13 @@ We want to override how Request data is collected and passed to Treblle
 1. We implement our own service satisfying the `Treblle\Contract\RequestDataProvider` interface in `App\Utils\AcmeRequestDataProvider`
 2. We register the service in our own `services.yaml`:
 
-```yaml
+```yaml copy
 App\Utils\AcmeRequestDataProvider: ~
 ```
 
 3. We define service alias: `Treblle\Contract\RequestDataProvider: '@AcmeRequestDataProvider'`
 
-```yaml
+```yaml copy
 Treblle\Contract\RequestDataProvider: '@App\Utils\AcmeRequestDataProvider'
 ```
 

@@ -29,7 +29,7 @@ import { TipCard } from "~components/cards/tip";
 
 Install Treblle for Laravel via [Composer](http://getcomposer.org/) by running the following command in your terminal:
 
-```bash
+```bash copy
 composer require treblle/treblle-laravel
 ```
 
@@ -37,7 +37,7 @@ Create an account, login to your existing account, create a new project and get 
 
 You can also visit our website [https://app.treblle.com](https://app.treblle.com) and create a FREE account to get your API key and SDK token. Once you have them, simply add them to your `.ENV` file:
 
-```shell
+```shell copy
 TREBLLE_API_KEY=YOUR_API_KEY
 TREBLLE_SDK_TOKEN=YOUR_SDK_TOKEN
 ```
@@ -58,7 +58,7 @@ Version 6.0 introduces breaking changes to environment variable names. If you're
 
 **1. Update your `.env` file:**
 
-```shell
+```shell copy
 # Old configuration (v5.x)
 TREBLLE_API_KEY=your_old_api_key
 TREBLLE_PROJECT_ID=your_old_project_id
@@ -70,7 +70,7 @@ TREBLLE_API_KEY=your_old_project_id
 
 **2. If using dynamic middleware parameters, update route definitions:**
 
-```php
+```php copy
 // Old (v5.x)
 Route::middleware(['treblle:project-id-1'])->group(function () { ... });
 
@@ -80,7 +80,7 @@ Route::middleware(['treblle:api-key-1'])->group(function () { ... });
 
 **3. Clear caches:**
 
-```bash
+```bash copy
 php artisan config:clear
 php artisan cache:clear
 ```
@@ -89,7 +89,7 @@ php artisan cache:clear
 
 You can configure Treblle using just `.env` variables:
 
-```shell
+```shell copy
 TREBLLE_IGNORED_ENV=local,dev,test
 ```
 
@@ -103,7 +103,7 @@ You can customize this list by editing your configuration file.
 
 Open file `config/treblle.php` and tweak the masked fields:
 
-```php
+```php copy
 return [
     // ...
 

@@ -50,7 +50,7 @@ Before you begin, ensure you have:
 
 ### Step 1: Clone the Repository
 
-```bash
+```bash copy
 git clone https://github.com/Treblle/treblle-azure.git
 cd treblle-azure
 ```
@@ -122,13 +122,13 @@ cd treblle-azure
 First, get an Azure AD access token using one of these methods:
 
 **Using Azure CLI:**
-```bash
+```bash copy
 az login
 az account get-access-token --resource https://management.azure.com/
 ```
 
 **Using PowerShell:**
-```powershell
+```powershell copy
 Connect-AzAccount
 $token = (Get-AzAccessToken).Token | ConvertFrom-SecureString -AsPlainText
 echo $token
@@ -139,23 +139,23 @@ echo $token
 Use the following REST API call to create the logger:
 
 **URL Pattern:**
-```
+``` copy
 PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}?api-version=2024-05-01
 ```
 
 **Example URL:**
-```
+``` copy
 PUT https://management.azure.com/subscriptions/4c5f0195-b813-4fc4-819e-2d2d8f1cd2b6/resourceGroups/treblle-demo/providers/Microsoft.ApiManagement/service/treblle-api-azure/loggers/treblle-logger?api-version=2024-05-01
 ```
 
 **Headers:**
-```
+``` copy
 Authorization: Bearer {your-access-token}
 Content-Type: application/json
 ```
 
 **Request Body:**
-```json
+```json copy
 {
     "properties": {
         "loggerType": "azureEventHub",
@@ -211,7 +211,7 @@ Content-Type: application/json
 
 #### Create Function App
 
-```bash
+```bash copy
 az functionapp create \
   --resource-group <resource-group> \
   --consumption-plan-location <region> \
@@ -232,7 +232,7 @@ az functionapp create \
 4. Select your function app
 
 **Using Azure CLI:**
-```bash
+```bash copy
 func azure functionapp publish <function-app-name> --java
 ```
 
@@ -334,17 +334,17 @@ The integration uses APIM policies at three levels:
 ### Debugging Steps
 
 1. **Check Function App Status**:
-```bash
+```bash copy
 az functionapp show --name <function-app-name> --resource-group <resource-group>
 ```
 
 2. **View Event Hub Metrics**:
-```bash
+```bash copy
 az eventhubs eventhub show --resource-group <resource-group> --namespace-name <namespace> --name <eventhub>
 ```
 
 3. **Check APIM Logger Configuration**:
-```bash
+```bash copy
 az apim logger show --service-name <apim-service> --resource-group <resource-group> --logger-id <logger-id>
 ```
 

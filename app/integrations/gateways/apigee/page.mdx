@@ -69,7 +69,7 @@ Before you begin, ensure you have:
 
 ### API-Level Architecture
 
-```
+``` copy
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   API Client    │───▶│  Apigee Proxy   │───▶│  Backend API    │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
@@ -116,7 +116,7 @@ Before you begin, ensure you have:
 
 ### Environment-Level Architecture
 
-```
+``` copy
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   API Client    │───▶│  Any API Proxy  │───▶│  Backend API    │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
@@ -199,7 +199,7 @@ Choose your deployment method based on your monitoring needs:
 
 ### Step 2: Clone the Repository
 
-```bash
+```bash copy
 git clone https://github.com/Treblle/treblle-apigee.git
 cd treblle-apigee
 ```
@@ -218,7 +218,7 @@ Replace the placeholders with your actual values:
 
 **Option A: Using Apigee Management API (Recommended)**
 
-```bash
+```bash copy
 # Create the KVM
 curl -X POST "https://apigee.googleapis.com/v1/organizations/YOUR_ORGANIZATION/environments/YOUR_ENVIRONMENT/keyvaluemaps" \
   -H "Authorization: Bearer $(gcloud auth print-access-token)" \
@@ -299,7 +299,7 @@ For most use cases, environment-level deployment is recommended as it provides a
 
 Customize sensitive data detection by modifying the `maskingKeywords` variable in `treblle-payload-processor.js`:
 
-```javascript
+```javascript copy
 var maskingKeywords = 'password,secret,token,key,authorization,auth,credential,private,confidential,ssn,social_security,credit_card,card_number,cvv,pin,api_key,access_token,refresh_token,bearer,x-api-key,x-auth-token';
 
 // Add your custom keywords
@@ -317,7 +317,7 @@ var maskingKeywords = 'password,secret,token,key,authorization,auth,credential,p
 
 **Example:**
 
-```json
+```json copy
 // Before masking
 {
   "username": "john.doe",
@@ -339,7 +339,7 @@ var maskingKeywords = 'password,secret,token,key,authorization,auth,credential,p
 
 Block specific endpoints from being tracked by modifying the `blockedEndpoints` variable:
 
-```javascript
+```javascript copy 
 // Basic blocking
 var blockedEndpoints = 'health,status,ping';
 

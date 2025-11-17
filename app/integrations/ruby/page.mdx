@@ -17,20 +17,20 @@ import { InfoTable } from "~components/tables/info-table";
 
 Add the gem to your Gemfile:
 
-```rb
+```rb copy
 # Gemfile
 gem "treblle", "~> 2.0"
 ```
 
 Then add following line to `config/application.rb`, or if you want to include it to specific environment only, then e.g. `config/environments/development.rb` which registers Treblle middleware.
 
-```rb
+```rb copy
 config.middleware.use(Treblle)
 ```
 
 You can then configure the gem:
 
-```rb
+```rb copy
 # config/initializers/treblle.rb
 
 Treblle.configure do |config|

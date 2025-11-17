@@ -26,20 +26,20 @@ import { InfoTable } from "~components/tables/info-table";
 
 1. **Clone the repository**
 
-    ```bash
+    ```bash copy
      git clone https://github.com/Treblle/treblle-kong.git
      cd treblle-kong
     ```
 
 2. **Build the Docker image**
 
-    ```bash
+    ```bash copy
      docker build -t k:v1 .
     ```
 
 3. **Start the container**
 
-    ```bash
+    ```bash copy
      docker-compose up -d
     ```
 
@@ -60,7 +60,7 @@ import { InfoTable } from "~components/tables/info-table";
 
      The Dockerfile builds a custom Kong image with the Treblle plugin installed. It installs necessary dependencies, adds the Treblle plugin via luarocks, and configures Kong to use it.
 
-    ```dockerfile
+    ```dockerfile copy
      FROM kong:3.4.0
 
      USER root
@@ -74,7 +74,7 @@ import { InfoTable } from "~components/tables/info-table";
 
      The kong.conf file configures database connections and enables the Treblle plugin. It sets up PostgreSQL connection parameters and adds Treblle to the list of available plugins.
 
-    ```ini
+    ```ini copy
      database = on
      pg_host = postgres
      pg_port = 5432
@@ -88,7 +88,7 @@ import { InfoTable } from "~components/tables/info-table";
 
      The docker-compose.yml orchestrates three containers: a PostgreSQL database, a Kong migration service that initializes the database, and the Kong service itself with the Treblle plugin enabled.
 
-    ```yaml
+    ```yaml copy
      services:
        postgres:
          image: postgres:13
@@ -154,7 +154,7 @@ import { InfoTable } from "~components/tables/info-table";
 
 5. **Start the containers**
 
-    ```bash
+    ```bash copy
      docker-compose up -d
     ```
 
@@ -164,7 +164,7 @@ Follow these steps to configure Treblle with Kong. Commands vary slightly betwee
 
 ### For MacOS
 
-```bash
+```bash copy
 # Verify plugin is enabled
 curl -i -X GET http://localhost:8001/plugins/enabled
 
@@ -196,7 +196,7 @@ curl -i -X POST http://localhost:8000/httpbin/post \
 
 ### For Linux
 
-```bash
+```bash copy
 # Create a service
 curl -i -X POST http://localhost:9001/services \
   --data name=httpbin-service \
@@ -227,7 +227,7 @@ curl -X POST http://localhost:9000/test/post
 
 To print Treblle debug logs, set the debug flag to true:
 
-```bash
+```bash copy
 curl -i -X POST http://localhost:8001/services/httpbin-service/plugins \
   --data "name=treblle" \
   --data "config.api_key=YOUR_TREBLLE_API_KEY" \
@@ -239,7 +239,7 @@ curl -i -X POST http://localhost:8001/services/httpbin-service/plugins \
 
 Use these commands to verify your setup:
 
-```bash
+```bash copy
 # Check Docker containers
 docker-compose ps
 

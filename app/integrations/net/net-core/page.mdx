@@ -32,7 +32,7 @@ import { InfoTable } from "~components/tables/info-table";
 
 You can install Treblle .NET Core via [NuGet](https://www.nuget.org/packages/Treblle.Net.Core/). Simply run the following command:
 
-```bash
+```bash copy
 dotnet add package Treblle.Net.Core
 ```
 
@@ -48,14 +48,14 @@ Choose from these configuration options:
 
 ### Option A: Environment Variables (Recommended for Production)
 
-```bash
+```bash copy
 export TREBLLE_SDK_TOKEN=your_sdk_token
 export TREBLLE_API_KEY=your_api_key
 ```
 
 Then use zero-configuration setup:
 
-```csharp
+```csharp copy
 using Treblle.Net.Core;
 
 // Register Treblle Services
@@ -78,8 +78,8 @@ app.UseTreblle();
 ### Using .env Files with DotNetEnv
 
 For development environments, you can use \`.env\` files:
-
-```bash
+ 
+```bash copy
 dotnet add package DotNetEnv
 ```
 
@@ -92,7 +92,7 @@ TREBLLE_API_KEY=your_api_key
 
 Then load the environment variables:
 
-```csharp
+```csharp copy
 using Treblle.Net.Core;
 using DotNetEnv;
 
@@ -108,7 +108,7 @@ app.UseTreblle();
 
 ### Option B: appsettings.json
 
-```json
+```json copy
 {
   "Treblle": {
     "SdkToken": "your_sdk_token",
@@ -117,7 +117,7 @@ app.UseTreblle();
 }
 ```
 
-```csharp
+```csharp copy
 using Treblle.Net.Core;
 
 builder.Services.AddTreblle();
@@ -128,7 +128,7 @@ app.UseTreblle();
 
 ### Option C: Manual Configuration
 
-```csharp
+```csharp copy
 using Treblle.Net.Core;
 
 builder.Services.AddTreblle("your_sdk_token", "your_api_key");
@@ -158,7 +158,7 @@ That's it! Treblle will now **automatically track all your API endpoints**.
 
 **Example with all options:**
 
-```csharp
+```csharp copy
 using Treblle.Net.Core;
 
 builder.Services.AddTreblle(options =>

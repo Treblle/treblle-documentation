@@ -28,13 +28,13 @@ You can install Treblle .NET via NuGet Package Manager Console, .NET CLI, or the
 
 ### Via NuGet Package Manager Console
 
-```powershell
+```powershell copy
 Install-Package Treblle.Net
 ```
 
 ### Via .NET CLI
 
-```bash
+```bash copy
 dotnet add package Treblle.Net
 ```
 
@@ -66,7 +66,7 @@ dotnet add package Treblle.Net
 
 Add your Treblle credentials to `Web.config`:
 
-```xml
+```xml copy
 <configuration>
   <appSettings>
     <add key="Treblle:ApiKey" value="{Your_API_Key}" />
@@ -83,7 +83,7 @@ Add your Treblle credentials to `Web.config`:
 
 Simply register the Treblle handler in your `WebApiConfig.cs` and **all API endpoints will be tracked automatically**:
 
-```csharp
+```csharp copy
 using Treblle.Net;
 
 public static class WebApiConfig
@@ -110,7 +110,7 @@ That's it! All your API endpoints are now being monitored. 🎉
 
 For fine-grained control, you can use the `[Treblle]` attribute on specific controllers or methods:
 
-```csharp
+```csharp copy
 [Treblle]
 public class ProductsController : ApiController
 {
@@ -127,7 +127,7 @@ public class ProductsController : ApiController
 
 These two settings are **required** for the SDK to function:
 
-```xml
+```xml copy
 <configuration>
   <appSettings>
     <add key="Treblle:ApiKey" value="{Your_API_Key}" />
@@ -159,7 +159,7 @@ These two settings are **required** for the SDK to function:
 
 ### Complete Configuration Example
 
-```xml
+```xml copy
 <configuration>
   <appSettings>
     <!-- Required -->
@@ -234,7 +234,7 @@ Different field types use different masking strategies:
 
 Add your own fields to mask:
 
-```xml
+```xml copy
 <add key="Treblle:AdditionalFieldsToMask" value="apiKey: DefaultStringMasker,authToken: DefaultStringMasker,dob: DateMasker" />
 ```
 
@@ -246,13 +246,13 @@ Add your own fields to mask:
 - `DateMasker` - Date masking
 
 **Simple format** (uses DefaultStringMasker):
-```xml
+```xml copy
 <add key="Treblle:AdditionalFieldsToMask" value="customSecret,apiToken,internalId" />
 ```
 
 #### Disabling Masking
 
-```xml
+```xml copy
 <add key="Treblle:DisableMasking" value="true" />
 ```
 
@@ -292,7 +292,7 @@ The SDK **automatically excludes** common non-API requests:
 
 Exclude specific endpoints using pattern matching:
 
-```xml
+```xml copy
 <add key="Treblle:ExcludedPaths" value="/health,/admin/*,internal,/debug/info" />
 ```
 
@@ -327,7 +327,7 @@ Exclude specific endpoints using pattern matching:
 
 Enable debug mode to see detailed logging of SDK operations:
 
-```xml
+```xml copy
 <add key="Treblle:Debug" value="true" />
 ```
 
@@ -369,7 +369,7 @@ Enable debug mode to see detailed logging of SDK operations:
 
 The recommended approach is to register the `TreblleHandler` in your `WebApiConfig.cs`, which automatically tracks all API endpoints:
 
-```csharp
+```csharp copy
 using Treblle.Net;
 
 public static class WebApiConfig
@@ -396,7 +396,7 @@ All controllers will now be tracked automatically without any additional attribu
 
 For fine-grained control, you can use the `[Treblle]` attribute on specific controllers or methods:
 
-```csharp
+```csharp copy
 public class ProductsController : ApiController
 {
     [Treblle]
@@ -446,7 +446,7 @@ Upgrading from Treblle.Net v1.x to v2.x requires a few configuration changes.
 The configuration keys have been renamed to use the `Treblle:` prefix:
 
 **Old (v1.x):**
-```xml
+```xml copy
 <appSettings>
   <add key="TreblleApiKey" value="{Your_API_Key}" />
   <add key="TreblleProjectId" value="{Your_Project_Id}" />
@@ -454,7 +454,7 @@ The configuration keys have been renamed to use the `Treblle:` prefix:
 ```
 
 **New (v2.x):**
-```xml
+```xml copy
 <appSettings>
   <add key="Treblle:ApiKey" value="{Your_API_Key}" />
   <add key="Treblle:SdkToken" value="{Your_SDK_Token}" />
@@ -492,13 +492,13 @@ All optional configuration keys now use the `Treblle:` prefix:
 
 #### Step 1: Update NuGet Package
 
-```powershell
+```powershell copy
 # Update to v2.x
 Update-Package Treblle.Net
 ```
 
 Or via .NET CLI:
-```bash
+```bash copy
 dotnet add package Treblle.Net --version 2.0.1
 ```
 
@@ -506,7 +506,7 @@ dotnet add package Treblle.Net --version 2.0.1
 
 Replace your old configuration:
 
-```xml
+```xml copy
 <!-- OLD - Remove this -->
 <appSettings>
   <add key="TreblleApiKey" value="your-api-key-here" />
@@ -517,7 +517,7 @@ Replace your old configuration:
 
 With the new configuration:
 
-```xml
+```xml copy
 <!-- NEW - Use this -->
 <appSettings>
   <add key="Treblle:ApiKey" value="your-api-key-here" />
@@ -572,7 +572,7 @@ If your application requires different `ServicePointManager` settings:
 1. **Configure after Treblle initializes**: Add your custom settings in `Global.asax.cs` or your startup code after the first Treblle request
 2. **Override specific settings**: You can change any setting after Treblle loads - your changes will persist
 
-```csharp
+```csharp copy
 // In Global.asax.cs Application_Start
 protected void Application_Start()
 {

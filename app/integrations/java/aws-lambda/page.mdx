@@ -20,7 +20,7 @@ import { InfoTable } from "~components/tables/info-table";
 
 Add the following dependency to your Maven project:
 
-```xml
+```xml copy
 <dependency>
     <groupId>com.treblle</groupId>
     <artifactId>treblle-aws-lambda</artifactId>
@@ -30,7 +30,7 @@ Add the following dependency to your Maven project:
 
 If you're using Gradle, add:
 
-```gradle
+```gradle copy
 implementation 'com.treblle:treblle-aws-lambda:1.0.2'
 ```
 
@@ -46,7 +46,7 @@ First, you must create a FREE account on [treblle.com](treble.com) to get an API
 
 Here's a simple example of integrating Treblle with an AWS Lambda function that handles API Gateway requests:
 
-```java
+```java copy
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
@@ -98,7 +98,7 @@ Your API requests and responses from your AWS Lambda function are being sent to 
 
 The `TreblleHandler` constructor supports several configuration options:
 
-```java
+```java copy
 // Initialize Treblle with additional options
 TreblleHandler treblleHandler = new TreblleHandler(
     "YOUR_API_KEY",               // Your Treblle API key
@@ -137,7 +137,7 @@ You can also configure Treblle using environment variables in your AWS Lambda co
 
 With environment variables, you can simplify your code:
 
-```java
+```java copy
 // Reads configuration from environment variables
 TreblleHandler treblleHandler = new TreblleHandler();
 ```
@@ -148,7 +148,7 @@ Treblle automatically masks sensitive data like passwords, tokens, and authentic
 
 ### Via constructor
 
-```java
+```java copy
 List<String> additionalFields = Arrays.asList("secretField", "privateKey");
 TreblleHandler treblleHandler = new TreblleHandler(
     "YOUR_API_KEY", 
@@ -159,7 +159,7 @@ TreblleHandler treblleHandler = new TreblleHandler(
 
 ### Via environment variables
 
-```java
+```java copy
 TREBLLE_MASKING_KEYWORDS=secretField,privateKey
 ```
 
@@ -167,7 +167,7 @@ TREBLLE_MASKING_KEYWORDS=secretField,privateKey
 
 To mask entire JSON objects and all their properties, use the pattern:
 
-```java
+```java copy
 fieldName.*
 ```
 

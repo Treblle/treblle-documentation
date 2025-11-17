@@ -23,7 +23,7 @@ import PaginationCards from "~components/cards/pagination-cards";
 
 Install Treblle for Lumen via [Composer](http://getcomposer.org/) by running the following command in your console:
 
-```bash
+```bash copy
 composer require treblle/treblle-lumen
 ```
 
@@ -37,14 +37,14 @@ Installing Lumen packages is a lot more complicated than Laravel packages and re
 
 The first thing we need to do is publish the Treblle config file and make sure Lumen loads it. To do that we need to copy/paste the package config file like so:
 
-```bash
+```bash copy
 mkdir -p config
 cp vendor/treblle/treblle-lumen/config/treblle.php config/treblle.php
 ```
 
 Now we can have Lumen load the config file. We do that by adding a new line in `bootstrap/app.php`, under the **Register Config Files** section, like so:
 
-```php
+```php copy
 $app->configure('treblle');
 ```
 
@@ -52,7 +52,7 @@ $app->configure('treblle');
 
 We need to register the Treblle middleware in Lumen. To do add a new line of code to `bootstrap/app.php`, under the Register Middleware section, like so:
 
-```php
+```php copy
 $app->routeMiddleware([
     'treblle' => Treblle\Middlewares\TreblleMiddleware::class
 ]);
@@ -62,7 +62,7 @@ $app->routeMiddleware([
 
 You need an API key and Project ID for Treblle to work. You can get those by creating a free account on [treblle.com](https://treblle.com) and your first project. You'll get the two keys which you need to add to your `.env` file like so:
 
-```bash
+```bash copy
 TREBLLE_API_KEY=YOUR_API_KEY
 TREBLLE_PROJECT_ID=YOUR_PROJECT_ID
 ```
@@ -71,7 +71,7 @@ TREBLLE_PROJECT_ID=YOUR_PROJECT_ID
 
 Now that we've installed the package we simply need to enable it. Open **routes/web.php** and assign the **treblle** middleware to your API routes like so:
 
-```php
+```php copy
 $router->group(['prefix' => 'api', 'middleware' => 'treblle'], function () use ($router) {
     $router->get('users',  ['uses' => 'UserController@index']);
     $router->post('users',  ['uses' => 'TestController@store']);
@@ -84,7 +84,7 @@ $router->group(['prefix' => 'api', 'middleware' => 'treblle'], function () use (
 
 You can configure Treblle using just .ENV variables:
 
-```shell
+```shell copy
 TREBLLE_IGNORED_ENV=local,dev,test
 ```
 

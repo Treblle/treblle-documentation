@@ -16,13 +16,13 @@ import PaginationCards from "~components/cards/pagination-cards";
 
 ## Installation
 
-```sh
+```sh copy
 npm install treblle@^2.0.0
 ```
 
 Don't forget to load the required modules in your `app.js`:
 
-```js
+```js copy
 const express = require("express");
 const { useTreblle } = require("treblle");
 ```
@@ -35,7 +35,7 @@ Create a free account on [treblle.com](https://treblle.com) to get your credenti
 
 Add these to your `.env` file:
 
-```env
+```env copy
 TREBLLE_SDK_TOKEN=your_sdk_token
 TREBLLE_API_KEY=your_api_key
 ```
@@ -44,7 +44,7 @@ TREBLLE_API_KEY=your_api_key
 
 Initialize Treblle in your `app.js` file:
 
-```js
+```js copy
 const express = require("express");
 const { useTreblle } = require("treblle");
 
@@ -71,7 +71,7 @@ That's it! Your API requests and responses are now being sent to your Treblle pr
 <NoteCard>
 Ensure Treblle is registered after body parsing middleware:
 
-```js
+```js copy
 app.use(express.json());        // First: body parsing
 app.use(express.urlencoded({ extended: true }));
 
@@ -86,7 +86,7 @@ app.get('/api/users', handler);
 
 You can pass additional configuration options:
 
-```js
+```js copy
 useTreblle(app, {
   sdkToken: process.env.TREBLLE_SDK_TOKEN,
   apiKey: process.env.TREBLLE_API_KEY,
@@ -110,7 +110,7 @@ useTreblle(app, {
 
 Run Treblle only in production:
 
-```js
+```js copy
 const app = express();
 app.use(express.json());
 
@@ -133,7 +133,7 @@ The following fields are automatically masked:
 
 Add custom fields to mask:
 
-```js
+```js copy
 useTreblle(app, {
   sdkToken: process.env.TREBLLE_SDK_TOKEN,
   apiKey: process.env.TREBLLE_API_KEY,
@@ -145,7 +145,7 @@ useTreblle(app, {
 
 Enable debug mode to see Treblle errors in your console:
 
-```js
+```js copy
 useTreblle(app, {
   sdkToken: process.env.TREBLLE_SDK_TOKEN,
   apiKey: process.env.TREBLLE_API_KEY,

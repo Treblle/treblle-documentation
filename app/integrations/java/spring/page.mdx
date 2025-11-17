@@ -18,7 +18,7 @@ import { TipCard } from "~components/cards/tip";
 
 Add the following dependency:
 
-```xml
+```xml copy
 <dependencies>
     <dependency>
         <groupId>com.treblle</groupId>
@@ -34,7 +34,7 @@ Next, create a FREE account on [treblle.com](https://treblle.com) to get an API 
 
 Annotate the desired configuration with \`@EnableTreblle\`
 
-```java
+```java copy
 @EnableTreblle
 @SpringBootApplication
 public class MyApplication {
@@ -44,7 +44,7 @@ public class MyApplication {
 
 Configure the following properties:
 
-```txt
+```txt copy
 treblle.apiKey=<API_KEY>
 treblle.projectId=<PROJECT_ID>
 ```
@@ -55,7 +55,7 @@ That's it. Your API requests and responses are now being sent to your Treblle pr
 
 By default, Treblle applies its filter on the default URL pattern (/\*). If you want to run Treblle only for certain URL patterns, you can define a list of patterns by using the \`treblle.urlPatterns\` configuration property like in the example below.
 
-```csv
+```csv copy
 treblle.urlPatterns=/greeting,/goodbye
 ```
 
@@ -63,7 +63,7 @@ treblle.urlPatterns=/greeting,/goodbye
 
 If you want to expand the list of fields you want to hide, you can pass field names you want to hide by using the \`treblle.maskingKeywords\` configuration property like in the example below.
 
-```csv
+```csv copy
 treblle.maskingKeywords=secretField,highlySensitiveField
 ```
 

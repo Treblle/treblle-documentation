@@ -21,7 +21,7 @@ Add the following dependency to your project:
 
 ### Maven
 
-```xml
+```xml copy
 <dependency>
     <groupId>com.treblle</groupId>
     <artifactId>treblle-javax</artifactId>
@@ -31,7 +31,7 @@ Add the following dependency to your project:
 
 ### Gradle
 
-```gradle
+```gradle copy
 implementation 'com.treblle:treblle-javax:1.0.2'
 ```
 
@@ -47,7 +47,7 @@ First, create a FREE account on [treblle.com](treblle.com) to get an API key and
 
 To set up Treblle in your JavaX application, you must configure the filter to intercept requests and responses. Here's a basic configuration example:
 
-```java
+```java copy
 // Import necessary classes
 import com.treblle.javax.filter.TreblleFilter;
 import javax.servlet.FilterRegistration;
@@ -71,7 +71,7 @@ public void onStartup(ServletContext servletContext) {
 
 If you're using JAX-RS, you can register the Treblle filter as follows:
 
-```java
+```java copy
 // Import necessary classes
 import com.treblle.javax.filter.TreblleContainerFilter;
 import javax.ws.rs.core.Application;
@@ -102,7 +102,7 @@ That's it! Your API requests and responses are now being sent to your Treblle pr
 
 The Treblle filter supports the following configuration options:
 
-```java
+```java copy
 // Set the API key required for authentication with Treblle
 filter.setInitParameter("apiKey", "<YOUR_API_KEY>");
 
@@ -126,14 +126,14 @@ filter.setInitParameter("endpoint", "https://rocknrolla.treblle.com");
 
 By default, Treblle applies its filter to all requests (/*). If you want to run Treblle only for specific URL patterns, you can specify them during filter registration:
 
-```java
+```java copy
 // Register the filter only for API endpoints
 treblleFilter.addMappingForUrlPatterns(null, false, "/api/*");
 ```
 
 Or use the 'urlPatterns' configuration parameter:
 
-```java
+```java copy
 treblleFilter.setInitParameter("urlPatterns", "/api/v1/*,/api/v2/*");
 ```
 

@@ -25,20 +25,20 @@ You can install Treblle for Django via [PyPI](https://pypi.org/project/treblle/)
 
 **For the latest stable version:**
 
-```shell
+```shell copy
 $ pip install treblle==2.0.3
 ```
 
 Don't forget to load the required python modules in your `settings.py` like so:
 
-```py
+```py copy
 INSTALLED_APPS = [
     ...
     'treblle',
 ]
 ```
 
-```py
+```py copy
 MIDDLEWARE = [
     ...
     'treblle.middleware.TreblleMiddleware',
@@ -49,7 +49,7 @@ MIDDLEWARE = [
 
 Create a FREE account on [treblle.com](https://treblle.com/), copy your SDK Token and API Key from the Treblle Dashboard to `settings.py` like so:
 
-```py
+```py copy
 TREBLLE = {
     'SDK_TOKEN': os.environ.get('TREBLLE_SDK_TOKEN'),
     'API_KEY': os.environ.get('TREBLLE_API_KEY'),
@@ -68,7 +68,7 @@ If you're upgrading from v1, you'll need to make these changes:
 ### 1. Configuration Format (REQUIRED)
 
 **Old v1 Format:**
-```py
+```py copy
 TREBLLE_INFO = {
     'api_key': 'your_sdk_token',
     'project_id': 'your_api_key',
@@ -77,7 +77,7 @@ TREBLLE_INFO = {
 ```
 
 **New v2 Format:**
-```py
+```py copy
 TREBLLE = {
     'SDK_TOKEN': 'your_sdk_token',
     'API_KEY': 'your_api_key',
@@ -90,14 +90,14 @@ TREBLLE = {
 ### 2. Django Settings Update (REQUIRED)
 
 **Old v1 Middleware:**
-```py
+```py copy
 MIDDLEWARE_CLASSES = [  # Deprecated Django setting
     'treblle.middleware.TreblleMiddleware',
 ]
 ```
 
 **New v2 Middleware:**
-```py
+```py copy
 MIDDLEWARE = [  # Modern Django setting
     'treblle.middleware.TreblleMiddleware',
 ]
@@ -113,7 +113,7 @@ Enable debug mode to get detailed logging about the SDK's operation:
 - **Error handling**: 4xx/5xx errors with helpful troubleshooting tips
 - **Data processing**: JSON validation and masking information
 
-```py
+```py copy
 TREBLLE = {
     'SDK_TOKEN': 'your_sdk_token',
     'API_KEY': 'your_api_key', 
@@ -125,7 +125,7 @@ TREBLLE = {
 
 You can exclude specific routes from being tracked by Treblle. This is useful for health checks, monitoring endpoints, or other routes that generate high-frequency, low-value traffic:
 
-```py
+```py copy
 TREBLLE = {
     'SDK_TOKEN': 'your_token',
     'API_KEY': 'your_key',
@@ -149,7 +149,7 @@ TREBLLE = {
 
 You can mask sensitive fields in your API requests and responses by specifying them in the `MASKED_FIELDS` configuration:
 
-```py
+```py copy
 TREBLLE = {
     'SDK_TOKEN': 'your_token',
     'API_KEY': 'your_key',

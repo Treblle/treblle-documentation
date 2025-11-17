@@ -45,14 +45,14 @@ The Business Group ID is a unique identifier that looks like: `68ef933a-6a4e-4d9
 
 1. Clone the Treblle MuleSoft repository:
 
-   ```bash
+   ```bash copy
    git clone https://github.com/Treblle/treblle-mulesoft.git
    cd treblle-mulesoft
    ```
 
 2. Open `treblle-policy/pom.xml` and update the `groupId` with your Business Group ID:
 
-   ```xml
+   ```xml copy
    <groupId>{BUSINESS_GROUP_ID}</groupId>
    ```
 
@@ -61,7 +61,7 @@ The Business Group ID is a unique identifier that looks like: `68ef933a-6a4e-4d9
 1. Navigate to the `samples/.m2/settings.xml` file
 2. Update your MuleSoft credentials:
 
-   ```xml
+   ```xml copy
    <username>{YOUR_MULESOFT_USERNAME}</username>
    <password>{YOUR_MULESOFT_PASSWORD}</password>
    ```
@@ -74,19 +74,19 @@ Ensure your MuleSoft account has sufficient permissions to deploy to Exchange. Y
 
 1. Navigate to the `treblle-policy` directory:
 
-   ```bash
+   ```bash copy
    cd treblle-policy
    ```
 
 2. Build the policy:
 
-   ```bash
+   ```bash copy
    mvn -s ../samples/.m2/settings.xml clean package
    ```
 
 3. Deploy to MuleSoft Exchange:
 
-   ```bash
+   ```bash copy
    mvn -s ../samples/.m2/settings.xml clean deploy
    ```
 

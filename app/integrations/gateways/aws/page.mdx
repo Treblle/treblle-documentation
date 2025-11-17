@@ -45,14 +45,14 @@ Choose your preferred deployment method:
 
 ### Step 1: Clone the Repository
 
-```bash
+```bash copy
 git clone https://github.com/Treblle/treblle-aws-discovery.git
 cd treblle-aws-discovery
 ```
 
 ### Step 2: Deploy with CloudFormation
 
-```bash
+```bash copy
 aws cloudformation deploy \
   --template-file cloudformation.yaml \
   --stack-name treblle-api-discovery \
@@ -64,7 +64,7 @@ aws cloudformation deploy \
 
 ### Step 3: Test the Deployment (Optional)
 
-```bash
+```bash copy
 aws lambda invoke \
   --function-name treblle-api-gateway-discovery \
   response.json
@@ -178,7 +178,7 @@ To monitor APIs across multiple AWS accounts:
 
 ### Account 1 Deployment
 
-```bash
+```bash copy
 aws cloudformation deploy \
   --template-file cloudformation.yaml \
   --stack-name treblle-api-discovery \
@@ -190,7 +190,7 @@ aws cloudformation deploy \
 
 ### Account 2 Deployment
 
-```bash
+```bash copy
 # Switch AWS credentials/profile first
 aws cloudformation deploy \
   --template-file cloudformation.yaml \
@@ -207,12 +207,12 @@ aws cloudformation deploy \
 
 Monitor the discovery function logs:
 
-```bash
+```bash copy
 aws logs tail /aws/lambda/treblle-api-gateway-discovery --follow
 ```
 
 Or via AWS Console:
-```bash
+```bash copy
 - CloudWatch → Log groups → `/aws/lambda/treblle-api-gateway-discovery`
 ```
 
@@ -258,7 +258,7 @@ Or via AWS Console:
 ### Debugging Steps
 
 1. **Check Function Logs**:
-```bash
+```bash copy
 aws logs describe-log-streams \
   --log-group-name /aws/lambda/treblle-api-gateway-discovery \
   --order-by LastEventTime \
@@ -266,7 +266,7 @@ aws logs describe-log-streams \
 ```
 
 2. **Manual Function Test**:
-```bash
+```bash copy
 aws lambda invoke \
   --function-name treblle-api-gateway-discovery \
   --payload '{}' \
@@ -276,7 +276,7 @@ cat response.json
 ```
 
 3. **Verify IAM Permissions**:
-```bash
+```bash copy
 aws iam get-role --role-name TreblleApiDiscoveryRole
 ```
 
@@ -286,7 +286,7 @@ To remove the Treblle integration:
 
 ### Via AWS CLI
 
-```bash
+```bash copy
 aws cloudformation delete-stack --stack-name treblle-api-discovery
 ```
 

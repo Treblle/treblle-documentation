@@ -20,7 +20,7 @@ import PaginationCards from "~components/cards/pagination-cards";
 
 You can install Treblle for PHP via [Composer](http://getcomposer.org/). Simply run the following command:
 
-```bash
+```bash copy
 $ composer require treblle/treblle-php
 ```
 
@@ -28,7 +28,7 @@ $ composer require treblle/treblle-php
 
 Next, create a FREE account on [treblle.com](https://treblle.com) to get an API key and Project ID. After you have those simply initialize Treblle in your API code like so:
 
-```php
+```php copy
 <?php
 
 declare(strict_types=1);
@@ -52,7 +52,7 @@ That's it. Your API requests and responses are now being sent to your Treblle pr
 
 The third parameter sent to `TreblleFactory::create` factory method is a boolean flag indicating whether we want to use Treblle in debug mode. Enabling debug mode is helpful when you want to understand what's happening under-the-hood and allow Treblle errors to bubble up.
 
-```php
+```php copy
 <?php
 
 declare(strict_types=1);
@@ -77,7 +77,7 @@ $treblle = TreblleFactory::create(
 
 Treblle **masks sensitive information** from the request parameters **before it even leaves your server**. The following parameters are automatically masked: `password, pwd, secret, password_confirmation, cc, card_number, ccv, ssn, credit_score`. You can extend this list by providing your own custom keywords by doing the following:
 
-```php
+```php copy
 <?php
 
 declare(strict_types=1);
@@ -112,7 +112,7 @@ The following values are supported:
 - `client` - an instance of Guzzle client configured to behave as you want (e.g. controling the timeout or other aspects)
 - `url` - Treblle API endpoint URL you want to use
 
-```php
+```php copy
 <?php
 
 declare(strict_types=1);

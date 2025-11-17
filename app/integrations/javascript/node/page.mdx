@@ -16,7 +16,7 @@ import { InfoTable } from "~components/tables/info-table";
 
 ## Installation
 
-```bash
+```bash copy
 npm install treblle@^2.0.0
 ```
 
@@ -28,7 +28,7 @@ Create a free account on [treblle.com](https://treblle.com) to get your credenti
 
 Add these to your `.env` file:
 
-```env
+```env copy
 TREBLLE_SDK_TOKEN=your_sdk_token
 TREBLLE_API_KEY=your_api_key
 ```
@@ -41,7 +41,7 @@ The Treblle SDK works with popular Node.js frameworks:
 
 [Full Express integration guide →](/integrations/javascript/express/)
 
-```js
+```js copy
 const { useTreblle } = require("treblle");
 useTreblle(app, { sdkToken: "...", apiKey: "..." });
 ```
@@ -50,7 +50,7 @@ useTreblle(app, { sdkToken: "...", apiKey: "..." });
 
 [Full Fastify integration guide →](/integrations/javascript/fastify/)
 
-```js
+```js copy
 const { fastifyTreblle } = require("treblle");
 await fastify.register(fastifyTreblle, { sdkToken: "...", apiKey: "..." });
 ```
@@ -59,7 +59,7 @@ await fastify.register(fastifyTreblle, { sdkToken: "...", apiKey: "..." });
 
 [Full Koa integration guide →](/integrations/javascript/koa/)
 
-```js
+```js copy
 const { koaTreblle } = require("treblle");
 app.use(koaTreblle({ sdkToken: "...", apiKey: "..." }));
 ```
@@ -68,7 +68,7 @@ app.use(koaTreblle({ sdkToken: "...", apiKey: "..." }));
 
 [Full NestJS integration guide →](/integrations/javascript/nest/)
 
-```ts
+```ts copy
 const { useNestTreblle } = require("treblle");
 useNestTreblle(expressInstance, { sdkToken: "...", apiKey: "..." });
 ```
@@ -77,7 +77,7 @@ useNestTreblle(expressInstance, { sdkToken: "...", apiKey: "..." });
 
 [Full Strapi integration guide →](/integrations/javascript/strapi/)
 
-```js
+```js copy
 const { strapiTreblle } = require("treblle");
 strapiTreblle({ sdkToken: "...", apiKey: "..." });
 ```
@@ -86,7 +86,7 @@ strapiTreblle({ sdkToken: "...", apiKey: "..." });
 
 [Full Next.js integration guide →](/integrations/javascript/nextjs/)
 
-```ts
+```ts copy
 import { withTreblle } from "@treblle/next/integrations/nextjs";
 export const GET = withTreblle(async () => NextResponse.json({}));
 ```
@@ -138,7 +138,7 @@ The following fields are automatically masked:
 
 Add custom fields:
 
-```js
+```js copy
 additionalFieldsToMask: ["apiKey", "internalId", "sessionToken"]
 ```
 
@@ -154,7 +154,7 @@ These paths are automatically skipped:
 
 Disable defaults:
 
-```js
+```js copy
 ignoreDefaultBlockedPaths: true
 ```
 
@@ -162,7 +162,7 @@ ignoreDefaultBlockedPaths: true
 
 Run Treblle only in production:
 
-```js
+```js copy
 if (process.env.NODE_ENV === "production") {
   // Initialize Treblle
 }
@@ -176,7 +176,7 @@ For production environments, consider using environment-based configuration to a
 
 Enable debug mode:
 
-```js
+```js copy
 {
   sdkToken: "...",
   apiKey: "...",
