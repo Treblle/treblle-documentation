@@ -109,7 +109,7 @@ When you provide a display name or customer identifier, Treblle will show this n
 
 Here's how you can modify your [Express](https://docs.treblle.com/integrations/javascript/express/) middleware to add these headers:
 
-```javascript
+```javascript copy
 // Custom middleware to add Customer information
 app.use((req, res, next) => {
     if (req.user) {  // Ensure the user is authenticated
@@ -137,7 +137,7 @@ For other SDKs, the approach is similar. Here's how you can implement it:
 
 1. First, check the user authentication, and then you can retrieve the Customer ID from the authentication system.
 
-   ```bash
+   ```bash copy
    if (isAuthenticated) {
        customerId = getCustomerIdFromSession() // Fetch Customer ID from session or token
    }
@@ -145,13 +145,13 @@ For other SDKs, the approach is similar. Here's how you can implement it:
 
 2. After authentication, you can add the Customer ID to the request headers (typically as "treblle-user-id").
 
-   ```bash
+   ```bash copy
    request.headers.set('treblle-user-id', customerId)
    ```
 
 3. Apply middleware to track customer data in API requests.
 
-   ```bash
+   ```bash copy
    applyMiddleware('customerTrackingMiddleware', routes) 
    ```
 

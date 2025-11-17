@@ -19,7 +19,7 @@ Developers can inspect requests, filter logs, and troubleshoot integration issue
 
 First, you need to include the Treblle observability script in the `<head>` section of your HTML file:
 
-```html
+```html copy
 <script src="https://assets.treblle.com/oaas-v8.min.js"></script>
 ```
 
@@ -29,13 +29,13 @@ Once you decide where to display API request logs, Insert the following `<div>` 
 
 For the dark theme:
 
-```html
+```html copy
 <div class="treblle-embeded-logs dark-theme" data-project="YOUR_PROJECT_ID" data-customer="YOUR_CUSTOMER_ID">
 ```
 
 For the default theme:
 
-```html
+```html copy
 <div class="treblle-embeded-logs" data-projects="YOUR_PROJECT_ID" data-customers="YOUR_CUSTOMER_ID"></div>
 ```
 
@@ -55,7 +55,7 @@ After adding the script and `<div>`, save your changes and reload the portal. Yo
 
 The code below is an example of Treblle's DEMO API. You can use it and run it directly on your IDE to see how it works in real time. Since this is a demo, you can use the same project ID and customer ID without any modifications.
 
-```html
+```html copy
 <!DOCTYPE html>
 <html lang="en">
 

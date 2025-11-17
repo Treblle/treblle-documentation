@@ -99,7 +99,7 @@ To use API Insights GitHub action with your project. Please visit the [marketpla
 
 You can install the Treblle CLI using `Homebrew` on Mac or Linux:
 
-```bash
+```bash copy
 brew tap treblle/treblle
 brew install treblle
 ```
@@ -108,7 +108,7 @@ brew install treblle
 
 Once installed, use the insights command to generate a report for your API by uploading your OpenAPI specification:
 
-```bash
+```bash copy
 treblle-cli insights path/to/openapi-spec.json
 ```
 
@@ -118,13 +118,13 @@ By default, this will give you an overview of your API's performance, design, an
 
 1. Technology Profile: To see the technology profile discovered on your API, use the `--technology` flag:
 
-```bash
+```bash copy
 treblle-cli insights path/to/openapi-spec.json --Technology
 ```
 
 2. Details: For a deep dive into specific categories, use the `--details` flag with one of the following options:
 
-```bash
+```bash copy
 --details=performance to show performance test results.
 --details=security to display security test results.
 --details=quality for quality checks.
@@ -132,13 +132,13 @@ treblle-cli insights path/to/openapi-spec.json --Technology
 
 **Example:**
 
-```bash
+```bash copy
 treblle-cli insights path/to/openapi-spec.json --details=All
 ```
 
 3. Minimum Score Limit: Using the `--minimum` flag, set a minimum score threshold for automated testing in CI/CD environments. For example, to require a minimum score of `90`:
 
-```bash
+```bash copy
 treblle-cli insights path/to/openapi-spec.json --minimum 90
 ```
 
@@ -193,7 +193,7 @@ You receive the AI-Ready badge when your API adheres to the following specificat
 
    Example 200 Response:
 
-   ```bash
+   ```bash copy
    {
     {
        "users": [
@@ -207,7 +207,7 @@ You receive the AI-Ready badge when your API adheres to the following specificat
 
    Example:
 
-   ```bash
+   ```bash copy
    {
     "type": "object",
     "properties": {
