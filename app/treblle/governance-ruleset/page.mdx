@@ -7,6 +7,7 @@ description: "Upload custom Spectral rule sets to enforce your organization's se
 import { ImageCard } from "~components/cards/image-card";
 import PaginationCards from "~components/cards/pagination-cards";
 import { NoteCard } from "~components/cards/note";
+import { InfoTable } from "~components/tables/info-table";
 
 # Custom Governance Rules
 
@@ -87,12 +88,28 @@ The Governance Rules page displays all uploaded rule sets in a table format:
 
 <ImageCard src="/platform/api-governance/governance-ruleset.png" alt="Governance Rulesets Table" />
 
-| Column | Description |
-|--------|-------------|
-| **Name** | Ruleset identifier (e.g., treblle-default.yaml, custom-file1.yaml) |
-| **Date Uploaded** | When the ruleset was added to Treblle |
-| **Applies To** | Scope of application (Workspace or specific APIs) |
-| **Enabled** | Toggle to activate or deactivate the ruleset |
+<InfoTable title="Column" description="Description">
+   <InfoTable.Row
+        title="Name"
+        description="Ruleset identifier (e.g., treblle-default.yaml, custom-file1.yaml)"
+    />
+
+    <InfoTable.Row
+        title="Date Uploaded"
+        description="When the ruleset was added to Treblle"
+    />
+
+   <InfoTable.Row
+      title="Applies To"
+      description="Scope of application (Workspace or specific APIs)"
+   />
+
+   <InfoTable.Row
+      title="Enabled"
+      description="Toggle to activate or deactivate the ruleset"
+   />
+
+</InfoTable>
 
 ### Ruleset Application Rules
 

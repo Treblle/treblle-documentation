@@ -56,6 +56,7 @@ InfoTable.Row = function InfoTableRow({ title, description }: InfoTablePropertie
                 flexDirection: "row",
                 borderBottom: "1px solid #29304b",
                 paddingY: "12px",
+                alignItems: "center",
             })}
         >
             <Box
@@ -63,6 +64,7 @@ InfoTable.Row = function InfoTableRow({ title, description }: InfoTablePropertie
                     width: "30%",
                     fontSize: "16px",
                     fontWeight: "400",
+                    paddingRight: "60px",
                 })}
             >
                 <p>{title}</p>

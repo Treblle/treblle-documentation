@@ -2,6 +2,22 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    background: #01041a;
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #676f88;
+    border-radius: 3px;
+}
+
+.nextra-code pre {
+    border: 1px solid #29304b;
 }
 
 .nextra-code div {
@@ -65,6 +81,7 @@ table td {
 
 h2 {
     padding-bottom: 16px;
+    border-bottom: 1px solid #29304b;
 }
 
 a[target=_blank] {

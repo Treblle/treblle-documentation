@@ -78,7 +78,7 @@
     position: absolute;
     content: " ";
     width: 1px;
-    height: 90%;
+    height: 97%;
     top: 7px;
     left: -10px;
     background-color: var(--colors-dark-element-200);
@@ -99,7 +99,13 @@
     content: "''";
 }
 
+.nextra-search-results {
+    z-index: 3000;
+}
 
+.subheading-anchor {
+    display: none;
+}
 
 @media (max-width: 767px) {
     .layout .nextra-sidebar {
