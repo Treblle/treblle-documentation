@@ -12,13 +12,14 @@ export function ImageCard({ src, alt }: ImageCardProperties) {
         <Image
             src={src}
             alt={alt}
-            width={800} 
-            height={800} 
+            width={0}
+            height={0}
+            sizes="100vw"
+            style={{ width: "auto", height: "auto" }}
             className={css({
                 borderRadius: "8px",
                 marginY: "16px",
-                maxWidth: "100%", 
-                height: "auto",
+                maxWidth: "100%",
             })}
         />
     );
