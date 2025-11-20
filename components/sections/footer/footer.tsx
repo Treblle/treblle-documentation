@@ -244,10 +244,25 @@ export function Footer() {
                         css={{ display: { base: "none", lg: "block" } }}
                     />
                     <Box css={{ display: "flex", gap: { base: "16px", md: "24px" } }}>
-                        <Image src="/badges/GDPR-white.svg" alt="GDPR Badge" width={98} height={34} />
-                        <Image src="/badges/soc2-white.svg" alt="SOC2 Badge" width={37} height={34} />
+                        <Image
+                            src="/badges/GDPR-white.svg"
+                            alt="GDPR Badge"
+                            width={98}
+                            height={34}
+                        />
+                        <Image
+                            src="/badges/soc2-white.svg"
+                            alt="SOC2 Badge"
+                            width={37}
+                            height={34}
+                        />
                         <Image src="/badges/ISO-white.svg" alt="ISO Badge" width={42} height={34} />
-                        <Image src="/badges/hipaa-white.svg" alt="HIPAA Badge" width={72} height={34} />
+                        <Image
+                            src="/badges/hipaa-white.svg"
+                            alt="HIPAA Badge"
+                            width={72}
+                            height={34}
+                        />
                     </Box>
                 </Box>
             </Box>
@@ -256,9 +271,9 @@ export function Footer() {
 }
 
 const SystemStatusBadge = css({
-    paddingLeft: "8px",
-    paddingRight: "12px",
-    paddingY: "4px",
+    paddingLeft: "8px !important",
+    paddingRight: "12px !important",
+    paddingY: "4px !important",
     display: "flex",
     gap: "6px",
     alignItems: "center",
