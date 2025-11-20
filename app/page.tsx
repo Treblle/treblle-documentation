@@ -118,7 +118,7 @@ export default function Home() {
                                 className={css({
                                     width: "16px",
                                     height: "16px",
-                                    backgroundColor: "transparent",
+                                    backgroundColor: "transparent !important",
                                     color: "#fff",
                                 })}
                             />
@@ -136,7 +136,7 @@ export default function Home() {
                                         boxShadow: "none !important",
                                     },
                                     "& input": {
-                                        backgroundColor: "transparent",
+                                        backgroundColor: "transparent !important",
                                         outline: "none !important",
                                         border: "none !important",
                                         "&:focus": {
