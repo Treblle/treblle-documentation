@@ -14,7 +14,6 @@
     display: block;
     min-width: 252px;
     height: auto;
-    transition: all 1s ease-in-out;
     width: 252px;
     max-height: calc(100vh - 65px);
     overflow-y: scroll;
@@ -30,7 +29,6 @@
     visibility: hidden;
     position: absolute;
     top: -10px;
-    transition: all 1s linear;
 }
 
 .layout div:has(aside) {
@@ -109,6 +107,11 @@
 
 .subheading-anchor {
     display: none;
+}
+
+/* Override Nextra's body overflow hidden for mobile nav to allow page scrolling */
+.nextra-overflow-hidden {
+    overflow: auto !important;
 }
 
 @media (max-width: 767px) {

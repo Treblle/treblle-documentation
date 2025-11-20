@@ -23,6 +23,7 @@ export const metadata: Metadata = {
         template: "%s – Treblle documentation",
         default: "Treblle Documentation",
     },
+    description: "Treblle helps engineering and product teams build, ship, and understand their REST APIs with ease. Achieve full observability and elevate your API operations with powerful API intelligence in a single, intuitive platform",
 };
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {

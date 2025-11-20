@@ -43,13 +43,11 @@ export default function MobileSidebarToggle({ title, sectionClass }: Properties)
                 gap: "8px",
                 display: { base: "flex", md: "none" },
             })}
+            onClick={toggleSection}
         >
             <h1 className={css({ color: "neutral.400" })}>{title}</h1>
 
-            <Button className={css({ color: "neutral.400" })} onClick={toggleSection}>
-                {" "}
-                {icon}
-            </Button>
+            <Button className={css({ color: "neutral.400" })}> {icon}</Button>
         </Box>
     );
 }
