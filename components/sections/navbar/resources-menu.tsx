@@ -51,6 +51,7 @@ export function ResourcesMenu() {
                             display: "grid",
                             gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
                             width: "320px",
+                            alignItems: "center",
                         }}
                     >
                         <Link
@@ -145,7 +146,7 @@ export function ResourcesMenu() {
 }
 
 const MenuLink = css({
-    padding: "8px",
+    padding: "8px  !important",
     borderRadius: "10px",
     width: "160px",
     cursor: "pointer",

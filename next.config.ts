@@ -2,6 +2,14 @@ import nextra from "nextra";
 
 // Set up Nextra with its configuration
 const withNextra = nextra({
+      mdxOptions: {
+    rehypePrettyCodeOptions: {
+      theme: {
+        dark: 'nord',
+        light: 'nord',
+      }
+    }
+  }
     // ... Add Nextra-specific options here
 });
 
