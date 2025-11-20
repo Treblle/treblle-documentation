@@ -1,0 +1,37 @@
+---
+title: "Treblle with Directus"
+metaTitle: "Set Up Treblle in Directus | Treblle Docs"
+description: "Integrate Treblle with Directus to capture API requests, monitor errors, and enhance security. Follow our step-by-step guide to configure Treblle for real-time insights."
+image: "/og-images/treblle-directus.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
+
+## Install
+
+``` copy
+npm install @treblle/directus-extension-treblle
+```
+
+## Configuration
+
+Use environment variables for providing Treblle credentials and configuration. Directus already supports `.env` file, so it enough to just append your variables there.
+
+## Treblle Configuration
+
+``` copy
+# Required
+TREBLLE_API_KEY=your_api_key
+TREBLLE_PROJECT_ID=your_project_id
+
+# Optional
+# TREBLLE_SHOW_ERRORS=true
+# TREBLLE_FIELDS_TO_MASK=["password"]
+```
+
+<NoteCard>
+Directus uses environment variables for configuration. Make sure to restart your Directus instance after adding or modifying environment variables.
+</NoteCard>
+
+<PaginationCards />

@@ -1,0 +1,178 @@
+---
+title: "DDoS Attack Detection"
+metaTitle: "DDoS Attack Detection & Monitoring - Treblle Documentation"
+description: "Treblle automatically detects potential DDoS attacks by monitoring traffic spikes and comparing them to daily averages. Learn how threat levels are calculated and how to respond to potential attacks."
+image: "/og-images/security-ddos-attack.jpg"
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import { CautionCard } from "~components/cards/caution";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoTable } from "~components/tables/info-table";
+import { Checklist } from "~components/sections/checklist";
+import Link from "next/link";
+
+# DDoS Attack Detection
+
+Treblle's DDoS Attack Detection feature helps you identify potential Distributed Denial of Service (DDoS) attacks by monitoring traffic patterns and flagging unusual request spikes that could indicate malicious activity.
+
+## How DDoS Detection Works
+
+Treblle continuously monitors your API traffic and compares current request volumes to historical patterns to identify potential DDoS attacks.
+
+### Detection Algorithm
+
+The system tracks request spikes by:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>15-Minute Intervals</InfoCard.title>
+        <InfoCard.description>
+            Analyzing traffic in 15-minute windows for granular monitoring
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Daily Averages</InfoCard.title>
+        <InfoCard.description>
+            Using historical data to establish baseline traffic patterns
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Percentage Increases</InfoCard.title>
+        <InfoCard.description>
+            Determining how much current traffic exceeds normal levels
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Threat Flagging</InfoCard.title>
+        <InfoCard.description>
+            Automatically categorizing threat levels based on traffic increases
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+### Threat Level Classification
+
+DDoS threats are categorized into three levels based on traffic increase percentages:
+
+<InfoTable title="Threat Level" description="Details">
+    <InfoTable.Row
+        title="Low Threat (80-150% increase)"
+        description="Moderate traffic spike that could be legitimate increased usage or a small-scale attack. Monitor closely and investigate if sustained."
+    />
+    <InfoTable.Row
+        title="Medium Threat (150-350% increase)"
+        description="Significant traffic spike likely indicating coordinated activity. Implement rate limiting and investigate source IPs."
+    />
+    <InfoTable.Row
+        title="High Threat (350%+ increase)"
+        description="Severe traffic spike strongly suggesting a DDoS attack. Immediate action required - activate DDoS mitigation measures."
+    />
+</InfoTable>
+
+## Accessing DDoS Monitoring
+
+### Enable DDoS Monitoring Widget
+
+1. **Navigate to API Dashboard**
+   
+   Go to your individual API dashboard for the API you want to monitor.
+
+2. **Open Customize Dashboard**
+   
+   Click the **Customize Dashboard** button (four squares icon) on the right side of the dashboard.
+
+   In the customize menu, find and enable the **"Denial of Service"** widget.
+
+   <ImageCard src="/platform/api-security/sub/enable-ddos.jpg" alt="Enable DDoS Monitoring Widget" />
+
+3. **Save Changes**
+   
+   Click **Save Changes** to add the DDoS monitoring widget to your dashboard.
+
+### Understanding the DDoS Widget
+
+The Denial of Service widget displays:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Current Threat Level</InfoCard.title>
+        <InfoCard.description>
+            Visual indicator of the current DDoS threat status
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Traffic Comparison</InfoCard.title>
+        <InfoCard.description>
+            Real-time comparison of current vs. average traffic
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Percentage Increase</InfoCard.title>
+        <InfoCard.description>
+            Exact percentage of traffic increase
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Time-Based Graph</InfoCard.title>
+        <InfoCard.description>
+            Historical view of traffic patterns and spikes
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<ImageCard src="/platform/api-security/sub/ddos.jpg" alt="DDoS Monitoring Widget Dashboard" />
+
+## Preventive Measures
+
+<TipCard>
+Implement multiple layers of protection to effectively defend against DDoS attacks.
+</TipCard>
+
+To protect against DDoS attacks:
+
+<Checklist>
+    <Checklist.item id="rate-limiting">**Configure Rate Limiting** - Set appropriate request limits per IP and implement progressive delays for repeated requests</Checklist.item>
+    <Checklist.item id="cdn-services">**Use CDN Services** - Leverage Content Delivery Networks for traffic distribution and enable DDoS protection features</Checklist.item>
+    <Checklist.item id="ip-monitoring">**Monitor IP Reputation** - Use Treblle's <Link href="/treblle/api-security/ip-address/">Risky IPs</Link> feature and implement automatic blocking</Checklist.item>
+    <Checklist.item id="custom-alerts">**Set Up Custom Alerts** - Create <Link href="/features/custom-alerts/">Custom Alerts</Link> for traffic spikes and configure immediate notifications</Checklist.item>
+</Checklist>
+
+## Integration with Other Security Features
+
+DDoS detection works alongside other Treblle security features:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>
+            <Link href="/treblle/api-security/ip-address/">IP Address Security</Link>
+        </InfoCard.title>
+        <InfoCard.description>
+            Identify malicious IP sources and block potential threats
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>
+            <Link href="/treblle/api-security/request-information/">Request Information</Link>
+        </InfoCard.title>
+        <InfoCard.description>
+            Analyze request patterns and origins for suspicious activity
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>API Security Checks</InfoCard.title>
+        <InfoCard.description>
+            Comprehensive security auditing for all requests
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<NoteCard>
+By leveraging Treblle's DDoS detection capabilities, you can quickly identify and respond to potential attacks, maintaining the availability and performance of your APIs even under malicious traffic conditions.
+</NoteCard>
+
+<PaginationCards />

@@ -1,0 +1,102 @@
+---
+title: "API Governance"
+metaTitle: "API Governance – Ensure Compliance & Best Practices - Treblle Documentation"
+description: "Treblle's API governance evaluates performance, security, design, and AI readiness while ensuring compliance with GDPR, CCPA, and PCI. Get an API score and improve your API quality."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+import { NoteCard } from "~components/cards/note";
+
+# API Governance
+
+API governance in Treblle ensures your APIs follow industry standards and best practices. 
+
+It evaluates APIs across key areas, such as performance, security, design, and AI Readiness, and helps maintain compliance with GDPR, CCPA, and PCI regulations.
+
+<NoteCard>
+For Treblle to score your API, please ensure it is exposed to the internet via a public URL. An API running via localhost will not be scored.
+</NoteCard>
+
+## Steps to view API Governance
+
+1. Click on API Governance in the left navigation bar.
+
+<ImageCard src="/platform/api-governance/governance.png" alt="API Governance Navigation" />
+
+2. Overview of the API Governance dashboard.
+
+<ImageCard src="/platform/api-governance/dashboard.png" alt="API Governance Dashboard" />
+
+## Governance Categories
+
+Treblle's API governance measures your APIs across four main categories:
+
+<ImageCard src="/platform/api-governance/api-score.png" alt="API Governance Score" />
+
+### AI Ready
+
+AI Ready ensures your API is structured to allow easier integration with AI systems.
+
+The AI Ready category helps your API adhere to the following specifications:
+
+- **Parameter Descriptions:** Checks if each parameter has descriptions 
+- **Schema Types or Descriptions:** Checks if each schema has descriptions or types 
+- **Operation ID:** Checks if each operation has an id
+- **Response Descriptions:** Checks if each response has descriptions 
+
+<ImageCard src="/platform/api-governance/ai-ready.png" alt="AI Ready Category" />
+
+### Design
+
+The Design category checks your API's basic structure and usability, ensuring it follows common conventions for clear, easy-to-understand interactions. 
+
+Here's how Treblle evaluates your API design:
+ 
+- **Contact Information**: Verifies the presence of contact details (name, email, URL).  
+- **Operation Descriptions or Summaries**: Ensures that all operations have descriptions or summaries. 
+- **Robust Responses**: This check ensures that the API returns more than just the standard `200 OK` response code and provides accurate status codes to reflect different operations' outcomes.
+- **Examples Exist**: Ensures that endpoints include examples for parameters and responses to improve usability.  
+- **Consistent Pluralization**: Ensures that the base endpoint uses plural nouns to represent groups of resources (e.g., `/users` vs `/user`).  
+- **Consistent Noun Usage**: Ensures endpoints are described as nouns instead of verbs. For example, the POST method for endpoint `/user/{id}` vs. `/postUser/{id}`).
+- **JSON Support**: Ensures the content-type header is set to `application/json` for consistent data format.  
+- **Information Descriptions**: Verifies that each endpoint includes a description.
+- **Rate Limiting**: This checks for rate-limiting headers (`rate limit`, `x-rate-limit`) to protect against abuse and ensure fair usage. 
+- **Versioning**: To manage API changes without breaking existing integrations, we recommend URL-based versioning (`/v1`, `/v2`).  
+
+<ImageCard src="/platform/api-governance/design.png" alt="Design Category" />
+
+### Performance
+
+The Performance category ensures that your APIs are fast, reliable, and optimized for speed.
+
+- **Load Time**: Ensures responses are returned within an acceptable time frame (preferably under 500ms).  
+- **Compression Support**: This checker determines whether compression `content-encoding` headers exist, speeding up data transmission and reducing packet loss.   
+- **CDN Usage**: Checks for using Content Delivery Networks (CDN) to improve response time and distribution.  
+- **HTTP2 Usage**: This function checks the base URL of the first entry in the servers section for the version of the HTTP server.
+- **Cache Support**: Ensures the `cache-control` header is set to specify browser caching policies, including how resources are cached, where they are cached, and when they expire.
+
+<ImageCard src="/platform/api-governance/performace.png" alt="Performance Category" />
+
+### Security
+
+Security checks ensure your API is protected from common threats and follow industry-standard practices to secure data and access.  
+
+Treblle assesses these critical aspects:
+
+- **Insecure Direct Object Reference (IDOR) Risks**: Ensures path parameters are correctly defined as strings with valid UUIDs, ULIDs, or Mongo ObjectIDs. 
+- **Content Type Options**: The `X-Content-Type-Options` header is set to `nosniff` to prevent MIME sniffing attacks.
+- **iFrame Embedding**: Verifies the presence of `X-Frame-Options` to protect against clickjacking attacks.  
+- **Strict Transport Security (HSTS)**: Ensures the `Strict-Transport-Security` header is set to enforce HTTPS usage.    
+- **Content Security Policy**: Ensures `Content-Security-Policy` headers are set to restrict resource loading from unauthorized sources.  
+- **Operation Enforces Security Scheme**: Ensures that security schemes are defined for all operations to prevent unauthorized access.  
+- **Authorization**: Ensures that the API implements proper authorization mechanisms to control access, including the presence of a `securitySchemes` object.
+- **Secure URLs (HTTPs)**: Ensures requests require HTTPS for encrypted communication.  
+- **Security Field Contains a Scheme**: Ensures the security field is not empty and includes proper definitions.
+- **Global Security Field is Defined**: This checks whether the global security field is defined for the API.
+
+<ImageCard src="/platform/api-governance/security.png" alt="Security Category" />
+
+After evaluating these categories, Treblle assigns an API score out of 100, along with a grade ranging from **A** to **F**, to help you track the quality of your API governance.
+
+<PaginationCards />

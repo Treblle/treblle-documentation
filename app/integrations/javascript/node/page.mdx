@@ -1,0 +1,191 @@
+---
+title: "Treblle with Node.js"
+metaTitle: "Set Up Treblle in Node.js | Treblle Docs"
+description: "Learn how to integrate Treblle with Node.js. Capture API requests, enhance security, and gain real-time insights with minimal setup. Supports Express, Fastify, Koa, and more."
+image: "/og-images/treblle-nodejs.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import { InfoTable } from "~components/tables/info-table";
+
+## Requirements
+
+- Node.js: `>=14.0.0` (14.x LTS or higher recommended)
+
+## Installation
+
+```bash copy
+npm install treblle@^2.0.0
+```
+
+## Setting up credentials
+
+Create a free account on [treblle.com](https://treblle.com) to get your credentials:
+- `sdkToken` (SDK Token)
+- `apiKey` (API Key)
+
+Add these to your `.env` file:
+
+```env copy
+TREBLLE_SDK_TOKEN=your_sdk_token
+TREBLLE_API_KEY=your_api_key
+```
+
+## Choose Your Framework
+
+The Treblle SDK works with popular Node.js frameworks:
+
+### **Express** (Most Popular)
+
+[Full Express integration guide →](/integrations/javascript/express/)
+
+```js copy
+const { useTreblle } = require("treblle");
+useTreblle(app, { sdkToken: "...", apiKey: "..." });
+```
+
+### **Fastify** (High Performance)
+
+[Full Fastify integration guide →](/integrations/javascript/fastify/)
+
+```js copy
+const { fastifyTreblle } = require("treblle");
+await fastify.register(fastifyTreblle, { sdkToken: "...", apiKey: "..." });
+```
+
+### **Koa** (Minimalist)
+
+[Full Koa integration guide →](/integrations/javascript/koa/)
+
+```js copy
+const { koaTreblle } = require("treblle");
+app.use(koaTreblle({ sdkToken: "...", apiKey: "..." }));
+```
+
+### **NestJS** (Full-Featured)
+
+[Full NestJS integration guide →](/integrations/javascript/nest/)
+
+```ts copy
+const { useNestTreblle } = require("treblle");
+useNestTreblle(expressInstance, { sdkToken: "...", apiKey: "..." });
+```
+
+### **Strapi** (Headless CMS)
+
+[Full Strapi integration guide →](/integrations/javascript/strapi/)
+
+```js copy
+const { strapiTreblle } = require("treblle");
+strapiTreblle({ sdkToken: "...", apiKey: "..." });
+```
+
+### **Next.js** (React Framework)
+
+[Full Next.js integration guide →](/integrations/javascript/nextjs/)
+
+```ts copy
+import { withTreblle } from "@treblle/next/integrations/nextjs";
+export const GET = withTreblle(async () => NextResponse.json({}));
+```
+
+### **Other Frameworks**
+- [AdonisJS](/integrations/javascript/adonis/) - Recommended using unified SDK
+- [SailsJS](/integrations/javascript/sails/) - Recommended using unified SDK with Koa
+- [Directus](/integrations/javascript/directus/) - Headless CMS integration
+
+## Core Configuration
+
+All frameworks use the same unified configuration:
+
+<InfoTable title="Option" description="Type and Description">
+    <InfoTable.Row
+        title="sdkToken"
+        description="string (required) - Your SDK Token"
+    />
+    <InfoTable.Row
+        title="apiKey"
+        description="string (required) - Your API Key"
+    />
+    <InfoTable.Row
+        title="additionalFieldsToMask"
+        description="array (optional) - Extra fields to mask - Example: ['apiKey', 'internalId']"
+    />
+    <InfoTable.Row
+        title="blocklistPaths"
+        description="array (optional) - Paths to exclude - Example: ['admin', 'health']"
+    />
+    <InfoTable.Row
+        title="ignoreDefaultBlockedPaths"
+        description="boolean (optional) - Disable defaults - Default: false"
+    />
+    <InfoTable.Row
+        title="debug"
+        description="boolean (optional) - Show errors - Default: false"
+    />
+</InfoTable>
+
+## Automatic Field Masking
+
+The following fields are automatically masked:
+
+- `password`, `pwd`, `secret`, `password_confirmation`, `passwordConfirmation`
+- `cc`, `card_number`, `cardNumber`, `ccv`
+- `ssn`
+- `credit_score`, `creditScore`
+
+Add custom fields:
+
+```js copy
+additionalFieldsToMask: ["apiKey", "internalId", "sessionToken"]
+```
+
+## Default Blocked Paths
+
+These paths are automatically skipped:
+
+**Files:** `favicon.ico`, `robots.txt`, `sitemap.xml`, `manifest.json`, `sw.js`
+
+**Directories:** `/.well-known/`, `/static/`, `/assets/`, `/public/`, `/images/`
+
+**Extensions:** `.css`, `.js`, `.png`, `.jpg`, `.gif`, `.svg`, `.ico`, `.woff`, `.ttf`
+
+Disable defaults:
+
+```js copy
+ignoreDefaultBlockedPaths: true
+```
+
+## Production Setup
+
+Run Treblle only in production:
+
+```js copy
+if (process.env.NODE_ENV === "production") {
+  // Initialize Treblle
+}
+```
+
+<TipCard>
+For production environments, consider using environment-based configuration to automatically enable Treblle without code changes.
+</TipCard>
+
+## Debugging
+
+Enable debug mode:
+
+```js copy
+{
+  sdkToken: "...",
+  apiKey: "...",
+  debug: true  // Show errors in console
+}
+```
+
+<NoteCard>
+Debug mode should only be enabled in development environments as it may expose sensitive configuration details in logs.
+</NoteCard>
+
+<PaginationCards />

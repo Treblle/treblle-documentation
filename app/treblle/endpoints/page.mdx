@@ -1,0 +1,93 @@
+---
+title: "API Endpoints"
+metaTitle: "Track API Endpoints & Performance - Treblle Documentation"
+description: "Easily track, filter, and manage your API endpoints with Treblle. Monitor request trends, optimize performance, and customize API documentation from a centralized dashboard."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+import { YoutubeEmbed } from "~components/video/youtube-embed";
+
+# API Endpoints
+
+Endpoints in Treblle represent the URIs that expose specific parts of your API. 
+
+Once you integrate your API with Treblle, it automatically identifies and organizes these endpoints in the **Endpoints** tab.
+
+<YoutubeEmbed postId="NBPk2VG5bKE" />
+
+## Steps to View Endpoints:
+
+1. Click on **Endpoints** in the left navigation bar.
+
+<ImageCard src="/platform/endpoints/endpoint.png" alt="Endpoints Navigation" />
+
+2. The endpoint dashboard will display all the available endpoints.
+
+<ImageCard src="/platform/endpoints/overview.png" alt="Endpoints Overview" />
+
+## Check Endpoints
+
+For each endpoint, you can view:
+
+- **HTTP Method**: The type of request, e.g., GET, POST.
+- **Last Request**: Timestamp of the most recent request.
+- **Total Requests**: Total number of requests received.
+- **Description**: Brief details about the endpoint.
+- **Average Load Time**: The endpoint's average response time.
+- **Requests Graph**: A daily visualization of requests made to the endpoint.
+
+<ImageCard src="/platform/endpoints/dashboard.png" alt="Endpoint Details Dashboard" />
+
+### Viewing Requests
+
+To view requests made to a specific endpoint, You can:
+
+- **Filter** requests using the **Filter** option ( Requests, User Information, Security & Compliance, Metadata ).
+- **Sort** requests using the **SORT BY** option ( Created at, Path, Threat level, Load time ).
+- Toggle between table or list views for convenience.
+
+<ImageCard src="/platform/endpoints/filter.png" alt="Filter and Sort Options" />
+
+## Endpoint Options
+
+Each endpoint has additional options accessible from the dropdown menu in the top-right corner:
+
+<ImageCard src="/platform/endpoints/actions.png" alt="Endpoint Actions Menu" />
+
+### Add or Remove an Endpoint from API Docs
+
+- **Add to Docs**: Select **INCLUDE IN DOCS** from the dropdown menu. This makes the endpoint and its details visible in the project's auto-generated API documentation.
+
+- **Remove from Docs**: Select **REMOVE FROM DOCS** to hide the endpoint from the API documentation.
+
+### Mute or Unmute an Endpoint
+
+- **Mute**: Requests to the endpoint will no longer appear in your project, and alerts for that endpoint will stop. Click Mute in the dropdown menu to enable this.
+
+- **Unmute**: To re-enable the visibility of requests and alerts for a muted endpoint, click Unmute in the dropdown menu.
+
+### Add an Alias to an Endpoint
+
+- Click on **EDIT** to assign the endpoint an alias (an alternative name) to make it easier to find during filtering.
+
+- Example:
+    For the endpoint `articles/{articleUuid}/favorite`:
+    - **Alias Name**: Article Favoriting
+    - **Short Description**: Marks an article as a favorite for the user.
+
+<ImageCard src="/platform/endpoints/allias.png" alt="Add Endpoint Alias" />
+
+### Delete an Endpoint
+
+- Remove the endpoint from the project by selecting **Delete** in the dropdown menu. 
+
+- Deleting an endpoint also removes it from the API documentation and disassociates all related requests.
+
+---
+
+Treblle automatically organizes endpoints into groups based on their paths. 
+
+For example, `/users/:id` and `/users/verify` are grouped under the **users** group to facilitate filtering and management.
+
+<PaginationCards />

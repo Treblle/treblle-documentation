@@ -3,6 +3,7 @@ import "./layout.css";
 // Nextra theme must be imported after index.css so PandaCSS doesn't override default nextra styles
 import "nextra-theme-docs/style.css";
 
+import type { Metadata } from "next";
 // import Image from "next/image";
 import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
@@ -12,11 +13,17 @@ import { Footer } from "~components/sections/footer/footer";
 import { Navbar } from "~components/sections/navbar/navbar";
 import { GoogleAnalytics } from "~components/third-party/google-analytics";
 import MobileSidebarToggle from "~components/ui/mobile-sidebar-toggle";
-// import { css } from "~styled-system/css/css";
 import { Box } from "~styled-system/jsx";
 
 import { fontClassName } from "../styles/fonts";
 import MyStatsig from "./my-statsig";
+
+export const metadata: Metadata = {
+    title: {
+        template: "%s – Treblle documentation",
+        default: "Treblle Documentation",
+    },
+};
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
     return (
@@ -43,7 +50,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         docsRepositoryBase="https://github.com/Treblle/treblle-documentation"
                         footer={<Footer />}
                         darkMode={false}
-                        sidebar={{ toggleButton: false }}
+                        sidebar={{ toggleButton: false, autoCollapse: false, defaultMenuCollapseLevel: 1 }}
                         editLink={false}
                         feedback={{ content: "", labels: "", link: "" }}
                         toc={{ backToTop: false }}

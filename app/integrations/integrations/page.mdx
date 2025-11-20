@@ -1,0 +1,160 @@
+---
+title: "Integrations"
+metaTitle: "Find the Right Treblle SDK for Your API | Treblle Docs"
+description: "Treblle provides SDKs for PHP, JavaScript, .NET, Python, Ruby, and more. Integrate with your API, send data to your Treblle dashboard, and manage security effortlessly."
+image: "/og-images/treblle-right-sdk.jpg"
+---
+
+import { IntegrationCards } from "~components/cards/integration-cards";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+All integrations automatically provide API monitoring, documentation generation, security analysis, and error tracking.
+
+## API Gateway Integrations
+
+Deploy Treblle at the infrastructure level for organization-wide visibility:
+
+<IntegrationCards>
+  <IntegrationCards.Card title="AWS API Gateway" link="/integrations/gateways/aws/" linkTitle="View Documentation">
+    Serverless Lambda function for automatic API discovery across multiple AWS regions.
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Azure API Gateway" link="/integrations/gateways/azure/" linkTitle="View Documentation">
+    Event Hub and Azure Functions integration for enterprise Azure API Management environments.
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Kong" link="/integrations/gateways/kong/" linkTitle="View Documentation">
+    Plugin for Kong Gateway with request filtering and custom field masking.
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="MuleSoft" link="/integrations/gateways/mulesoft/" linkTitle="View Documentation">
+    Policy and auto-discovery app for enterprise MuleSoft environments.
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Traefik" link="/integrations/gateways/traefik/" linkTitle="View Documentation">
+    Middleware plugin for Traefik proxy with route filtering capabilities.
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="WSO2" link="/integrations/gateways/wso2/" linkTitle="View Documentation">
+    Global Synapse Handler integration for WSO2 API Manager.
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Apigee" link="/integrations/gateways/apigee/" linkTitle="View Documentation">
+    Shared flow integration for Google Cloud Apigee API Management platform.
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+## Language SDKs
+
+### JavaScript & Node.js
+<IntegrationCards>
+  <IntegrationCards.Card title="Node.js" link="/integrations/javascript/node/" linkTitle="View Documentation">
+    Core Node.js middleware for any framework
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Express" link="/integrations/javascript/express/" linkTitle="View Documentation">
+    Express.js middleware with request filtering
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Fastify" link="/integrations/javascript/fastify/" linkTitle="View Documentation">
+    Fastify plugin with async processing
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="NestJS" link="/integrations/javascript/nest/" linkTitle="View Documentation">
+    NestJS interceptor with decorator support
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Koa" link="/integrations/javascript/koa/" linkTitle="View Documentation">
+    Koa middleware for async request handling
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="AdonisJS" link="/integrations/javascript/adonis/" linkTitle="View Documentation">
+    AdonisJS middleware with configuration support
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="SailsJS" link="/integrations/javascript/sails/" linkTitle="View Documentation">
+    Sails.js hook with route monitoring
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Strapi" link="/integrations/javascript/strapi/" linkTitle="View Documentation">
+    Strapi v4 plugin for content API monitoring
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Directus" link="/integrations/javascript/directus/" linkTitle="View Documentation">
+    Directus extension hook for API monitoring
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+### PHP
+<IntegrationCards>
+  <IntegrationCards.Card title="Laravel" link="/integrations/php/laravel/" linkTitle="View Documentation">
+    Laravel middleware with Vapor and Octane support
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Symfony" link="/integrations/php/symfony/" linkTitle="View Documentation">
+    Symfony bundle with service container integration
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Lumen" link="/integrations/php/lumen/" linkTitle="View Documentation">
+    Lumen middleware for microservices
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Pure PHP" link="/integrations/php/no-framework/" linkTitle="View Documentation">
+    Framework-agnostic PHP integration
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+### Java
+<IntegrationCards>
+  <IntegrationCards.Card title="Spring Boot" link="/integrations/java/spring/" linkTitle="View Documentation">
+    Spring Boot starter with annotation support
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="AWS Lambda" link="/integrations/java/aws-lambda/" linkTitle="View Documentation">
+    Lambda handler wrapper for serverless functions
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="JavaX" link="/integrations/java/javax/" linkTitle="View Documentation">
+    Servlet filter for JavaX applications
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+### Python
+<IntegrationCards>
+  <IntegrationCards.Card title="Django" link="/integrations/python/django/" linkTitle="View Documentation">
+    Django middleware with settings configuration
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Flask" link="/integrations/python/flask/" linkTitle="View Documentation">
+    Flask decorator for route monitoring
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+### .NET
+<IntegrationCards>
+  <IntegrationCards.Card title=".NET Core" link="/integrations/net/net-core/" linkTitle="View Documentation">
+    ASP.NET Core middleware with attribute support
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title=".NET Framework" link="/integrations/net/net/" linkTitle="View Documentation">
+    Traditional .NET filter attribute
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+### Other Languages
+<IntegrationCards>
+  <IntegrationCards.Card title="Go" link="/integrations/go/" linkTitle="View Documentation">
+    HTTP middleware built on net/http standard library
+  </IntegrationCards.Card>
+  <IntegrationCards.Card title="Ruby on Rails" link="/integrations/ruby/" linkTitle="View Documentation">
+    Rails middleware with environment configuration
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+## Custom Integration
+
+<IntegrationCards>
+  <IntegrationCards.Card title="Build Your Own SDK" link="/integrations/custom/" linkTitle="View Documentation">
+    SDK development guide with JSON schema and masking implementation details.
+  </IntegrationCards.Card>
+</IntegrationCards>
+
+## Community SDKs
+
+- [Actix (Rust)](https://github.com/barrage/actix-treblle) - Community integration for Actix web framework
+
+<TipCard>
+If you have an SDK you'd like listed here, please send a [pull request](https://github.com/Treblle/docs.treblle.com/blob/main/src/content/docs/integrations/index.mdx).
+</TipCard>
+
+## Getting Started
+
+1. Choose your integration above
+2. Follow the installation guide for your platform
+3. Configure your API key and Project ID
+4. Deploy and start monitoring
+
+Missing your platform? [Open an issue](https://github.com/Treblle/docs.treblle.com/issues) or check our [custom integration guide](/integrations/custom/).
+
+<PaginationCards />

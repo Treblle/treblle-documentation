@@ -52,7 +52,6 @@ InfoCard.title = function InfoCardTitle({ children }: {readonly children: React.
                 display: "flex",
                 alignItems: "center",
                 gap:"5px",
-                cursor: "pointer",
                 paddingY: "4px",
                 marginBottom: "17px",
             })}>

@@ -1,0 +1,195 @@
+---
+title: "Treblle with Strapi"
+metaTitle: "Set Up Treblle in Strapi | Treblle Docs"
+description: "Integrate Treblle with Strapi to capture API requests, monitor errors, and enhance security. Follow our setup guide to configure Treblle for real-time API insights."
+image: "/og-images/treblle-strapi.jpg"
+---
+
+import { InfoCard } from "~components/cards/info-card";
+import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
+import { TipCard } from "~components/cards/tip";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-node" target="_blank">treblle</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Strapi. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+# Treblle with Strapi
+
+To integrate Treblle with <Link href="http://strapi.io" target="_blank">Strapi</Link>, we provide an official unified SDK for JavaScript frameworks - <Link href="https://github.com/Treblle/treblle-node" target="_blank">`treblle-node`</Link>.
+
+Since Strapi runs on Koa under the hood, Treblle integrates as middleware in your Strapi configuration.
+
+## Requirements
+
+- Node.js: `>=18.0.0` LTS
+- Strapi: `4.x` or `5.x`
+
+## Installation
+
+```sh copy
+npm install treblle@^2.0.0
+```
+
+## Setting up credentials
+
+Create a free account on <Link href="https://treblle.com" target="_blank">treblle.com</Link> to get your credentials:
+- `sdkToken` (SDK Token)
+- `apiKey` (API Key)
+
+Add these to your `.env` file:
+
+```env copy
+TREBLLE_SDK_TOKEN=your_sdk_token
+TREBLLE_API_KEY=your_api_key
+```
+
+## Step 1: Create the middleware
+
+Create the middleware in `middlewares/treblle/index.js`:
+
+```js copy
+const { strapiTreblle } = require("treblle");
+
+module.exports = (strapi) => {
+  return {
+    initialize() {
+      strapi.app.use(
+        strapiTreblle({
+          sdkToken: process.env.TREBLLE_SDK_TOKEN,
+          apiKey: process.env.TREBLLE_API_KEY,
+        })
+      );
+    },
+  };
+};
+```
+
+## Step 2: Enable the middleware
+
+Enable the middleware in `config/middleware.js`:
+
+```js copy
+module.exports = {
+  settings: {
+    treblle: {
+      enabled: true,
+    },
+  },
+};
+```
+
+<TipCard>
+And that's it! Treblle will now monitor your Strapi content API.
+</TipCard>
+
+## Configuration Options
+
+You can pass additional configuration options to the middleware:
+
+```js copy
+strapi.app.use(
+  strapiTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+    additionalFieldsToMask: ["customSecret", "internalId"], // Optional
+    blocklistPaths: ["admin", "webhooks"], // Optional: Skip logging certain paths
+    ignoreDefaultBlockedPaths: false, // Optional: Disable default blocked paths
+    debug: true, // Optional: Show Treblle errors in console
+    ignoreAdminRoutes: ["admin", "content-manager"], // Optional: Ignore admin routes
+  })
+);
+```
+
+### Available options:
+
+<InfoTable title="Option" description="Description">
+    <InfoTable.Row
+        title="sdkToken (required)"
+        description="Your Treblle SDK token"
+    />
+    <InfoTable.Row
+        title="apiKey (required)"
+        description="Your Treblle API key"
+    />
+    <InfoTable.Row
+        title="additionalFieldsToMask (optional)"
+        description="Array of field names to mask in addition to default fields"
+    />
+    <InfoTable.Row
+        title="blocklistPaths (optional)"
+        description="Array of path prefixes or RegExp to exclude from logging"
+    />
+    <InfoTable.Row
+        title="ignoreDefaultBlockedPaths (optional)"
+        description="Boolean to disable default blocked paths (default: false)"
+    />
+    <InfoTable.Row
+        title="debug (optional)"
+        description="Boolean to show Treblle-related errors in console (default: false)"
+    />
+    <InfoTable.Row
+        title="ignoreAdminRoutes (optional)"
+        description="Array of admin route prefixes to ignore (default: [`admin`, `content-type-builder`, `content-manager`])"
+    />
+</InfoTable>
+
+### Note on ignoreAdminRoutes
+
+<NoteCard>
+The `ignoreAdminRoutes` option helps avoid logging internal admin panel requests that are typically not part of your public API. By default, it ignores the admin panel and content management routes.
+</NoteCard>
+
+## Production-only Setup
+
+Run Treblle only in production by conditionally enabling the middleware:
+
+```js copy
+module.exports = {
+  settings: {
+    treblle: {
+      enabled: process.env.NODE_ENV === "production",
+    },
+  },
+};
+```
+
+## Masking Sensitive Data
+
+The following fields are automatically masked:
+
+- `password`, `pwd`, `secret`, `password_confirmation`, `passwordConfirmation`
+- `cc`, `card_number`, `cardNumber`, `ccv`
+- `ssn`
+- `credit_score`, `creditScore`
+
+Add custom fields to mask:
+
+```js copy
+strapiTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+  additionalFieldsToMask: ["customSecret", "apiToken"],
+});
+```
+
+## Debugging
+
+Enable debug mode to see Treblle errors in your console:
+
+```js copy
+strapiTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+  debug: true,
+});
+```
+
+<PaginationCards />

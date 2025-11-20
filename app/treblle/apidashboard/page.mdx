@@ -1,0 +1,183 @@
+---
+title: "API Dashboard"
+metaTitle: "API Dashboard - Treblle Documentation"
+description: "The API Dashboard in Treblle gives you a 360-degree, bird's-eye view of all your APIs in one place, helping you track, manage, and improve your API estate."
+image: "/og-images/dashboard.jpg"
+---
+
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+import { TipCard } from "~components/cards/tip";
+import { NoteCard } from "~components/cards/note";
+import { InfoTable } from "~components/tables/info-table";
+
+# API Dashboard
+
+The API Dashboard in Treblle gives you a 360-degree, bird's-eye view of all your APIs in one place, helping you track, manage, and improve your API estate with clarity and speed. 
+
+It goes a level deeper than the Home page, providing detailed insights so everyone, from someone like a CIO or a CTO to a developer or even a non-technical person, can clearly understand the API landscape.
+
+<ImageCard src="/platform/apidashboard/API-Dashboard.png" alt="API Dashboard Overview" />
+
+<InfoCard type="individual">
+    <InfoCard.title>Quick, Confident Decision-Making</InfoCard.title>
+    <InfoCard.description>
+        Save hours of engineering time and resources by spotting issues faster, prioritizing improvements, and tracking adoption and governance across your APIs without manual digging.
+    </InfoCard.description>
+</InfoCard>
+
+## Actions You Can Take From This Page
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Switch Between Workspaces</InfoCard.title>
+        <InfoCard.description>
+            Use the top-left corner dropdown to move between different workspaces without losing context.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Create a New API</InfoCard.title>
+        <InfoCard.description>
+            Add a new API to your workspace using the New API button on the left navigation bar or beside the time range buttons.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Use the Time Filter</InfoCard.title>
+        <InfoCard.description>
+            Toggle between the last 24 hours, 7 days, 30 days, all time, or a custom range to analyze API trends over the timeframe you care about.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Sort, Filter, and Favorite APIs</InfoCard.title>
+        <InfoCard.description>
+            Quickly organize your API list to focus on what matters most for your team by using sorting, filtering, and favoriting options.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Access Workspace-Level Functionality</InfoCard.title>
+        <InfoCard.description>
+            Navigate to API Tracing, API Catalog, or Settings (if you are a Treblle admin) directly from the left navigation bar for workspace management.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+## Key Highlights
+
+### Individual API Blocks
+
+Each API in your workspace is displayed as a **dedicated, clear block** showing essential details at a glance, making it easy to scan and prioritize across all your APIs.
+
+<ImageCard src="/platform/apidashboard/API-Dashboard-Demo-API.png" alt="API Dashboard Demo Block" />
+
+### Requests and Endpoints
+
+<InfoCard type="individual">
+    <InfoCard.title>Track Adoption and Usage</InfoCard.title>
+    <InfoCard.description>
+        See total requests and endpoints per API directly on the dashboard, on every API block. This helps you track adoption and usage, identify your most active APIs, and manage and plan for growth trends.
+    </InfoCard.description>
+</InfoCard>
+
+<InfoTable title="What You Can Track" description="Key metrics visible on each API block">
+    <InfoTable.Row
+        title="Total Requests"
+        description="Monitor request volume to track API adoption and usage patterns"
+    />
+    <InfoTable.Row
+        title="Number of Endpoints"
+        description="View the total endpoints per API to understand API surface area"
+    />
+    <InfoTable.Row
+        title="Most Active APIs"
+        description="Identify high-traffic APIs that require attention or optimization"
+    />
+    <InfoTable.Row
+        title="Growth Trends"
+        description="Plan for scaling and resource allocation based on usage patterns"
+    />
+</InfoTable>
+
+### Heartbeat with Good (Green) and Bad (Red) Requests
+
+Each API block includes a **compact heartbeat graph** showing request trends with color-coded indicators:
+
+- **Green** indicating successful requests
+- **Red** indicating errors
+
+<TipCard>
+The heartbeat visualization makes it easy to spot spikes, drops, and anomalies in API performance at a glance, helping you quickly identify issues before they escalate.
+</TipCard>
+
+### API Governance Score for Every API
+
+View the **governance and compliance score** for each API, allowing you to:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Track Adherence</InfoCard.title>
+        <InfoCard.description>
+            Monitor compliance with security and governance standards across all your APIs.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Identify Improvements</InfoCard.title>
+        <InfoCard.description>
+            Quickly spot APIs that need improvement or remediation to meet quality standards.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Maintain Quality Baseline</InfoCard.title>
+        <InfoCard.description>
+            Ensure a consistent quality baseline across your entire API estate with standardized scoring.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<NoteCard>
+The governance score provides a quick, actionable metric to prioritize API improvements and ensure compliance across your organization.
+</NoteCard>
+
+## Benefits of the API Dashboard
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Unified View</InfoCard.title>
+        <InfoCard.description>
+            Get a complete 360-degree view of all your APIs in one centralized location, eliminating the need to switch between multiple tools.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Fast Issue Detection</InfoCard.title>
+        <InfoCard.description>
+            Spot performance issues, errors, and anomalies instantly with visual indicators and heartbeat graphs.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Improved Governance</InfoCard.title>
+        <InfoCard.description>
+            Track compliance and governance scores across your API portfolio to maintain security and quality standards.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Time Savings</InfoCard.title>
+        <InfoCard.description>
+            Save engineering hours by reducing manual investigation and enabling data-driven decision-making.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Team Collaboration</InfoCard.title>
+        <InfoCard.description>
+            Provide visibility to technical and non-technical stakeholders alike with clear, accessible metrics.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Flexible Time Ranges</InfoCard.title>
+        <InfoCard.description>
+            Analyze trends over any timeframe from 24 hours to custom ranges, adapting to your specific needs.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<PaginationCards />

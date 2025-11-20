@@ -1,0 +1,128 @@
+---
+title: "Treblle with Laravel"
+metaTitle: "Set Up Treblle in Laravel | Treblle Docs"
+description: "Integrate Treblle with Laravel to capture API requests, enhance security, and gain real-time insights. Follow our step-by-step setup guide to get started today."
+image: "/og-images/treblle-laravel.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
+import { TipCard } from "~components/cards/tip";
+
+## Features
+
+- All Treblle features
+- Supports Laravel Vapor and Laravel Octane
+
+## Requirements
+
+- PHP 8+
+- Laravel 10, 11, 12
+
+## Dependencies
+
+- [`laravel/framework`](https://packagist.org/packages/laravel/framework)
+- [`guzzlehttp/guzzle`](https://packagist.org/packages/guzzlehttp/guzzle)
+- [`nesbot/carbon`](https://packagist.org/packages/nesbot/carbon)
+
+## Installation
+
+Install Treblle for Laravel via [Composer](http://getcomposer.org/) by running the following command in your terminal:
+
+```bash copy
+composer require treblle/treblle-laravel
+```
+
+Create an account, login to your existing account, create a new project and get all the `.ENV` keys you need to start using Treblle.
+
+You can also visit our website [https://app.treblle.com](https://app.treblle.com) and create a FREE account to get your API key and SDK token. Once you have them, simply add them to your `.ENV` file:
+
+```shell copy
+TREBLLE_API_KEY=YOUR_API_KEY
+TREBLLE_SDK_TOKEN=YOUR_SDK_TOKEN
+```
+
+## Enabling Treblle on your API
+
+<NoteCard>
+In case you want to temporarily disable observability, you can do so by setting env as `TREBLLE_ENABLE=false`
+</NoteCard>
+
+<TipCard>
+We've created a comprehensive, hands-on guide to building your Laravel API. Check out our [Laravel API Course](https://apiacademy.treblle.com/laravel-api-course/) for a detailed, step-by-step walkthrough.
+</TipCard>
+
+## Upgrading from v5.x to v6.0
+
+Version 6.0 introduces breaking changes to environment variable names. If you're upgrading from v5.x:
+
+**1. Update your `.env` file:**
+
+```shell copy
+# Old configuration (v5.x)
+TREBLLE_API_KEY=your_old_api_key
+TREBLLE_PROJECT_ID=your_old_project_id
+
+# New configuration (v6.0)
+TREBLLE_SDK_TOKEN=your_old_api_key
+TREBLLE_API_KEY=your_old_project_id
+```
+
+**2. If using dynamic middleware parameters, update route definitions:**
+
+```php copy
+// Old (v5.x)
+Route::middleware(['treblle:project-id-1'])->group(function () { ... });
+
+// New (v6.0)
+Route::middleware(['treblle:api-key-1'])->group(function () { ... });
+```
+
+**3. Clear caches:**
+
+```bash copy
+php artisan config:clear
+php artisan cache:clear
+```
+
+## Configuration options
+
+You can configure Treblle using just `.env` variables:
+
+```shell copy
+TREBLLE_IGNORED_ENV=local,dev,test
+```
+
+Define which environments Treblle should NOT LOG at all. By default, Treblle will log all environments except local, dev and test. If you want to change that you can define your own ignored environments by using a comma separated list, or allow all environments by leaving the value empty.
+
+### Masked fields
+
+Treblle **masks sensitive information** from both the request and response data as well as the request headers data **before it even leaves your server**. The following parameters are automatically masked: password, pwd, secret, password_confirmation, cc, card_number, ccv, ssn, credit_score.
+
+You can customize this list by editing your configuration file. 
+
+Open file `config/treblle.php` and tweak the masked fields:
+
+```php copy
+return [
+    // ...
+
+    /*
+     * Define which fields should be masked before leaving the server
+     */
+    'masked_fields' => [
+        'password',
+        'pwd',
+        'secret',
+        'password_confirmation',
+        'cc',
+        'card_number',
+        'ccv',
+        'ssn',
+        'credit_score',
+        'api_key',
+    ],
+];
+```
+
+<PaginationCards />

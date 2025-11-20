@@ -1,0 +1,171 @@
+---
+title: "Treblle with Django"
+metaTitle: "Set Up Treblle in Django | Treblle Docs"
+description: "Integrate Treblle with Django to capture API requests, monitor errors, and enhance security. Follow our setup guide to configure Treblle for real-time insights."
+image: "/og-images/treblle-django.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+
+## Requirements
+
+- **Python**: 3.7 or higher
+- **Django**: 2.2 or higher  
+- **Requests**: 2.25.0 or higher
+
+<NoteCard>
+Django 5.0+ requires Python 3.10 or higher. If you're using Django 5.x, ensure you have Python 3.10+.
+</NoteCard>
+
+## Installation
+
+You can install Treblle for Django via [PyPI](https://pypi.org/project/treblle/). 
+
+**For the latest stable version:**
+
+```shell copy
+$ pip install treblle==2.0.3
+```
+
+Don't forget to load the required python modules in your `settings.py` like so:
+
+```py copy
+INSTALLED_APPS = [
+    ...
+    'treblle',
+]
+```
+
+```py copy
+MIDDLEWARE = [
+    ...
+    'treblle.middleware.TreblleMiddleware',
+]
+```
+
+## Getting Started
+
+Create a FREE account on [treblle.com](https://treblle.com/), copy your SDK Token and API Key from the Treblle Dashboard to `settings.py` like so:
+
+```py copy
+TREBLLE = {
+    'SDK_TOKEN': os.environ.get('TREBLLE_SDK_TOKEN'),
+    'API_KEY': os.environ.get('TREBLLE_API_KEY'),
+    'MASKED_FIELDS': ['custom_field', 'internal_id'],  # Optional - additional fields to mask
+    'DEBUG': True,  # Optional - enables debug logging (default: False)
+    'EXCLUDED_ROUTES': ['/health/', '/ping', '/admin/*'],  # Optional - routes to exclude from tracking
+}
+```
+
+Visit the [Treblle Dashboard](https://platform.treblle.com/) and see requests appear in real-time.
+
+## Migrating from v1 to v2
+
+If you're upgrading from v1, you'll need to make these changes:
+
+### 1. Configuration Format (REQUIRED)
+
+**Old v1 Format:**
+```py copy
+TREBLLE_INFO = {
+    'api_key': 'your_sdk_token',
+    'project_id': 'your_api_key',
+    'hidden_keys': ['password']
+}
+```
+
+**New v2 Format:**
+```py copy
+TREBLLE = {
+    'SDK_TOKEN': 'your_sdk_token',
+    'API_KEY': 'your_api_key',
+    'MASKED_FIELDS': ['password'], # Optional
+    'DEBUG': False, # Optional
+    'EXCLUDED_ROUTES': ['/health/', '/ping'], # Optional
+}
+```
+
+### 2. Django Settings Update (REQUIRED)
+
+**Old v1 Middleware:**
+```py copy
+MIDDLEWARE_CLASSES = [  # Deprecated Django setting
+    'treblle.middleware.TreblleMiddleware',
+]
+```
+
+**New v2 Middleware:**
+```py copy
+MIDDLEWARE = [  # Modern Django setting
+    'treblle.middleware.TreblleMiddleware',
+]
+```
+
+## Debug Mode
+
+Enable debug mode to get detailed logging about the SDK's operation:
+
+- **Configuration errors**: Missing or invalid SDK_TOKEN/API_KEY
+- **Middleware loading**: Confirmation that Treblle is active
+- **API responses**: HTTP status codes from Treblle endpoints
+- **Error handling**: 4xx/5xx errors with helpful troubleshooting tips
+- **Data processing**: JSON validation and masking information
+
+```py copy
+TREBLLE = {
+    'SDK_TOKEN': 'your_sdk_token',
+    'API_KEY': 'your_api_key', 
+    'DEBUG': True  # Enable debug mode
+}
+```
+
+## Route Exclusion
+
+You can exclude specific routes from being tracked by Treblle. This is useful for health checks, monitoring endpoints, or other routes that generate high-frequency, low-value traffic:
+
+```py copy
+TREBLLE = {
+    'SDK_TOKEN': 'your_token',
+    'API_KEY': 'your_key',
+    'EXCLUDED_ROUTES': [
+        '/health/',           # Exact path match
+        '/api/health',        # Exact path match  
+        '/ping',              # Exact path match
+        '/admin/*',           # Wildcard: excludes /admin/login, /admin/users, etc.
+        '*/metrics',          # Wildcard: excludes /api/metrics, /internal/metrics, etc.
+        '/status/*',          # Wildcard: excludes anything under /status/
+    ],
+}
+```
+
+**Pattern matching:**
+- **Exact matches**: `/health/` only matches exactly `/health/`
+- **Wildcards**: Use `*` for flexible matching (e.g., `/admin/*` matches `/admin/login`, `/admin/users/1`)
+- **Debug logging**: Enable `DEBUG: True` to see which routes are being excluded
+
+## Field Masking
+
+You can mask sensitive fields in your API requests and responses by specifying them in the `MASKED_FIELDS` configuration:
+
+```py copy
+TREBLLE = {
+    'SDK_TOKEN': 'your_token',
+    'API_KEY': 'your_key',
+    'MASKED_FIELDS': [
+        'password',
+        'api_key',
+        'token',
+        'credit_card',
+        'ssn',
+        'custom_sensitive_field'
+    ],
+}
+```
+
+<TipCard>
+Treblle automatically masks common sensitive fields, but you can extend this list to include any custom fields specific to your application.
+</TipCard>
+
+<PaginationCards />

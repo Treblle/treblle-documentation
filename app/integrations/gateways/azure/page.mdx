@@ -1,0 +1,354 @@
+---
+title: "Azure API Gateway"
+metaTitle: "Set Up Treblle in Azure API Gateway - Treblle Documentation"
+description: "Integrate Treblle with Azure API Management using Event Hub and Azure Functions for automatic API monitoring. Capture requests, enhance security, and gain real-time insights."
+image: "/og-images/azure-api-gateway.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+
+The Azure API Gateway integration automatically:
+
+- **Real-time monitoring**: Captures requests, responses, and performance metrics instantly
+- **Serverless architecture**: Uses Azure Event Hub and Functions for cost-effective, scalable monitoring
+- **Policy-based capture**: Uses APIM policies to collect API data seamlessly
+- **Multi-API support**: Monitors all APIs configured in your Azure API Management instance
+- **Error handling**: Built-in retry logic and error handling for reliable data delivery
+- **Easy deployment**: ARM template and step-by-step deployment process
+
+## Architecture Overview
+
+```
+Azure API Management → Azure Event Hub → Azure Function App → Treblle API
+```
+
+This integration leverages Azure's native services to provide real-time API monitoring:
+
+- **Azure API Management**: Captures API requests/responses using policies
+- **Azure Event Hub**: Provides reliable message streaming and buffering  
+- **Azure Function App**: Processes events and forwards to Treblle with error handling and retry logic
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- Azure subscription with appropriate permissions
+- [Treblle account](https://treblle.com/) with API key and SDK token
+- Azure API Management service deployed
+- Azure CLI or PowerShell (for deployment) or access to Azure Portal
+- Visual Studio Code with Azure Functions extension (recommended for development)
+
+## Installation Methods
+
+### Step 1: Clone the Repository
+
+```bash copy
+git clone https://github.com/Treblle/treblle-azure.git
+cd treblle-azure
+```
+
+### Step 2: Create Resource Group
+
+1. Navigate to **Resource Manager** in Azure Portal
+2. Click **Create a resource group**
+3. Provide a name (e.g., `treblle-demo`)
+4. Select your preferred region
+5. Click **Review + Create**
+
+### Step 3: Deploy API Management Service
+
+1. Go to **Marketplace** in Azure Portal
+2. Search for "API Management" (APIM)
+3. Click **Create** and configure:
+   - **Resource name**: Your APIM service name
+   - **Organization name**: Your organization
+   - **Administrator email**: Your email address
+   - **Resource group**: Select the group created in Step 2
+4. Click **Review + Create**
+5. Wait 20-30 minutes for deployment to complete
+
+### Step 4: Create Storage Account
+
+1. Go to **Marketplace** again
+2. Search for "Storage Account"
+3. Click **Create** and provide:
+   - **Storage account name**: Unique name (e.g., `trebllestorage`)
+   - **Resource group**: Same as previous steps
+   - **Region**: Same as APIM service
+4. Click **Review + Create**
+
+### Step 5: Create Event Hub Namespace
+
+1. Navigate to **Marketplace**
+2. Search for "Event Hubs"
+3. Click **Create Event Hub Namespace**
+4. Configure:
+   - **Namespace name**: Unique name (e.g., `treblle-eventhub-ns`)
+   - **Resource group**: Same as previous resources
+   - **Region**: Same region as other resources
+5. Click **Review + Create**
+
+### Step 6: Create Event Hub
+
+1. Navigate to the **Event Hub Namespace** created in Step 5
+2. Click **+ Event Hub**
+3. Provide:
+   - **Name**: `treblle-events`
+   - Leave other settings as default
+4. Click **Create**
+
+### Step 7: Configure Shared Access Policy
+
+1. In your **Event Hub Namespace**, navigate to **Settings** → **Shared access policies**
+2. Click **+ Add**
+3. Configure:
+   - **Policy name**: `treblle-azure-policy`
+   - **Permissions**: Check both **Send** and **Listen**
+4. Click **Create**
+5. Once created, click on the policy and **copy the Primary Connection String** - you'll need this later
+
+### Step 8: Configure Azure API Management Logger
+
+#### Obtain Access Token
+
+First, get an Azure AD access token using one of these methods:
+
+**Using Azure CLI:**
+```bash copy
+az login
+az account get-access-token --resource https://management.azure.com/
+```
+
+**Using PowerShell:**
+```powershell copy
+Connect-AzAccount
+$token = (Get-AzAccessToken).Token | ConvertFrom-SecureString -AsPlainText
+echo $token
+```
+
+#### Create Logger via REST API
+
+Use the following REST API call to create the logger:
+
+**URL Pattern:**
+``` copy
+PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/loggers/{loggerId}?api-version=2024-05-01
+```
+
+**Example URL:**
+``` copy
+PUT https://management.azure.com/subscriptions/4c5f0195-b813-4fc4-819e-2d2d8f1cd2b6/resourceGroups/treblle-demo/providers/Microsoft.ApiManagement/service/treblle-api-azure/loggers/treblle-logger?api-version=2024-05-01
+```
+
+**Headers:**
+``` copy
+Authorization: Bearer {your-access-token}
+Content-Type: application/json
+```
+
+**Request Body:**
+```json copy
+{
+    "properties": {
+        "loggerType": "azureEventHub",
+        "description": "Treblle Azure logger for API monitoring",
+        "credentials": {
+            "name": "treblle-events",
+            "connectionString": "Endpoint=sb://treblle-eventhub-ns.servicebus.windows.net/;SharedAccessKeyName=treblle-azure-policy;SharedAccessKey=your-access-key"
+        }
+    }
+}
+```
+
+<CautionCard>
+**Important**: Replace the following values:
+- `{subscriptionId}`: Your Azure subscription ID
+- `{resourceGroupName}`: Your resource group name
+- `{serviceName}`: Your APIM service name
+- `{loggerId}`: Logger identifier (e.g., `treblle-logger`)
+- `name`: Your Event Hub name
+- `connectionString`: The primary connection string from Step 7
+</CautionCard>
+
+### Step 9: Verify Logger Creation
+
+1. Navigate to your **Event Hub Namespace**
+2. Go to **Activity log**
+3. You should see a log entry: "Add logger or update logger"
+
+### Step 10: Configure API Policies
+
+#### Apply Policy to API
+
+1. Navigate to your **API** in APIM
+2. Go to **Design** tab → **Inbound processing** → **Code view**
+3. Add the policy content from the repository: [Policy-Content.xml](https://github.com/Treblle/treblle-azure/blob/main/Policy-Content.xml)
+4. Update the logger name to match your created logger (`treblle-logger`)
+
+#### Policy Configuration Options
+
+- **API Level**: Applies to specific API
+- **Global Level**: Applies to all APIs  
+- **Operation Level**: Applies to specific operations
+
+#### Create and Activate Revision
+
+1. Go to **Revisions** tab in your API
+2. Click **+ Add revision**
+3. Add your policy changes
+4. Click **Create**
+5. Set the new revision as current
+
+### Step 11: Deploy Azure Function App
+
+#### Create Function App
+
+```bash copy
+az functionapp create \
+  --resource-group <resource-group> \
+  --consumption-plan-location <region> \
+  --runtime java \
+  --runtime-version 17 \
+  --functions-version 4 \
+  --name <function-app-name> \
+  --storage-account <storage-account> \
+  --os-type Windows
+```
+
+#### Deploy Function Code
+
+**Using VS Code:**
+1. Install Azure Functions extension
+2. Open the cloned project folder
+3. Press `F1` → "Azure Functions: Deploy to Function App"
+4. Select your function app
+
+**Using Azure CLI:**
+```bash copy
+func azure functionapp publish <function-app-name> --java
+```
+
+#### Configure Application Settings
+
+Set the following environment variables in your Function App:
+
+<InfoTable title="Setting" description="Configuration Details">
+    <InfoTable.Row
+        title="AzureWebJobsStorage"
+        description="Storage account connection string - Example: DefaultEndpointsProtocol=https;AccountName=..."
+    />
+    <InfoTable.Row
+        title="eventhubconnection"
+        description="Event Hub connection string from Step 7 - Example: Endpoint=sb://namespace.servicebus.windows.net/;..."
+    />
+    <InfoTable.Row
+        title="eventhub"
+        description="Event Hub name - Example: treblle-events"
+    />
+    <InfoTable.Row
+        title="consumergroup"
+        description="Event Hub consumer group - Default: $Default"
+    />
+    <InfoTable.Row
+        title="TREBLLE_PROJECT_ID"
+        description="Your Treblle project ID - Example: your-project-id"
+    />
+    <InfoTable.Row
+        title="TREBLLE_API_KEY"
+        description="Your Treblle API key - Example: your-api-key"
+    />
+    <InfoTable.Row
+        title="ADDITIONAL_MASK_KEYWORDS"
+        description="Additional fields to mask (comma-separated) - Example: Ocp-Apim-Subscription-Key,Authorization"
+    />
+</InfoTable>
+
+### Step 12: Verify Integration
+
+1. Navigate to your deployed **Function App**
+2. Go to **Functions** → **EventHubReceiver**
+3. You should see APIs being discovered by the Treblle Azure policy
+4. Visit your **Treblle platform** → **Workspace**
+5. Verify that all APIs are appearing in your Treblle dashboard
+
+## Configuration Parameters
+
+<InfoTable title="Parameter" description="Configuration Details">
+    <InfoTable.Row
+        title="TREBLLE_PROJECT_ID"
+        description="Your Treblle project ID (required) - Example: your-project-id"
+    />
+    <InfoTable.Row
+        title="TREBLLE_API_KEY"
+        description="Your Treblle API key (required) - Example: tre_sk_..."
+    />
+    <InfoTable.Row
+        title="eventhub"
+        description="Event Hub name - Default: treblle-events"
+    />
+    <InfoTable.Row
+        title="consumergroup"
+        description="Event Hub consumer group - Default: $Default"
+    />
+    <InfoTable.Row
+        title="ADDITIONAL_MASK_KEYWORDS"
+        description="Fields to mask (comma-separated) - Example: Authorization,ApiKey"
+    />
+</InfoTable>
+
+## How It Works
+
+### Integration Flow
+
+The Treblle Azure integration uses an event-driven architecture:
+
+1. **Request Capture**: APIM policies capture API requests and responses
+2. **Event Publishing**: Data is published to Azure Event Hub
+3. **Event Processing**: Azure Function processes events from Event Hub
+4. **Data Transformation**: Function formats data for Treblle API
+5. **Monitoring**: Processed data is sent to Treblle platform
+
+### Policy Configuration
+
+The integration uses APIM policies at three levels:
+
+- **Global Level**: Monitors all APIs in the APIM instance
+- **API Level**: Monitors specific APIs only
+- **Operation Level**: Monitors individual API operations
+
+### Performance Optimizations
+
+- **Asynchronous Processing**: Event Hub enables non-blocking API monitoring
+- **Batch Processing**: Function app processes events in batches for efficiency
+- **Retry Logic**: Built-in retry mechanism for failed Treblle API calls
+- **Memory Optimization**: Function configured for optimal memory usage
+
+### Debugging Steps
+
+1. **Check Function App Status**:
+```bash copy
+az functionapp show --name <function-app-name> --resource-group <resource-group>
+```
+
+2. **View Event Hub Metrics**:
+```bash copy
+az eventhubs eventhub show --resource-group <resource-group> --namespace-name <namespace> --name <eventhub>
+```
+
+3. **Check APIM Logger Configuration**:
+```bash copy
+az apim logger show --service-name <apim-service> --resource-group <resource-group> --logger-id <logger-id>
+```
+
+4. **Manual Function Test**:
+Use the Azure Portal to trigger the function manually and check execution results.
+
+<TipCard>
+The Treblle Azure API Gateway integration provides comprehensive, real-time API monitoring for your Azure infrastructure. With event-driven architecture and serverless components, you can gain complete visibility into your API landscape while maintaining cost efficiency and performance.
+</TipCard>
+
+<PaginationCards />

@@ -1,0 +1,144 @@
+---
+title: "Treblle with JavaX"
+metaTitle: "Set Up Treblle in JavaX | Treblle Docs"
+description: "Integrate Treblle with JavaX Servlet API to capture API requests, track errors, and improve visibility. Learn how to set up Treblle for real-time API insights."
+image: "/og-images/java-javax.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
+import { TipCard } from "~components/cards/tip";
+
+## Requirements
+
+- JavaX Servlet API 3.1.0
+- JavaX RS API 2.1.1
+- Java 8+
+
+## Installation
+
+Add the following dependency to your project:
+
+### Maven
+
+```xml copy
+<dependency>
+    <groupId>com.treblle</groupId>
+    <artifactId>treblle-javax</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
+### Gradle
+
+```gradle copy
+implementation 'com.treblle:treblle-javax:1.0.2'
+```
+
+<TipCard>
+For all available versions and metadata, visit the [Maven Central Repository](https://central.sonatype.com/artifact/com.treblle/treblle-javax/overview).
+</TipCard>
+
+## Getting started
+
+First, create a FREE account on [treblle.com](https://treblle.com/) to get an API key and Project ID.
+
+### Basic Configuration
+
+To set up Treblle in your JavaX application, you must configure the filter to intercept requests and responses. Here's a basic configuration example:
+
+```java copy
+// Import necessary classes
+import com.treblle.javax.filter.TreblleFilter;
+import javax.servlet.FilterRegistration;
+import javax.servlet.ServletContext;
+
+// In your web application initializer or servlet context listener
+public void onStartup(ServletContext servletContext) {
+    // Register the Treblle filter
+    FilterRegistration.Dynamic treblleFilter = servletContext.addFilter("treblleFilter", TreblleFilter.class);
+    
+    // Set initialization parameters
+    treblleFilter.setInitParameter("apiKey", "<YOUR_API_KEY>");
+    treblleFilter.setInitParameter("projectId", "<YOUR_PROJECT_ID>");
+    
+    // Add filter mapping - apply to all API endpoints
+    treblleFilter.addMappingForUrlPatterns(null, false, "/*");
+}
+```
+
+### JAX-RS Configuration
+
+If you're using JAX-RS, you can register the Treblle filter as follows:
+
+```java copy
+// Import necessary classes
+import com.treblle.javax.filter.TreblleContainerFilter;
+import javax.ws.rs.core.Application;
+import java.util.Set;
+
+// In your JAX-RS application class
+public class MyApplication extends Application {
+    @Override
+    public Set<Object> getSingletons() {
+        Set<Object> singletons = new HashSet<>();
+        
+        // Create and configure the Treblle filter
+        TreblleContainerFilter filter = new TreblleContainerFilter();
+        filter.setApiKey("<YOUR_API_KEY>");
+        filter.setProjectId("<YOUR_PROJECT_ID>");
+        
+        // Add the filter to your application
+        singletons.add(filter);
+        
+        return singletons;
+    }
+}
+```
+
+That's it! Your API requests and responses are now being sent to your Treblle project. You'll get features like auto-documentation, real-time request/response monitoring, error tracking, and more.
+
+### Filter Configuration Options
+
+The Treblle filter supports the following configuration options:
+
+```java copy
+// Set the API key required for authentication with Treblle
+filter.setInitParameter("apiKey", "<YOUR_API_KEY>");
+
+// Set the project ID where your API data will be sent
+filter.setInitParameter("projectId", "<YOUR_PROJECT_ID>");
+
+// Optional: Specify custom URL patterns (comma-separated) to monitor
+filter.setInitParameter("urlPatterns", "/api/v1/*,/api/v2/*");
+
+// Optional: Add additional field masking keywords (comma-separated)
+filter.setInitParameter("maskingKeywords", "secretField,sensitiveData");
+
+// Optional: Enable debug mode for additional logging
+filter.setInitParameter("debug", "true");
+
+// Optional: Set custom Treblle endpoint 
+filter.setInitParameter("endpoint", "https://rocknrolla.treblle.com");
+```
+
+### Running Treblle only for specific URL patterns
+
+By default, Treblle applies its filter to all requests (/*). If you want to run Treblle only for specific URL patterns, you can specify them during filter registration:
+
+```java copy
+// Register the filter only for API endpoints
+treblleFilter.addMappingForUrlPatterns(null, false, "/api/*");
+```
+
+Or use the 'urlPatterns' configuration parameter:
+
+```java copy
+treblleFilter.setInitParameter("urlPatterns", "/api/v1/*,/api/v2/*");
+```
+
+<NoteCard>
+Configure URL patterns carefully to ensure you're only monitoring the endpoints you need, which can help reduce overhead and keep your Treblle dashboard focused on relevant traffic.
+</NoteCard>
+
+<PaginationCards />

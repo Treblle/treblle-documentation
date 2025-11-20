@@ -1,0 +1,304 @@
+---
+title: "AWS API Gateway"
+metaTitle: "Set Up Treblle in AWS API Gateway - Treblle Documentation"
+description: "Integrate Treblle with AWS API Gateway using our serverless Lambda function for automatic API discovery and monitoring. Capture requests, enhance security, and gain real-time insights."
+image: "/og-images/api-gateways-aws.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+
+Treblle's AWS API Gateway integration provides automatic discovery and monitoring of your AWS API Gateway APIs through a serverless Lambda function. 
+
+This integration captures API requests, responses, and metadata in real-time without requiring code changes to your existing APIs.
+
+The AWS API Gateway integration automatically:
+
+- **Discovers APIs**: Automatically finds all REST and HTTP APIs in your AWS account
+- **Multi-region support**: Scans multiple AWS regions simultaneously
+- **Real-time monitoring**: Captures requests, responses, and performance metrics
+- **Serverless architecture**: Uses AWS Lambda for cost-effective, scalable monitoring
+- **Scheduled discovery**: Runs automatically to discover new APIs (default: every 24 hours)
+- **Easy deployment**: Single CloudFormation template deployment
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- AWS account with API Gateway APIs deployed
+- [Treblle account](https://treblle.com/) with API key and SDK token
+- AWS CLI installed and configured (for CLI deployment) or access to AWS Console
+- Appropriate AWS permissions for CloudFormation, Lambda, and API Gateway
+
+## Installation Methods
+
+<NoteCard>
+The Treblle AWS Discovery repository is private. Repository access or the CloudFormation file will be provided to customers via email. Please contact your Treblle representative to obtain access, or email support@treblle.com.
+</NoteCard>
+
+Choose your preferred deployment method:
+
+**Method 1: AWS CLI Deployment (Recommended)**
+
+### Step 1: Clone the Repository
+
+```bash copy
+git clone https://github.com/Treblle/treblle-aws-discovery.git
+cd treblle-aws-discovery
+```
+
+### Step 2: Deploy with CloudFormation
+
+```bash copy
+aws cloudformation deploy \
+  --template-file cloudformation.yaml \
+  --stack-name treblle-api-discovery \
+  --parameter-overrides \
+    TreblleSDKToken=YOUR_TREBLLE_SDK_TOKEN \
+    RegionList=us-east-1,us-west-2,eu-west-1 \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+### Step 3: Test the Deployment (Optional)
+
+```bash copy
+aws lambda invoke \
+  --function-name treblle-api-gateway-discovery \
+  response.json
+
+cat response.json
+```
+
+**Method 2: AWS Console Deployment**
+
+### Step 1: Download Template
+
+Download the `cloudformation.yaml` file from the [GitHub repository](https://github.com/Treblle/treblle-aws-discovery).
+
+### Step 2: Open CloudFormation Console
+
+1. Navigate to [AWS CloudFormation Console](https://console.aws.amazon.com/cloudformation/)
+2. Select your desired AWS region
+
+### Step 3: Create Stack
+
+1. Click **"Create stack"** → **"With new resources (standard)"**
+2. Choose **"Upload a template file"**
+3. Select the downloaded `cloudformation.yaml` file
+4. Click **"Next"**
+
+### Step 4: Configure Parameters
+
+- **Stack name**: `treblle-api-discovery`
+- **TreblleSDKToken**: Your Treblle SDK token
+- **RegionList**: Comma-separated regions (e.g., `us-east-1,us-west-2,eu-west-1`)
+- **ScheduleExpression**: Discovery frequency (default: `rate(24 hours)`)
+
+### Step 5: Deploy
+
+1. Review configuration
+2. Check **"I acknowledge that AWS CloudFormation might create IAM resources"**
+3. Click **"Submit"**
+4. Wait for `CREATE_COMPLETE` status
+
+<TipCard>
+If you encounter permission errors during deployment, verify that your MuleSoft account has the necessary API Manager and Exchange permissions.
+</TipCard>
+
+## Configuration Parameters
+
+<InfoTable title="Parameter" description="Configuration Details">
+    <InfoTable.Row
+        title="TreblleSDKToken"
+        description="Your Treblle SDK token (required) - Example: tre_sk_..."
+    />
+    <InfoTable.Row
+        title="RegionList"
+        description="AWS regions to scan - Default: us-east-1,us-west-2,eu-west-1"
+    />
+    <InfoTable.Row
+        title="ScheduleExpression"
+        description="Discovery schedule - Default: rate(24 hours) - Example: cron(0 9 * * ? *)"
+    />
+</InfoTable>
+
+### Supported AWS Regions
+
+The integration supports all major AWS regions:
+
+**US Regions:**
+- `us-east-1`, `us-east-2`, `us-west-1`, `us-west-2`
+
+**Europe Regions:**
+- `eu-west-1`, `eu-west-2`, `eu-west-3`, `eu-central-1`, `eu-north-1`, `eu-south-1`
+
+**Asia Pacific Regions:**
+- `ap-southeast-1`, `ap-southeast-2`, `ap-southeast-3`
+- `ap-northeast-1`, `ap-northeast-2`, `ap-northeast-3`
+- `ap-south-1`, `ap-east-1`
+
+**Other Regions:**
+- `ca-central-1`, `sa-east-1`, `af-south-1`, `me-south-1`
+
+## How It Works
+
+### Architecture Overview
+
+The Treblle AWS API Gateway integration uses a serverless architecture:
+
+1. **EventBridge Scheduler**: Triggers Lambda function on defined schedule
+2. **Lambda Function**: Discovers and analyzes API Gateway APIs
+3. **Multi-region Scanning**: Parallel discovery across specified regions
+4. **Data Processing**: Collects API metadata, endpoints, and configuration
+5. **Treblle Integration**: Sends discovered APIs to Treblle platform
+
+### Discovery Process
+
+1. **Account Detection**: Automatically identifies current AWS account
+2. **Region Validation**: Validates and filters configured regions
+3. **API Discovery**: Finds REST APIs and HTTP APIs in each region
+4. **Metadata Collection**: Gathers API details, stages, and endpoints
+5. **Batch Processing**: Sends data to Treblle in optimized batches
+6. **Monitoring**: Provides detailed logging and error reporting
+
+### Performance Optimizations
+
+- **Parallel Processing**: All regions scanned simultaneously
+- **Connection Pooling**: HTTPS connections reused across requests
+- **SDK Client Reuse**: AWS SDK clients created once per region
+- **Memory Optimization**: Uses 256MB memory allocation
+- **Timeout Management**: 10-minute timeout for comprehensive scanning
+
+## Multiple AWS Accounts
+
+To monitor APIs across multiple AWS accounts:
+
+### Account 1 Deployment
+
+```bash copy
+aws cloudformation deploy \
+  --template-file cloudformation.yaml \
+  --stack-name treblle-api-discovery \
+  --parameter-overrides \
+    TreblleSDKToken=YOUR_TOKEN \
+    RegionList=us-east-1,us-west-2 \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+### Account 2 Deployment
+
+```bash copy
+# Switch AWS credentials/profile first
+aws cloudformation deploy \
+  --template-file cloudformation.yaml \
+  --stack-name treblle-api-discovery \
+  --parameter-overrides \
+    TreblleSDKToken=YOUR_TOKEN \
+    RegionList=eu-west-1,eu-central-1 \
+  --capabilities CAPABILITY_NAMED_IAM
+```
+
+## Monitoring and Observability
+
+### Viewing Logs
+
+Monitor the discovery function logs:
+
+```bash copy
+aws logs tail /aws/lambda/treblle-api-gateway-discovery --follow
+```
+
+Or via AWS Console:
+```bash copy
+- CloudWatch → Log groups → `/aws/lambda/treblle-api-gateway-discovery`
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Function Timeout**
+
+<NoteCard>
+**Symptom**: Lambda function times out during execution
+
+**Solution**: Increase timeout in CloudFormation template or reduce regions
+</NoteCard>
+
+**Permission Errors**
+
+<NoteCard>
+**Symptom**: Access denied errors in logs
+
+**Solution**: Verify IAM permissions for API Gateway access
+</NoteCard>
+
+**No APIs Discovered**
+
+<NoteCard>
+**Symptom**: Function runs but finds no APIs
+
+**Solution**: 
+- Verify APIs exist in specified regions
+- Check IAM permissions
+- Review CloudWatch logs for errors
+</NoteCard>
+
+**Invalid Region Errors**
+
+<NoteCard>
+**Symptom**: Error messages about invalid regions
+
+**Solution**: Verify region names against supported regions list
+</NoteCard>
+
+### Debugging Steps
+
+1. **Check Function Logs**:
+```bash copy
+aws logs describe-log-streams \
+  --log-group-name /aws/lambda/treblle-api-gateway-discovery \
+  --order-by LastEventTime \
+  --descending
+```
+
+2. **Manual Function Test**:
+```bash copy
+aws lambda invoke \
+  --function-name treblle-api-gateway-discovery \
+  --payload '{}' \
+  response.json
+
+cat response.json
+```
+
+3. **Verify IAM Permissions**:
+```bash copy
+aws iam get-role --role-name TreblleApiDiscoveryRole
+```
+
+## Cleanup
+
+To remove the Treblle integration:
+
+### Via AWS CLI
+
+```bash copy
+aws cloudformation delete-stack --stack-name treblle-api-discovery
+```
+
+### Via AWS Console
+
+1. Navigate to CloudFormation Console
+2. Select the `treblle-api-discovery` stack
+3. Click **Delete**
+4. Confirm deletion
+
+<TipCard>
+The Treblle AWS API Gateway integration provides comprehensive, automated API discovery and monitoring for your AWS infrastructure. With minimal setup and serverless architecture, you can gain complete visibility into your API landscape while maintaining cost efficiency and security best practices.
+</TipCard>
+
+<PaginationCards />

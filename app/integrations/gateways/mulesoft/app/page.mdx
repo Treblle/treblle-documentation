@@ -1,0 +1,155 @@
+---
+title: "MuleSoft App for Auto Discovery"
+metaTitle: "Deploy MuleSoft App for Treblle Auto-Discovery - Treblle Documentation"
+description: "Set up the Treblle MuleSoft app for automatic API discovery and registration. Deploy to Anypoint Platform with VS Code extension and monitor your APIs seamlessly."
+image: "/og-images/mulesoft-autodiscover-app.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import { ImageCard } from "~components/cards/image-card";
+
+This app is an extension of the MuleSoft integration enabled by the policy.
+
+It ensures Treblle can discover all inactive/stale APIs and correctly capture API names inside Treblle for complete visibility and gives you the best Treblle experience.
+
+Using the MuleSoft policy and this app together ensures you get 100% API visibility and a full Treblle experience across your MuleSoft environment.
+
+<NoteCard>
+Recommended to be configured while on a call with the Treblle team to ensure it's set up correctly and optimized for your use case. Please reach out to your Treblle point of contact before starting, so they can guide you through the setup and help address any specifics in real time.
+</NoteCard>
+
+## Prerequisites
+
+Before you begin, make sure you have:
+
+- Configure the [MuleSoft policy](policy/)
+- Access to Anypoint Platform
+- Maven 3.8+ configured
+- A [Treblle account](https://identity.treblle.com/) with API key and Project ID
+
+## Step 1: Clone Treblle Auto-Discovery Repository
+
+1. **Clone the Treblle repository**:
+   ```bash copy
+   git clone https://github.com/Treblle/treblle-mulesoft-autodiscovery.git
+   ```
+
+2. **Open the cloned repository** in your development environment
+
+## Step 2: Obtain the JAR File
+
+You have two options to get the required JAR file:
+
+### Option A: Build the Project
+
+1. Save your changes
+2. Run the following command in your MuleSoft project directory:
+   ```bash copy
+   mvn clean install
+   ```
+3. Navigate to your `.m2` folder and find the JAR file:
+   ```
+   treblle-register-apis-1.0.0-SNAPSHOT-mule-application.jar
+   ```
+
+<ImageCard src="/platform/mulesoft-app/jar-file.jpg" alt="JAR file location" />
+
+### Option B: Use Pre-built JAR from Repository
+
+Alternatively, you can use the pre-built JAR file directly from the repository without building it yourself.
+
+## Step 3: Create Connected App
+
+1. Go to [Anypoint Platform Connected Apps](https://anypoint.mulesoft.com/accounts/connectedApps)
+2. Navigate to **Access Management > Connected Apps**
+
+<ImageCard src="/platform/mulesoft-app/app.jpg" alt="Connected Apps menu" />
+
+3. Create a new app with the required information and scopes:
+
+<ImageCard src="/platform/mulesoft-app/scope.jpg" alt="Connected app scopes configuration" />
+
+4. Copy the **Client ID** and **Client Secret** - these will be needed for deployment:
+
+<ImageCard src="/platform/mulesoft-app/client-id-secret.jpg" alt="Client ID and Secret" />
+
+## Step 4: Deploy to Runtime Manager
+
+1. Go to **Runtime Manager** and click **Deploy Application**
+
+<ImageCard src="/platform/mulesoft-app/deploy.jpg" alt="Deploy application button" />
+
+2. Provide a name for the application and upload the JAR file: `treblle-register-apis-1.0.0-SNAPSHOT-mule-application.jar`
+
+<ImageCard src="/platform/mulesoft-app/application-file.jpg" alt="Upload JAR file" />
+
+## Step 5: Configure Application Properties
+
+Go to the **Properties** section and add the following:
+
+- **CLIENT_ID**: Your Connected App Client ID
+- **CLIENT_SECRET**: Your Connected App Client Secret  
+- **API_KEY**: Enter your Treblle API key
+- **SDK_TOKEN**: Enter your Treblle SDK token 
+- **OrganizationId**: Your MuleSoft Business Group ID
+
+<ImageCard src="/platform/mulesoft-app/properties.jpg" alt="Application properties configuration" />
+
+Click **Deploy Application**.
+
+## Step 6: Monitor Deployment
+
+1. Once the app is deployed, click on it:
+
+<ImageCard src="/platform/mulesoft-app/deployed-app.jpg" alt="Deployed application" />
+
+2. Click on **Logs** to view all application logs:
+
+<ImageCard src="/platform/mulesoft-app/logs.jpg" alt="Application logs" />
+
+## For Multiple Business Groups
+
+If you need to monitor APIs across different business groups, follow these additional steps:
+
+**Step 1:** Build and Deploy the Treblle Policy on the business group that you want to add.
+
+**Step 2:** Apply policy to the APIs. 
+
+<TipCard>
+Refer to the [MuleSoft policy documentation](policy/#creating-and-deploying-the-custom-policy) for detailed steps on how to apply policies to APIs
+</TipCard>
+
+**Step 3:** Update Connected App Scopes: Click the checkbox for different business groups to expand the scope permissions.
+
+<ImageCard src="/platform/mulesoft-app/business-scope.jpg" alt="Business group scope selection" />
+
+**Step 4:** Add Scopes for Other Business Groups: Ensure you add the same scopes for each business group you want to monitor.
+
+<ImageCard src="/platform/mulesoft-app/business-scope-2.jpg" alt="Additional business group scopes" />
+
+<ImageCard src="/platform/mulesoft-app/business-scope-3.jpg" alt="Complete business group scopes" />
+
+**Step 5:** Configure Business Group IDs: In the connected app properties, add multiple business group IDs separated by commas (`,`).
+
+Example: `businessGroupIDs: group1-id,group2-id,group3-id`
+
+<ImageCard src="/platform/mulesoft-app/multiple-ids.jpg" alt="Multiple business group IDs" />
+
+The logs will show different organization IDs when monitoring multiple business groups.
+
+<ImageCard src="/platform/mulesoft-app/business-logs.jpg" alt="Business group monitoring logs" />
+
+## How It Works
+
+The Treblle MuleSoft Auto-Discovery app automatically:
+
+1. **Discovers APIs** in your MuleSoft environment
+2. **Registers them** with the Treblle platform
+3. **Monitors changes** and updates API information
+4. **Provides visibility** into your API landscape
+
+This enables smooth integration between your MuleSoft APIs and Treblle's Intelligence.
+
+<PaginationCards />

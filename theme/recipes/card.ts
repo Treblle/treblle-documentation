@@ -8,8 +8,9 @@ export const card = defineRecipe({
         borderRadius: "12px",
         padding: "16px",
         display: "flex",
-        marginY: "12px",
+        marginY: "40px",
         flexDirection: "column",
+        cursor: "default",
         _hover: {
             backgroundColor: "#1b1e31",
         },
@@ -28,16 +29,19 @@ export const card = defineRecipe({
                 marginBottom: "0",
             },
             tip: {
+                paddingBottom: "29px",
                 marginBottom: "40px",
                 borderColor: "garden.300",
                 backgroundColor: "rgba(17, 66, 74, 0.3)",
             },
             caution: {
+                paddingBottom: "29px",
                 marginBottom: "40px",
                 borderColor: "atomic.200",
                 backgroundColor: "rgba(78, 57, 53, 0.3)",
             },
             note: {
+                paddingBottom: "29px",
                 marginBottom: "40px",
                 borderColor: "electric.200",
                 backgroundColor: "rgba(22, 47, 107, 0.3)",

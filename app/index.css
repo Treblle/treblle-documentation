@@ -2,6 +2,23 @@
 
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    background: #01041a;
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #676f88;
+    border-radius: 3px;
+}
+
+.nextra-code pre {
+    border: 1px solid #29304b !important;
+    box-shadow: none !important;
 }
 
 .nextra-code div {
@@ -85,4 +102,8 @@ a[href^="mailto:"] {
 
 article div:has(time) {
     display: none;
+}
+
+.nextra-border {
+    border-bottom: 1px solid #29304b !important;
 }

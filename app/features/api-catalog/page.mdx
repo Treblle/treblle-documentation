@@ -1,0 +1,115 @@
+---
+title: "API Catalog"
+metaTitle: "API Catalog – Centralized API Documentation & Management - Treblle Documentation"
+description: "Treblle's API Catalog lets you publish and manage API documentation in a centralized repository. Organize APIs, share details, and collaborate without exposing endpoints."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { YoutubeEmbed } from "~components/video/youtube-embed";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+# API Catalog
+
+<YoutubeEmbed postId="7tzyNXE3LK0" />
+
+The API Catalog is a centralized repository where you can publish and manage your API documentation. It allows teams to collaborate effectively by sharing API details without granting full access to the API itself.
+
+This separation is particularly useful if you want team members to interact only with the API documentation rather than the API endpoints directly.
+
+<NoteCard>
+Only the API's owner can publish it to the API Catalog, ensuring controlled visibility and secure sharing for catalog updates.
+</NoteCard>
+
+## Steps to add an API to the Catalog
+
+### 1. Go to API Settings
+
+- Select the API to add to the catalog.
+- On the left-hand menu, click **API Settings**.
+
+<ImageCard src="/platform/api-catalog/api-setting.png" alt="API Settings" />
+
+### 2. Publish your API
+
+- Scroll to the **API Options** section.
+- Click the **Publish** button.
+
+<ImageCard src="/platform/api-catalog/api-option.png" alt="API Options" />
+
+### 3. Provide API Information
+
+Fill out the required details for your API:
+
+- **API Category**: Select a category (e.g., Payment APIs, Authentication APIs).
+- **API Tags**: Add descriptive tags (e.g., OAuth, REST, v2).
+- **API Description**: Describe the API's purpose and functionality.
+
+<ImageCard src="/platform/api-catalog/api-information.png" alt="API Information" />
+
+Example:
+The Payment API supports multiple payment methods, including credit cards, PayPal, and digital wallets.
+
+<ImageCard src="/platform/api-catalog/publish-example.png" alt="Publish Example" />
+
+Click **Publish** to make the API live in the catalog.
+
+## Steps to View the API Catalog
+
+### 1. Access the API Catalog
+
+Click **API Catalog** from the dashboard in the left-hand menu.
+
+<ImageCard src="/platform/api-catalog/api-catalog-option.png" alt="API Catalog Option" />
+
+### 2. Explore Published APIs
+
+View the list of published APIs.
+
+<ImageCard src="/platform/api-catalog/api-catalog-dashboard.png" alt="API Catalog Dashboard" />
+
+Use sorting options like:
+
+- Popular
+- Grade
+- Name
+- Most Recent
+
+<ImageCard src="/platform/api-catalog/filter-option.png" alt="Filter Options" />
+
+Filter APIs by SDK or environment for more straightforward navigation.
+
+## Steps to interact with an API
+
+### 1. API Details
+
+Click on a published API to view detailed information:
+
+- **API Score**: A quality assessment based on design, performance, and security.
+- **Followers**: Number of users following the API.
+- **Tags and Category**: Metadata for discovery.
+- **Description**: Overview of the API's purpose and functionality.
+
+<ImageCard src="/platform/api-catalog/api-details.png" alt="API Details" />
+
+<TipCard>
+You can interact with your API documentation more effectively using <Link href="https://treblle.com/product/alfred" target="_blank">Alfred</Link>, the AI assistant.
+</TipCard>
+
+Alfred helps you navigate and understand your API docs, making it particularly useful for new team members. 
+
+Learn more about what's new in the <Link href="https://blog.treblle.com/whats-new-treblle-3-0-api-catalog/" target="_blank">API catalog in Treblle 3.0 Blog</Link>.
+
+### 2. Additional Information
+
+Access more API-specific details on the left-hand panel:
+
+- **Authentication**: Methods and credentials required to interact with the API.
+- **Resources**: Documentation, SDKs, and other materials.
+- **Endpoints**: Comprehensive list of available endpoints.
+
+<ImageCard src="/platform/api-catalog/additional-information.png" alt="Additional Information" />
+
+<PaginationCards />

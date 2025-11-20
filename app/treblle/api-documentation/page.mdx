@@ -1,0 +1,103 @@
+---
+title: "API Documentation"
+metaTitle: "API Documentation - Treblle Documentation"
+description: "Treblle automatically generates real-time API documentation, including authentication methods, endpoints, OpenAPI specs, and more. Access interactive docs, use Alfred AI for assistance, and simplify API integration."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+import { NoteCard } from "~components/cards/note";
+
+# API Documentation
+
+Treblle auto-generates API documentation in real-time. It includes details such as available endpoints, authentication methods, request and response formats, and other essential technical specifications required to integrate and use the API successfully.
+
+## How to View API Docs
+
+1. Click on **API Docs** in the left navigation bar.
+
+<ImageCard src="/platform/api-documentation/api-documentation.png" alt="API Documentation Navigation" />
+
+2. The API Docs Overview will display the following:
+
+<ImageCard src="/platform/api-documentation/docs-dashboard.png" alt="API Documentation Dashboard" />
+
+- **Load time**: Time it takes to load the API data.
+- **Response size**: Size of the API responses.
+- **Base URL**: The base URL for your API.
+- **[API score](/treblle/api-governance/)**: A score that represents the health and quality of your API.
+
+<ImageCard src="/platform/api-documentation/api-score.png" alt="API Score" />
+
+- **Format**: The format of the API (e.g., JSON).
+- **Total number of endpoints**: Total count of API endpoints.
+- **API settings**: Includes API details, invite members, API ID, and SDK token.
+- **[API catalog](/features/api-catalog/)**: A repository to publish and manage API documentation for collaboration without granting full API access.
+
+<ImageCard src="/platform/api-documentation/api-catalog.png" alt="API Catalog" />
+
+## Authentication
+
+Authentication is vital for verifying the identity of clients accessing the API. With the correct authentication method, you can ensure that only authorized users can interact with the API endpoints.
+
+When making API requests, you'll need to provide the following authentication details:
+
+- **Type:** Specifies the authentication method (e.g., Bearer Token, API Key)
+- **Value:** The actual authentication credentials
+- **Location:** Where to include the authentication (e.g., Headers, Query Parameters)
+
+<ImageCard src="/platform/api-documentation/authentication.png" alt="Authentication Details" />
+
+## OpenAPI Specification
+
+OpenAPI Specification (OAS) is a standard for describing APIs. When it comes to API documentation, OpenAPI spec is a must for every API. 
+
+Under API documentation, Treblle auto-generates API documentation. We support JSON and YAML formats.
+
+To open the documentation in Swagger, click the **Open in Swagger** button on the OpenAPI Specification page.
+
+<ImageCard src="/platform/api-documentation/openapi.png" alt="OpenAPI Specification" />
+
+<NoteCard>
+A new OpenAPI Specification URL is generated each time you visit the documentation page. This URL is valid for one hour and expires afterward.
+</NoteCard>
+
+## Endpoints
+
+Under API documentation, you can also access all your API endpoints. This lets you quickly navigate to the endpoint you want to work with.
+
+To add or remove an endpoint, please refer to the [Endpoint Documentation](/treblle/endpoints/).
+
+<ImageCard src="/platform/api-documentation/endpoints.png" alt="API Endpoints" />
+
+## Alfred AI 
+
+You will find a cute AI assistant jumping around on the API Documentation page. That's [Alfred](/treblle/alfred-ai).
+
+**Alfred** is Treblle's assistant who helps with your API workflows by using your API documentation to provide real-time answers. It makes your integrations faster.
+
+<NoteCard>
+[Alfred](/treblle/alfred-ai) only accesses your API documentation and does not store or analyze your data. Based on your current API setup it helps improve your documentation and integration process.
+</NoteCard>
+
+### Steps to Use Alfred
+
+1. Click on **Alfred** to open the interface.
+
+<ImageCard src="/platform/api-documentation/alfred.png" alt="Alfred Interface" />
+
+2. Use predefined prompts or ask questions to:
+
+   Example: **Help me get started with this API**.
+
+<ImageCard src="/platform/api-documentation/alfred-example.png" alt="Alfred Example" />
+
+## Resources
+
+For additional context, you can upload PDFs and other information in the Resources section.
+
+<ImageCard src="/platform/api-documentation/resources.png" alt="Resources Section" />
+
+The next time you work with an API, ask for its Treblle generated API documentation and the [Alfred](/treblle/alfred-ai) AI assistant.
+
+<PaginationCards />

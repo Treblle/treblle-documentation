@@ -1,0 +1,205 @@
+---
+title: "Treblle with AWS Lambda"
+metaTitle: "Set Up Treblle in AWS Lambda | Treblle Docs"
+description: "Integrate Treblle with AWS Lambda to capture API requests, track errors, and improve visibility"
+image: "/og-images/java-aws-lambda.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
+import { TipCard } from "~components/cards/tip";
+import { InfoTable } from "~components/tables/info-table";
+
+## Requirements
+
+- AWS Lambda environment
+- Java 8+
+- Maven or Gradle build system
+
+## Installation
+
+Add the following dependency to your Maven project:
+
+```xml copy
+<dependency>
+    <groupId>com.treblle</groupId>
+    <artifactId>treblle-aws-lambda</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
+If you're using Gradle, add:
+
+```gradle copy
+implementation 'com.treblle:treblle-aws-lambda:1.0.2'
+```
+
+<TipCard>
+Check [Maven Central Repository](https://central.sonatype.com/artifact/com.treblle/treblle-aws-lambda/1.0.2/overview) for all available versions and metadata.
+</TipCard>
+
+## Getting started
+
+First, you must create a FREE account on [treblle.com](https://treblle.com/) to get an API key and Project ID. After you have those, you must integrate Treblle into your AWS Lambda handler.
+
+### Basic Implementation
+
+Here's a simple example of integrating Treblle with an AWS Lambda function that handles API Gateway requests:
+
+```java copy
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
+import com.treblle.aws.lambda.TreblleHandler;
+
+public class MyLambdaHandler implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
+
+    private final TreblleHandler treblleHandler;
+
+    public MyLambdaHandler() {
+        // Initialize Treblle with your API key and Project ID
+        this.treblleHandler = new TreblleHandler(
+            "YOUR_API_KEY", 
+            "YOUR_PROJECT_ID"
+        );
+    }
+
+    @Override
+    public APIGatewayProxyResponseEvent handleRequest(APIGatewayProxyRequestEvent request, Context context) {
+        // Your Lambda handler code wrapped with Treblle monitoring
+        return treblleHandler.handle(request, context, this::processRequest);
+    }
+
+    // Your actual business logic
+    private APIGatewayProxyResponseEvent processRequest(APIGatewayProxyRequestEvent request, Context context) {
+        APIGatewayProxyResponseEvent response = new APIGatewayProxyResponseEvent();
+        
+        try {
+            // Your API implementation
+            response.setStatusCode(200);
+            response.setBody("{\"message\":\"Success\"}");
+        } catch (Exception e) {
+            // Treblle will automatically capture this error
+            response.setStatusCode(500);
+            response.setBody("{\"error\":\"Internal server error\"}");
+        }
+        
+        return response;
+    }
+}
+```
+
+That's it! 
+
+Your API requests and responses from your AWS Lambda function are being sent to your Treblle project. This gives you features like auto-documentation, real-time request/response monitoring, error tracking, etc.
+
+## Configuration Options
+
+The `TreblleHandler` constructor supports several configuration options:
+
+```java copy
+// Initialize Treblle with additional options
+TreblleHandler treblleHandler = new TreblleHandler(
+    "YOUR_API_KEY",               // Your Treblle API key
+    "YOUR_PROJECT_ID",            // Your Treblle Project ID
+    Arrays.asList("secret_field", "sensitive_data"), // Additional fields to mask
+    false                         // Debug mode
+);
+```
+
+## Environment Variables
+
+You can also configure Treblle using environment variables in your AWS Lambda configuration:
+
+<InfoTable title="Environment Variable" description="Purpose">
+    <InfoTable.Row
+        title="TREBLLE_API_KEY"
+        description="Your Treblle API key"
+    />
+    <InfoTable.Row
+        title="TREBLLE_PROJECT_ID"
+        description="Your Treblle Project ID"
+    />
+    <InfoTable.Row
+        title="TREBLLE_MASKING_KEYWORDS"
+        description="Comma-separated list of additional fields to mask"
+    />
+    <InfoTable.Row
+        title="TREBLLE_DEBUG"
+        description='Set to "true" to enable debug mode'
+    />
+    <InfoTable.Row
+        title="TREBLLE_ENDPOINT"
+        description="(Optional) Custom endpoint URL"
+    />
+</InfoTable>
+
+With environment variables, you can simplify your code:
+
+```java copy
+// Reads configuration from environment variables
+TreblleHandler treblleHandler = new TreblleHandler();
+```
+
+## Need to hide additional fields?
+
+Treblle automatically masks sensitive data like passwords, tokens, and authentication information. If you want to expand the list of fields you want to hide, you can pass additional field names to the constructor or set them via environment variables:
+
+### Via constructor
+
+```java copy
+List<String> additionalFields = Arrays.asList("secretField", "privateKey");
+TreblleHandler treblleHandler = new TreblleHandler(
+    "YOUR_API_KEY", 
+    "YOUR_PROJECT_ID",
+    additionalFields
+);
+```
+
+### Via environment variables
+
+```java copy
+TREBLLE_MASKING_KEYWORDS=secretField,privateKey
+```
+
+### Masking Entire Objects
+
+To mask entire JSON objects and all their properties, use the pattern:
+
+```java copy
+fieldName.*
+```
+
+## Performance Considerations
+
+Treblle is designed to have minimal impact on your Lambda's performance:
+
+- Initialize the TreblleHandler once in your class constructor to avoid creating it on each invocation
+- Treblle uses asynchronous processing to minimize the impact on your Lambda execution time
+- The SDK is lightweight and optimized for serverless environments
+
+## Deployment
+
+When deploying your Lambda function with Treblle, make sure:
+
+- Your function has internet access (if in a VPC).
+- You've correctly set up environment variables for your API key and Project ID.
+- You've given your Lambda enough memory and timeout to accommodate the additional Treblle processing.
+
+<NoteCard>
+Ensure your Lambda has appropriate IAM permissions and network access to communicate with Treblle's servers.
+</NoteCard>
+
+## Error Handling
+
+Treblle automatically captures and reports errors that occur in your Lambda function. The SDK captures:
+
+- Exception details
+- Stacktrace information
+- Request context
+- Response data
+
+This information is sent securely to your Treblle dashboard, where you can review and address issues.
+
+<PaginationCards />

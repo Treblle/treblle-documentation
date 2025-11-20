@@ -21,7 +21,12 @@ export default {
     index: {
         title: "Quick start",
         theme: {
-            "breadcrumb": false,
-        }
-    }
+            breadcrumb: false,
+        },
+    },
+    integrations: {
+        theme: {
+            collapsed: false,
+        },
+    },
 };

@@ -1,0 +1,117 @@
+---
+title: "Alfred AI"
+metaTitle: "Alfred AI – Your API Assistant - Treblle Documentation"
+description: "Alfred AI helps improve your API workflows by using your API documentation to provide real-time answers. Integrate with Treblle SDK, upload OpenAPI specs, or embed Alfred in your developer portal."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+import { NoteCard } from "~components/cards/note";
+
+# Alfred AI
+
+### What is Alfred AI?
+
+[Alfred](https://treblle.com/product/alfred) is Treblle's AI assistant. It helps improve your API workflows by using your API documentation to provide real-time answers.
+
+<NoteCard>
+Alfred accesses only your API documentation and does not store or analyze your data. Based on your current API setup it helps you improve your documentation and integration process.
+</NoteCard>
+
+### Monitoring Alfred Usage
+
+Alfred AI provides a comprehensive dashboard where you can track how your team is using the AI assistant. This helps you understand usage patterns, identify popular queries, and optimize your API documentation based on real team interactions.
+
+<ImageCard src="/platform/alfred/widget.jpg" alt="Alfred Widget Dashboard" />
+
+#### Accessing the Alfred Dashboard
+
+- Navigate to the Alfred AI section in your Treblle workspace
+- Click on the "Analytics" or "Usage" tab to view the dashboard
+
+Review metrics such as:
+
+- Most frequently asked questions
+- Team member activity
+- Popular API endpoints being queried
+- Usage trends over time
+
+This dashboard insight helps you identify knowledge gaps in your documentation and understand which parts of your API your team needs the most help with.
+
+There are several ways to use Alfred:
+
+- Integrating with Treblle SDK.
+- Uploading your OpenAPI Specification.
+- Embedding Alfred to your Developer Portal.
+
+### Integrating with Treblle SDK
+
+Integrating the Treblle SDK will automatically generate API docs and a developer portal with Alfred.
+
+You can find integration guides for various languages and platforms [here](integrations/integrations).
+
+#### Step 1: Accessing Alfred
+
+Go to the API Docs section of your Treblle workspace.
+
+<ImageCard src="/platform/alfred/api-docs.png" alt="API Docs Section" />
+
+Look for Alfred in the bottom right corner of the screen.
+
+<ImageCard src="/platform/alfred/alfred.jpg" alt="Alfred Assistant" />
+
+#### Step 2: Interact with Alfred
+
+Click on Alfred to open an interface with predefined prompts.
+
+<ImageCard src="/platform/alfred/interface.jpg" alt="Alfred Interface" />
+
+Ask questions or request assistance with your API documentation, such as identifying issues, generating code examples, or improving endpoint documentation.
+
+#### Example:
+
+<ImageCard src="/platform/alfred/example.jpg" alt="Alfred Example" />
+
+### Uploading your OpenAPI Specification
+
+If you are not integrating the Treblle SDK, you can upload your [OpenAPI Specification](https://swagger.io/specification/) (version 3 or above) directly to the Treblle platform.
+
+<NoteCard>
+To keep Alfred's information up to date, you must manually update the specification whenever changes occur.
+</NoteCard>
+
+#### Step 1: Access OpenAPI Specification
+
+Go to the API Setting section of your Treblle workspace.
+
+<ImageCard src="/platform/alfred/api-setting.png" alt="API Settings" />
+
+#### Step 2: Upload OpenAPI Specification
+
+Click on upload to add your OpenAPI Specification.
+
+<ImageCard src="/platform/alfred/open-api.png" alt="Upload OpenAPI Specification" />
+
+### Embedding Alfred to your Developer Portal
+
+To embed Alfred into your developer portal, follow these steps:
+
+1. Add a one-line script to your HTML:
+
+   ```html
+   <script src="https://assets.treblle.com/alfred@1.0.3.js"></script>
+   ```
+
+   Place the script before your portal's `</body>` tag to ensure smooth page rendering.
+
+2. Replace `_YOUR_TREBLLE_PROJECT_ID_` with your API ID and `_YOUR_CUSTOMER_API_KEY_` with your SDK TOKEN.
+
+   ```javascript copy
+   <div
+     class="getalfred-io"
+     data-api="_YOUR_TREBLLE_PROJECT_ID_"
+     data-auth="_YOUR_CUSTOMER_API_KEY_"
+   ></div>
+   ```
+
+   <PaginationCards />

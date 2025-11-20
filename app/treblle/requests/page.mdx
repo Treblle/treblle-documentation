@@ -1,0 +1,86 @@
+---
+title: "Requests Dashboard"
+metaTitle: "Requests Dashboard - Treblle Documentation"
+description: "The Requests dashboard in Treblle provides real-time API monitoring, security insights, and performance metrics. Filter, analyze, and debug API requests effortlessly."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Requests Dashboard
+
+The Requests tab in your API Dashboard provides real-time visibility into your API's activity. It visualizes the important metrics around your API requests, such as performance and security, and helps you debug issues faster.
+
+## Overview of the Requests Dashboard
+
+The Requests dashboard allows you to view and analyze API requests with two display options:
+
+- **List View**: Displays each request with detailed metrics.
+  
+<ImageCard src="/platform/requests/listview.png" alt="List View" />
+
+- **Table View**: Offers a compact, tabular format for easier comparisons.
+  
+<ImageCard src="/platform/requests/tableview.png" alt="Table View" />
+
+### Key Metrics
+
+Each request entry includes:
+
+- **HTTP Method**: The type of request (GET, POST, PUT, DELETE) shown in distinct colors for easy identification
+- **Response Code**: The status code returned by the API (e.g., 200 for success, 404 for not found)
+- **Threat Level**: Security assessment indicator (Low, Medium, High) based on request analysis
+- **Load Time**: Request processing duration in milliseconds with visual performance indicators
+- **Response Size**: Size of the response payload returned by the API
+- **Device Type**: The type of device making the request (desktop, mobile, etc.)
+- **Location**: Geographic location where the request originated
+- **Customer ID**: Unique identifier for the client making the request
+- **Timestamp**: When the request was made
+
+<ImageCard src="/platform/requests/requestdetails.png" alt="Request Details" />
+
+## Request Details
+
+When you want to know more about a specific request, click on a request to access its detailed view, organized into tabs:
+
+- **General**: Shows request body, headers, and response data.
+
+- **Info**: Displays metadata such as user agent and IP address.
+
+- **Security**: Highlights potential vulnerabilities.
+
+- **API Compliance**: Validates adherence to compliance standards.
+
+- **Metadata**: Provides debugging details for advanced troubleshooting.
+
+<ImageCard src="/platform/requests/general-info-security.gif" alt="Request Details Tabs" />
+
+## Filtering and Sorting
+
+You're asked to give a performance report. And you only need to show successful requests. 
+
+Instead of going through the logs, you can filter the requests in the Requests tab. 
+
+You also have the option to **sort by** by the timestamp, threat level, path, or load time or a **save a search** if you use it often.
+
+<ImageCard src="/platform/requests/filter.png" alt="Filter and Sort Options" />
+
+## Commenting and Sharing
+
+Need to share a request with someone? Treblle allows you to share a request with your team members with an expiration date. 
+
+<ImageCard src="/platform/requests/share-request.png" alt="Share Request" />
+
+Need to bring a team member's attention to a particular request? You can tag them and comment on the request. Later, you can also delete the request.
+
+<ImageCard src="/platform/requests/comment.png" alt="Comment on Request" />
+
+## Deleting Requests
+
+If a request log is no longer needed, you can delete it by clicking on the three dots and selecting **Delete**:
+
+<ImageCard src="/platform/requests/delete_request.png" alt="Delete Request" />
+
+The Request tab is the place to go when you want to see, inspect, or get a snapshot of anything and everything related to your API requests with minimal effort.
+
+<PaginationCards />
