@@ -38,8 +38,12 @@
     flex-direction: row;
 }
 
+.nextra-sidebar button, .nextra-sidebar a {
+    color: #bcc0d9;
+}
+
 .layout .active a {
-    color: var(--colors-electric-200);
+    color: var(--colors-dark-element-500);
     font-weight: 600;
     border-radius: 4px;
     background-color: var(--colors-dark-element-100);
