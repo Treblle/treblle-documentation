@@ -3,6 +3,7 @@ import "./layout.css";
 // Nextra theme must be imported after index.css so PandaCSS doesn't override default nextra styles
 import "nextra-theme-docs/style.css";
 
+import type { Metadata } from "next";
 // import Image from "next/image";
 import { Head } from "nextra/components";
 import { getPageMap } from "nextra/page-map";
@@ -17,6 +18,13 @@ import { Box } from "~styled-system/jsx";
 
 import { fontClassName } from "../styles/fonts";
 import MyStatsig from "./my-statsig";
+
+export const metadata: Metadata = {
+    title: {
+        template: "%s – Treblle documentation",
+        default: "Treblle Documentation",
+    },
+};
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
     return (

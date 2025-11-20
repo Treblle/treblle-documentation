@@ -27,6 +27,6 @@ export default {
     integrations: {
         theme: {
             collapsed: false,
-        }
-    }
+        },
+    },
 };
