@@ -56,7 +56,7 @@ export function Navbar() {
             >
                 <Box css={{ display: "flex", alignItems: "center", gap: "24px" }}>
                     <Link eventName="navbar_logo" href="/">
-                        <Icon icon="TreblleLogo"  />
+                        <Icon icon="TreblleLogo" />
                     </Link>
                     <Box
                         css={{
@@ -82,15 +82,21 @@ export function Navbar() {
                             <Icon icon="ChevronDown" className={DesktopLinkChevron} />
                             <SolutionsMenu />
                         </Box>
+                        <Box className={cx("group", DesktopLink)}>
+                            <Link
+                                eventName="navbar_documentation"
+                                href="https://docs.treblle.com"
+                                target="_blank"
+                                className={DesktopLink}
+                            >
+                                Documentation
+                            </Link>
+                        </Box>
                         <Link
-                            eventName="navbar_documentation"
-                            href="https://docs.treblle.com"
-                            target="_blank"
+                            eventName="navbar_pricing"
+                            href="https://treblle.com/pricing"
                             className={DesktopLink}
                         >
-                            Documentation
-                        </Link>
-                        <Link eventName="navbar_pricing" href="https://treblle.com/pricing" className={DesktopLink}>
                             Pricing
                         </Link>
                         <Box className={cx("group", DesktopLink)}>
@@ -139,9 +145,8 @@ export function Navbar() {
                             display: { base: "none", xl: "inline-flex" },
                         })}
                         href="https://identity.treblle.com/register?redirect_url=https://platform.treblle.com"
-                        target="_blank"
                     >
-                        Get Started
+                        Sign up
                     </Link>
                     <Button
                         eventName="navbar_demo"
