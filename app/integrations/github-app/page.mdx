@@ -7,7 +7,6 @@ image: "/og-images/treblle-github-integration.jpg"
 
 import { InfoCards } from "~components/cards/info-cards";
 import { InfoCard } from "~components/cards/info-card";
-import { ImageCard } from "~components/cards/image-card";
 import { FAQ } from "~components/sections/FAQ/faq";
 import PaginationCards from "~components/cards/pagination-cards";
 import { Question } from "~components/sections/FAQ/faq-question";
@@ -68,8 +67,6 @@ The Treblle GitHub Application requires a **Treblle Enterprise Plan**. <Link hre
    - **All repositories**: Discovers APIs across your entire organization
    - **Selected repositories**: Limit discovery to specific repositories
 
-<ImageCard src="/platform/github/install-app.jpg" alt="Install GitHub App" />
-
 ### Step 2: Configure the Application
 
 After installation, you'll be redirected to the Treblle setup page:
@@ -78,15 +75,11 @@ After installation, you'll be redirected to the Treblle setup page:
    - Find this in: Treblle Dashboard → Settings → API Keys
 2. Click **Complete Setup**
 
-<ImageCard src="/platform/github/setup-token.jpg" alt="Configure Treblle Token" />
-
 ### Step 3: Review Discovered APIs
 
 1. Log in to your [Treblle Dashboard](https://app.treblle.com)
 2. Navigate to **APIs** → **Discovered APIs**
 3. Review the automatically discovered APIs from your GitHub organization
-
-<ImageCard src="/platform/github/discovered-apis.jpg" alt="Discovered APIs Dashboard" />
 
 ## Supported Languages & Frameworks
 
@@ -176,8 +169,6 @@ The detection algorithm looks for common, non-invasive patterns that indicate th
 3. Click **Request AI Review**
 4. Wait for the analysis to complete (typically 2-5 minutes)
 
-<ImageCard src="/platform/github/request-review.jpg" alt="Request AI Review" />
-
 ### Review Results
 
 The AI review provides comprehensive analysis across multiple dimensions:
@@ -200,8 +191,6 @@ The AI review provides comprehensive analysis across multiple dimensions:
 - Response structure consistency
 - HTTP status code usage
 
-<ImageCard src="/platform/github/review-results.jpg" alt="AI Review Results" />
-
 ### Understanding Recommendations
 
 Each recommendation includes:
@@ -218,8 +207,6 @@ Each recommendation includes:
 2. Click **Enable Auto-Refactoring**
 3. Confirm the changes you want to apply
 4. Wait for Treblle to create the Pull Request (typically 5-10 minutes)
-
-<ImageCard src="/platform/github/enable-refactoring.jpg" alt="Enable Auto-Refactoring" />
 
 ### What Gets Changed
 
@@ -240,8 +227,6 @@ Once created, the PR includes:
 - **Rationale** for each modification
 - **Test results** (if tests exist)
 - **Treblle SDK setup instructions**
-
-<ImageCard src="/platform/github/pull-request.jpg" alt="Generated Pull Request" />
 
 <Checklist>
     <Checklist.item id="review">Review all code changes carefully</Checklist.item>
