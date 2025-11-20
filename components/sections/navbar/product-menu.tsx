@@ -324,7 +324,7 @@ const ProductLink = css({
 });
 
 const WhatsNewLink = css({
-    padding: "8px",
+    padding: "8px !important",
     borderRadius: "10px",
     width: "300px",
     display: "flex",

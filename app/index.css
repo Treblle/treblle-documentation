@@ -98,6 +98,8 @@ a[href^="mailto:"] {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none !important;
+    color: #fff !important;
 }
 
 article div:has(time) {
