@@ -81,7 +81,6 @@ table td {
 
 h2 {
     padding-bottom: 16px;
-    border-bottom: 1px solid #29304b;
 }
 
 a[target=_blank] {
@@ -102,4 +101,8 @@ a[href^="mailto:"] {
 
 article div:has(time) {
     display: none;
+}
+
+.nextra-border {
+    border-bottom: 1px solid #29304b !important;
 }
