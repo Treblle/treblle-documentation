@@ -30,16 +30,16 @@ Once you decide where to display API request logs, Insert the following `<div>` 
 For the dark theme:
 
 ```html copy
-<div class="treblle-embeded-logs dark-theme" data-project="YOUR_PROJECT_ID" data-customer="YOUR_CUSTOMER_ID">
+<div class="treblle-embeded-logs dark-theme" data-project="YOUR_SDK_TOKEN" data-customer="YOUR_CUSTOMER_ID">
 ```
 
 For the default theme:
 
 ```html copy
-<div class="treblle-embeded-logs" data-projects="YOUR_PROJECT_ID" data-customers="YOUR_CUSTOMER_ID"></div>
+<div class="treblle-embeded-logs" data-projects="YOUR_SDK_TOKEN" data-customers="YOUR_CUSTOMER_ID"></div>
 ```
 
-Replace `YOUR_PROJECT_ID` with your Treblle API ID (found under the API Settings).
+Replace `YOUR_SDK_TOKEN` with your Treblle API ID (found under the API Settings).
 
 <ImageCard src="/platform/observability-as-a-service/api-settings.png" alt="API Settings" />
 
@@ -53,7 +53,7 @@ After adding the script and `<div>`, save your changes and reload the portal. Yo
 
 ### Running Treblle's DEMO API
 
-The code below is an example of Treblle's DEMO API. You can use it and run it directly on your IDE to see how it works in real time. Since this is a demo, you can use the same project ID and customer ID without any modifications.
+The code below is an example of Treblle's DEMO API. You can use it and run it directly on your IDE to see how it works in real time. Since this is a demo, you can use the same sdk token and customer ID without any modifications.
 
 ```html copy
 <!DOCTYPE html>

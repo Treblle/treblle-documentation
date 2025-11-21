@@ -16,6 +16,8 @@ import { FAQ } from "~components/sections/FAQ/faq";
 import { Question } from "~components/sections/FAQ/faq-question";
 import { Checklist } from "~components/sections/checklist";
 
+# Treblle with .NET
+
 ## Requirements
 
 - **.NET Framework 4.6.2** or higher (supports 4.6.2, 4.7.x, 4.8, and 4.8.1)
@@ -449,7 +451,7 @@ The configuration keys have been renamed to use the `Treblle:` prefix:
 ```xml copy
 <appSettings>
   <add key="TreblleApiKey" value="{Your_API_Key}" />
-  <add key="TreblleProjectId" value="{Your_Project_Id}" />
+  <add key="TrebllesdkToken" value="{Your_SDK_TOKEN}" />
 </appSettings>
 ```
 
@@ -462,7 +464,7 @@ The configuration keys have been renamed to use the `Treblle:` prefix:
 ```
 
 <NoteCard>
-`TreblleProjectId` is now called `Treblle:SdkToken`. You can find your SDK Token in the [Treblle Dashboard](https://platform.treblle.com).
+`TrebllesdkToken` is now called `Treblle:SdkToken`. You can find your SDK Token in the [Treblle Dashboard](https://platform.treblle.com).
 </NoteCard>
 
 #### 2. Additional Configuration Keys
@@ -510,7 +512,7 @@ Replace your old configuration:
 <!-- OLD - Remove this -->
 <appSettings>
   <add key="TreblleApiKey" value="your-api-key-here" />
-  <add key="TreblleProjectId" value="your-project-id-here" />
+  <add key="TreblleSdkToken" value="your-sdk-token-here" />
   <add key="AdditionalFieldsToMask" value="field1,field2" />
 </appSettings>
 ```

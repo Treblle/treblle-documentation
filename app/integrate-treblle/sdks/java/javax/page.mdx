@@ -9,6 +9,8 @@ import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 
+# Treblle with JavaX
+
 ## Requirements
 
 - JavaX Servlet API 3.1.0
@@ -41,7 +43,7 @@ For all available versions and metadata, visit the [Maven Central Repository](ht
 
 ## Getting started
 
-First, create a FREE account on [treblle.com](https://treblle.com/) to get an API key and Project ID.
+First, create a FREE account on [treblle.com](https://treblle.com/) to get an API key and SDK Token.
 
 ### Basic Configuration
 
@@ -60,7 +62,7 @@ public void onStartup(ServletContext servletContext) {
     
     // Set initialization parameters
     treblleFilter.setInitParameter("apiKey", "<YOUR_API_KEY>");
-    treblleFilter.setInitParameter("projectId", "<YOUR_PROJECT_ID>");
+    treblleFilter.setInitParameter("sdkToken", "<YOUR_SDK_TOKEN>");
     
     // Add filter mapping - apply to all API endpoints
     treblleFilter.addMappingForUrlPatterns(null, false, "/*");
@@ -86,7 +88,7 @@ public class MyApplication extends Application {
         // Create and configure the Treblle filter
         TreblleContainerFilter filter = new TreblleContainerFilter();
         filter.setApiKey("<YOUR_API_KEY>");
-        filter.setProjectId("<YOUR_PROJECT_ID>");
+        filter.setsdkToken("<YOUR_SDK_TOKEN>");
         
         // Add the filter to your application
         singletons.add(filter);
@@ -96,7 +98,7 @@ public class MyApplication extends Application {
 }
 ```
 
-That's it! Your API requests and responses are now being sent to your Treblle project. You'll get features like auto-documentation, real-time request/response monitoring, error tracking, and more.
+That's it! Your API requests and responses are now being sent to your Treblle Dashboard. You'll get features like auto-documentation, real-time request/response monitoring, error tracking, and more.
 
 ### Filter Configuration Options
 
@@ -106,8 +108,8 @@ The Treblle filter supports the following configuration options:
 // Set the API key required for authentication with Treblle
 filter.setInitParameter("apiKey", "<YOUR_API_KEY>");
 
-// Set the project ID where your API data will be sent
-filter.setInitParameter("projectId", "<YOUR_PROJECT_ID>");
+// Set the SDK Token where your API data will be sent
+filter.setInitParameter("sdkToken", "<YOUR_SDK_TOKEN>");
 
 // Optional: Specify custom URL patterns (comma-separated) to monitor
 filter.setInitParameter("urlPatterns", "/api/v1/*,/api/v2/*");

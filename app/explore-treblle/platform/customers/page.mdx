@@ -121,7 +121,7 @@ app.use((req, res, next) => {
 // Treblle Middleware
 app.use(treblle({
     apiKey: process.env.TREBLLE_API_KEY,
-    projectId: process.env.TREBLLE_PROJECT_ID
+    sdkToken: process.env.TREBLLE_SDK_TOKEN
 }));
 ```
 

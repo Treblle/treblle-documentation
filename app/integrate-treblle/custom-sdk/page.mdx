@@ -24,7 +24,7 @@ This guide walks you through creating a production-ready SDK that captures API d
 
 Consider building a custom SDK when:
 
-- Your framework/language isn't in our [official integrations](/integrations/integrations)
+- Your framework/language isn't in our [official integrations](/integrate-treblle/integrations)
 - You need specialized functionality for your infrastructure
 - You're building a proprietary framework that needs Treblle integration
 - You want to contribute back to the Treblle ecosystem
@@ -121,7 +121,7 @@ Gather the required information:
 ```javascript copy
 const treblleData = {
   api_key: "YOUR_API_KEY",
-  project_id: "YOUR_PROJECT_ID", 
+  SDK_TOKEN: "YOUR_SDK_TOKEN", 
   version: 1.0,
   sdk: "your-framework-name",
   data: {
@@ -172,7 +172,7 @@ Your payload must match this structure:
 ```json copy
 {
   "api_key": "string",
-  "project_id": "string", 
+  "SDK_TOKEN": "string", 
   "version": "number|string",
   "sdk": "string",
   "data": {
@@ -215,7 +215,7 @@ Your payload must match this structure:
 ```
 
 <NoteCard>
-View the complete <Link href="/reference/json-schema/">JSON schema reference</Link> for detailed field requirements and validation rules.
+View the complete [JSON schema reference](/resources/json-schema) for detailed field requirements and validation rules.
 </NoteCard>
 
 ## Configuration
@@ -225,7 +225,7 @@ Provide these configuration options:
 ```javascript copy
 const treblle = new TreblleSDK({
   apiKey: "required",
-  projectId: "required", 
+  sdkToken: "required", 
   additionalFieldsToMask: ["custom_field"], // optional
   enabledEnvironments: ["production"], // optional
   debug: false // optional
@@ -276,14 +276,14 @@ Study existing SDKs for implementation patterns:
 ## Getting Support
 
 - **SDK submission**: Email [hello@treblle.com](mailto:hello@treblle.com)
-- **Documentation**: This guide and [JSON schema reference](/reference/json-schema/)
+- **Documentation**: This guide and [JSON schema reference](/resources/json-schema/)
 
 ## Contributing Back
 
 Once your SDK is working:
 
 1. Open source it on GitHub
-2. Submit it to our [community SDKs list](/integrations/integrations/#community-sdks)
+2. Submit it to our [community SDKs list](/integrate-treblle/custom-sdk/)
 3. Consider making it an official Treblle SDK
 
 Building a custom SDK helps expand Treblle's ecosystem and enables more developers to benefit from API Intelligence.

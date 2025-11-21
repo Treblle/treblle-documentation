@@ -8,6 +8,20 @@ image: "/og-images/treblle-express.jpg"
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
 import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-express" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Express. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Express
 
 ## Requirements
 
@@ -64,7 +78,7 @@ app.get("/api/users", (req, res) => {
 app.listen(3000);
 ```
 
-That's it! Your API requests and responses are now being sent to your Treblle project. You'll get features like auto-documentation, real-time request/response monitoring, and error tracking.
+That's it! Your API requests and responses are now being sent to your Treblle Dashboard. You'll get features like auto-documentation, real-time request/response monitoring, and error tracking.
 
 ## Middleware Ordering
 
