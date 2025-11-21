@@ -1,0 +1,70 @@
+@layer reset, base, tokens, recipes, utilities;
+
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    background: #01041a;
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #676f88;
+    border-radius: 3px;
+}
+
+table tr, th, td {
+    text-align: start;
+    font-size: 16px;
+    padding: 16px 150px 16px 23px;
+    background-color: transparent;
+}
+
+table td:has(strong) {
+    color: #ffffff;
+}
+
+table td {
+    font-size: 14px;
+    color: #bcc0d9;
+}
+
+h2 {
+    padding-bottom: 16px;
+}
+
+a[target=_blank] {
+  padding: 0 !important;
+}
+
+a[href^="mailto:"] {
+    padding: 0 !important;
+}
+
+article div:has(time) {
+    display: none;
+}
+
+.nextra-border {
+    border-bottom: 1px solid #29304b !important;
+}
+
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6,
+main p,
+main li,
+main div {
+    color: #fff !important;
+}
+
+article .nextra-breadcrumb,
+article .nextra-breadcrumb span {
+    color: #fff !important;
+}

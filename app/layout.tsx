@@ -1,5 +1,8 @@
-import "./index.css";
-import "./layout.css";
+import "./css/index.css";
+import "./css/layout.css";
+import "./css/code-block.css";
+import "./css/steps.css";
+import "./css/media.css";
 // Nextra theme must be imported after index.css so PandaCSS doesn't override default nextra styles
 import "nextra-theme-docs/style.css";
 

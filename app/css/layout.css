@@ -3,23 +3,6 @@
     background-color: var(--colors-neutral-midnight);
 }
 
-main h1,
-main h2,
-main h3,
-main h4,
-main h5,
-main h6,
-main p,
-main li,
-main div {
-    color: #fff !important;
-}
-
-article .nextra-breadcrumb,
-article .nextra-breadcrumb span {
-    color: #fff !important;
-}
-
 .layout .nextra-sidebar {
     position: sticky;
     top: 70px;
@@ -127,13 +110,6 @@ article .nextra-breadcrumb span {
     padding: 0px;
 }
 
-.layout article .nextra-breadcrumb a:nth-child(1)::before {
-    content: "''";
-}
-.layout article .nextra-breadcrumb a:nth-child(1)::after {
-    content: "''";
-}
-
 .nextra-search input {
     background-color: #22263c;
     color: #fff;
@@ -147,32 +123,8 @@ article .nextra-breadcrumb span {
     display: none;
 }
 
-/* Override Nextra's body overflow hidden for mobile nav to allow page scrolling */
 .nextra-overflow-hidden {
     overflow: auto !important;
 }
 
-@media (max-width: 767px) {
-    .layout .nextra-sidebar {
-        position: relative;
-        width: 100vw;
-        top: 0;
-    }
 
-    .layout .nextra-scrollbar li div {
-        width: 100%;
-    }
-
-    .layout div:has(aside) {
-        flex-direction: column;
-    }
-
-    .layout .nextra-toc,
-    .layout .nextra-sidebar {
-        padding-bottom: 0px;
-    }
-
-    article {
-        margin-left: 0px;
-    }
-}

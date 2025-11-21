@@ -1,0 +1,24 @@
+@media (max-width: 767px) {
+    .layout .nextra-sidebar {
+        position: relative;
+        width: 100vw;
+        top: 0;
+    }
+
+    .layout .nextra-scrollbar li div {
+        width: 100%;
+    }
+
+    .layout div:has(aside) {
+        flex-direction: column;
+    }
+
+    .layout .nextra-toc,
+    .layout .nextra-sidebar {
+        padding-bottom: 0px;
+    }
+
+    article {
+        margin-left: 0px;
+    }
+}
