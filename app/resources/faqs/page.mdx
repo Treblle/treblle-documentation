@@ -27,55 +27,64 @@ Get quick answers to the most common questions about Treblle.
 <FAQ>
     <Question>
         ## How do I map my API credentials in Treblle?
+
+        <div>
+            Set your credentials using environment variables:
+
+            ```bash copy
+            TREBLLE_SDK_TOKEN=your_sdk_token
+            TREBLLE_API_KEY=your_api_key
+            ```
+
+            **Where to find these values:**
+            - Go to your Treblle 3.0 workspace
+            - Navigate to API Settings
+            - Copy your SDK Token and API Key
+
+            <TipCard>
+                Need help? Check our <Link href="/guides/getting-started/">Getting Started Guide</Link>
+            </TipCard>
+        </div>
         
-        Set your credentials using environment variables:
-
-        ```bash copy
-        TREBLLE_SDK_TOKEN=your_sdk_token
-        TREBLLE_API_KEY=your_api_key
-        ```
-
-        **Where to find these values:**
-        - Go to your Treblle 3.0 workspace
-        - Navigate to API Settings
-        - Copy your SDK Token and API Key
-
-        <TipCard>
-            Need help? Check our <Link href="/guides/getting-started/">Getting Started Guide</Link>
-        </TipCard>
     </Question>
 
     <Question>
         ## My API requests aren't showing up. What should I check?
 
-        **First, verify you're using the correct platform:**
-        - Use <Link href="https://platform.treblle.com/" target="_blank">platform.treblle.com</Link>
-        - Don't use the legacy <Link href="https://app.treblle.com/" target="_blank">app.treblle.com</Link>
+        <div>
+            **First, verify you're using the correct platform:**
+            - Use <Link href="https://platform.treblle.com/" target="_blank">platform.treblle.com</Link>
+            - Don't use the legacy <Link href="https://app.treblle.com/" target="_blank">app.treblle.com</Link>
 
-        **Common troubleshooting steps:**
+            **Common troubleshooting steps:**
 
-        1. **Check your credentials** - Ensure `TREBLLE_SDK_TOKEN` and `TREBLLE_API_KEY` match your workspace
-        2. **Network settings** - Allow HTTPS requests to `*.treblle.com` domains
-        3. **Request limits** - Verify you haven't exceeded your plan's monthly limit
-        4. **SDK integration** - Confirm the Treblle SDK is properly installed and configured
+            1. **Check your credentials** - Ensure `TREBLLE_SDK_TOKEN` and `TREBLLE_API_KEY` match your workspace
+            2. **Network settings** - Allow HTTPS requests to `*.treblle.com` domains
+            3. **Request limits** - Verify you haven't exceeded your plan's monthly limit
+            4. **SDK integration** - Confirm the Treblle SDK is properly installed and configured
 
-        **Still not working?** Contact support at <Link href="https://treblle.com/" target="_blank">treblle.com</Link> → Resources → Support
+            **Still not working?** Contact support at <Link href="https://treblle.com/" target="_blank">treblle.com</Link> → Resources → Support
 
-        <ImageCard src="/platform/faqs/support.png" alt="Treblle Support" />
+            <ImageCard src="/platform/faqs/support.png" alt="Treblle Support" />
+        </div>
+
     </Question>
 
     <Question>
         ## Can I test Treblle with localhost?
 
-        **Yes!** Treblle works with localhost if:
+        <div>
+            **Yes!** Treblle works with localhost if:
 
-        - SDK is properly initialized
-        - Your machine has internet access  
-        - No proxy blocks traffic to Treblle endpoints
+            - SDK is properly initialized
+            - Your machine has internet access  
+            - No proxy blocks traffic to Treblle endpoints
 
-        <TipCard>
-            Quick test: Make a request to your local API and check your Treblle dashboard within a few seconds.
-        </TipCard>
+            <TipCard>
+                Quick test: Make a request to your local API and check your Treblle dashboard within a few seconds.
+            </TipCard>
+        </div>
+
     </Question>
 </FAQ>
 
@@ -87,72 +96,80 @@ Get quick answers to the most common questions about Treblle.
     <Question>
         ## How does Treblle protect my data?
 
-        Treblle prioritizes security with multiple layers of protection:
+        <div>
+            Treblle prioritizes security with multiple layers of protection:
 
-        **Automatic Data Masking**
-        - Passwords, API keys, and sensitive fields are automatically masked
-        - Data is masked **before leaving your server**
-        - You control which additional fields to mask
+            **Automatic Data Masking**
+            - Passwords, API keys, and sensitive fields are automatically masked
+            - Data is masked **before leaving your server**
+            - You control which additional fields to mask
 
-        **Encryption & Compliance**
-        - All data encrypted in transit and at rest
-        - ISO 27001, GDPR, SOC 2, CCPA, and PCI DSS compliant
-        - Regular security audits and assessments
+            **Encryption & Compliance**
+            - All data encrypted in transit and at rest
+            - ISO 27001, GDPR, SOC 2, CCPA, and PCI DSS compliant
+            - Regular security audits and assessments
 
-        **What you can control:**
-        - Exclude specific endpoints from logging
-        - Configure custom field masking
-        - Set up compliance scanning
+            **What you can control:**
+            - Exclude specific endpoints from logging
+            - Configure custom field masking
+            - Set up compliance scanning
 
-        <NoteCard>
-            Learn more at our <Link href="https://trust.treblle.com/" target="_blank">Trust Center</Link>
-        </NoteCard>
+            <NoteCard>
+                Learn more at our <Link href="https://trust.treblle.com/" target="_blank">Trust Center</Link>
+            </NoteCard>
+        </div>
+
     </Question>
 
     <Question>
         ## How do I mask sensitive data in URLs?
 
-        <CautionCard>
-            Treblle only masks request/response bodies and headers - **not URL paths**.
-        </CautionCard>
+        <div>
+            <CautionCard>
+                Treblle only masks request/response bodies and headers - **not URL paths**.
+            </CautionCard>
 
-        **If your URLs contain sensitive data, you have two options:**
+            **If your URLs contain sensitive data, you have two options:**
 
-        **Option 1: Exclude the endpoint**
-        ```javascript copy
-        // Example: Skip Treblle for sensitive endpoints
-        if (req.path.includes('/sensitive-endpoint')) {
-          return next(); // Skip Treblle middleware
-        }
-        ```
+            **Option 1: Exclude the endpoint**
+            ```javascript copy
+            // Example: Skip Treblle for sensitive endpoints
+            if (req.path.includes('/sensitive-endpoint')) {
+            return next(); // Skip Treblle middleware
+            }
+            ```
 
-        **Option 2: Redesign the URL structure**
-        ```bash copy
-        # Instead of:
-        /api/users/secret-key-123/profile
+            **Option 2: Redesign the URL structure**
+            ```bash copy
+            # Instead of:
+            /api/users/secret-key-123/profile
 
-        # Use:
-        /api/users/profile?token=secret-key-123
-        # (token will be masked in query parameters)
-        ```
+            # Use:
+            /api/users/profile?token=secret-key-123
+            # (token will be masked in query parameters)
+            ```
 
-        <NoteCard>
-            Full guide: <Link href="/treblle/data-masking/">Data Masking Documentation</Link>
-        </NoteCard>
+            <NoteCard>
+                Full guide: <Link href="/treblle/data-masking/">Data Masking Documentation</Link>
+            </NoteCard>
+        </div>
     </Question>
 
     <Question>
         ## Do I need to change DNS settings for Treblle?
 
-        **No DNS changes required!** 
+        <div>
+            **No DNS changes required!** 
 
-        Treblle integrates directly into your API backend via our SDK. You keep using your custom domain exactly as before.
+            Treblle integrates directly into your API backend via our SDK. You keep using your custom domain exactly as before.
 
-        **How it works:**
-        - Your API runs on your domain (e.g., `api.yourcompany.com`)
-        - Treblle SDK captures request/response data
-        - Data is sent to Treblle's servers for analysis
-        - Your API continues working normally
+            **How it works:**
+            - Your API runs on your domain (e.g., `api.yourcompany.com`)
+            - Treblle SDK captures request/response data
+            - Data is sent to Treblle's servers for analysis
+            - Your API continues working normally
+        </div>
+
     </Question>
 </FAQ>
 
@@ -164,30 +181,33 @@ Get quick answers to the most common questions about Treblle.
     <Question>
         ## How does Treblle generate API documentation?
 
-        Treblle creates docs automatically from your API traffic:
+        <div> 
+            Treblle creates docs automatically from your API traffic:
 
-        **Real-time Analysis**
-        - Analyzes incoming requests and responses
-        - Identifies patterns and data structures
-        - Generates OpenAPI specifications
+            **Real-time Analysis**
+            - Analyzes incoming requests and responses
+            - Identifies patterns and data structures
+            - Generates OpenAPI specifications
 
-        **Continuous Updates**
-        - Documentation updates as your API evolves
-        - New endpoints automatically discovered
-        - Response schemas updated based on actual data
+            **Continuous Updates**
+            - Documentation updates as your API evolves
+            - New endpoints automatically discovered
+            - Response schemas updated based on actual data
 
-        **Testing Integration**
-        - Use <Link href="/aspen/">Aspen</Link> to test endpoints
-        - Documentation appears immediately after API calls
-        - Interactive documentation with examples
+            **Testing Integration**
+            - Use <Link href="/aspen/">Aspen</Link> to test endpoints
+            - Documentation appears immediately after API calls
+            - Interactive documentation with examples
 
-        <TipCard>
-            Keep request/response formats consistent for better documentation quality.
-        </TipCard>
+            <TipCard>
+                Keep request/response formats consistent for better documentation quality.
+            </TipCard>
 
-        <NoteCard>
-            Learn more: <Link href="/treblle/api-documentation/">API Documentation Guide</Link>
-        </NoteCard>
+            <NoteCard>
+                Learn more: <Link href="/treblle/api-documentation/">API Documentation Guide</Link>
+            </NoteCard>
+        </div>
+
     </Question>
 </FAQ>
 
@@ -198,61 +218,66 @@ Get quick answers to the most common questions about Treblle.
 <FAQ>
     <Question>
         ## I upgraded my SDK but still have issues with keys
+        <div>
+            **Common issue with Treblle 3.0 upgrades:**
 
-        **Common issue with Treblle 3.0 upgrades:**
+            **Use environment variables (recommended):**
+            ```bash copy
+            # In your .env file
+            TREBLLE_API_KEY=your_api_key
+            TREBLLE_SDK_TOKEN=your-sdk-token
+            ```
 
-        **Use environment variables (recommended):**
-        ```bash copy
-        # In your .env file
-        TREBLLE_API_KEY=your_api_key
-        TREBLLE_SDK_TOKEN=your-sdk-token
-        ```
+            **Remove hardcoded credentials:**
+            ```javascript copy
+            // Remove this old configuration
+            treblle({
+            apiKey: "hardcoded_key",
+            sdk_token: "hardcoded_token"
+            })
 
-        **Remove hardcoded credentials:**
-        ```javascript copy
-        // Remove this old configuration
-        treblle({
-          apiKey: "hardcoded_key",
-          sdk_token: "hardcoded_token"
-        })
+            // SDK will automatically use environment variables
+            treblle()
+            ```
 
-        // SDK will automatically use environment variables
-        treblle()
-        ```
+            **Debugging steps:**
+            1. Check your `.env` file has correct values
+            2. Restart your application after changes
+            3. Verify you're using the latest SDK version
+            4. Check for typos in environment variable names
+        </div>
 
-        **Debugging steps:**
-        1. Check your `.env` file has correct values
-        2. Restart your application after changes
-        3. Verify you're using the latest SDK version
-        4. Check for typos in environment variable names
     </Question>
 
     <Question>
         ## Getting SSL connection timeout errors?
 
-        **SSL timeout errors usually indicate network issues:**
+        <div>
+            **SSL timeout errors usually indicate network issues:**
 
-        **Network Troubleshooting:**
-        - Check if your deployment environment can reach external services
-        - Verify no firewall rules block outbound HTTPS requests
-        - Test connection to `treblle.com` from your server
+            **Network Troubleshooting:**
+            - Check if your deployment environment can reach external services
+            - Verify no firewall rules block outbound HTTPS requests
+            - Test connection to `treblle.com` from your server
 
-        **Code Solutions:**
-        ```javascript copy
-        // Add retry logic for network issues
-        const treblle = require('treblle');
+            **Code Solutions:**
+            ```javascript copy
+            // Add retry logic for network issues
+            const treblle = require('treblle');
 
-        // Configure with timeout settings
-        treblle({
-          timeout: 10000, // 10 second timeout
-          retries: 3      // Retry failed requests
-        });
-        ```
+            // Configure with timeout settings
+            treblle({
+            timeout: 10000, // 10 second timeout
+            retries: 3      // Retry failed requests
+            });
+            ```
 
-        **Monitoring:**
-        - Add detailed logging around SDK initialization
-        - Monitor SSL handshake timing
-        - Check server resource usage during requests
+            **Monitoring:**
+            - Add detailed logging around SDK initialization
+            - Monitor SSL handshake timing
+            - Check server resource usage during requests
+        </div>
+
     </Question>
 </FAQ>
 
@@ -264,40 +289,46 @@ Get quick answers to the most common questions about Treblle.
     <Question>
         ## How do I download my invoices?
 
-        **Access your invoices through Workspace Settings:**
+        <div>
+            **Access your invoices through Workspace Settings:**
 
-        **Step-by-step:**
-        1. Go to **Workspace Settings** → **Billing**
-        2. Find the **Invoice History** section
-        3. Click on any invoice to download PDF
+            **Step-by-step:**
+            1. Go to **Workspace Settings** → **Billing**
+            2. Find the **Invoice History** section
+            3. Click on any invoice to download PDF
 
-        <ImageCard src="/platform/faqs/invoice.png" alt="Invoice History" />
+            <ImageCard src="/platform/faqs/invoice.png" alt="Invoice History" />
 
-        <NoteCard>
-            Need help? Contact support with your account details:
-            - Visit <Link href="https://treblle.com/" target="_blank">treblle.com</Link> → Resources → Support
-            - Email: support@treblle.com
-        </NoteCard>
+            <NoteCard>
+                Need help? Contact support with your account details:
+                - Visit <Link href="https://treblle.com/" target="_blank">treblle.com</Link> → Resources → Support
+                - Email: support@treblle.com
+            </NoteCard>
+        </div>
+
     </Question>
 
     <Question>
         ## What happens when I hit the free plan limit?
 
-        **Free plan includes 250,000 requests per month.**
+        <div>
+            **Free plan includes 250,000 requests per month.**
 
-        **When you exceed the limit:**
-        - Treblle stops processing new requests
-        - Your API continues working normally
-        - Limit resets at the start of next month
+            **When you exceed the limit:**
+            - Treblle stops processing new requests
+            - Your API continues working normally
+            - Limit resets at the start of next month
 
-        **Solutions:**
-        - **Monitor usage:** Check your dashboard regularly
-        - **Upgrade plan:** Consider higher tiers for more requests
-        - **Optimize:** Focus logging on critical endpoints only
+            **Solutions:**
+            - **Monitor usage:** Check your dashboard regularly
+            - **Upgrade plan:** Consider higher tiers for more requests
+            - **Optimize:** Focus logging on critical endpoints only
 
-        <NoteCard>
-            View pricing: <Link href="https://treblle.com/pricing" target="_blank">treblle.com/pricing</Link>
-        </NoteCard>
+            <NoteCard>
+                View pricing: <Link href="https://treblle.com/pricing" target="_blank">treblle.com/pricing</Link>
+            </NoteCard>
+        </div>
+
     </Question>
 </FAQ>
 
