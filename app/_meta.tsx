@@ -1,5 +1,4 @@
 import { Search } from "nextra/components";
-
 import { css } from "~styled-system/css/css";
 
 export default {
@@ -24,9 +23,34 @@ export default {
             breadcrumb: false,
         },
     },
-    integrations: {
+    "getting-started": {
+        title: "Getting Started",
         theme: {
             collapsed: false,
+        },
+    },
+    "integrate-treblle": {
+        title: "Integrate Treblle",
+        theme: {
+            collapsed: false,
+        },
+    },
+    "explore-treblle": {
+        title: "Explore Treblle",
+        theme: {
+            collapsed: false,
+        },
+    },
+    "resources": {
+        title: "Resources",
+        theme: {
+            collapsed: true,
+        },
+    },
+    "trust-center": {
+        title: "Trust Center",
+        theme: {
+            collapsed: true,
         },
     },
 };

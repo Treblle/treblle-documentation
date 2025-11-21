@@ -163,21 +163,21 @@ export default function Home() {
                         marginTop: "-130px",
                     })}
                 >
-                    <Link href="/guides/getting-started">
+                    <Link href="/getting-started/quickstart">
                         <LandingPageCards
                             icon={<Info className={css({ width: "23px", height: "23px", color:"#9ea2bd" })} />}
                             title="Getting Started"
                             description="Set up your workspace in just a few clicks."
                         />
                     </Link>
-                    <Link href="/integrations/integrations">
+                    <Link href="/integrate-treblle/integrations">
                         <LandingPageCards
                             icon={<SquareCode className={css({ width: "23px", height: "23px", color:"#9ea2bd" })} />}
                             title="Integrate Treblle"
                             description="Connect your API to unlock real-time monitoring and insights."
                         />
                     </Link>
-                    <Link href="/treblle/profile">
+                    <Link href="/explore-treblle/workspace/home">
                         <LandingPageCards
                             icon={
                                 <Icon
@@ -187,6 +187,30 @@ export default function Home() {
                             }
                             title="Explore Treblle"
                             description="Discover powerful tools to improve performance and collaboration."
+                        />
+                    </Link>
+                    <Link href="/resources/faqs">
+                        <LandingPageCards
+                            icon={
+                                <Icon
+                                    icon="ApiCube"
+                                    className={css({ width: "23px", height: "23px", color:"#9ea2bd" })}
+                                />
+                            }
+                            title="Resources"
+                            description="Access guides, FAQs, and helpful resources to get the most out of Treblle."
+                        />
+                    </Link>
+                    <Link href="/trust-center/certifications">
+                        <LandingPageCards
+                            icon={
+                                <Icon
+                                    icon="ApiCube"
+                                    className={css({ width: "23px", height: "23px", color:"#9ea2bd" })}
+                                />
+                            }
+                            title="Trust Center"
+                            description="Learn about our security, compliance, and privacy commitments."
                         />
                     </Link>
                 </Box>
