@@ -8,6 +8,8 @@ image: "/og-images/php-no-framework.jpg"
 import { TipCard } from "~components/cards/tip";
 import PaginationCards from "~components/cards/pagination-cards";
 
+## Treblle with PHP
+
 ## Requirements
 
 - PHP 7.4+
@@ -26,7 +28,7 @@ $ composer require treblle/treblle-php
 
 ## Getting started
 
-Next, create a FREE account on [treblle.com](https://treblle.com) to get an API key and Project ID. After you have those simply initialize Treblle in your API code like so:
+Next, create a FREE account on [treblle.com](https://treblle.com) to get an API key and SDK Token. After you have those simply initialize Treblle in your API code like so:
 
 ```php copy
 <?php
@@ -41,10 +43,10 @@ require_once __DIR__.'/../vendor/autoload.php';
 error_reporting(E_ALL);
 ob_start();
 
-$treblle = TreblleFactory::create('_YOUR_API_KEY_', '_YOUR_PROJECT_ID_');
+$treblle = TreblleFactory::create('_YOUR_API_KEY_', '_YOUR_SDK_TOKEN_');
 ```
 
-That's it. Your API requests and responses are now being sent to your Treblle project. Just by adding that line of code you get features like: auto-documentation, real-time request/response monitoring, error tracking and so much more.
+That's it. Your API requests and responses are now being sent to your Treblle Dashboard. Just by adding that line of code you get features like: auto-documentation, real-time request/response monitoring, error tracking and so much more.
 
 ## Configuration options
 
@@ -68,7 +70,7 @@ ob_start();
 
 $treblle = TreblleFactory::create(
     '_YOUR_API_KEY_',
-    '_YOUR_PROJECT_ID_',
+    '_YOUR_SDK_TOKEN_',
     false, // Debug mode
 );
 ```
@@ -97,7 +99,7 @@ ob_start();
 */
 $treblle = TreblleFactory::create(
     '_YOUR_API_KEY_',
-    '_YOUR_PROJECT_ID_',
+    'YOUR_SDK_TOKEN',
     false, // Debug mode
     ['keyword', 'maskme', 'sensitive']
 );
@@ -132,7 +134,7 @@ ob_start();
 */
 $treblle = TreblleFactory::create(
     '_YOUR_API_KEY_',
-    '_YOUR_PROJECT_ID_',
+    '_YOUR_SDK_TOKEN_',
     false, // Debug mode
     ['keyword', 'maskme', 'sensitive'],
     ['client' => new Client(), 'url' => 'https://custom.treblle.com']

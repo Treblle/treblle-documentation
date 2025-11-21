@@ -7,6 +7,20 @@ image: "/og-images/treblle-directus.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-node" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Directus. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Directus
 
 ## Install
 
@@ -23,7 +37,7 @@ Use environment variables for providing Treblle credentials and configuration. D
 ``` copy
 # Required
 TREBLLE_API_KEY=your_api_key
-TREBLLE_PROJECT_ID=your_project_id
+TREBLLE_SDK_TOKEN=your_SDK_TOKEN
 
 # Optional
 # TREBLLE_SHOW_ERRORS=true

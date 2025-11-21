@@ -7,6 +7,20 @@ image: "/og-images/treblle-flask.jpg"
 
 import { TipCard } from "~components/cards/tip";
 import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-flask" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Flask. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Flask
 
 ## Requirements
 
@@ -31,13 +45,13 @@ def hello():
 
 ### Advanced Usage
 
-You can also pass your Treblle API key and project ID to the Treblle constructor.
+You can also pass your Treblle API key and SDK Token to the Treblle constructor.
 
 ```python copy
 from treblle_flask import Treblle
 
 app = Flask(__name__)
-Treblle(app, TREBLLE_API_KEY="YOUR_API_KEY", TREBLLE_PROJECT_ID="YOUR_PROJECT_ID")
+Treblle(app, TREBLLE_API_KEY="YOUR_API_KEY", TREBLLE_SDK_TOKEN="YOUR_SDK_TOKEN")
 
 @app.route('/hello')
 def hello():
@@ -49,7 +63,7 @@ def hello():
 You can set the following environment variables to configure Treblle without passing any arguments to the Treblle constructor:
 
 - `TREBLLE_API_KEY`: Your Treblle API key
-- `TREBLLE_PROJECT_ID`: Your Treblle project ID
+- `TREBLLE_SDK_TOKEN`: Your Treblle SDK Token
 
 <TipCard>
 Using environment variables is the recommended approach for managing your Treblle credentials, especially in production environments.

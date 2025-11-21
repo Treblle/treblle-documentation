@@ -8,7 +8,20 @@ image: "/og-images/treblle-nodejs.jpg"
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
 import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
 import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-node" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including node. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Node.js
 
 ## Requirements
 

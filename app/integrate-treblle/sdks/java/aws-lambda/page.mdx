@@ -10,6 +10,8 @@ import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { InfoTable } from "~components/tables/info-table";
 
+## Treblle with AWS Lambda
+
 ## Requirements
 
 - AWS Lambda environment
@@ -40,7 +42,7 @@ Check [Maven Central Repository](https://central.sonatype.com/artifact/com.trebl
 
 ## Getting started
 
-First, you must create a FREE account on [treblle.com](https://treblle.com/) to get an API key and Project ID. After you have those, you must integrate Treblle into your AWS Lambda handler.
+First, you must create a FREE account on [treblle.com](https://treblle.com/) to get an API key and SDK Token. After you have those, you must integrate Treblle into your AWS Lambda handler.
 
 ### Basic Implementation
 
@@ -58,10 +60,10 @@ public class MyLambdaHandler implements RequestHandler<APIGatewayProxyRequestEve
     private final TreblleHandler treblleHandler;
 
     public MyLambdaHandler() {
-        // Initialize Treblle with your API key and Project ID
+        // Initialize Treblle with your API key and SDK Token
         this.treblleHandler = new TreblleHandler(
             "YOUR_API_KEY", 
-            "YOUR_PROJECT_ID"
+            "YOUR_SDK_TOKEN"
         );
     }
 
@@ -92,7 +94,7 @@ public class MyLambdaHandler implements RequestHandler<APIGatewayProxyRequestEve
 
 That's it! 
 
-Your API requests and responses from your AWS Lambda function are being sent to your Treblle project. This gives you features like auto-documentation, real-time request/response monitoring, error tracking, etc.
+Your API requests and responses from your AWS Lambda function are being sent to your Treblle dashboard. This gives you features like auto-documentation, real-time request/response monitoring, error tracking, etc.
 
 ## Configuration Options
 
@@ -102,7 +104,7 @@ The `TreblleHandler` constructor supports several configuration options:
 // Initialize Treblle with additional options
 TreblleHandler treblleHandler = new TreblleHandler(
     "YOUR_API_KEY",               // Your Treblle API key
-    "YOUR_PROJECT_ID",            // Your Treblle Project ID
+    "YOUR_SDK_TOKEN",            // Your Treblle SDK Token
     Arrays.asList("secret_field", "sensitive_data"), // Additional fields to mask
     false                         // Debug mode
 );
@@ -118,8 +120,8 @@ You can also configure Treblle using environment variables in your AWS Lambda co
         description="Your Treblle API key"
     />
     <InfoTable.Row
-        title="TREBLLE_PROJECT_ID"
-        description="Your Treblle Project ID"
+        title="TREBLLE_SDK_TOKEN"
+        description="Your Treblle SDK Token"
     />
     <InfoTable.Row
         title="TREBLLE_MASKING_KEYWORDS"
@@ -152,7 +154,7 @@ Treblle automatically masks sensitive data like passwords, tokens, and authentic
 List<String> additionalFields = Arrays.asList("secretField", "privateKey");
 TreblleHandler treblleHandler = new TreblleHandler(
     "YOUR_API_KEY", 
-    "YOUR_PROJECT_ID",
+    "YOUR_SDK_TOKEN",
     additionalFields
 );
 ```
@@ -184,7 +186,7 @@ Treblle is designed to have minimal impact on your Lambda's performance:
 When deploying your Lambda function with Treblle, make sure:
 
 - Your function has internet access (if in a VPC).
-- You've correctly set up environment variables for your API key and Project ID.
+- You've correctly set up environment variables for your API key and SDK Token.
 - You've given your Lambda enough memory and timeout to accommodate the additional Treblle processing.
 
 <NoteCard>

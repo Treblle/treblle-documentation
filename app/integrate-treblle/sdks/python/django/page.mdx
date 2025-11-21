@@ -8,6 +8,20 @@ image: "/og-images/treblle-django.jpg"
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
 import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-python" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Django. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Django
 
 ## Requirements
 
@@ -70,8 +84,8 @@ If you're upgrading from v1, you'll need to make these changes:
 **Old v1 Format:**
 ```py copy
 TREBLLE_INFO = {
-    'api_key': 'your_sdk_token',
-    'project_id': 'your_api_key',
+    'sdk_token': 'your_sdk_token',
+    'api_key': 'your_api_key',
     'hidden_keys': ['password']
 }
 ```

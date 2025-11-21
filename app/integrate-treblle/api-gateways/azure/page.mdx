@@ -11,6 +11,8 @@ import PaginationCards from "~components/cards/pagination-cards";
 import { CautionCard } from "~components/cards/caution";
 import { InfoTable } from "~components/tables/info-table";
 
+## Azure API Gateway
+
 The Azure API Gateway integration automatically:
 
 - **Real-time monitoring**: Captures requests, responses, and performance metrics instantly
@@ -223,7 +225,7 @@ az functionapp create \
 
 **Using VS Code:**
 1. Install Azure Functions extension
-2. Open the cloned project folder
+2. Open the cloned folder
 3. Press `F1` → "Azure Functions: Deploy to Function App"
 4. Select your function app
 
@@ -254,8 +256,8 @@ Set the following environment variables in your Function App:
         description="Event Hub consumer group - Default: $Default"
     />
     <InfoTable.Row
-        title="TREBLLE_PROJECT_ID"
-        description="Your Treblle project ID - Example: your-project-id"
+        title="TREBLLE_SDK_TOKEN"
+        description="Your Treblle SDK Token - Example: your-sdk-token"
     />
     <InfoTable.Row
         title="TREBLLE_API_KEY"
@@ -279,8 +281,8 @@ Set the following environment variables in your Function App:
 
 <InfoTable title="Parameter" description="Configuration Details">
     <InfoTable.Row
-        title="TREBLLE_PROJECT_ID"
-        description="Your Treblle project ID (required) - Example: your-project-id"
+        title="TREBLLE_SDK_TOKEN"
+        description="Your Treblle SDK Token (required) - Example: your-sdk-token"
     />
     <InfoTable.Row
         title="TREBLLE_API_KEY"

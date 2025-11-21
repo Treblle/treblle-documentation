@@ -8,6 +8,20 @@ image: "/og-images/treblle-laravel.jpg"
 import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-laravel" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Laravel. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Laravel
 
 ## Features
 
@@ -33,7 +47,7 @@ Install Treblle for Laravel via [Composer](http://getcomposer.org/) by running t
 composer require treblle/treblle-laravel
 ```
 
-Create an account, login to your existing account, create a new project and get all the `.ENV` keys you need to start using Treblle.
+Create an account, login to your existing account, create a new api and get all the `.ENV` keys you need to start using Treblle.
 
 You can also visit our website [https://app.treblle.com](https://app.treblle.com) and create a FREE account to get your API key and SDK token. Once you have them, simply add them to your `.ENV` file:
 
@@ -61,18 +75,18 @@ Version 6.0 introduces breaking changes to environment variable names. If you're
 ```shell copy
 # Old configuration (v5.x)
 TREBLLE_API_KEY=your_old_api_key
-TREBLLE_PROJECT_ID=your_old_project_id
+TREBLLE_SDK_TOKEN=your_old_SDK_TOKEN
 
 # New configuration (v6.0)
 TREBLLE_SDK_TOKEN=your_old_api_key
-TREBLLE_API_KEY=your_old_project_id
+TREBLLE_API_KEY=your_old_SDK_TOKEN
 ```
 
 **2. If using dynamic middleware parameters, update route definitions:**
 
 ```php copy
 // Old (v5.x)
-Route::middleware(['treblle:project-id-1'])->group(function () { ... });
+Route::middleware(['treblle:sdk-token-1'])->group(function () { ... });
 
 // New (v6.0)
 Route::middleware(['treblle:api-key-1'])->group(function () { ... });

@@ -11,6 +11,8 @@ import PaginationCards from "~components/cards/pagination-cards";
 import { CautionCard } from "~components/cards/caution";
 import { ImageCard } from "~components/cards/image-card";
 
+## WSO2 Plugin
+
 ## Prerequisites
 
 Before you begin, make sure you have:
@@ -98,19 +100,19 @@ Before you begin, make sure you have:
 Follow these steps to integrate Treblle with your WSO2 API Manager:
 
 1. Visit the [Treblle website](https://treblle.com) and log in or [sign up](https://platform.treblle.com/) for an account if you don't have one.
-2. Once logged in, create a new project by providing the following details:
+2. Once logged in, create a new api by providing the following details:
 
    - **API Name.**
    - **Base URL.**
    - **Environment.**
    - **Platform.**
 
-   <ImageCard src="/platform/wso2/treblle-api.png" alt="Create Treblle Project" />
+   <ImageCard src="/platform/wso2/treblle-api.png" alt="Create Treblle API" />
 
-3. After creating the project, Treblle will generate:
+3. After adding an API, Treblle will generate:
 
    - **API Key**
-   - **Project ID**
+   - **SDK Token**
 
    <ImageCard src="/platform/wso2/sdk.png" alt="Treblle Credentials" />
 
@@ -194,7 +196,7 @@ mv ~/Downloads/aspectjweaver-1.8.5.jar ~/.m2/repository/org/aspectj/aspectjweave
 ```bash copy
 # Required variables
 export TREBLLE_API_KEY="your-api-key"           # Your Treblle API key
-export TREBLLE_PROJECT_ID="your-project-id"      # Your Treblle project ID
+export TREBLLE_SDK_TOKEN="your-sdk-token"      # Your Treblle SDK Token
 export TREBLLE_GATEWAY_URL="your-gateway-url"    # Your WSO2 gateway URL
 
 # Optional variables with defaults
@@ -208,7 +210,7 @@ export TREBLLE_ENABLED_TENANT_DOMAINS="carbon.super"  # Enabled tenant domains
 ```batch copy
 :: Required variables
 set TREBLLE_API_KEY=your-api-key
-set TREBLLE_PROJECT_ID=your-project-id
+set TREBLLE_SDK_TOKEN=your-sdk-token
 set TREBLLE_GATEWAY_URL=https://your-wso2-gateway-url
 
 :: Optional variables
@@ -225,12 +227,12 @@ To check that your environment variables are properly set up for Treblle:
 ```bash copy
 # For Linux/macOS
 echo $TREBLLE_API_KEY
-echo $TREBLLE_PROJECT_ID
+echo $TREBLLE_SDK_TOKEN
 echo $TREBLLE_GATEWAY_URL
 
 # For Windows
 echo %TREBLLE_API_KEY%
-echo %TREBLLE_PROJECT_ID%
+echo %TREBLLE_SDK_TOKEN%
 echo %TREBLLE_GATEWAY_URL%
 ```
 
@@ -257,7 +259,7 @@ echo %TREBLLE_GATEWAY_URL%
 
 2. **Look for success messages** (not 403 Forbidden errors):
    - Good: `Event successfully published.`
-   - Bad: `Event publishing failed for project id: your-project-id with status code: 403`
+   - Bad: `Event publishing failed for sdk token: your-sdk-token with status code: 403`
 
 3. **Check your Treblle dashboard** to see captured API requests.
 
@@ -277,7 +279,7 @@ rm -f *.lock *.lck *.tmp
 
 **2. 403 Forbidden Errors in Logs:**
 - Verify your Treblle credentials are correct
-- Make sure you're using actual API key and project ID, not placeholder text
+- Make sure you're using actual API key and SDK Token, not placeholder text
 - Check that `TREBLLE_GATEWAY_URL` contains only the base URL
 
 **3. Extension Not Loading:**

@@ -1,12 +1,25 @@
 ---
-title: "Treblle with Ruby on Rails"
-metaTitle: "Set Up Treblle in Rails | Treblle Docs"
+title: "Treblle with Ruby"
+metaTitle: "Set Up Treblle in Ruby | Treblle Docs"
 description: "Integrate Treblle with Ruby on Rails to log API requests, monitor performance, and improve security. Follow our setup guide to configure Treblle for real-time API insights."
 image: "/og-images/treblle-rails.jpg"
 ---
 
 import PaginationCards from "~components/cards/pagination-cards";
 import { InfoTable } from "~components/tables/info-table";
+import { InfoCard } from "~components/cards/info-card";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-ruby" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Ruby. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Ruby
 
 ## Requirements
 
@@ -35,7 +48,7 @@ You can then configure the gem:
 
 Treblle.configure do |config|
   config.api_key               = ENV.fetch('TREBLLE_API_KEY')
-  config.project_id            = ENV.fetch('TREBLLE_PROJECT_ID')
+  config.sdk_token             = ENV.fetch('TREBLLE_SDK_TOKEN')
   config.enabled_environments  = %w[staging development]
   config.sensitive_attrs       = %w[top_secret_custom_attribute password_digest]
   config.restricted_endpoints  = %w[/api/users /api/v2/*]
@@ -51,8 +64,8 @@ You can use any of the configuration options below:
         description="(Required) Valid API key obtained during registration on treblle.com"
     />
     <InfoTable.Row
-        title="config.project_id"
-        description="(Required) Valid Project ID obtained after creating a new project on treblle.com"
+        title="config.sdk_token"
+        description="(Required) Valid SDK Token obtained after adding a new api on treblle.com"
     />
     <InfoTable.Row
         title="config.enabled_environments"

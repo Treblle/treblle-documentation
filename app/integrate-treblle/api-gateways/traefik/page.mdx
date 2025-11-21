@@ -10,6 +10,7 @@ import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { InfoTable } from "~components/tables/info-table";
 
+## Traefik Plugin
 
 ## What you get with the plugin
 
@@ -26,7 +27,7 @@ This plugin allows you to integrate your [Traefik Proxy](https://traefik.io/trae
 
 ## Installation
 
-1. Obtain your API key and Project ID from [Treblle](https://app.treblle.com/)
+1. Obtain your API key and SDK Token from [Treblle](https://app.treblle.com/)
 2. Visit the Traefik [Plugin Catalog](https://plugins.traefik.io/plugins)
 3. Search for `Treblle` and select Install.
 4. Follow the displayed instructions to configure the plugin in your static and dynamic configurations.
@@ -41,8 +42,8 @@ This plugin allows you to integrate your [Traefik Proxy](https://traefik.io/trae
         description="string - Your API key obtained from Treblle (required)"
     />
     <InfoTable.Row
-        title="ProjectId"
-        description="string - Your Project ID from Treblle (required)"
+        title="SDKToken"
+        description="string - Your SDK Token from Treblle (required)"
     />
     <InfoTable.Row
         title="AdditionalFieldsToMask"
@@ -91,7 +92,7 @@ http:
       plugin:
         treblle:
           ApiKey: "your-api-key"
-          ProjectId: "your-project-id"
+          sdkToken: "your-sdk-token"
           AdditionalFieldsToMask:
             - "accessToken"
             - "refreshToken"
@@ -102,7 +103,7 @@ http:
 ```
 
 <NoteCard>
-Make sure to replace `your-api-key` and `your-project-id` with your actual Treblle credentials.
+Make sure to replace `your-api-key` and `your-sdk-token` with your actual Treblle credentials.
 </NoteCard>
 
 <TipCard>

@@ -31,14 +31,14 @@ Get quick answers to the most common questions about Treblle.
         Set your credentials using environment variables:
 
         ```bash copy
-        TREBLLE_PROJECT_ID=your_project_id
+        TREBLLE_SDK_TOKEN=your_sdk_token
         TREBLLE_API_KEY=your_api_key
         ```
 
         **Where to find these values:**
         - Go to your Treblle 3.0 workspace
         - Navigate to API Settings
-        - Copy your Project ID and API Key
+        - Copy your SDK Token and API Key
 
         <TipCard>
             Need help? Check our <Link href="/guides/getting-started/">Getting Started Guide</Link>
@@ -54,7 +54,7 @@ Get quick answers to the most common questions about Treblle.
 
         **Common troubleshooting steps:**
 
-        1. **Check your credentials** - Ensure `TREBLLE_PROJECT_ID` and `TREBLLE_API_KEY` match your workspace
+        1. **Check your credentials** - Ensure `TREBLLE_SDK_TOKEN` and `TREBLLE_API_KEY` match your workspace
         2. **Network settings** - Allow HTTPS requests to `*.treblle.com` domains
         3. **Request limits** - Verify you haven't exceeded your plan's monthly limit
         4. **SDK integration** - Confirm the Treblle SDK is properly installed and configured
@@ -205,7 +205,7 @@ Get quick answers to the most common questions about Treblle.
         ```bash copy
         # In your .env file
         TREBLLE_API_KEY=your_api_key
-        TREBLLE_PROJECT_ID=your_project_id
+        TREBLLE_SDK_TOKEN=your-sdk-token
         ```
 
         **Remove hardcoded credentials:**
@@ -213,7 +213,7 @@ Get quick answers to the most common questions about Treblle.
         // Remove this old configuration
         treblle({
           apiKey: "hardcoded_key",
-          projectId: "hardcoded_id"
+          sdk_token: "hardcoded_token"
         })
 
         // SDK will automatically use environment variables

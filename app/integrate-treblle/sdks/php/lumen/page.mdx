@@ -7,6 +7,20 @@ image: "/og-images/treblle-lumen.jpg"
 
 import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoTable } from "~components/tables/info-table";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-lumen" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for JavaScript frameworks including Lumen. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+    </InfoCard.description>
+</InfoCard>
+
+## Treblle with Lumen
 
 ## Requirements
 
@@ -60,11 +74,11 @@ $app->routeMiddleware([
 
 ### Step 3: Configure Treblle
 
-You need an API key and Project ID for Treblle to work. You can get those by creating a free account on [treblle.com](https://treblle.com) and your first project. You'll get the two keys which you need to add to your `.env` file like so:
+You need an API key and SDK Token for Treblle to work. You can get those by creating a free account on [treblle.com](https://treblle.com) and your first api. You'll get the two keys which you need to add to your `.env` file like so:
 
 ```bash copy
 TREBLLE_API_KEY=YOUR_API_KEY
-TREBLLE_PROJECT_ID=YOUR_PROJECT_ID
+TREBLLE_SDK_TOKEN=YOUR_SDK_TOKEN
 ```
 
 ## Enable Treblle on your API
