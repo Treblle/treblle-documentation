@@ -1,5 +1,5 @@
 ---
-title: "Treblle with Go standard library"
+title: "Treblle with Go"
 metaTitle: "Set Up Treblle in Go | Treblle Docs"
 description: "Integrate Treblle with Go to capture API requests, monitor errors, and enhance security. Follow our setup guide to configure Treblle for real-time insights."
 image: "/og-images/treblle-go.jpg"
@@ -12,7 +12,7 @@ import PaginationCards from "~components/cards/pagination-cards";
 
 ## Introduction
 
-Treblle middleware for Go works with applications based on `net/http`.
+Treblle middleware for Go works with applications based on `net/http`. It provides seamless integration with popular Go routers including the standard library, Chi, and Gorilla Mux.
 
 ## Installation
 
@@ -31,56 +31,225 @@ import "github.com/treblle/treblle-go"
 
 func main() {
 	treblle.Configure(treblle.Configuration{
-		APIKey:     "YOUR API KEY HERE",
-		ProjectID:  "YOUR PROJECT ID HERE",
-        AdditionalFieldsToMask: []string{"password", "card_number"}, // optional, specify additional fields to mask
-	}
+		SDK_TOKEN:              "YOUR SDK TOKEN HERE",
+		API_KEY:                "YOUR API KEY HERE",
+		AdditionalFieldsToMask: []string{"password", "card_number"}, // optional, specify additional fields to mask
+	})
 
-    // rest of your program.
+	// rest of your program.
 }
 ```
 
-After that, just use the middleware with any of your handlers:
+## Chi (Recommended)
+
+Chi is the recommended router for Treblle and provides excellent integration with automatic route pattern detection.
+
+### Global middleware
+
+To setup `treblle.Middleware` in Chi as a global middleware, use `r.Use()`:
 
 ```go copy
-mux := http.NewServeMux()
-mux.Handle("/", treblle.Middleware(http.HandlerFunc(yourHandler)))
+import (
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
+	treblle "github.com/treblle/treblle-go"
+)
+
+func main() {
+	treblle.Configure(treblle.Configuration{
+		SDK_TOKEN: "YOUR SDK TOKEN HERE",
+		API_KEY:   "YOUR API KEY HERE",
+	})
+
+	r := chi.NewRouter()
+
+	// Built-in Chi middleware
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+
+	// Treblle middleware
+	r.Use(treblle.Middleware)
+
+	// Define your routes
+	r.Get("/users", getUsersHandler)
+	r.Post("/users", createUserHandler)
+	r.Get("/users/{id}", getUserHandler)
+
+	http.ListenAndServe(":8080", r)
+}
 ```
 
-## gorilla/mux
+### Route groups
 
-To setup the `treblle.Middleware` in `gorilla/mux`, you can use it as a global middleware:
+You can organize routes into groups and apply Treblle middleware selectively:
 
 ```go copy
-r := mux.NewRouter()
+r := chi.NewRouter()
+
+r.Use(middleware.Logger)
 r.Use(treblle.Middleware)
+
+// Public routes
+r.Get("/health", healthCheckHandler)
+
+// API routes with automatic endpoint grouping
+r.Route("/api/v1", func(r chi.Router) {
+	r.Get("/users", listUsersHandler)
+	r.Post("/users", createUserHandler)
+	r.Get("/users/{id}", getUserHandler)
+	r.Put("/users/{id}", updateUserHandler)
+	r.Delete("/users/{id}", deleteUserHandler)
+})
 ```
 
-### per-route
+### Nested routes
 
-You can also use `treblle.Middleware` as a per-route middleware just like you will use it with `net/http`:
+Chi supports nested route groups, allowing you to organize complex APIs:
 
-```gocopy
+```go copy
+r := chi.NewRouter()
+
+r.Use(treblle.Middleware)
+
+r.Route("/api", func(r chi.Router) {
+	r.Route("/v1", func(r chi.Router) {
+		r.Get("/users", getUsersV1)
+		r.Get("/products", getProductsV1)
+	})
+
+	r.Route("/v2", func(r chi.Router) {
+		r.Get("/users", getUsersV2)
+		r.Get("/products", getProductsV2)
+	})
+})
+```
+
+### Per-route
+
+You can also apply Treblle middleware to specific routes using `r.With()`:
+
+```go copy
+r := chi.NewRouter()
+
+r.Use(middleware.Logger)
+
+// Apply Treblle to specific routes
+r.With(treblle.Middleware).Get("/monitored", monitoredHandler)
+
+// Routes without Treblle monitoring
+r.Get("/unmonitored", unmonitoredHandler)
+```
+
+<TipCard>
+Chi automatically extracts route patterns for Treblle, enabling proper endpoint grouping without manual configuration. This makes Chi the ideal choice for comprehensive API monitoring.
+</TipCard>
+
+## Standard library (net/http)
+
+For applications using the standard library's `net/http` package:
+
+```go copy
+import (
+	"net/http"
+	treblle "github.com/treblle/treblle-go"
+)
+
+func main() {
+	treblle.Configure(treblle.Configuration{
+		SDK_TOKEN: "YOUR SDK TOKEN HERE",
+		API_KEY:   "YOUR API KEY HERE",
+	})
+
+	mux := http.NewServeMux()
+
+	// Wrap handlers with Treblle middleware
+	mux.Handle("/users", treblle.Middleware(http.HandlerFunc(getUsersHandler)))
+	mux.Handle("/users/", treblle.Middleware(treblle.HandleFunc("/users/{id}", getUserHandler)))
+
+	http.ListenAndServe(":8080", mux)
+}
+```
+
+<NoteCard>
+With the standard library, use `treblle.HandleFunc()` to specify route patterns. This helps Treblle group related endpoints correctly.
+</NoteCard>
+
+## Gorilla/Mux
+
+Treblle works seamlessly with Gorilla Mux routers.
+
+### Global middleware
+
+To setup `treblle.Middleware` in Gorilla Mux as a global middleware:
+
+```go copy
+import (
+	"github.com/gorilla/mux"
+	treblle "github.com/treblle/treblle-go"
+)
+
+func main() {
+	treblle.Configure(treblle.Configuration{
+		SDK_TOKEN: "YOUR SDK TOKEN HERE",
+		API_KEY:   "YOUR API KEY HERE",
+	})
+
+	r := mux.NewRouter()
+	r.Use(treblle.Middleware)
+
+	// Define your routes
+	r.HandleFunc("/users", getUsersHandler).Methods("GET")
+	r.HandleFunc("/users/{id}", getUserHandler).Methods("GET")
+	r.HandleFunc("/users", createUserHandler).Methods("POST")
+
+	http.ListenAndServe(":8080", r)
+}
+```
+
+### Per-route
+
+You can also use `treblle.Middleware` as a per-route middleware:
+
+```go copy
 r := mux.NewRouter()
-r.Handle("/", treblle.Middleware(http.HandlerFunc(yourHandler)))
+
+r.Handle("/users", treblle.Middleware(http.HandlerFunc(getUsersHandler)))
+r.Handle("/users/{id}", treblle.Middleware(http.HandlerFunc(getUserHandler)))
 ```
 
 ### Subroutes
 
-You can also use `treblle.Middleware` on `gorilla/mux` subroutes:
+You can apply `treblle.Middleware` to Gorilla Mux subroutes:
 
 ```go copy
 r := mux.NewRouter()
 
 apiRouter := r.PathPrefix("/api").Subrouter()
 
-apiRouter.Use(treblle.Middleware) // Set as a middleware for this subroute
+// Set Treblle as middleware for this subroute
+apiRouter.Use(treblle.Middleware)
 
-apiRouter.HandleFunc("/users", yourHandler)
+apiRouter.HandleFunc("/users", getUsersHandler).Methods("GET")
+apiRouter.HandleFunc("/users/{id}", getUserHandler).Methods("GET")
 ```
 
+<NoteCard>
+Gorilla Mux is no longer actively maintained. Consider migrating to Chi for better performance and ongoing support.
+</NoteCard>
+
+## Comparing routers
+
+| Feature | Standard Library | Chi | Gorilla Mux |
+|---------|-----------------|-----|-------------|
+| Route Pattern Detection | Manual | Automatic | Automatic |
+| Middleware Composition | Limited | Excellent | Good |
+| Active Maintenance | Yes | Yes | No |
+| Nested Routes | No | Yes | No |
+| Performance | Baseline | Better | Similar |
+| Recommended | For simple APIs | ✓ Yes | Legacy only |
+
 <TipCard>
-The middleware works seamlessly with both the standard `net/http` package and popular routers like `gorilla/mux`, giving you flexibility in how you structure your Go applications.
+For new projects, we recommend using Chi with Treblle. It offers the best combination of automatic route detection, modern middleware patterns, and active maintenance.
 </TipCard>
 
 <PaginationCards />
