@@ -1,0 +1,47 @@
+.nextra-code pre {
+    border: 1px solid #29304b !important;
+    box-shadow: none !important;
+}
+
+.nextra-code div {
+    background-color: transparent;
+}
+
+.nextra-code div button {
+    border: none;
+    border-radius: 50%;
+    padding: 7px;
+}
+
+.nextra-code div button:hover {
+    background-color: #29304b;
+}
+
+.nextra-code div button:has(svg[viewBox="0 0 20 20"]) {
+    background-color: #29304b;
+}
+
+.nextra-code div button svg  {
+    width: 18px;
+    height: 18px;
+}
+
+.nextra-code div button svg {
+    display: block;
+}
+
+.nextra-code div svg {
+    display: none;
+}
+
+.nextra-code div span {
+    font-size:16px;
+}
+
+pre {
+    background-color: transparent;
+}
+
+code span span:first-child {
+    color: #5192ff;
+}

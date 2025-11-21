@@ -1,0 +1,9 @@
+.nextra-steps h3::before {
+    background-color: #29304b !important;
+    font-size: 14px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    color: #fff !important;
+}

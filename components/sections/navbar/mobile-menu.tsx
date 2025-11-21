@@ -157,7 +157,7 @@ const MobileLink = css({
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: "24px",
+    padding: "24px !important",
     fontSize: "14px",
     lineHeight: "16px",
     color: "neutral.white",
