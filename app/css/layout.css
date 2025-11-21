@@ -111,10 +111,10 @@
 }
 
 .layout article .nextra-breadcrumb a:nth-child(1)::before {
-    content: "''";
+    content: "";
 }
 .layout article .nextra-breadcrumb a:nth-child(1)::after {
-    content: "''";
+    content: "";
 }
 
 .nextra-search input {
