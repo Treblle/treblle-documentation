@@ -24,6 +24,7 @@ export function Question({ children }: QuestionProperties) {
         <Box
             className={css({
                 width: "100%",
+                height: "auto",
                 backgroundImage: isOpen
                     ? "linear-gradient(to left, rgba(1, 4, 26, 0), #14182f)"
                     : "transparent",
@@ -59,7 +60,7 @@ export function Question({ children }: QuestionProperties) {
 
             <p
                 className={css({
-                    maxHeight: isOpen ? "200px" : "0px",
+                    maxHeight: isOpen ? "none" : "0px",
                     opacity: isOpen ? 1 : 0,
                     userSelect: isOpen ? "auto" : "none",
                     visibility: isOpen ? "visible" : "hidden",
