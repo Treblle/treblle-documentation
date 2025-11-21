@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function TrustCenter() {
     useEffect(() => {
-        window.location.href = "https://trust.treblle.com/";
+        globalThis.location.href = "https://trust.treblle.com/";
     }, []);
 
     return (

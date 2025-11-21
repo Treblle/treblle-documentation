@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 export default function TrustCenter() {
     useEffect(() => {
-        window.location.href = "https://apiacademy.treblle.com/laravel-api-course/";
+        globalThis.location.href = "https://apiacademy.treblle.com/laravel-api-course/";
     }, []);
 
     return (
