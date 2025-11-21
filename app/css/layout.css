@@ -110,13 +110,6 @@
     padding: 0px;
 }
 
-.layout article .nextra-breadcrumb a:nth-child(1)::before {
-    content: "";
-}
-.layout article .nextra-breadcrumb a:nth-child(1)::after {
-    content: "";
-}
-
 .nextra-search input {
     background-color: #22263c;
     color: #fff;
