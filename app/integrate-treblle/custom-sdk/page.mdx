@@ -6,7 +6,7 @@ image: "/og-images/treblle-sdk.jpg"
 
 import { InfoCard } from "~components/cards/info-card";
 import { FAQ } from "~components/sections/FAQ/faq";
-import { Question } from "~components/sections/FAQ/faq-question";
+import { FAQItem } from "~components/sections/FAQ/faq-item";
 import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { CautionCard } from "~components/cards/caution";
@@ -252,25 +252,27 @@ Study existing SDKs for implementation patterns:
 ## Frequently Asked Questions
 
 <FAQ>
-    <Question> 
-        ## How do I ensure my SDK doesn't impact API performance?
+    <FAQItem question="How do I ensure my SDK doesn't impact API performance?">
         All data sending should be done asynchronously, after the response is sent to the user. Use non-blocking requests and implement proper error handling so that any SDK failures don't affect your user's API calls.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## What happens if the Treblle endpoint is unavailable?
+    <FAQItem question="What happens if the Treblle endpoint is unavailable?">
         Your SDK should handle errors gracefully and fail silently. The user's API should continue working normally even if Treblle is unreachable. Consider implementing retry logic with exponential backoff.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## Can I add custom fields to mask beyond the defaults?
+    <FAQItem question="How do I test that my SDK is working correctly?">
+        Use the provided testing tools and follow the checklist to verify that your SDK is capturing and sending data as expected. Monitor the Treblle dashboard for incoming requests and their details.
+    </FAQItem>
+    <FAQItem question="Can I add custom fields to mask beyond the defaults?">
         Yes, your SDK should allow users to configure additional fields to mask through the configuration options. This is especially important for industry-specific sensitive data.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## How do I test that masking is working correctly?
+    <FAQItem question="What if I need to mask fields in nested objects?">
+        Your SDK should support masking fields in nested objects and arrays. Implement a recursive masking function that traverses the entire request and response payloads.
+    </FAQItem>
+    <FAQItem question="How do I test that masking is working correctly?">
         Send test requests with known sensitive data and verify in your Treblle dashboard that the values appear as asterisks. Test nested objects, arrays, and different data types to ensure comprehensive masking.
-    </Question>
+    </FAQItem>
 </FAQ>
 
 ## Getting Support
