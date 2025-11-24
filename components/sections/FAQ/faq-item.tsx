@@ -1,25 +1,19 @@
 "use client";
 import { ChevronDown } from "lucide-react";
-import { Children, isValidElement, useState } from "react";
+import { useState } from "react";
 
 import { css } from "~styled-system/css";
 import { Box } from "~styled-system/jsx";
 
+import { Answer } from "./faq-answer";
+
 type QuestionProperties = {
-    readonly children: React.ReactNode;
+    readonly question?: string;
+    readonly children?: React.ReactNode;
 };
 
-export function Question({ children }: QuestionProperties) {
+export function FAQItem({ question, children }: QuestionProperties) {
     const [isOpen, setIsOpen] = useState(false);
-
-    const [first, second] = Children.toArray(children);
-    const question = isValidElement(first)
-        ? (first.props as { children: React.ReactNode }).children
-        : undefined;
-    const answer = isValidElement(second)
-        ? (second.props as { children: React.ReactNode }).children
-        : undefined;
-
     return (
         <Box
             className={css({
@@ -58,21 +52,7 @@ export function Question({ children }: QuestionProperties) {
                 />
             </Box>
 
-            <p
-                className={css({
-                    maxHeight: isOpen ? "none" : "0px",
-                    opacity: isOpen ? 1 : 0,
-                    userSelect: isOpen ? "auto" : "none",
-                    visibility: isOpen ? "visible" : "hidden",
-                    color: "darkElement.400",
-                    transform: isOpen ? "translateY(0px)" : "translateY(-10px)",
-                    marginTop: isOpen ? "24px" : "0px",
-                    fontSize: "14px",
-                    transition: "all 0.4s ease",
-                })}
-            >
-                {answer}
-            </p>
+            <Answer isOpen={isOpen}>{children}</Answer>
         </Box>
     );
 }

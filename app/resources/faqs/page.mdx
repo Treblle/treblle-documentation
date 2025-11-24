@@ -13,7 +13,7 @@ import { CautionCard } from "~components/cards/caution";
 import { InfoCards } from "~components/cards/info-cards";
 import { InfoCard } from "~components/cards/info-card";
 import { FAQ } from "~components/sections/FAQ/faq";
-import { Question } from "~components/sections/FAQ/faq-question";
+import { FAQItem } from "~components/sections/FAQ/faq-item";
 import Link from "next/link";
 
 # Frequently Asked Questions
@@ -25,10 +25,8 @@ Get quick answers to the most common questions about Treblle.
 ## Getting Started
 
 <FAQ>
-    <Question>
-        ## How do I map my API credentials in Treblle?
+    <FAQItem question="How do I map my API credentials in Treblle?">
 
-        <div>
             Set your credentials using environment variables:
 
             ```bash copy
@@ -44,14 +42,11 @@ Get quick answers to the most common questions about Treblle.
             <TipCard>
                 Need help? Check our <Link href="/guides/getting-started/">Getting Started Guide</Link>
             </TipCard>
-        </div>
         
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## My API requests aren't showing up. What should I check?
+    <FAQItem question="My API requests aren't showing up. What should I check?">
 
-        <div>
             **First, verify you're using the correct platform:**
             - Use <Link href="https://platform.treblle.com/" target="_blank">platform.treblle.com</Link>
             - Don't use the legacy <Link href="https://app.treblle.com/" target="_blank">app.treblle.com</Link>
@@ -66,14 +61,11 @@ Get quick answers to the most common questions about Treblle.
             **Still not working?** Contact support at <Link href="https://treblle.com/" target="_blank">treblle.com</Link> → Resources → Support
 
             <ImageCard src="/platform/faqs/support.png" alt="Treblle Support" />
-        </div>
 
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## Can I test Treblle with localhost?
+    <FAQItem question="Can I test Treblle with localhost?">
 
-        <div>
             **Yes!** Treblle works with localhost if:
 
             - SDK is properly initialized
@@ -83,9 +75,8 @@ Get quick answers to the most common questions about Treblle.
             <TipCard>
                 Quick test: Make a request to your local API and check your Treblle dashboard within a few seconds.
             </TipCard>
-        </div>
 
-    </Question>
+    </FAQItem>
 </FAQ>
 
 ---
@@ -93,10 +84,7 @@ Get quick answers to the most common questions about Treblle.
 ## Security & Privacy
 
 <FAQ>
-    <Question>
-        ## How does Treblle protect my data?
-
-        <div>
+    <FAQItem question="How does Treblle protect my data?">
             Treblle prioritizes security with multiple layers of protection:
 
             **Automatic Data Masking**
@@ -117,14 +105,10 @@ Get quick answers to the most common questions about Treblle.
             <NoteCard>
                 Learn more at our <Link href="https://trust.treblle.com/" target="_blank">Trust Center</Link>
             </NoteCard>
-        </div>
 
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## How do I mask sensitive data in URLs?
-
-        <div>
+    <FAQItem question="How do I mask sensitive data in URLs?">
             <CautionCard>
                 Treblle only masks request/response bodies and headers - **not URL paths**.
             </CautionCard>
@@ -152,13 +136,9 @@ Get quick answers to the most common questions about Treblle.
             <NoteCard>
                 Full guide: <Link href="/treblle/data-masking/">Data Masking Documentation</Link>
             </NoteCard>
-        </div>
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## Do I need to change DNS settings for Treblle?
-
-        <div>
+    <FAQItem question="Do I need to change DNS settings for Treblle?">
             **No DNS changes required!** 
 
             Treblle integrates directly into your API backend via our SDK. You keep using your custom domain exactly as before.
@@ -168,9 +148,8 @@ Get quick answers to the most common questions about Treblle.
             - Treblle SDK captures request/response data
             - Data is sent to Treblle's servers for analysis
             - Your API continues working normally
-        </div>
 
-    </Question>
+    </FAQItem>
 </FAQ>
 
 ---
@@ -178,10 +157,7 @@ Get quick answers to the most common questions about Treblle.
 ##  Documentation & Features
 
 <FAQ>
-    <Question>
-        ## How does Treblle generate API documentation?
-
-        <div> 
+    <FAQItem question="How does Treblle generate API documentation?">
             Treblle creates docs automatically from your API traffic:
 
             **Real-time Analysis**
@@ -206,9 +182,8 @@ Get quick answers to the most common questions about Treblle.
             <NoteCard>
                 Learn more: <Link href="/treblle/api-documentation/">API Documentation Guide</Link>
             </NoteCard>
-        </div>
 
-    </Question>
+    </FAQItem>
 </FAQ>
 
 ---
@@ -216,9 +191,7 @@ Get quick answers to the most common questions about Treblle.
 ## Troubleshooting
 
 <FAQ>
-    <Question>
-        ## I upgraded my SDK but still have issues with keys
-        <div>
+    <FAQItem question="I upgraded my SDK but still have issues with keys">
             **Common issue with Treblle 3.0 upgrades:**
 
             **Use environment variables (recommended):**
@@ -245,14 +218,10 @@ Get quick answers to the most common questions about Treblle.
             2. Restart your application after changes
             3. Verify you're using the latest SDK version
             4. Check for typos in environment variable names
-        </div>
 
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## Getting SSL connection timeout errors?
-
-        <div>
+    <FAQItem question="Getting SSL connection timeout errors?">
             **SSL timeout errors usually indicate network issues:**
 
             **Network Troubleshooting:**
@@ -276,9 +245,7 @@ Get quick answers to the most common questions about Treblle.
             - Add detailed logging around SDK initialization
             - Monitor SSL handshake timing
             - Check server resource usage during requests
-        </div>
-
-    </Question>
+    </FAQItem>
 </FAQ>
 
 ---
@@ -286,10 +253,7 @@ Get quick answers to the most common questions about Treblle.
 ## Billing & Plans
 
 <FAQ>
-    <Question>
-        ## How do I download my invoices?
-
-        <div>
+    <FAQItem question="How do I download my invoices?">
             **Access your invoices through Workspace Settings:**
 
             **Step-by-step:**
@@ -304,14 +268,10 @@ Get quick answers to the most common questions about Treblle.
                 - Visit <Link href="https://treblle.com/" target="_blank">treblle.com</Link> → Resources → Support
                 - Email: support@treblle.com
             </NoteCard>
-        </div>
 
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## What happens when I hit the free plan limit?
-
-        <div>
+    <FAQItem question="What happens when I hit the free plan limit?">
             **Free plan includes 250,000 requests per month.**
 
             **When you exceed the limit:**
@@ -327,9 +287,8 @@ Get quick answers to the most common questions about Treblle.
             <NoteCard>
                 View pricing: <Link href="https://treblle.com/pricing" target="_blank">treblle.com/pricing</Link>
             </NoteCard>
-        </div>
 
-    </Question>
+    </FAQItem>
 </FAQ>
 
 ---

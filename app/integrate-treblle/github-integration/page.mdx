@@ -9,7 +9,7 @@ import { InfoCards } from "~components/cards/info-cards";
 import { InfoCard } from "~components/cards/info-card";
 import { FAQ } from "~components/sections/FAQ/faq";
 import PaginationCards from "~components/cards/pagination-cards";
-import { Question } from "~components/sections/FAQ/faq-question";
+import { FAQItem } from "~components/sections/FAQ/faq-item";
 import { TipCard } from "~components/cards/tip";
 import { CautionCard } from "~components/cards/caution";
 import { NoteCard } from "~components/cards/note";
@@ -296,35 +296,29 @@ You can revoke these permissions at any time in your GitHub organization setting
 ## Frequently Asked Questions
 
 <FAQ>
-    <Question> 
-        ## Does Treblle store my source code?
+    <FAQItem question="Does Treblle store my source code?">
         No, Treblle only reads specific files needed for API detection (like route files and configuration) and never stores your complete source code. All analysis is performed in real-time and data is encrypted both in transit and at rest.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## How long does API discovery take?
+    <FAQItem question="How long does API discovery take?">
         Initial discovery typically completes within 5-10 minutes depending on the number of repositories. The system scans incrementally, so you'll see results appearing progressively in your dashboard.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## Can I customize which issues get auto-refactored?
+    <FAQItem question="Can I customize which issues get auto-refactored?">
         Yes, before enabling auto-refactoring, you can review and select which AI recommendations to apply. You have full control over what changes are included in the generated pull request.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## What happens if I don't have tests in my repository?
+    <FAQItem question="What happens if I don't have tests in my repository?">
         The refactoring process will still work, but the generated PR won't include test results. We recommend reviewing changes extra carefully and testing manually in a staging environment before merging.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## Can I use this with private repositories?
+    <FAQItem question="Can I use this with private repositories?">
         Yes, the Treblle GitHub Application works with both public and private repositories. The same privacy-first principles apply regardless of repository visibility.
-    </Question>
+    </FAQItem>
 
-    <Question>
-        ## How do I uninstall the GitHub App?
+    <FAQItem question="How do I uninstall the GitHub App?">
         Navigate to your GitHub organization settings → Installed GitHub Apps → Treblle → Uninstall. This will immediately revoke all permissions and stop API discovery.
-    </Question>
+    </FAQItem>
 </FAQ>
 
 <PaginationCards />
