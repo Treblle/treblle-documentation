@@ -1,0 +1,261 @@
+---
+title: "People"
+metaTitle: "Manage Workspace Members & User Roles - Treblle Documentation"
+description: "Invite users, assign roles and groups, manage team members in your Treblle workspace. Comprehensive guide to user management and access control."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# People Management
+
+Manage all users in your workspace, including inviting new members, assigning roles, and organizing them into groups.
+
+<ImageCard src="/platform/people/people-tab.png" alt="People Tab" />
+
+## Overview
+
+The People page is your central hub for managing workspace members. Here you can:
+
+- Invite new users via email or shareable links
+- Assign roles and groups to users
+- View user details and API access
+- Edit user roles and group memberships
+- Remove users from your workspace
+
+## Inviting Users
+
+### Email Invite
+
+The most direct way to invite users to your workspace:
+
+<ImageCard src="/platform/people/email-invite.png" alt="Email Invite" />
+
+#### Steps to Send Email Invitations
+
+1. Navigate to **User Management > People**
+2. Click the **Email Invite** tab
+3. Fill in the invite details:
+   - **Email**: Enter the user's email address (required)
+   - **Role**: Select a role from the dropdown (required)
+   - **Group**: Optionally assign the user to a group
+4. Click **Send Invite**
+
+The user will receive an email invitation to join your workspace with the specified role and group assignment.
+
+<NoteCard>
+**Multiple Invites**: Click the **+** button to add multiple email addresses and send bulk invitations with the same role and group.
+</NoteCard>
+
+### Bulk Invite via CSV
+
+<CautionCard>
+**Enterprise Feature**: Bulk CSV invites are available for Enterprise workspaces only.
+</CautionCard>
+
+<ImageCard src="/platform/people/bulk-invite.png" alt="Bulk Invite" />
+
+For inviting multiple users at once:
+
+1. Navigate to **User Management > People**
+2. Click the **Bulk Invite** tab
+3. Prepare your CSV file with three columns:
+   - `email` (required)
+   - `role` (required)
+   - `group` (optional)
+
+**Example CSV format:**
+```csv
+email,role,group
+john.smith@example.com,Developer,Engineering
+jane.doe@example.com,QA Engineer,Quality Assurance
+mike.jones@example.com,Product Manager,Product
+```
+
+4. Drag and drop your CSV file or click to upload
+5. Click **Upload**
+
+The system will automatically send invitations to all valid email addresses in the file.
+
+### Join with Link
+
+Create shareable invitation links that anyone can use to join your workspace:
+
+<CautionCard>
+**Security Note**: Anyone with the link can join your workspace with the assigned role and group. Share these links carefully and consider the 24-hour expiration.
+</CautionCard>
+
+1. Navigate to **User Management > People**
+2. Check the box **"Anyone with a link can join this workspace"**
+3. Configure the link settings:
+   - **Role**: Select a role (required)
+   - **Group**: Optionally select a group
+4. Click **Generate**
+
+<ImageCard src="/platform/people/invite-with-link.png" alt="Link Invite" />
+
+**Link Features:**
+- Each link expires in 24 hours
+- You can create multiple links with different role/group combinations
+- Links cannot be edited after generation
+- Links can be individually regenerated or deleted
+
+<NoteCard>
+**Important**: Unchecking "Anyone with a link can join this workspace" will immediately delete all active invitation links.
+</NoteCard>
+
+## Viewing Users
+
+### People Table
+
+<ImageCard src="/platform/people/people-tab.png" alt="People Tab" />
+
+The People table displays all workspace members with the following columns:
+
+<InfoTable title="Column" description="Description">
+    <InfoTable.Row
+        title="Username"
+        description="User's username and profile picture"
+    />
+    <InfoTable.Row
+        title="First Name"
+        description="User's first name"
+    />
+    <InfoTable.Row
+        title="Last Name"
+        description="User's last name"
+    />
+    <InfoTable.Row
+        title="Role"
+        description="Assigned role with permissions"
+    />
+    <InfoTable.Row
+        title="Group"
+        description="Group membership (if any)"
+    />
+</InfoTable>
+
+### Invited Users Table
+
+<ImageCard src="/platform/people/invited.png" alt="Invited People" />
+
+View pending invitations in the **Invited** tab:
+
+- Shows users who have been invited but haven't accepted yet
+- Displays email, assigned role, and group
+- **Resend Invite**: Click the menu to resend the invitation email
+- **Cancel Invite**: Remove pending invitations
+
+<NoteCard>
+**Note**: The View User action is only available in the People table, not in the Invited table.
+</NoteCard>
+
+## User Details
+
+Click **View User** from the menu (•••) to see detailed information:
+
+<ImageCard src="/platform/people/people-options.jpg" alt="People Options" />
+
+### User Information
+
+- **Full Name**: User's complete name
+- **Username**: User's unique username
+- **Email**: User's email address
+- **Role**: Currently assigned role
+- **Group**: Group membership
+- **API Access**: Number of APIs the user can access (includes direct access and group-based access)
+- **Date Added**: When the user joined the workspace
+
+<ImageCard src="/platform/people/individual-user.jpg" alt="individual Users" />
+
+### Actions
+
+**View APIs** 
+- Click **View APIs →** to see which APIs the user can access
+- Automatically redirects to the API Access page with a filter applied for this user
+
+**Edit Role & Group**
+- Click **Edit Role & Group** to modify the user's role or group assignment
+- **Role**: Select a new role (single select - users can only have one role)
+- **Group**: Select a new group or remove from current group (single select - users can only belong to one group)
+- Click **Save** to apply changes
+
+**Delete User**
+- Click **Delete User** to remove the user from the workspace
+- Type `DELETE` to confirm
+- This action will:
+  - Remove the user from the workspace
+  - Revoke access to all APIs
+  - Remove from any groups
+  - Cannot be undone
+
+<CautionCard>
+**Warning**: Deleting a user immediately revokes their access to the workspace and all APIs. Make sure to transfer any critical work before removing a user.
+</CautionCard>
+
+## Editing Users
+
+### Single User Edit
+
+1. Click the **Edit** option from the user's menu (•••)
+2. Or click **Edit Role & Group** in the user detail view
+3. Update the role or group
+4. Click **Save**
+
+<ImageCard src="/platform/people/edit-user.jpg" alt="Edit User" />
+
+### Bulk Edit
+
+Select multiple users to perform bulk actions:
+
+1. Check the boxes next to users you want to edit
+2. Use the bulk action menu that appears:
+   - **Change Role**: Assign a new role to all selected users
+   - **Change Group**: Add selected users to a group
+   - **Remove from Group**: Remove selected users from their groups
+
+<NoteCard>
+**Bulk Actions**: Bulk actions apply to all selected users simultaneously. Review your selection carefully before applying changes.
+</NoteCard>
+
+## Removing Users
+
+### Single User Removal
+
+1. Click the **Delete** option from the user's menu (•••)
+2. Or click **Delete User** in the user detail view
+3. Type `DELETE` to confirm
+4. Click **Delete User**
+
+### Bulk User Removal
+
+1. Select multiple users using checkboxes
+2. Click the **Remove** button in the bulk action menu
+3. Confirm the action
+4. All selected users will be removed from the workspace
+
+## Role and Group Assignment
+
+### Understanding User Roles
+
+- Each user can have **only one role** at a time
+- Roles determine what permissions the user has across the workspace
+- Changing a user's role immediately updates their permissions
+- Users maintain the same role across all APIs they can access
+
+### Understanding User Groups
+
+- Each user can belong to **only one group** at a time
+- Groups are used to organize users and grant API access collectively
+- Users can be added to a group during invitation or after joining
+- Removing a user from a group doesn't change their role
+
+<TipCard>
+**Best Practice**: Use groups to organize users by team or department (e.g., "Frontend Team", "Backend Team"), then assign API access to groups rather than individual users. This makes it easier to manage access as your team grows.
+</TipCard>
+
+<PaginationCards />

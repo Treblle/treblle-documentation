@@ -1,0 +1,234 @@
+---
+title: "API Access"
+metaTitle: "Control User & Group Access to APIs - Treblle Documentation"
+description: "Manage which users and groups can access specific APIs in your workspace. Grant permissions, revoke access, and maintain security at the API level."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# API Access Management
+
+<NoteCard>
+**Enterprise Feature**: Granular API access management is available exclusively for Enterprise workspaces.
+</NoteCard>
+
+## Overview
+
+API Access is the bridge between your workspace members and your APIs. It controls which users and groups can access specific APIs within your workspace, allowing you to:
+
+- Grant API access to individual users or entire groups
+- Manage who can see and interact with each API
+- Maintain security by controlling access at the API level
+- Simplify onboarding with group-based access
+
+<ImageCard src="/platform/api-access/api-access.jpg" alt="API Access" />
+
+## How API Access Works
+
+### The Connection System
+
+API Access works in conjunction with [Roles](/explore-treblle/admin/roles-and-permissions) and [Groups](/explore-treblle/admin/user-management/groups):
+
+1. **Roles** define what users **can do** (permissions)
+2. **Groups** organize users into **teams**
+3. **API Access** determines which APIs users **can see and use**
+
+<CautionCard>
+  **Important**: Having a role with permissions does NOT automatically grant access to APIs. Users must be explicitly granted API access either individually or through group membership.
+</CautionCard>
+
+### Access Methods
+
+Users can access an API through two methods:
+
+#### 1. Direct Access (Individual)
+- User is explicitly added to the API
+- Maintains access regardless of group membership
+- Useful for specific individual needs
+
+#### 2. Group Access
+- User's group has been granted access to the API
+- User automatically gains/loses access when added/removed from group
+- Preferred method for team-based access management
+
+### Example Scenario
+
+**Setup:**
+- User: Sarah
+- Role: Developer (with permissions to read requests and manage endpoints)
+- Group: Frontend Team
+- API: Web Application API
+
+**Without API Access:**
+- Sarah has the Developer role
+- Sarah is in the Frontend Team group
+- Sarah **cannot see** the Web Application API
+
+**With API Access:**
+- Frontend Team group is granted access to Web Application API
+- Sarah **can now see** the Web Application API
+- Sarah can use her Developer role permissions on this API
+
+## Viewing API Access
+
+Navigate to **User Management > API Access** to see all APIs and their access configurations.
+
+### API Access Table
+
+The table displays:
+
+| Column | Description |
+|--------|-------------|
+| **Name** | API name and identifier |
+| **People** | Number of individual users with direct access |
+| **Groups** | Number of groups with access to this API |
+
+### Filtering
+
+Use filters to find specific access configurations:
+
+**Filter by People:**
+- Shows APIs where specific users have access
+- Useful for auditing individual user access
+
+**Filter by Groups:**
+- Shows APIs where specific groups have access
+- Useful for reviewing team access patterns
+
+<ImageCard src="/platform/api-access/filtering.jpg" alt="Filtering" />
+
+## Managing API Access
+
+### View API Access Details
+
+Click **View API Access** from the menu (•••) to see detailed access information:
+
+**API Information:**
+- API name and URL
+- Created date
+
+**Access Details:**
+- Number of people with direct access
+- Number of groups with access
+- Complete lists of both
+
+<ImageCard src="/platform/api-access/individual-api.jpg" alt="Individual API Access" />
+
+### Granting Access
+
+#### Add Individual Users
+
+1. Open the API access detail view
+2. Navigate to the **People** section
+3. Click **+ Add** next to "Search by name or email..."
+4. Select one or more users from the dropdown
+5. Click **Add**
+
+<ImageCard src="/platform/api-access/add-member.jpg" alt="Individual Add Member" />
+
+<NoteCard>
+  **Multi-Select**: You can add multiple users at once by selecting them all before clicking Add.
+</NoteCard>
+
+**What Happens:**
+- Selected users immediately gain access to the API
+- They can now see the API in their workspace
+- They can use their role permissions on this API
+- Access is maintained even if they leave any groups
+
+#### Add Groups
+
+1. Open the API access detail view
+2. Navigate to the **Groups** section
+3. Click **+ Add** next to "Search..."
+4. Select one or more groups from the dropdown
+5. Click **Add**
+
+<ImageCard src="/platform/api-access/grant-access-to-group.jpg" alt="Add Group" />
+
+**What Happens:**
+- All members of selected groups immediately gain access to the API
+- New members added to these groups automatically get API access
+- Members removed from these groups lose API access (unless they have direct access)
+
+<TipCard>
+  **Best Practice**: Use group-based access for teams. This makes it easier to onboard new team members and maintain consistent access across your organization.
+</TipCard>
+
+### Revoking Access
+
+#### Remove Individual Users
+
+**Single User:**
+1. Find the user in the People list
+2. Click the menu (•••) next to the user
+3. Select **Revoke Access**
+4. Confirm the action
+
+**Bulk Removal:**
+1. Check the boxes next to users to remove
+2. Click **Revoke Access** from the bulk action menu
+3. Confirm the action
+4. All selected users will lose access
+
+#### Remove Groups
+
+**Single Group:**
+1. Find the group in the Groups list
+2. Click the menu (•••) next to the group
+3. Select **Revoke Access**
+4. Confirm the action
+
+**Bulk Removal:**
+1. Check the boxes next to groups to remove
+2. Click **Revoke Access** from the bulk action menu
+3. Confirm the action
+4. All members of selected groups will lose access (unless they have direct access)
+
+<CautionCard>
+  **Impact Warning**: Revoking group access affects all group members. Make sure you understand the impact before removing group access, especially for large groups.
+</CautionCard>
+
+#### Revoke All Access
+
+<CautionCard>
+  **Critical Action**: This removes ALL access (both people and groups) to the API. This action cannot be undone.
+</CautionCard>
+
+To revoke all access:
+1. Open the API access detail view
+2. Click **Revoke All Access**
+3. Read the warning carefully
+4. Type `REVOKE` to confirm
+5. Click **Revoke All Access**
+
+**What Happens:**
+- All individual users lose access
+- All groups lose access
+- API becomes inaccessible to all workspace members
+- You'll need to re-grant access to restore it
+
+## Understanding Access Priority
+
+When a user has both direct access and group access:
+
+**Direct Access + Group Access = Access Maintained**
+
+Example:
+- Sarah has direct access to API A
+- Sarah is in Frontend Team
+- Frontend Team has access to API A
+- Removing Sarah from Frontend Team: She still has access (direct access)
+- Revoking Frontend Team access: Sarah still has access (direct access)
+- Must revoke Sarah's direct access to remove her access completely
+
+<TipCard>
+  **Access Auditing**: To completely remove a user's access, check both direct access and group access. Remove both if necessary.
+</TipCard>
+
+<PaginationCards />

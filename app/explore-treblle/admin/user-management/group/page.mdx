@@ -1,0 +1,321 @@
+---
+title: "Groups"
+metaTitle: "Organize Users into Teams & Manage API Access - Treblle Documentation"
+description: "Create groups to organize workspace members by team or department. Manage collective API access and simplify user administration at scale."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Groups Management
+
+<NoteCard>
+  **Enterprise Feature**: Groups is a new feature available exclusively for Enterprise workspaces, enabling efficient team-based access management.
+</NoteCard>
+
+## Overview
+
+Groups allow you to organize workspace members into teams or departments and grant API access collectively. Instead of managing API access for each individual user, you can add entire groups to APIs, simplifying administration and scaling with your organization.
+
+## Understanding Groups
+
+### What is a Group?
+
+A group is a collection of users organized by team, department, project, or any other logical structure. Groups are used primarily for:
+
+- Organizing users within your workspace
+- Granting collective access to APIs
+- Simplifying user management at scale
+
+### Groups vs. Roles
+
+| Groups | Roles |
+|--------|-------|
+| Organize users into teams | Define what users can do |
+| Grant API access collectively | Provide permissions and capabilities |
+| Users belong to one group | Users have one role |
+| Workspace organizational structure | Permission and access control |
+
+**Example Scenario:**
+- **Group**: "Frontend Team" (organizational structure)
+- **Role**: "Developer" (permissions)
+- **API Access**: Frontend Team group has access to "Web App API"
+- **Result**: All members of Frontend Team with Developer role can work with the Web App API
+
+## Viewing Groups
+
+Navigate to **User Management > Groups** to see all groups in your workspace.
+
+<ImageCard src="/platform/groups/groups.png" alt="Groups" />
+
+The Groups table displays:
+
+| Column | Description |
+|--------|-------------|
+| **Name** | Group name |
+| **Members** | Number of users in the group |
+| **Created At** | When the group was created |
+
+## Creating Groups
+
+### Create a New Group
+
+1. Navigate to **User Management > Groups**
+2. Click **+ New Group**
+3. Enter the group details:
+   - **Group Name**: Enter a descriptive name (e.g., "Frontend Team", "Backend Engineers", "QA Department")
+4. Click **Create Group**
+
+<ImageCard src="/platform/groups/create-new-group.png" alt="Create New Group" />
+
+<TipCard>
+  **Naming Convention**: Use clear, descriptive names that reflect your organization's structure. Good examples: "Engineering Team", "Product Managers", "Customer Success", "Marketing Department"
+</TipCard>
+
+### Adding Members During Invitation
+
+<ImageCard src="/platform/groups/add-member.png" alt="Add Member" />
+
+You can add users to groups when inviting them:
+
+1. Go to **User Management > People**
+2. Use Email Invite or Join with Link
+3. Select the group from the **Group** dropdown
+4. Complete the invitation process
+
+The user will automatically become a member of the selected group when they accept the invitation.
+
+## Group Details
+
+Click **View Group** from the menu (•••) to see detailed information:
+
+<ImageCard src="/platform/groups/group-options.png" alt="Group Options" />
+
+### Group Information
+
+- **Group Name**: The name of the group
+- **Created At**: When the group was created
+- **API Access**: Number of APIs this group has access to
+- **Group Members**: Complete list of all users in the group
+
+### Group Actions
+
+**View APIs**
+- Click **View APIs →** to see which APIs the group can access
+- Automatically redirects to [API Access](/explore-treblle/admin/user-management/api-access) with a filter for this group
+- Shows all APIs where the group has been granted access
+
+**Edit Group**
+- Click **Edit Group** to change the group name
+- Enter the new name
+- Click **Save**
+
+**Delete Group**
+- Click **Delete** to remove the group
+- Confirms deletion with a dialog
+- Removes the group but does not delete the users
+- Users will lose access to APIs that were granted through this group
+
+<CautionCard>
+  **Important**: Deleting a group removes it from all API access configurations. Users in the deleted group will lose access to APIs they could only access through the group membership.
+</CautionCard>
+
+## Managing Group Members
+
+### Viewing Members
+
+<ImageCard src="/platform/groups/individual-group.png" alt="Individual Group" />
+
+The Group Members table shows:
+
+| Column | Description |
+|--------|-------------|
+| **Name** | User's full name and username |
+| **Email** | User's email address |
+| **Role** | User's assigned role |
+
+**Search Members**: Use the search bar to find members by name or email.
+
+### Adding Members to a Group
+
+1. Open the group detail view
+2. Click **+ Add a Member**
+3. Select one or more users from the dropdown
+4. Click **Add**
+
+<NoteCard>
+  **Multi-Select**: You can add multiple users to a group at once by selecting them all before clicking Add.
+</NoteCard>
+
+### Removing Members from a Group
+
+**Single Member Removal:**
+1. Click the menu (•••) next to the member
+2. Select **Remove**
+3. Confirm the action
+
+**Bulk Member Removal:**
+1. Check the boxes next to members you want to remove
+2. Click **Remove** from the bulk action menu
+3. Confirm the action
+4. All selected members will be removed from the group
+
+<CautionCard>
+  **Access Impact**: Removing a user from a group will revoke their access to any APIs they could only access through that group membership.
+</CautionCard>
+
+### Changing Member Roles (Within Group)
+
+You can change roles for group members directly from the group view:
+
+**Single Member:**
+1. Click the menu (•••) next to the member
+2. Select **Change Role**
+3. Choose the new role
+4. Click **Save**
+
+**Bulk Role Change:**
+1. Select multiple members using checkboxes
+2. Click **Change Role** from the bulk action menu
+3. Select the new role
+4. Click **Apply**
+5. All selected members will be assigned the new role
+
+## Editing Groups
+
+### Rename a Group
+
+1. View the group details
+2. Click **Edit Group**
+3. Enter the new name
+4. Click **Save**
+
+Group renaming does not affect:
+- Group membership
+- API access configurations
+- User permissions
+
+### Delete a Group
+
+<CautionCard>
+  **Critical**: This action cannot be undone. Make sure you understand the implications before deleting a group.
+</CautionCard>
+
+Before deleting:
+1. Review which APIs the group has access to (click View APIs)
+2. Consider if users should retain access through individual assignments
+3. Document why the group is being deleted
+
+To delete:
+1. View the group details
+2. Click **Delete**
+3. Review the warning about API access removal
+4. Confirm the deletion
+
+**What happens when you delete a group:**
+- The group is permanently removed
+- Users remain in the workspace (not deleted)
+- API access granted through the group is revoked
+- Users may still have access to APIs through individual assignments
+- The action cannot be undone
+
+## Common Group Structures
+
+### By Department
+
+Organize users based on company departments:
+
+```
+- Engineering
+- Product Management
+- Design
+- Quality Assurance
+- Customer Success
+- Sales
+- Marketing
+```
+
+**Use Case**: Grant department-wide access to relevant APIs
+
+### By Team or Project
+
+Organize users based on specific teams or projects:
+
+```
+- Frontend Team
+- Backend Team
+- Mobile Team
+- Infrastructure Team
+- Project Apollo
+- Project Phoenix
+```
+
+**Use Case**: Provide project-specific API access to team members
+
+### By Access Level
+
+Organize users based on access requirements:
+
+```
+- Full Access Team
+- Read-Only Observers
+- External Contractors
+- Auditors
+```
+
+**Use Case**: Manage different access levels across APIs
+
+### By Location or Region
+
+For distributed teams:
+
+```
+- North America Team
+- Europe Team
+- Asia Pacific Team
+- Remote Workers
+```
+
+**Use Case**: Regional API access or compliance requirements
+
+## Group-Based API Access
+
+Groups are most powerful when combined with [API Access](/explore-treblle/admin/user-management/api-access) management.
+
+### How It Works
+
+1. Create a group (e.g., "Backend Team")
+2. Add users to the group
+3. Grant the group access to specific APIs
+4. All group members automatically get access to those APIs
+
+### Benefits
+
+- **Onboarding**: New team members get immediate access by joining the group
+- **Offboarding**: Remove access by removing from group
+- **Maintenance**: Update access for entire teams at once
+- **Clarity**: Clear understanding of who has access to what
+
+### Example Workflow
+
+**Scenario**: Your Frontend Team needs access to the Web App API
+
+1. **Create Group**:
+   - Name: "Frontend Team"
+   - Members: All frontend developers
+
+2. **Grant API Access**:
+   - Go to [API Access](/explore-treblle/admin/user-management/api-access)
+   - Select "Web App API"
+   - Add "Frontend Team" group
+
+3. **Manage Members**:
+   - New frontend developer joins
+   - Add them to "Frontend Team" group
+   - They automatically get Web App API access
+
+<PaginationCards />

@@ -1,0 +1,213 @@
+---
+title: "Roles and Permissions"
+metaTitle: "Manage Custom Roles & Granular Permissions - Treblle Documentation"
+description: "Create custom roles with granular permissions for your Enterprise workspace. Manage workspace-level and API-level access with environment-specific controls."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Roles and Permissions
+
+<NoteCard>
+**Enterprise Feature**: Roles and Permissions is available exclusively for Enterprise clients. This feature provides granular control over user access and permissions across your workspace.
+</NoteCard>
+
+## Overview
+
+Treblle's Roles and Permissions system allows you to create custom roles with specific permissions tailored to your organization's needs. Unlike the previous system with only Member and Owner roles, this new implementation offers:
+
+- **Granular Permissions**: Fine-grained control over what users can access and modify
+- **Custom Roles**: Create unlimited roles with specific permission combinations
+- **Workspace-Level Control**: Roles apply across all APIs in your workspace
+- **Environment-Specific Roles**: Assign roles to specific environments (Production, Staging, Development)
+
+## Key Concepts
+
+### Roles
+
+A role is a collection of permissions that can be assigned to users. Roles define what actions users can perform within your workspace and APIs.
+
+**Default Roles:**
+- **Owner**: Full access to all workspace and API features
+- **Member**: Standard access with limited administrative capabilities
+
+Both default roles can be customized to fit your needs.
+
+### Permissions
+
+Permissions are specific actions or access rights grouped into two main categories:
+
+**Workspace Level Permissions**
+- Billing management
+- Catalog access
+- Workspace settings
+- User management
+
+**API Level Permissions**
+- Request viewing and management
+- Endpoint configuration
+- API settings
+- Integration management
+
+### Understanding Role Types
+
+Treblle supports three main role types visible in the roles list:
+
+**1. Owner Role**
+- Full administrative access to all workspace features
+- Can manage billing, users, and all APIs
+- Typically assigned to workspace administrators and team leads
+- Cannot be deleted as it's a system role
+- Default permission count: 33 permissions
+
+**2. Member Role**
+- Standard team member access
+- Can view and work with APIs they have access to
+- Limited administrative capabilities
+- Default permission count: 14 permissions
+- Most common role for development team members
+
+**3. Customer Role**
+- External user access for clients and partners
+- Read-only permissions by default
+- Typically has access only to "View My Requests"
+- Default permission count: 1 permission
+- Enable "Is Customer Role" toggle when creating roles for external users
+
+### How Roles Work
+
+- **Workspace-Level Assignment**: When a user is assigned a role, they have that role on all APIs they can access
+- **Consistent Permissions**: Users maintain the same permissions across all their accessible APIs
+- **API Access Required**: Having a role doesn't automatically grant API access - users must be added to APIs via API Access
+
+## Managing Roles
+
+### Viewing Roles
+
+Navigate to **User Management > Roles** to view all roles in your workspace.
+
+<ImageCard src="/platform/roles-and-permission/roles.jpg" alt="Roles" />
+
+The Roles table displays:
+
+<InfoTable title="Column" description="Description">
+    <InfoTable.Row
+        title="Name"
+        description="Role name"
+    />
+    <InfoTable.Row
+        title="Environment"
+        description="Environments where the role applies (Production, Staging, Development, All)"
+    />
+    <InfoTable.Row
+        title="People"
+        description="Number of users assigned this role"
+    />
+    <InfoTable.Row
+        title="Permissions"
+        description="Number of enabled permissions"
+    />
+</InfoTable>
+
+**Role Actions:**
+
+Each role in the table includes an actions menu (•••) providing quick access to:
+- **View Role**: Opens the detailed role view showing all permissions and assigned users
+- **Delete**: Removes the role from the workspace (only available if no users are currently assigned to the role)
+
+<ImageCard src="/platform/roles-and-permission/roles-option.jpg" alt="Roles Option" />
+
+### Creating a New Role
+
+1. Click **+ New Role** in the Roles page
+2. Fill in the role details:
+   - **Role Name**: Enter a descriptive name (required)
+   - **Environment**: Select one or more environments where this role applies
+3. Select permissions:
+   - Expand **Workspace Settings** to view and select workspace-level permissions
+   - Expand **API Level Access** to view and select API-level permissions
+   - Permissions are organized by category for easy navigation
+4. Click **Create Role**
+
+<ImageCard src="/platform/roles-and-permission/create-new-role.jpg" alt="Create New Role" />
+
+## Environment-Specific Roles
+
+Roles can be assigned to specific environments to control access based on deployment stage:
+
+- **Production**: Live production environment
+- **Staging**: Pre-production testing environment
+- **Development**: Development and testing environment
+- **All**: Role applies to all environments
+
+<NoteCard>
+**Customer Role Toggle**: When enabled, this designates the role for external users. Customer roles typically have limited, read-only permissions and are designed for clients who need visibility into their API usage without administrative access.
+
+<ImageCard src="/platform/roles-and-permission/customer-role.jpg" alt="Customer Role" />
+
+</NoteCard>
+
+## Permission Categories:
+
+### Workspace Permissions
+
+<ImageCard src="/platform/roles-and-permission/workspace-permissions.jpg" alt="Workspace Permissions" />
+
+### API Permissions
+
+<ImageCard src="/platform/roles-and-permission/api-permissions.jpg" alt="API Permissions" />
+
+### User Management and Security Permissions
+
+<ImageCard src="/platform/roles-and-permission/user-management-permissions.jpg" alt="User Management Permissions" />
+
+<TipCard>
+**Best Practice**: Create roles based on job functions (e.g., "Developer", "QA Engineer", "Product Manager") rather than individual users. This makes it easier to manage permissions as your team grows.
+</TipCard>
+
+### Editing a Role
+
+1. Click the **•••** menu next to the role
+2. Select **Edit**
+3. Update the role name, environment, or permissions
+4. Click **Save**
+
+<ImageCard src="/platform/roles-and-permission/edit-role.jpg" alt="Edit Role" />
+
+
+### Viewing Role Details
+
+To view comprehensive information about a specific role, click on the role name in the Roles table. This opens the role detail view.
+
+<ImageCard src="/platform/roles-and-permission/individual-role.jpg" alt="Individual Role" />
+
+**The role detail view includes:**
+
+**Header Information:**
+- **Role Name**: Displayed prominently at the top
+- **Environment Assignment**: Shows which environments this role applies to (e.g., "None" means all environments)
+- **People Count**: Number of users currently assigned to this role
+- **Action Buttons**: 
+  - "Edit Role & Permissions" - Modify the role
+  - "Delete" - Remove the role (if no users assigned)
+
+### Deleting a Role
+
+<CautionCard>
+**Important**: A role cannot be deleted if any users are assigned to it. You must first reassign or remove the role from all users.
+</CautionCard>
+
+To delete a role:
+
+1. Ensure no users are assigned to the role (check the People column)
+2. Click the **•••** menu next to the role
+3. Select **Delete**
+4. Type `DELETE` to confirm
+5. Click **Delete Role**
+
+<PaginationCards />

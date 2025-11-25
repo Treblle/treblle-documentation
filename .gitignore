@@ -45,6 +45,8 @@ next-env.d.ts
 styled-system
 styled-system-studio
 
-
 ## Pagefind
 _pagefind/
+
+## VS Code
+.vscode
