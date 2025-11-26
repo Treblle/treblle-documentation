@@ -43,10 +43,10 @@ export default function PaginationCards() {
 
     function normalizePages() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const filtered = pages.filter((p) => !("data" in p) && p.name !== "--");
+        const filtered = pages.filter((p) => (!("data" in p) && p.name !== "--"));
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        return flattenArray(filtered);
+        return flattenArray(filtered).filter((p) => p.route && p.title);
     }
 
     useEffect(() => {
@@ -66,15 +66,6 @@ export default function PaginationCards() {
             setNextTitle(normalizedPages[nextIndex]?.title ?? "");
         }
     }, [pages, pathname]);
-
-
-
-// .layout article div a:first-child::before, .layout article div a:last-child::before {
-//     font-size: 12px;
-//     width: max-content;
-//     height: 16px;
-//     color: var(--colors-neutral-400);
-// }
 
     return (
         <Box

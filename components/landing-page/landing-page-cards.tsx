@@ -16,7 +16,7 @@ export default function LandingPageCards({icon, title, description} : LandingPag
                 flexDirection: "column",
                 gap: "8px",
                 alignItems: "start",
-                justifyContent: "space-around",
+                justifyContent: "start",
                 marginTop: "16px",
                 border: "1px solid #29304b",
                 borderRadius: "22px",
