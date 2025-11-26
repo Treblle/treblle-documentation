@@ -43,7 +43,7 @@ export default function PaginationCards() {
 
     function normalizePages() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        const filtered = pages.filter((p) => (!("data" in p) && p.name !== "--"));
+        const filtered = pages.filter((p) => p && !("data" in p) && p.name !== "--");
 
         // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         return flattenArray(filtered).filter((p) => p.route && p.title);
