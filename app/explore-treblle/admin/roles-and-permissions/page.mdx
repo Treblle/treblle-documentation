@@ -1,7 +1,7 @@
 ---
 title: "Roles and Permissions"
 metaTitle: "Manage Custom Roles & Granular Permissions - Treblle Documentation"
-description: "Create custom roles with granular permissions for your Enterprise workspace. Manage workspace-level and API-level access with environment-specific controls."
+description: "Create custom roles with granular permissions for your Enterprise workspace. Manage per-API and environment-specific access with fine-grained controls."
 ---
 
 import { ImageCard } from "~components/cards/image-card";
@@ -23,7 +23,7 @@ Treblle's Roles and Permissions system allows you to create custom roles with sp
 
 - **Granular Permissions**: Fine-grained control over what users can access and modify
 - **Custom Roles**: Create unlimited roles with specific permission combinations
-- **Workspace-Level Control**: Roles apply across all APIs in your workspace
+- **Per-API Access Control**: Roles are assigned per API with environment-specific restrictions
 - **Environment-Specific Roles**: Assign roles to specific environments (Production, Staging, Development)
 
 ## Key Concepts
@@ -81,8 +81,8 @@ Treblle supports three main role types visible in the roles list:
 
 ### How Roles Work
 
-- **Workspace-Level Assignment**: When a user is assigned a role, they have that role on all APIs they can access
-- **Consistent Permissions**: Users maintain the same permissions across all their accessible APIs
+- **Per-API Assignment**: Roles are assigned per API. When a user is given access to an API, they are assigned a specific role for that API with optional environment restrictions
+- **Consistent Permissions**: Users maintain the same role permissions on each API they access, but can have different roles across different APIs
 - **API Access Required**: Having a role doesn't automatically grant API access - users must be added to APIs via API Access
 
 ## Managing Roles
@@ -144,6 +144,10 @@ Roles can be assigned to specific environments to control access based on deploy
 - **Staging**: Pre-production testing environment
 - **Development**: Development and testing environment
 - **All**: Role applies to all environments
+
+<NoteCard>
+**Environment Configuration**: Environments are fully configurable per API. The available environments will reflect what you've defined in your API settings. You can configure environments when setting up your API or through your workspace settings to match your deployment workflow.
+</NoteCard>
 
 <NoteCard>
 **Customer Role Toggle**: When enabled, this designates the role for external users. Customer roles typically have limited, read-only permissions and are designed for clients who need visibility into their API usage without administrative access.
