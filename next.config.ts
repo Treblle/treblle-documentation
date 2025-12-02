@@ -832,26 +832,6 @@ const nextConfig: NextConfig = {
                 destination: "/resources/faqs",
                 permanent: true,
             },
-            {
-                source: "/faqs/",
-                destination: "/resources/faqs",
-                permanent: true,
-            },
-            {
-                source: "/resources/json-schema",
-                destination: "/resources/json-schema",
-                permanent: true,
-            },
-
-            // ============================================================================
-            // GITHUB INTEGRATION
-            // ============================================================================
-
-            {
-                source: "/integrate-treblle/github-integration",
-                destination: "/integrate-treblle/github-app",
-                permanent: true,
-            },
         ];
     },
 };
