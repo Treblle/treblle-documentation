@@ -1,0 +1,353 @@
+---
+title: "Okta"
+metaTitle: "Configure SSO with Okta - Treblle Documentation"
+description: "Step-by-step guide to configure Single Sign-On (SSO) for your Treblle workspace using Okta with SAML authentication."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import { Checklist } from "~components/sections/checklist";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# SSO with Okta
+
+<NoteCard>
+**Enterprise Feature**: Single Sign-On with Okta is available for Enterprise workspaces. Contact your Treblle account manager to enable SSO for your workspace.
+</NoteCard>
+
+## Overview
+
+Integrate Treblle with Okta to enable secure Single Sign-On for your team. This guide walks you through configuring SAML-based authentication between Okta and Treblle.
+
+### Prerequisites
+
+Before you begin, ensure you have:
+
+<Checklist>
+    <Checklist.item id="workspace-owner">**Workspace Owner Role**: You must be a workspace owner in Treblle</Checklist.item>
+    <Checklist.item id="okta-access">**Okta Admin Access**: Administrative access to your Okta organization</Checklist.item>
+    <Checklist.item id="enterprise-plan">**Enterprise Plan**: SSO is available on Enterprise plans only</Checklist.item>
+</Checklist>
+
+## Configuration Process
+
+The SSO setup process involves two main steps:
+1. Configure a SAML Application in Okta
+2. Configure SSO settings in Treblle
+
+---
+
+
+## Part 1: Okta Configuration
+
+### Step 1: Access Okta Admin Console
+
+1. Navigate to your [Okta Admin Console](https://your-domain.okta.com/admin)
+2. Log in with your administrator credentials
+3. From the left sidebar, select **Applications** → **Applications**
+
+### Step 2: Create SAML Application
+
+1. Click **Create App Integration** at the top of the Applications page
+
+2. In the dialog that appears:
+   - **Sign-in method**: Select **SAML 2.0**
+3. Click **Next**
+
+<TipCard>
+**Application Name**: Choose a descriptive name that helps your team identify this application, such as "Treblle Production" or "Treblle SSO".
+</TipCard>
+
+### Step 3: Configure General Settings
+
+1. In the **General Settings** page:
+   - **App name**: Enter `Treblle SSO` (or your preferred name)
+   - **App logo**: (Optional) Upload your company or Treblle logo
+
+<ImageCard src="/platform/sso/okta/1-setup.jpg" alt="SAML Setup 1" />
+
+2. Click **Next**
+
+### Step 4: Configure SAML Settings
+
+In the **Configure SAML** page, configure the following:
+
+#### Required Fields
+
+<InfoTable title="Field" description="Value">
+    <InfoTable.Row
+        title="Single sign-on URL"
+        description="https://identity.treblle.com/login/saml/callback?identifier=[your-identifier]"
+    />
+    <InfoTable.Row
+        title="Audience URI (SP Entity ID)"
+        description="https://identity.treblle.com"
+    />
+</InfoTable>
+
+<ImageCard src="/platform/sso/okta/2-setup.jpg" alt="SAML Setup 2" />
+
+<NoteCard>
+**Important**: The `identifier` parameter in the Single sign-on URL should match your Company Email Identifier that you'll configure in Treblle (e.g., `treblle-okta`, `acme-corp`).
+</NoteCard>
+
+#### Additional Settings
+
+- **Use this for Recipient URL and Destination URL**: ☑ Checked
+- **Default RelayState**: Leave empty
+- **Name ID format**: Select **Unspecified**
+- **Application username**: Select **(None)**
+- **Update application username on**: Select **Create and update**
+
+<TipCard>
+The default settings work for most organizations. Only modify these if your organization has specific requirements.
+</TipCard>
+
+### Step 5: Configure Attribute Statements (Optional)
+
+Add attribute mappings to pass user information from Okta to Treblle:
+
+<InfoTable title="Name" description="Value">
+    <InfoTable.Row
+        title="email"
+        description="user.email"
+    />
+    <InfoTable.Row
+        title="firstName"
+        description="user.firstName"
+    />
+    <InfoTable.Row
+        title="lastName"
+        description="user.lastName"
+    />
+</InfoTable>
+
+<ImageCard src="/platform/sso/okta/3-setup.jpg" alt="SAML Setup 3" />
+
+**To add attributes:**
+1. Scroll to the **Attribute Statements** section
+2. For each attribute, enter the **Name**, keep **Name Format** as **Unspecified**, and select the **Value**
+3. Click **Add Another** to add additional attributes
+
+### Step 6: Complete App Creation
+
+1. Click **Next**
+4. Click **Finish**
+
+### Step 7: Access SAML Setup Instructions
+
+After creating the application, you'll be redirected to the application overview page.
+
+1. Click the **Sign On** tab
+2. Scroll down to the **SAML Setup** section
+3. Click **View SAML setup instructions**
+
+<ImageCard src="/platform/sso/okta/4-saml-instructions.jpg" alt="SAML Instructions" />
+
+### Step 8: Copy Configuration Details
+
+<ImageCard src="/platform/sso/okta/5-saml-instructions.jpg" alt="Copy SAML Instructions" />
+
+In the SAML setup instructions page, copy the following values:
+
+<InfoTable title="Field" description="Purpose">
+    <InfoTable.Row
+        title="Identity Provider Single Sign-On URL"
+        description="URL where users will be redirected to authenticate"
+    />
+    <InfoTable.Row
+        title="Identity Provider Issuer"
+        description="Your IdP Issuer URL (required for Treblle configuration)"
+    />
+    <InfoTable.Row
+        title="X.509 Certificate"
+        description="Certificate for validating SAML responses"
+    />
+</InfoTable>
+
+<NoteCard>
+The **Identity Provider Issuer** typically looks like: `http://www.okta.com/exkXXXXXXXXXX`
+</NoteCard>
+
+<CautionCard>
+**Security**: Copy the certificate exactly as shown, including the `BEGIN CERTIFICATE` and `END CERTIFICATE` markers. Keep this information secure.
+</CautionCard>
+
+---
+
+## Part 2: Treblle Configuration
+
+### Step 9: Access Treblle Authentication Settings
+
+1. Log in to your Treblle workspace as a workspace owner
+2. Navigate to **Settings** → **Authentication**
+3. The authentication configuration page will appear
+
+<ImageCard src="/platform/sso/okta/9-sso.jpg" alt="Configure Treblle SSO" />
+
+### Step 10: Configure SSO in Treblle
+
+Fill in the following fields with the information from Okta:
+
+#### Company Email Identifier
+
+Enter the unique identifier for your organization:
+```
+treblle-okta
+```
+
+<TipCard>
+This identifier should match the one you configured in the Okta Single sign-on URL. Choose a consistent naming convention across both platforms.
+</TipCard>
+
+#### Authentication Type
+
+Select **SAML** from the dropdown menu.
+
+#### Assertion Consumer Service URL
+
+Enter the Identity Provider Single Sign-On URL you copied from Okta:
+```
+https://trial-1197259.okta.com/app/trial-1197259_treblletest_1/exkxqu72ph5Hp4Ak9697/sso/saml
+```
+
+<CautionCard>
+**Critical**: This URL must exactly match the Identity Provider Single Sign-On URL from your Okta SAML setup instructions.
+</CautionCard>
+
+#### Identity Provider Issuer
+
+Paste the **Identity Provider Issuer** URL you copied from Okta. It should look like:
+```
+http://www.okta.com/exkxqu72ph5Hp4Ak9697
+```
+
+#### Identity Provider Certificate
+
+1. Copy the X.509 Certificate from the Okta SAML setup instructions
+2. Paste the **entire contents** including the header and footer:
+   ```
+   -----BEGIN CERTIFICATE-----
+   [certificate content]
+   -----END CERTIFICATE-----
+   ```
+3. Paste it into the **Identity Provider Certificate** field in Treblle
+
+<NoteCard>
+Make sure to include the BEGIN and END certificate markers. The certificate is a single continuous block of text.
+</NoteCard>
+
+<ImageCard src="/platform/sso/okta/10-sso-details.jpg" alt="Configure Treblle SSO" />
+
+### Step 11: Enable SSO Login
+
+Check the box **Enable SSO Login** at the bottom of the form.
+
+<ImageCard src="/platform/sso/okta/11-sso-enabled.jpg" alt="Enable SSO" />
+
+This will activate SSO for your workspace once you save the configuration.
+
+### Step 12: Save Configuration
+
+Click **Save Authentication** to apply your SSO settings.
+
+---
+
+## Part 3: Testing SSO
+
+### Step 13: Assign Users in Okta
+
+Before users can sign in, you must assign them to the Treblle application:
+
+1. In Okta Admin Console, go to your **Treblle** application
+2. Select **People** from the left navigation bar.
+
+<ImageCard src="/platform/sso/okta/6-people-tab.jpg" alt="People Tab" />
+
+4. Click **Add People**
+
+<ImageCard src="/platform/sso/okta/7-add-people.jpg" alt="Add People" />
+
+5. Fill the user details in the form to grant access
+
+<ImageCard src="/platform/sso/okta/6-user-details.jpg" alt="Enter User Detail" />
+
+7. Click **Save**
+
+<TipCard>
+**Bulk User Management**: Assign Okta groups to the application rather than individual users for easier management at scale. Use **People** → **More Actions** → **Import Users from CSV** for this.
+
+<ImageCard src="/platform/sso/okta/8-bulk-users.jpg" alt="Bulk Users" />
+</TipCard>
+
+---
+
+## Part 4: User Login Flow
+
+### Step 14: Sign In with SSO
+
+Once SSO is configured, users can sign in via SSO:
+
+1. Go to [https://identity.treblle.com/login](https://identity.treblle.com/login)
+2. Click **Sign in with SSO**
+3. Enter your organization's identifier
+
+<ImageCard src="/platform/sso/okta/12-signin-with-sso.jpg" alt="Signin with SSO" />
+
+4. Enter your organization identifier: `treblle-okta`
+5. Click **Continue**
+6. You'll be redirected to Okta login
+7. Authenticate with your Okta credentials
+8. You'll be redirected back to Treblle and logged in
+
+<ImageCard src="/platform/sso/okta/13-sso-identifier.jpg" alt="SSO Identifier" />
+
+### Alternative: Sign In via Okta Dashboard
+
+Users can also access Treblle directly from their Okta dashboard:
+
+1. Log in to your Okta account
+2. Find the **Treblle** application tile on your dashboard
+3. Click the tile to automatically sign in to Treblle
+
+---
+
+## Managing SSO Configuration
+
+### Updating SSO Settings
+
+To update your SSO configuration:
+
+1. In Treblle, navigate to Settings → Authentication
+2. Click **Update** on your SSO configuration
+3. Modify the necessary fields
+4. Click **Save Authentication**
+
+### Disabling SSO
+
+To temporarily disable SSO:
+
+1. Go to Settings → Authentication in Treblle
+2. Uncheck **Enable SSO Login**
+3. Click **Save Authentication**
+
+<CautionCard>
+**User Impact**: Disabling SSO will require users to sign in with their Treblle username and password. Ensure users have their credentials before disabling SSO.
+</CautionCard>
+
+### Deleting SSO Configuration
+
+To completely remove SSO:
+
+1. Go to Settings → Authentication in Treblle
+2. Click **Delete** on your SSO configuration
+3. Confirm the deletion
+
+<CautionCard>
+**Permanent Action**: Deleting the SSO configuration cannot be undone. You'll need to reconfigure from scratch if you want to re-enable SSO.
+</CautionCard>
+
+---

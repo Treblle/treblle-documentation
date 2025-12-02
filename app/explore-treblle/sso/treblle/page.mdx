@@ -1,0 +1,85 @@
+---
+title: "Single Sign-On"
+metaTitle: "Secure Your Treblle Workspace with Single Sign On - Treblle Documentation"
+description: "Treblle offers Single Sign-On (SSO) with SAML 2.0 for secure access to your workspace. Learn how to set up authentication with your identity provider."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import Link from "next/link";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Single Sign-On
+
+### Intro to SSO
+
+Single Sign-On (SSO) services enable you to manage your team's identity across all the SaaS products that you use.
+
+With an SSO service, a user can access multiple applications using one set of credentials (for example, an email address and password). The SSO service authenticates the user once for all the applications the user has been given rights to and eliminates further prompts when the user switches applications during the same session.
+
+### What are the advantages of SSO?
+
+- Removes the need for users to remember and manage multiple passwords.
+- Simplifies users' experience by enabling them to sign in at a single access point and work seamlessly across multiple applications.
+- Increases productivity by reducing the password-related support emails.
+- Reduces phishing attempts that try to trick users into giving away sensitive information.
+
+### SSO with Treblle
+
+- **Team's identity provider (IdP)** must support the SAML 2.0 standard.
+- **Supported IdPs** include Microsoft Entra ID, Okta, and any Custom SAML 2.0 compliant provider
+
+### Steps to Set up SSO
+
+1. **Go to Authentication Settings**
+
+   As a workspace owner, navigate to Settings > Authentication in your workspace.
+
+   <ImageCard src="/platform/sso/sso-empty.png" alt="SSO Empty State" />
+
+2. **Configure Single Sign-On**
+
+   Click on "Configure SSO" to begin the setup process.
+
+3. **Input Required Fields**
+
+   Fill in the following required details:
+
+   - **Company Email Indentifier**: Enter your organization's unique email domain or identifier (e.g., `yourcompany`)
+   - **Authentication Type**: SAML (currently the only supported type)
+   - **Assertion Consumer Service URL**: The ACS URL where SAML assertions will be sent
+   - **Identity Provider Issuer**: Your IdP's unique identifier URL
+   - **Identity Provider Certificate**: Paste your IdP's X.509 certificate
+
+   <ImageCard src="/platform/sso/sso-config.png" alt="SSO Configuration" />
+
+4. **Enable SSO Login**
+
+   Check the "Enable SSO Login" option to activate SSO for your workspace.
+
+5. **Save Authentication**
+
+   Click "Save Authentication" to apply your SSO configuration.
+
+   <ImageCard src="/platform/sso/sso.png" alt="SSO Setup Complete" />
+
+6. **Log In with SSO**
+
+   - Go to the [Treblle Sign-In](https://identity.treblle.com/login) page.
+   - Click "Sign in with SSO"
+   - Enter your organization's identifier
+   - You'll be redirected to your identity provider to complete authentication
+
+   <ImageCard src="/platform/sso/sso-sign-in.png" alt="SSO Sign In" />
+
+### SSO Flow Across Workspaces
+
+Once SSO is enabled, users can log in using their organization's identity provider. If a user switches between an SSO-protected workspace and a standard workspace, Treblle will prompt for extra authentication to maintain security.
+
+### Provider-Specific Guides
+
+For detailed setup instructions with specific identity providers, see:
+- [Okta SSO Setup](/admin/sso/okta)
+- [Microsoft Entra ID SSO Setup](/admin/sso/microsoft-entra-id)
+- [Custom SAML Setup](/admin/sso/custom-saml)
+
+<PaginationCards />
