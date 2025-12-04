@@ -6,8 +6,12 @@ description: "Gain insights into how individual customers use your API. Track re
 
 import { YoutubeEmbed } from "~components/video/youtube-embed";
 import { ImageCard } from "~components/cards/image-card";
-import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoCards } from "~components/cards/info-cards";
+import PaginationCards from "~components/cards/pagination-cards";
 
 # Customers
 
@@ -16,6 +20,164 @@ The Customer Dashboard in Treblle provides a comprehensive view of your API's us
 It helps you understand how different customers interact with your API, identify trends in their usage patterns, and pinpoint potential issues or areas for improvement.
 
 <YoutubeEmbed postId="oW3jfC-WNSs" />
+
+## Customer Workspace Access
+
+<InfoCard type="individual">
+    <InfoCard.title>Important: Customer ID Uniqueness Requirement</InfoCard.title>
+    <InfoCard.description>
+        Treblle performs exact matching on customer IDs, meaning each customer ID must be globally unique across all APIs within your workspace. Using the same customer ID across different APIs will aggregate all data for that customer. This ensures proper data isolation and prevents customers from seeing each other's data.
+    </InfoCard.description>
+</InfoCard>
+
+<NoteCard>
+**Customer Role Integration**: When you invite a customer to your workspace with the Customer role, they automatically gain access to APIs where their customer ID appears:
+- **Full API Documentation** for APIs containing their customer ID in requests
+- **Personal Usage Data** strictly limited to requests with their customer ID
+</NoteCard>
+
+<ImageCard src="/platform/people/workspace.jpg" alt="Customer workspace showing API list with metrics" />
+
+### What Customers See
+
+#### Complete API Documentation Access (Scoped to Relevant APIs)
+
+Customers have full access to documentation for APIs where their customer ID appears:
+- **Endpoints**: All available endpoints and methods
+- **Authentication**: How to authenticate with the API
+- **Parameters**: Request parameters and validation rules
+- **Responses**: Expected response formats and codes
+- **Examples**: Code samples and integration guides
+- **OpenAPI Specs**: Machine-readable API specifications
+
+<TipCard>
+**Documentation Transparency**: Customers see the same comprehensive API documentation that your internal team uses for the APIs they interact with, enabling them to build integrations confidently.
+</TipCard>
+
+<InfoCard type="individual">
+    <InfoCard.title>Automatic API Discovery</InfoCard.title>
+    <InfoCard.description>
+        APIs become visible to customers automatically when the first request containing their customer ID is received. No manual configuration needed.
+    </InfoCard.description>
+</InfoCard>
+
+<ImageCard src="/platform/people/docs.jpg" alt="Customer API documentation view showing auth/login endpoint" />
+
+#### Filtered Usage Data
+
+Customers see only their own data:
+- **Request History**: Only requests with their customer ID
+- **Performance Metrics**: Load times for their requests only
+- **Error Tracking**: Errors specific to their API calls
+- **Usage Analytics**: Their consumption patterns and trends
+- **Device Information**: Details about their request origins
+
+<CautionCard>
+**Privacy Protection**: Customers cannot see any data from other customers. All request history, metrics, and analytics are automatically filtered to show only their customer ID.
+</CautionCard>
+
+<ImageCard src="/platform/people/requests.jpg" alt="Customer request history view with detailed table" />
+
+#### Dashboard and Analytics
+
+Customers have access to a personalized dashboard showing:
+- **Overview Metrics**: Total requests, failed requests, average response size, load time
+- **Performance Charts**: Average load time trends, response size over time
+- **Error Tracking**: 4xx and 5xx request counts with visualizations
+- **Recent Activity**: Latest API requests with quick access to details
+- **Time-based Filtering**: View data across different time periods (24H, 7D, 14D, 30D, All Time)
+
+<ImageCard src="/platform/people/dashboard.jpg" alt="Customer dashboard with performance metrics and charts" />
+
+<NoteCard>
+**Scope Reminder**: All metrics, graphs, and analytics shown to customers are automatically filtered to include only data tagged with their customer ID. They never see aggregate workspace data or other customers' information.
+</NoteCard>
+
+### How Customer Access Works
+
+1. **Invite Customer to Workspace**
+   - Send an invitation with the Customer role
+   - Customer accepts and joins your workspace
+
+2. **Automatic API Discovery**
+   - Customer sees documentation for APIs where their customer ID appears in requests
+   - Updates dynamically as new APIs receive requests with their ID
+   - No manual API access configuration required
+
+3. **Customer View**
+   - **Documentation**: Complete API specs for relevant APIs only
+   - **Usage**: Only requests tagged with their customer ID
+   - **Analytics**: Performance and error data for their requests only
+
+### Setting Up Customer Access
+
+To enable customer access to their API data:
+
+#### Step 1: Ensure Customer ID is Tracked
+
+Add customer identification to your API requests using the `treblle-metadata` header:
+
+<ImageCard src="/platform/people/metadata.jpg" alt="treblle-metadata header structure in request headers" />
+```javascript
+// Add customer ID to request metadata header
+req.headers['treblle-metadata'] = JSON.stringify({
+  'user-id': 'Netflix',                // Must be globally unique
+  'Plan': 'Titanium Plan'              // Optional additional metadata
+});
+```
+
+<CautionCard>
+**Important**: Customer IDs must be unique across your entire workspace. Use consistent identifiers (like email, UUID, company name, or internal customer ID) to ensure proper data isolation.
+</CautionCard>
+
+#### Step 2: Invite Customer to Workspace
+
+1. Navigate to **User Management > People**
+2. Click **Email Invite**
+3. Provide customer details:
+   - **Email**: Customer's email address
+   - **Role**: Select **Customer**
+   - **Group** (optional): Assign to customer group
+4. Click **Send Invite**
+
+#### Step 3: Customer Experience
+
+1. Customer receives invitation email
+2. Customer logs in to Treblle
+3. Customer sees:
+   - Full API documentation for APIs where their ID appears
+   - Only their own request history and usage data
+   - Performance metrics for their requests
+4. Customer can debug their integrations independently
+
+### What Customers Cannot See
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>APIs Without Their Customer ID</InfoCard.title>
+        <InfoCard.description>
+            Cannot see APIs where their customer ID has never appeared in requests
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Other Customers' Data</InfoCard.title>
+        <InfoCard.description>
+            No visibility into other customers' requests, errors, or usage patterns
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Workspace Metrics</InfoCard.title>
+        <InfoCard.description>
+            Cannot see aggregate workspace statistics or total API usage
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Internal Performance</InfoCard.title>
+        <InfoCard.description>
+            No access to infrastructure metrics or internal benchmarking data
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
 
 ## Accessing the Customer Dashboard
 
@@ -108,7 +270,6 @@ When you provide a display name or customer identifier, Treblle will show this n
 ### Steps to add the Customer Information in Treblle's [Express SDK](/integrations/javascript/express/)
 
 Here's how you can modify your [Express](/integrations/javascript/express/) middleware to add these headers:
-
 ```javascript copy
 // Custom middleware to add Customer information
 app.use((req, res, next) => {
@@ -136,24 +297,21 @@ The image below shows how the customer information will appear on the Treblle da
 For other SDKs, the approach is similar. Here's how you can implement it:
 
 1. First, check the user authentication, and then you can retrieve the Customer ID from the authentication system.
-
-   ```bash copy
+```bash copy
    if (isAuthenticated) {
        customerId = getCustomerIdFromSession() // Fetch Customer ID from session or token
    }
-   ```
+```
 
 2. After authentication, you can add the Customer ID to the request headers (typically as "treblle-user-id").
-
-   ```bash copy
+```bash copy
    request.headers.set('treblle-user-id', customerId)
-   ```
+```
 
 3. Apply middleware to track customer data in API requests.
-
-   ```bash copy
+```bash copy
    applyMiddleware('customerTrackingMiddleware', routes) 
-   ```
+```
 
 For specific integration details for other SDKs, please refer to the [Integration page](/integrate-treblle/integrations).
 

@@ -1,31 +1,122 @@
 ---
-title: "People"
-metaTitle: "Manage Workspace Members & User Roles - Treblle Documentation"
-description: "Invite users, assign roles and groups, manage team members in your Treblle workspace. Comprehensive guide to user management and access control."
+title: "People Management"
+metaTitle: "Manage Users in Your Treblle Workspace - Treblle Documentation"
+description: "Learn how to invite users, assign roles, and manage access to your Treblle workspace. Control who can view APIs, requests, and documentation."
 ---
 
 import { ImageCard } from "~components/cards/image-card";
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoCards } from "~components/cards/info-cards";
 import { CautionCard } from "~components/cards/caution";
 import { InfoTable } from "~components/tables/info-table";
 import PaginationCards from "~components/cards/pagination-cards";
 
 # People Management
 
-Manage all users in your workspace, including inviting new members, assigning roles, and organizing them into groups.
+Manage who has access to your Treblle workspace by inviting team members and customers, assigning roles, and controlling permissions.
 
 <ImageCard src="/platform/people/people-tab.png" alt="People Tab" />
 
 ## Overview
 
-The People page is your central hub for managing workspace members. Here you can:
+The People Management section allows you to:
 
-- Invite new users via email or shareable links
-- Assign roles and groups to users
-- View user details and API access
-- Edit user roles and group memberships
-- Remove users from your workspace
+- Invite team members and customers to your workspace
+- Assign roles with specific permissions
+- Manage user access and remove users when needed
+- Control who can view APIs, requests, and documentation
+
+## User Roles
+
+Treblle provides several user roles with different permission levels:
+
+### Owner Role
+- Full administrative access
+- Can manage all workspace settings
+- Can invite and remove users
+- Can assign and modify roles
+- Can access all APIs and data
+
+### Member Role
+- Standard team member access
+- Can view assigned APIs
+- Can view requests and documentation
+- Cannot modify workspace settings
+- Cannot manage other users
+
+### Customer Role
+
+<InfoCard type="individual">
+    <InfoCard.title>Customer ID Uniqueness Required</InfoCard.title>
+    <InfoCard.description>
+        Customer IDs must be globally unique across your workspace. Treblle uses exact matching on the user-id field in the treblle-metadata header to filter data.
+    </InfoCard.description>
+</InfoCard>
+
+<NoteCard>
+**Automatic API Access for Customers**: When you invite a user with the Customer role, they automatically gain access to APIs where their customer ID appears:
+- **Full API Documentation**: Complete access to API docs, endpoints, and specifications
+- **Personal Usage Data**: Request history and analytics limited exclusively to their customer ID
+</NoteCard>
+
+<ImageCard src="/platform/people/workspace.jpg" alt="Customer workspace view showing APIs list" />
+
+When a customer user logs in, they will see:
+
+**Dashboard Analytics:**
+- Overview metrics (total requests, failed requests, response times)
+- Performance charts and trends
+- Recent request activity
+- Error tracking and monitoring
+
+<ImageCard src="/platform/people/dashboard.jpg" alt="Customer dashboard with analytics and performance metrics" />
+
+**Complete API Documentation (for relevant APIs only):**
+- Full endpoint specifications and parameters for APIs with their customer ID
+- Authentication methods and requirements
+- Request/response schemas and examples
+- OpenAPI specifications
+
+<ImageCard src="/platform/people/docs.jpg" alt="Customer API documentation view" />
+
+**Personal Usage Data Only:**
+- Request history containing their customer ID
+- Performance metrics for their requests only
+- Error logs for their requests
+- Usage analytics showing their consumption patterns
+- Device and location data for their requests
+
+<ImageCard src="/platform/people/requests.jpg" alt="Customer requests view filtered by customer ID" />
+
+**Privacy Protection:**
+- Customers see complete API documentation for APIs where their ID appears
+- Customers see ONLY requests containing their customer ID
+- Other customers' requests remain completely hidden
+- APIs without their customer ID are not visible
+- Aggregate workspace metrics are not visible
+
+**How it works:**
+
+1. Invite a customer user to your workspace with the Customer role
+2. Ensure API requests include the customer's identifier in the `treblle-metadata` header:
+
+<ImageCard src="/platform/people/metadata.jpg" alt="treblle-metadata header structure showing user-id and Plan fields" />
+```javascript
+   req.headers['treblle-metadata'] = JSON.stringify({
+     'user-id': 'Netflix',              // Must be globally unique
+     'Plan': 'Titanium Plan'            // Optional additional metadata
+   });
+```
+3. The customer automatically sees:
+   - Full API documentation for APIs where their customer ID appears
+   - Only their own request history and usage data
+4. No manual API access configuration needed
+
+<CautionCard>
+**Critical**: Ensure your customer IDs are unique across your entire workspace. The same customer ID will aggregate data across all APIs, so using consistent, unique identifiers is essential for proper data isolation.
+</CautionCard>
 
 ## Inviting Users
 
