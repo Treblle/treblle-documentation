@@ -7,6 +7,8 @@ description: "Create custom roles with granular permissions for your Enterprise 
 import { ImageCard } from "~components/cards/image-card";
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoCards } from "~components/cards/info-cards";
 import { CautionCard } from "~components/cards/caution";
 import { InfoTable } from "~components/tables/info-table";
 import PaginationCards from "~components/cards/pagination-cards";
@@ -73,11 +75,83 @@ Treblle supports three main role types visible in the roles list:
 - Most common role for development team members
 
 **3. Customer Role**
-- External user access for clients and partners
-- Read-only permissions by default
-- Typically has access only to "View My Requests"
-- Default permission count: 1 permission
-- Enable "Is Customer Role" toggle when creating roles for external users
+
+<InfoCard type="individual">
+    <InfoCard.title>Customer ID Uniqueness Required</InfoCard.title>
+    <InfoCard.description>
+        Customer IDs must be globally unique across your workspace. Treblle uses exact matching on the user-id field in the treblle-metadata header to determine access.
+    </InfoCard.description>
+</InfoCard>
+
+<NoteCard>
+**Scoped Dual Access Model**: The Customer role provides automatic access to APIs where their customer ID appears, with two distinct visibility levels:
+- **Documentation**: Full access to API documentation for APIs containing their customer ID
+- **Usage Data**: Strictly filtered to show only requests with their customer ID
+</NoteCard>
+
+<ImageCard src="/platform/people/workspace.jpg" alt="Customer workspace view" />
+
+**Documentation Access (Scoped to Relevant APIs):**
+- Full endpoint specifications for APIs with their customer ID
+- Authentication methods and requirements
+- Request/response schemas and validation
+- Code examples and integration guides
+- OpenAPI specifications
+- Interactive API documentation
+
+<ImageCard src="/platform/people/docs.jpg" alt="Customer documentation interface" />
+
+**Usage Data Access (Filtered):**
+- Request history (their customer ID only)
+- Performance metrics (their requests only)
+- Error logs (their errors only)
+- Usage analytics (their consumption only)
+- Device and location data (their requests only)
+
+<ImageCard src="/platform/people/requests.jpg" alt="Customer request history filtered by customer ID" />
+
+**Dashboard & Analytics:**
+- Real-time performance dashboard
+- Request volume and trend analytics
+- Error rate monitoring and visualization
+- Response time tracking
+- Custom time period filtering
+
+<ImageCard src="/platform/people/dashboard.jpg" alt="Customer dashboard with real-time analytics" />
+
+
+**Key Characteristics:**
+- **Automatic Discovery**: APIs become visible when first request with customer ID arrives
+- **Dynamic Updates**: Access updates automatically as customer ID appears in new APIs
+- **Self-Service**: Customers can monitor their usage and debug integrations
+- **Privacy-First**: Customers cannot see any data from other customers
+- **Scoped Documentation**: Only see docs for APIs they actually use
+- **No Manual Configuration**: Access is granted automatically based on API usage
+
+**What Customers Cannot See:**
+- APIs where their customer ID has never appeared
+- Other customers' request data or usage patterns
+- Workspace-wide metrics or analytics
+- Internal performance benchmarks
+
+**Implementation Requirements:**
+
+1. Customer ID must be passed in the `treblle-metadata` header:
+
+<ImageCard src="/platform/people/metadata.jpg" alt="treblle-metadata header example" />
+```javascript
+   req.headers['treblle-metadata'] = JSON.stringify({
+     'user-id': 'Netflix' // Must be globally unique
+   });
+```
+2. Customer must be invited with the Customer role
+3. Customer ID must be globally unique across your workspace
+4. Customer ID in invitation should match the ID used in API requests
+5. API documentation should be complete and accurate for customer reference
+
+<CautionCard>
+**Critical**: Ensure customer IDs are unique across your entire workspace. Duplicate IDs will cause data leakage between customers.
+</CautionCard>
 
 ### How Roles Work
 

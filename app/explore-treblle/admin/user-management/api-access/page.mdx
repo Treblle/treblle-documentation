@@ -7,6 +7,8 @@ description: "Manage which users and groups can access specific APIs in your wor
 import { ImageCard } from "~components/cards/image-card";
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoCards } from "~components/cards/info-cards";
 import { CautionCard } from "~components/cards/caution";
 import { InfoTable } from "~components/tables/info-table";
 import PaginationCards from "~components/cards/pagination-cards";
@@ -230,5 +232,76 @@ Example:
 <TipCard>
   **Access Auditing**: To completely remove a user's access, check both direct access and group access. Remove both if necessary.
 </TipCard>
+
+## Customer Role Exception
+
+<InfoCard type="individual">
+    <InfoCard.title>Customer ID Uniqueness Required</InfoCard.title>
+    <InfoCard.description>
+        Customer IDs must be globally unique across your workspace. Treblle uses exact matching on the user-id field in the treblle-metadata header to determine access.
+    </InfoCard.description>
+</InfoCard>
+
+<NoteCard>
+**Automatic Access for Customer Users**: Users assigned the Customer role have special access behavior with dual visibility:
+- **Complete API Documentation**: Full specs for APIs containing their customer ID
+- **Filtered Usage Data**: Request history strictly limited to their customer ID
+</NoteCard>
+
+<ImageCard src="/platform/people/workspace.jpg" alt="Customer workspace showing only relevant APIs" />
+
+### What Customers Can Access
+
+**Dashboard & Analytics:**
+- Real-time performance monitoring
+- Request volume trends over time
+- Error rate tracking
+- Response time analytics
+- Recent request activity
+
+<ImageCard src="/platform/people/dashboard.jpg" alt="Customer dashboard showing metrics and analytics" />
+
+**Full Documentation Access (for relevant APIs):**
+- Complete API specifications for APIs where their customer ID appears
+- Endpoint definitions and methods
+- Authentication requirements and methods
+- Request/response schemas and validation rules
+- Code examples and integration guides
+- OpenAPI specifications
+- Interactive API documentation
+
+<ImageCard src="/platform/people/docs.jpg" alt="Customer API documentation interface" />
+
+**Limited Usage Access (Their Data Only):**
+- Request history containing their customer ID
+- Performance metrics for their requests
+- Error logs for their requests
+- Usage analytics for their API consumption
+- Device and location information for their requests
+
+<ImageCard src="/platform/people/requests.jpg" alt="Customer request history showing only their requests" />
+
+**No Access To:**
+- APIs where their customer ID has never appeared
+- Other customers' request data
+- Workspace-level aggregate metrics
+- Other customers' usage patterns
+- Internal API performance benchmarks
+
+**Automatic Discovery:**
+- Customer visibility updates dynamically as new requests arrive
+- No manual configuration needed
+- APIs become visible when first request with customer ID is received
+- Customer ID must be passed in the `treblle-metadata` header:
+
+<ImageCard src="/platform/people/metadata.jpg" alt="Example of treblle-metadata header format" />
+```javascript
+  req.headers['treblle-metadata'] = JSON.stringify({
+    'user-id': 'Netflix',
+    'Plan': 'Titanium Plan'
+  });
+```
+
+For all other user roles (Owner, Member, custom roles), standard API access rules apply and must be configured explicitly.
 
 <PaginationCards />
