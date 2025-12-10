@@ -1,8 +1,9 @@
-import nextra from "nextra";
 import type { NextConfig } from "next";
+import nextra from "nextra";
 
 // Set up Nextra with its configuration
 const withNextra = nextra({
+    components: "./mdx-components.tsx",
     mdxOptions: {
         rehypePrettyCodeOptions: {
             theme: {
