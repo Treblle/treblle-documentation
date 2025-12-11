@@ -1,0 +1,370 @@
+---
+title: "Debugging Customer API Issues"
+metaTitle: "Customer Support Workflow - Debug API Issues with Treblle"
+description: "Learn how to investigate customer-reported API errors using Treblle's Requests Dashboard, Customer Dashboard, and Observability as a Service for transparent debugging."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { TipCard } from "~components/cards/tip";
+import { NoteCard } from "~components/cards/note";
+import { CautionCard } from "~components/cards/caution";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { Checklist } from "~components/sections/checklist";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Debugging Customer API Issues
+
+**Scenario**: A customer reports errors with your API. You need to investigate, identify the root cause, and provide them with transparency.
+
+**Features Used**: 
+- Requests Dashboard
+- Customer Dashboard  
+- Observability as a Service
+
+---
+
+## Overview
+
+When customers report API integration issues, you need to quickly:
+1. Find their specific requests in your system
+2. Analyze what went wrong
+3. Understand their usage patterns
+4. Empower them with self-service debugging tools
+
+This workflow shows you how to use Treblle's features together to efficiently debug customer issues while maintaining transparency.
+
+---
+
+## Step 1: Identify the Customer's Requests
+
+When a customer reports an API error, start by filtering their requests in the Requests dashboard.
+
+### Navigate to Requests
+
+1. Go to your API dashboard
+2. Click **Requests** in the left navigation bar
+
+<ImageCard src="/workflow/customer-support/request-tab.png" alt="Requests Navigation" />
+
+### Filter by Customer
+
+1. Click the **Filter** button at the top of the requests list
+2. Select **User Information** from the filter options
+3. In the search field, enter the customer's identifier:
+   - Email address
+   - Customer ID
+   - Company name
+   - Username
+
+<ImageCard src="/workflow/customer-support/filter.jpg" alt="Filter by Customer" />
+
+<TipCard>
+**Quick Filter Tip**: If you frequently debug issues for the same customers, use the [Save Search](/explore-treblle/platform/alerts/custom-alerts#c-save-the-search) feature to create reusable filters like "VIP Customer - Microsoft" or "Enterprise Tier - Issues Only".
+</TipCard>
+
+### Review Request Patterns
+
+Once filtered, look for:
+- **Error patterns**: Multiple 4xx or 5xx responses
+- **Time clustering**: Errors occurring at specific times
+- **Endpoint patterns**: Issues with particular endpoints
+- **Frequency**: How often errors occur vs. successful requests
+
+In this example, we can see requests filtered by:
+- Response code: 4xx (client errors)
+- Response code: 5xx (server errors)
+- Device: Android
+- Customer: Microsoft
+
+This gives us a focused view of problematic requests from this specific customer.
+
+---
+
+## Step 2: Analyze Request Details
+
+Click on any failed request to dig into the details.
+
+### Access Request Information
+
+1. Click on a request with a 4xx or 5xx status code
+2. The request details panel opens on the right side
+
+### Review the General Tab
+
+The **General** tab shows the complete request/response cycle:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Request Body</InfoCard.title>
+        <InfoCard.description>
+            What data the customer sent - check for malformed JSON, missing required fields, or incorrect data types
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Request Headers</InfoCard.title>
+        <InfoCard.description>
+            Authentication tokens, content-type headers, and custom headers - verify authorization and format
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Response Body</InfoCard.title>
+        <InfoCard.description>
+            Your API's error message - this tells you exactly what went wrong from your API's perspective
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Response Code</InfoCard.title>
+        <InfoCard.description>
+            HTTP status code - 400s indicate client errors, 500s indicate server errors
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+<ImageCard src="/workflow/customer-support/general.jpg" alt="Customer Request Patterns with Filters Applied" />
+
+In this view, you can see:
+- **POST** request to `/auth/register` endpoint
+- **400 response code** indicating a client error
+- **Load time**: 24.54ms
+- **Response size**: 0.17kb
+- Complete request and response bodies for debugging
+
+### Check Security Status
+
+1. Switch to the **Security** tab
+2. Review the threat level assessment
+3. Check for:
+   - Authentication issues
+   - Suspicious IP addresses
+   - Rate limiting violations
+   - SQL injection attempts
+
+<CautionCard>
+**Security Note**: If you see high threat levels, this might not be a simple integration error. It could indicate a security issue or malicious activity. Escalate to your security team if needed.
+</CautionCard>
+
+<ImageCard src="/workflow/customer-support/security-tab.jpg" alt="Request Security Tab" />
+
+The Security tab shows:
+- **Security Audit** breakdown with pass/fail percentages
+- **Threat categorization** by impact level (High, Medium, Low)
+- **Specific security checks** like API10 (Unsafe Consumption of APIs), API2 (Broken Authentication), etc.
+- **Impact assessment** for each security issue
+
+In this example, we can see:
+- 61% of checks failed
+- 39% passed
+- 1 High impact threat
+- 1 Medium impact threat
+- 6 Low impact threats
+
+### Review Additional Context
+
+1. Click the **Info** tab to see:
+   - Customer's device type
+   - Geographic location
+   - IP address
+   - User agent information
+
+2. Click the **Metadata** tab to see business context:
+   - Customer ID
+   - Plan tier
+   - Custom business context
+   - Environment information
+
+<ImageCard src="/workflow/customer-support/metadata.jpg" alt="Request Metadata Tab" />
+
+The Metadata tab reveals critical business context:
+- **Customer**: Microsoft
+- **Trace ID**: 0pqS0xvax9 (for distributed tracing)
+- **Plan**: Platinum Plan
+- **Region**: US
+
+<NoteCard>
+The **Metadata** tab is especially useful for understanding the customer's context - are they on a trial plan? Are they using the production environment? This context helps you prioritize and respond appropriately.
+</NoteCard>
+
+---
+
+## Step 3: Track Customer's API Usage History
+
+Get the full picture of the customer's integration health.
+
+### Navigate to Customer Dashboard
+
+1. Click **Customers** in the left navigation bar
+2. Use the search bar to find the specific customer
+3. Click on their name to open their profile
+
+<ImageCard src="/workflow/customer-support/customer-dashboard.jpg" alt="Customer Dashboard" />
+
+The Customer Dashboard shows all customers in your system with key metrics:
+- **New Customers**: 36
+- **Active Customers**: 36
+- **Top Customer**: Adobe (9.03% of traffic)
+- **Average Requests**: 43.4K per customer
+
+You can see a list of your top customers including Adobe, Netflix, Meta, Microsoft, Amazon, Apple, Google, Walmart, and Tesla.
+
+### Analyze Usage Patterns
+
+Click on a specific customer (like Microsoft) to see their detailed profile:
+
+<ImageCard src="/workflow/customer-support/customer.jpg" alt="Individual Customer Profile View" />
+
+The individual customer view displays:
+- **Total Requests**: 12.0K
+- **Overall Percentage**: 9.21% of all requests
+- **Request graph** showing traffic trends over the selected time period
+- **Recent requests table** with full details
+
+**Request History Table shows:**
+- HTTP Method (GET, POST, etc.)
+- Response codes
+- Endpoint names
+- Load times
+- Threat levels
+- Device types
+- AI Agent detection
+- Geographic locations
+- Timestamps
+
+### Identify Trends
+
+Look for these patterns:
+
+<Checklist>
+    <Checklist.item id="sudden-spike">**Sudden spike in errors** - Did something change in their integration?</Checklist.item>
+    <Checklist.item id="consistent-errors">**Consistent error pattern** - Same endpoint failing repeatedly suggests a specific integration issue</Checklist.item>
+    <Checklist.item id="decreased-usage">**Decreased usage** - Are errors causing them to stop using the API?</Checklist.item>
+    <Checklist.item id="time-pattern">**Time-based patterns** - Errors at specific times might indicate batch jobs or scheduled tasks</Checklist.item>
+    <Checklist.item id="geographic">**Geographic patterns** - Errors from specific regions might indicate network or CDN issues</Checklist.item>
+    <Checklist.item id="device-specific">**Device-specific issues** - Mobile vs. desktop errors might indicate client-side problems</Checklist.item>
+</Checklist>
+
+---
+
+## Step 4: Provide Self-Service Debugging Access
+
+Empower customers to debug their own integrations with Observability as a Service.
+
+### Understanding Observability as a Service
+
+Treblle's Observability as a Service feature allows you to embed API request logs directly into your developer portal. Customers see only their own requests - nothing from other customers.
+
+<InfoCard type="individual">
+    <InfoCard.title>Automatic Data Filtering</InfoCard.title>
+    <InfoCard.description>
+        When embedded in your portal, Observability as a Service automatically filters requests based on the customer's ID. They see only their data - complete transparency without security risks.
+    </InfoCard.description>
+</InfoCard>
+
+### What Customers See
+
+When customers access the embedded Observability portal, they can:
+
+**Monitor Real-Time:**
+- Live view of their API requests
+- Request/response data for debugging
+- Error messages and stack traces
+- Performance metrics (load times)
+
+<ImageCard src="/workflow/customer-support/platform-1.jpg" alt="Customer Observability Portal View" />
+
+The embedded portal shows:
+- **Total Requests**: 18,707 for this customer
+- **Filter options** to narrow down specific issues
+- **Sort capabilities** to organize data
+- **Search functionality** to find specific requests
+- **Open in Treblle** button for deeper analysis
+- **Pagination** through large request volumes
+
+**Filter and Search:**
+- By timeframe (last 24 hours, 7 days, custom)
+- By HTTP method (GET, POST, etc.)
+- By response code (success vs. errors)
+- By specific endpoint
+
+<ImageCard src="/workflow/customer-support/platform-2.jpg" alt="Detailed Request View in Observability Portal" />
+
+The detailed view shows each request with:
+- HTTP method and response code
+- Customer identifier (Amazon, andy, J.P. Morgan, Apple)
+- Trace IDs for distributed tracing
+- Response sizes
+- Load times
+- Device types (desktop, android, mobile)
+- Geographic locations
+- Threat levels
+- Request bodies (with sensitive data masked)
+
+**Debug Independently:**
+- Identify malformed requests
+- Verify authentication headers
+- Check request payloads
+- Understand error responses
+
+<TipCard>
+**Implementation Tip**: Add a link to your Observability portal in your API documentation and error emails. When customers report issues, direct them there first - many can solve their own problems, reducing support ticket volume.
+</TipCard>
+
+### Benefits for Support Teams
+
+Embedding Observability as a Service reduces support burden:
+
+- **Fewer tickets**: Customers self-serve for common issues
+- **Faster resolution**: When customers do reach out, they've already investigated
+- **Better communication**: Shared visibility into the same request data
+- **Trust building**: Transparency shows you're committed to their success
+
+<NoteCard>
+Notice how in the Observability portal screenshots, sensitive data like passwords are automatically masked with asterisks. This protects customer data while still providing debugging capabilities.
+</NoteCard>
+
+---
+
+## Workflow Summary
+
+Here's the complete debugging workflow at a glance:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>1. Filter Requests</InfoCard.title>
+        <InfoCard.description>
+            Use Requests Dashboard to find customer's API calls - filter by customer ID, email, or identifier. Apply additional filters like response codes or device types.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>2. Analyze Details</InfoCard.title>
+        <InfoCard.description>
+            Review failed requests in depth - check request/response data, security status, and metadata for business context like plan tier and region.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>3. Check History</InfoCard.title>
+        <InfoCard.description>
+            Use Customer Dashboard to understand usage patterns - identify when errors started, frequency, and overall percentage of your API traffic.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>4. Enable Self-Service</InfoCard.title>
+        <InfoCard.description>
+            Share Observability portal access - empower customers to debug independently with filtered views showing only their requests and reduce ticket volume.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+---
+
+## Next Steps
+
+Now that you've mastered debugging customer issues:
+
+- **Set up alerts**: Create [Custom Alerts](/explore-treblle/platform/alerts/custom-alerts) for high error rates from specific customers
+- **Improve documentation**: Update API docs based on common support issues you discover
+- **Automate responses**: Build a knowledge base with common issues and solutions
+- **Train your team**: Share this workflow with other support engineers
+- **Monitor proactively**: Review the Customer Dashboard daily to catch issues before customers report them
+
+<PaginationCards />

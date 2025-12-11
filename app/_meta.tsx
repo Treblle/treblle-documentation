@@ -42,6 +42,12 @@ export default {
             collapsed: false,
         },
     },
+    "workflow-tutorials": {
+        title: "Workflow Tutorials",
+        theme: {
+            collapsed: true,
+        },
+    },
     "resources": {
         title: "Resources",
         theme: {

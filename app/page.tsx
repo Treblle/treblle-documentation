@@ -209,6 +209,21 @@ export default function Home() {
                             description="Discover powerful tools to improve performance and collaboration."
                         />
                     </Link>
+                    <Link href="/workflow-tutorials/customer-support" className={landingPageLink}>
+                        <LandingPageCards
+                            icon={
+                                <SquareCode
+                                    className={css({
+                                        width: "23px",
+                                        height: "23px",
+                                        color: "#9ea2bd",
+                                    })}
+                                />
+                            }
+                            title="Workflow Tutorials"
+                            description="Learn how to use Treblle with different workflows."
+                        />
+                    </Link>
                     <Link href="/resources/faqs" className={landingPageLink}>
                         <LandingPageCards
                             icon={
