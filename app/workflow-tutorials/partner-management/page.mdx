@@ -1,0 +1,687 @@
+---
+title: "Managing API Access for External Partners"
+metaTitle: "API Platform Team Workflow - Control Partner Access with Treblle"
+description: "Learn how to use Groups, API Access controls, Customer Role, and API Catalog to securely manage external partner integrations without exposing internal systems."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { TipCard } from "~components/cards/tip";
+import { NoteCard } from "~components/cards/note";
+import { CautionCard } from "~components/cards/caution";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { Checklist } from "~components/sections/checklist";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Managing API Access for External Partners
+
+**Scenario**: Your company has multiple external partners consuming different APIs. You need to control access, monitor usage, and provide documentation without exposing internal systems.
+
+**Features Used**: 
+- Groups
+- API Access
+- Customer Role
+- API Catalog
+---
+
+## Overview
+
+Managing external partner integrations at scale requires:
+1. **Organized access control** - Different partners need access to different APIs
+2. **Automatic data filtering** - Partners should only see their own request data
+3. **Self-service documentation** - Partners need API docs without internal system access
+4. **Usage monitoring** - Track which partners are using which APIs
+
+This workflow demonstrates how to use Treblle's access control features together to create a secure, scalable partner ecosystem.
+
+---
+
+## Step 1: Create Partner Groups
+
+Groups allow you to organize external partners by their access needs, making it easy to grant API access to multiple partners at once.
+
+### Navigate to Groups Management
+
+1. Click **Settings** in the left navigation bar
+2. Select **User Management** from the settings menu
+3. Click on the **Groups** tab
+
+<ImageCard src="/workflow/partner-management/groups.jpg" alt="Groups Management View" />
+
+The Groups management page displays all your existing groups with:
+- **Name**: Group identifier
+- **Members**: Number of people in each group
+- **Created At**: When the group was established
+
+### Create Logical Group Structure
+
+Click **+ New Group** and create groups that reflect your partner ecosystem:
+
+<ImageCard src="/workflow/partner-management/new-group.jpg" alt="Create New Group Dialog" />
+
+The group creation dialog allows you to:
+- **Name**: Enter a descriptive group name like "Payment Gateway Partners"
+- **People**: Add initial members during creation (optional)
+- Click **Create Group** to establish the group
+
+**Example Group Structure:**
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Payment Gateway Partners</InfoCard.title>
+        <InfoCard.description>
+            Partners who process payments through your APIs - Stripe, PayPal, Square. They need access to Payment API, Transaction API, and Refund API.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Analytics Platform Partners</InfoCard.title>
+        <InfoCard.description>
+            Partners who consume analytics data - Segment, Amplitude, Mixpanel. They need access to Analytics API and Events API.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Integration Partners</InfoCard.title>
+        <InfoCard.description>
+            Partners building integrations with your platform - Zapier, Make, Workato. They need broad access to User API, Webhook API, and Core API.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Beta Program Partners</InfoCard.title>
+        <InfoCard.description>
+            Early access partners testing new features - limited group with access to experimental APIs before general availability.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+### Group Naming Best Practices
+
+<TipCard>
+**Naming Convention Tip**: Use descriptive, consistent names that reflect the business relationship:
+- Good: "Payment Gateway Partners", "Enterprise Integration Partners", "Regional Resellers - EMEA"
+- Avoid: "Group 1", "External Users", "Partners"
+
+This makes it easier to assign access as your partner ecosystem grows.
+</TipCard>
+
+<ImageCard src="/workflow/partner-management/view-api.jpg" alt="Group Details Panel" />
+
+Once created, the group details panel shows:
+- **Created At**: When the group was established (11/12/2025)
+- **API Access**: Number of APIs this group can access (0 initially, configured in Step 2)
+- **Group Members**: All current members with their roles and email addresses
+- **Actions**: Edit Group or Delete options
+
+### For Each Group, Define:
+
+- **Group Name**: Clear, descriptive identifier
+- **Description**: Purpose and typical use cases
+- **Access Level**: Which APIs this group should access
+
+<NoteCard>
+Groups are not just for organization - they're the foundation of your access control strategy. Well-designed groups scale as you add more partners and APIs.
+</NoteCard>
+
+---
+
+## Step 2: Configure API Access by Group
+
+Once groups are created, connect them to specific APIs. This creates automatic access control - anyone added to a group inherits its API permissions.
+
+### Navigate to API Access Settings
+
+1. Go to **User Management** in Settings
+2. Click on the **API Access** tab
+3. You'll see a list of all your APIs
+
+### Assign Groups to APIs
+
+For each API you want to share with partners:
+
+1. **Select the API** from the list (e.g., "Payment API")
+2. Click **View API Access** to open the access management panel
+3. Navigate to the **Groups** section within the access panel
+4. Click **+ Add** to assign groups
+5. Select the relevant partner group (e.g., "Payment Gateway Partners")
+6. Save your changes
+
+<ImageCard src="/workflow/partner-management/api-access.jpg" alt="API Access Management View" />
+
+### What Happens Automatically
+
+When you assign a group to an API:
+
+<Checklist>
+    <Checklist.item id="immediate-access">**Immediate access** - All existing group members can now view API documentation</Checklist.item>
+    <Checklist.item id="filtered-data">**Data filtering** - Members see only their own company's request data in the API catalog</Checklist.item>
+    <Checklist.item id="future-members">**Automatic inheritance** - New members added to the group automatically gain access</Checklist.item>
+    <Checklist.item id="documentation">**Documentation access** - Members can view endpoint specs, request/response examples, and error codes</Checklist.item>
+    <Checklist.item id="testing">**Testing capabilities** - Members can test endpoints directly from the catalog (if enabled)</Checklist.item>
+</Checklist>
+
+<TipCard>
+**Access Control Tip**: Start restrictive and expand access based on partner needs. It's easier to grant additional API access than to revoke it after partners have built dependencies.
+</TipCard>
+
+---
+
+## Step 3: Invite Partners with Customer Role
+
+Now that groups and API access are configured, invite your external partners to the platform.
+
+### Navigate to People Management
+
+1. Go to **Settings** → **User Management**
+2. Click on the **People** tab
+3. Click **Email Invite** or **+ Add User**
+
+### Complete the Invitation Form
+
+Fill in the partner's details:
+
+**Required Fields:**
+- **Email Address**: Partner contact's work email
+- **Role**: Select **Customer** (critical - this role has limited permissions)
+- **Group**: Select the appropriate partner group
+- **First Name / Last Name**: Partner contact details
+
+<ImageCard src="/workflow/partner-management/email-invite.jpg" alt="Partner Invitation Form with Role and Group Selection" />
+
+### Understanding the Customer Role
+
+The **Customer** role is specifically designed for external partners:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Limited Dashboard Access</InfoCard.title>
+        <InfoCard.description>
+            Customers cannot see your internal workspace, team members, or system configuration. They access only what you explicitly share.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Filtered Request Data</InfoCard.title>
+        <InfoCard.description>
+            When viewing API requests, customers see only requests tagged with their customer ID - complete data isolation between partners.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>API Documentation Only</InfoCard.title>
+        <InfoCard.description>
+            Customers can view API specs, endpoints, request/response formats, and test endpoints - but cannot modify APIs or access analytics.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>No Administrative Access</InfoCard.title>
+        <InfoCard.description>
+            Customers cannot invite other users, change settings, view billing, or access governance/compliance features.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+### Bulk Invitations
+
+For onboarding multiple partners at once:
+
+<ImageCard src="/workflow/partner-management/bulk-invite.jpg" alt="Bulk Invite CSV Upload Interface" />
+
+1. Click **Bulk Invite** in the People management section
+2. Upload a CSV file with columns: email, role, group
+3. The interface shows instructions:
+   - Upload .csv file with three columns (email, role, group)
+   - Each person receives an invitation email
+4. Click **Send Invites** after uploading
+
+**CSV Format Example:**
+```csv
+email,role,group
+partner1@stripe.com,member,Payment Gateway Partners
+partner2@paypal.com,member,Payment Gateway Partners
+analyst@segment.com,member,Analytics Platform Partners
+```
+
+### Managing Existing Partners
+
+To change a partner's access:
+
+<ImageCard src="/workflow/partner-management/people-actions.jpg" alt="User Profile Details" />
+
+1. Find them in the **People** list
+2. Click on their name to view their profile, which shows:
+   - **Role**: Current workspace role (Owner in this example)
+   - **Group**: Which partner group they belong to (Payment Gateway Partners)
+   - **API Access**: Number of APIs they can access (20)
+   - **Date Added**: When they were invited (26/03/2025)
+3. Click **Edit Role & Group** to modify their access
+4. Changes take effect immediately
+
+<ImageCard src="/workflow/partner-management/people-actions-2.jpg" alt="People Management Table with Actions" />
+
+The People management table provides:
+- Complete list of all workspace members
+- **Group column** showing each member's group assignment
+- **Actions menu** (⋮) for each user with options to:
+  - **View User**: See detailed profile
+  - **Delete**: Remove user access
+
+<CautionCard>
+**Security Reminder**: Regularly audit your partner list. Remove access for partners who are no longer actively integrating. Use the "Last Active" column to identify inactive accounts.
+</CautionCard>
+
+---
+
+## Step 4: Ensure Customer ID Tracking
+
+For Treblle to automatically filter data per partner, your API must pass customer identifiers in requests.
+
+### Implement Customer ID in Metadata
+
+Add the customer identifier to the `treblle-metadata` header in your API:
+
+```javascript
+// Node.js / Express Example
+app.use((req, res, next) => {
+  // Extract customer ID from JWT token, API key, or session
+  const customerId = extractCustomerFromAuth(req);
+  
+  // Set Treblle metadata
+  req.headers['treblle-metadata'] = JSON.stringify({
+    'user-id': customerId,  // Maps to customer in Treblle
+    'Plan': determineCustomerPlan(customerId),
+    'Region': determineCustomerRegion(customerId)
+  });
+  
+  next();
+});
+```
+
+```python
+# Python / Flask Example
+from flask import request
+
+@app.before_request
+def add_treblle_metadata():
+    # Extract customer ID from auth
+    customer_id = extract_customer_from_auth(request)
+    
+    # Set Treblle metadata
+    request.headers['treblle-metadata'] = json.dumps({
+        'user-id': customer_id,
+        'Plan': determine_customer_plan(customer_id),
+        'Region': determine_customer_region(customer_id)
+    })
+```
+
+```php
+// PHP / Laravel Example
+namespace App\Http\Middleware;
+
+class TreblleMetadata
+{
+    public function handle($request, $next)
+    {
+        // Extract customer ID from auth
+        $customerId = $this->extractCustomerFromAuth($request);
+        
+        // Set Treblle metadata
+        $request->headers->set('treblle-metadata', json_encode([
+            'user-id' => $customerId,
+            'Plan' => $this->determineCustomerPlan($customerId),
+            'Region' => $this->determineCustomerRegion($customerId)
+        ]));
+        
+        return $next($request);
+    }
+}
+```
+
+### Metadata Best Practices
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Consistent Identifiers</InfoCard.title>
+        <InfoCard.description>
+            Use the same customer ID format across all APIs - company name, unique ID, or domain. Example: "stripe-inc" or "cust_abc123"
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Include Business Context</InfoCard.title>
+        <InfoCard.description>
+            Add Plan tier (Free, Pro, Enterprise) and Region for better segmentation and analysis of partner usage patterns
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Extract from Authentication</InfoCard.title>
+        <InfoCard.description>
+            Pull customer ID from JWT claims, API key metadata, or OAuth tokens - never from request body to prevent spoofing
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Validate Before Setting</InfoCard.title>
+        <InfoCard.description>
+            Verify the customer ID exists in your system before adding to metadata. Log warnings for invalid IDs to catch integration issues
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+### Verification
+
+Test that customer IDs are being tracked correctly:
+
+<ImageCard src="/workflow/partner-management/general-tab.jpg" alt="Request Headers with treblle-metadata Highlighted" />
+
+1. Make a test API request as a partner
+2. Go to **Requests** in Treblle
+3. Open the request details
+4. Check the **Headers** tab first
+5. Find the `treblle-metadata` header (line 11 in the example above)
+6. Verify it contains the customer ID in JSON format:
+
+```json
+{
+  "user-id": "Microsoft",
+  "Plan": "Platinum Plan"
+}
+```
+
+Then switch to the **Metadata** tab:
+
+<ImageCard src="/workflow/partner-management/metadata-tab.jpg" alt="Metadata Tab Showing Parsed Customer Information" />
+
+The Metadata tab displays the parsed values from the header:
+- **Customer**: Microsoft  
+- **Trace ID**: wryrYpzmu1
+- **Region**: APAC
+- **Plan**: Platinum Plan
+
+<NoteCard>
+**Tracing Note**: The `trace-id` field in metadata is used for API Traceability and will group related requests in Treblle's **Trace** section. This is the recommended approach. Alternatively, you can pass trace IDs using the `treblle-tag-id` header directly, but the metadata approach (`trace-id` inside `treblle-metadata`) is preferred and will override any root-level `treblle-tag-id` header if both are present.
+</NoteCard>
+
+<TipCard>
+**Testing Tip**: Create a test partner account with Customer role and make requests with different customer IDs. Verify in the Observability portal that you only see requests matching your test customer ID.
+</TipCard>
+
+### Why This Matters
+
+Customer ID tracking enables:
+
+- **Data isolation**: Partners see only their requests
+- **Usage analytics**: Track which partners use which endpoints
+- **Billing accuracy**: Measure API consumption per partner
+- **Support efficiency**: Quickly filter to a specific partner's requests
+- **Security monitoring**: Detect suspicious patterns per partner
+
+<NoteCard>
+The customer ID in `treblle-metadata` directly connects to the Customer accounts you created in Step 3. Make sure these identifiers match exactly - "stripe-inc" in metadata should correspond to a customer account with that ID.
+</NoteCard>
+
+---
+
+## Step 5: Publish APIs to API Catalog
+
+The API Catalog is your external-facing API documentation portal. Publishing APIs here makes them discoverable and accessible to your partners.
+
+### Navigate to API Settings
+
+1. Select an API from your APIs list
+2. Click **API Settings** (gear icon)
+3. Scroll to the **API Options** section
+
+### Configure Publication Details
+
+Before publishing, configure:
+
+**API Category** (required)
+- Logical grouping for navigation
+- Examples: "Payment APIs", "Analytics APIs", "User Management APIs", "Integration APIs"
+
+**Tags** (recommended)
+- Searchable keywords
+- Examples: "OAuth", "REST", "WebSocket", "v2", "Beta", "Deprecated"
+
+**Description** (required)
+- Clear summary of API purpose
+- Include primary use cases and target audience
+
+**Version** (recommended)
+- Semantic versioning (v1.0, v2.1)
+- Helps partners understand API maturity
+
+<ImageCard src="/workflow/partner-management/api-options.jpg" alt="API Options - Add API to Catalog Toggle" />
+
+### Click Publish
+
+1. Review all fields for accuracy
+2. Click the **Publish** button
+3. The API is now visible in your API Catalog
+
+<TipCard>
+**Documentation Tip**: Before publishing, ensure your API has:
+- Comprehensive endpoint descriptions
+- Request/response examples for all endpoints
+- Error code documentation
+- Authentication requirements
+- Rate limiting information
+
+Use Treblle's built-in documentation editor to enhance API docs before making them public to partners.
+</TipCard>
+
+### What Partners See in API Catalog
+
+After publication, partners with appropriate group access can:
+
+**Browse Published APIs:**
+- Filter by category (Payment, Analytics, etc.)
+- Search by tags (OAuth, REST, v2)
+- View API versions and status (Stable, Beta, Deprecated)
+
+<ImageCard src="/workflow/partner-management/catalog-dashboard.jpg" alt="API Catalog View with Categories and Tags" />
+
+**Access Full Documentation:**
+- Complete endpoint list with descriptions
+- Request/response schemas
+- Code examples in multiple languages
+- Authentication guides
+- Error handling documentation
+
+<ImageCard src="/workflow/partner-management/catalog-docs.jpg" alt="API Catalog Endpoint Documentation" />
+
+When partners click into a specific endpoint (like `auth/login` shown above), they see:
+- **HTTP Method and Path**: POST auth/login clearly displayed
+- **Request Body**: Field names and types (email: string, password: string)
+- **Response Structure**: Expected response format with status code (200)
+- **Example Response**: Full JSON response showing the data structure
+- **Sidebar Navigation**: Browse all endpoints organized by resource (auth, articles, users)
+
+**Test Endpoints (Optional):**
+- Interactive API testing directly in catalog
+- Pre-filled authentication from their customer account
+- Real requests to your APIs (if testing is enabled)
+
+**Monitor Their Usage:**
+- Link to Observability portal
+- See their own API requests
+- Track their integration health
+
+### Organizing Multiple APIs
+
+As your catalog grows, maintain organization:
+
+<Checklist>
+    <Checklist.item id="consistent-categories">**Consistent categorization** - Use the same category names across related APIs</Checklist.item>
+    <Checklist.item id="version-strategy">**Version strategy** - Clearly mark deprecated versions and migration paths</Checklist.item>
+    <Checklist.item id="tag-taxonomy">**Tag taxonomy** - Standardize tags (always "OAuth" not "OAuth2" or "oauth")</Checklist.item>
+    <Checklist.item id="description-format">**Description format** - Follow a template for consistency across all API descriptions</Checklist.item>
+    <Checklist.item id="regular-updates">**Regular updates** - Keep documentation current as APIs evolve</Checklist.item>
+</Checklist>
+
+### Managing Publication Status
+
+You can unpublish or update APIs at any time:
+
+**To Unpublish:**
+1. Go to API Settings
+2. Click **Unpublish** in API Options
+3. Partners immediately lose catalog access (but existing integrations continue working)
+
+**To Update:**
+1. Edit category, tags, or description
+2. Changes appear immediately in catalog
+3. No need to republish
+
+<CautionCard>
+**Deprecation Warning**: When deprecating an API, don't immediately unpublish. Instead:
+1. Add a "Deprecated" tag
+2. Update description with sunset date and migration guide
+3. Announce to affected partners via email
+4. Wait at least 90 days before unpublishing
+</CautionCard>
+
+
+The Metadata tab in Treblle displays the extracted business context:
+- **Customer**: Microsoft (automatically filtered for this partner)
+- **Trace ID**: wryrYpzmu1 (for distributed tracing)
+- **Region**: APAC (geographic context)
+- **Plan**: Platinum Plan (subscription tier)
+
+This information comes directly from the `treblle-metadata` header you set in your API code.
+
+---
+
+## Complete Partner Access Workflow
+
+Here's how all the pieces work together:
+
+### Partner Onboarding Flow
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>1. Partner Signs Agreement</InfoCard.title>
+        <InfoCard.description>
+            Business team closes deal with new partner. They determine which APIs the partner needs access to.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>2. Platform Team Adds to Group</InfoCard.title>
+        <InfoCard.description>
+            You create or select appropriate group (e.g., "Payment Gateway Partners"), ensuring it has access to the right APIs.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>3. Send Invitation</InfoCard.title>
+        <InfoCard.description>
+            Invite partner contact with Customer role and group assignment. They receive email with access credentials.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>4. Partner Explores Catalog</InfoCard.title>
+        <InfoCard.description>
+            Partner logs in, browses API Catalog, views documentation for APIs their group can access, and starts integration.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+### During Integration
+
+1. **Partner implements your API** using documentation from catalog
+2. **Your API tracks customer ID** in `treblle-metadata` header
+3. **Requests flow through Treblle** with proper customer tagging
+4. **Partner views their data** in Observability portal - sees only their requests
+5. **You monitor all partners** from your internal Treblle workspace
+---
+
+## Troubleshooting Common Issues
+
+### Partners Can't See Their Requests
+
+**Problem**: Partner logs into Observability portal but sees no data
+
+**Diagnosis**:
+1. Check if your API is setting `treblle-metadata` with `user-id`
+2. Verify the customer ID in metadata matches their account ID
+3. Confirm they've made requests since being added
+
+**Solution**:
+```javascript
+// Verify customer ID is being set
+console.log('Treblle Metadata:', req.headers['treblle-metadata']);
+// Should show: {"user-id":"partner-company-name",...}
+
+// Check customer account ID in Treblle matches
+// If partner company is "Stripe Inc" but metadata says "stripe",
+// requests won't be associated correctly
+```
+
+### Partners See Wrong APIs in Catalog
+
+**Problem**: Partner has access to APIs they shouldn't see, or can't see APIs they need
+
+**Diagnosis**:
+1. Check which group they're assigned to (Settings → People)
+2. Review that group's API access (Settings → API Access)
+3. Verify the APIs are published (not just internal)
+
+**Solution**:
+1. Remove partner from incorrect group
+2. Add them to correct group
+3. Verify group has access to required APIs
+4. Changes take effect immediately - have partner refresh catalog
+
+### Invitations Not Received
+
+**Problem**: Partner says they didn't receive invitation email
+
+**Diagnosis**:
+1. Check spam/junk folders
+2. Verify email address is correct in People list
+3. Check if invitation expired (invites are valid for 7 days)
+
+**Solution**:
+1. Resend invitation from People list
+2. If repeatedly fails, check email deliverability settings
+3. As alternative, manually create account and share login link
+
+### Customer ID Not Tracking
+
+**Problem**: All requests show up under "Unknown" customer
+
+**Diagnosis**:
+1. Check if `treblle-metadata` header is being set
+2. Verify `user-id` field exists in metadata
+3. Confirm customer ID format matches customer accounts
+
+**Solution**:
+```javascript
+// Debug middleware
+app.use((req, res, next) => {
+  const metadata = req.headers['treblle-metadata'];
+  
+  if (!metadata) {
+    console.error('Missing treblle-metadata header');
+  } else {
+    const parsed = JSON.parse(metadata);
+    if (!parsed['user-id']) {
+      console.error('Missing user-id in metadata');
+    } else {
+      console.log('Customer ID:', parsed['user-id']);
+    }
+  }
+  
+  next();
+});
+```
+
+---
+
+## Next Steps
+
+Now that you've set up partner access management:
+
+- **Create partner onboarding docs**: Build a comprehensive guide partners receive upon invitation
+- **Set up automated alerts**: Configure notifications for partner error spikes or unusual activity
+- **Build internal runbooks**: Document how to provision, modify, and revoke partner access
+- **Establish SLAs**: Define response times for partner support issues
+- **Plan for scale**: Design your group structure to accommodate 10x growth
+
+---
+
+<PaginationCards />
