@@ -15,30 +15,30 @@
         "typecheck": "tsc --noEmit"
     },
     "dependencies": {
-        "@ark-ui/react": "^5.25.1",
-        "@statsig/react-bindings": "^3.25.6",
-        "@statsig/web-analytics": "^3.29.1",
+        "@ark-ui/react": "^5.30.0",
+        "@statsig/react-bindings": "^3.30.2",
+        "@statsig/web-analytics": "^3.30.2",
         "lucide-react": "^0.546.0",
-        "next": "^15.5.4",
-        "nextra": "^4.5.1",
-        "nextra-theme-docs": "^4.5.1",
-        "react": "^19.1.1",
-        "react-dom": "^19.1.1"
+        "next": "^15.5.7",
+        "nextra": "^4.6.1",
+        "nextra-theme-docs": "^4.6.1",
+        "react": "^19.2.1",
+        "react-dom": "^19.2.1"
     },
     "devDependencies": {
-        "@next/eslint-plugin-next": "^15.1.5",
-        "@pandacss/dev": "^1.4.1",
+        "@next/eslint-plugin-next": "^15.5.7",
+        "@pandacss/dev": "^1.7.0",
         "@treblle/eslint-config": "^1.1.0",
         "@treblle/prettier-config": "^1.0.2",
         "@treblle/typescript-config": "^1.0.1",
-        "@types/node": "^24.6.0",
-        "@types/react": "^19.1.16",
-        "eslint": "^9.18.0",
+        "@types/node": "^24.10.3",
+        "@types/react": "^19.2.7",
+        "eslint": "^9.39.1",
         "pagefind": "^1.4.0",
-        "prettier": "^3.4.2",
-        "prettier-plugin-packagejson": "^2.5.19",
-        "typescript": "^5.9.2",
-        "typescript-eslint": "^8.20.0"
+        "prettier": "^3.7.4",
+        "prettier-plugin-packagejson": "^2.5.20",
+        "typescript": "^5.9.3",
+        "typescript-eslint": "^8.49.0"
     },
     "packageManager": "pnpm@9.5.0"
 }
