@@ -1,0 +1,452 @@
+---
+title: "Detecting and Responding to API Threats"
+metaTitle: "Security Team Workflow - Monitor API Security with Treblle"
+description: "Learn how to use Security Dashboard, Spike Alerts, API Security Checks, and Risky IP monitoring to detect and respond to API threats in real-time."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { TipCard } from "~components/cards/tip";
+import { NoteCard } from "~components/cards/note";
+import { CautionCard } from "~components/cards/caution";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { Checklist } from "~components/sections/checklist";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Detecting and Responding to API Threats
+
+**Scenario**: You need to monitor API security posture, detect suspicious activity, respond to threats in real-time, and prevent attacks before they impact your systems.
+
+**Features Used**: 
+- Security Dashboard
+- Spike Alerts
+- API Security Checks
+- Risky IPs
+
+---
+
+## Overview
+
+API security requires continuous vigilance and rapid response to threats. As a security professional, you need:
+1. **Real-time visibility** into security threats and vulnerabilities
+2. **Proactive alerting** for unusual patterns and suspicious activity
+3. **Automated threat detection** using industry-standard security frameworks
+4. **Actionable intelligence** on risky IPs and attack patterns
+
+This workflow demonstrates how to leverage Treblle's security features together to build a comprehensive API security intelligence system.
+
+---
+
+## Step 1: Enable Security Dashboard Widgets
+
+The Security Dashboard provides a centralized view of your API security posture across all endpoints and services at the workspace level.
+
+### Navigate to Security Dashboard
+
+1. Click **Security** in the left navigation bar (workspace level)
+2. You'll see the main Security Dashboard with customizable widgets
+
+<ImageCard src="/workflow/security/security-dashboard.jpg" alt="Security Dashboard Overview with Widgets" />
+
+The Security Dashboard displays multiple security widgets including:
+- **Zombie APIs**: Number of zombie APIs with endpoints that haven't received traffic
+- **Security Fail**: Number of failed security checks across your APIs  
+- **Problematic APIs**: APIs with detected security issues
+- **Compliance Fail**: APIs not meeting regulatory compliance standards
+- **Risky IPs**: World map showing geographic distribution of risky IP addresses
+- **Security Audit**: Table showing APIs with High Risk and Medium Risk percentages
+- **BOLA/BFLA**: Lists of APIs with authorization vulnerabilities
+- **Unsecured APIs**: APIs with basic or no authentication
+
+### Configure Dashboard Widgets
+
+Customize your Security Dashboard to highlight the metrics most relevant to your security operations:
+
+1. Click the **Customize Dashboard** button (grid icon)
+2. Enable/disable widgets based on your monitoring priorities
+3. Save your configuration
+
+<ImageCard src="/workflow/security/widgets.jpg" alt="Customize Dashboard - Enable Security Widgets" />
+
+Available Security Widgets:
+1. **Zombie APIs** - Number of zombie APIs
+2. **Security Fail** - Number of failed security checks across your APIs
+3. **Problematic APIs** - Number of problems across your APIs
+4. **Compliance Fail** - Number of failed compliance checks across your APIs
+5. **Risky IPs** - World map with risky IP's
+6. **Zombie APIs List** - List of zombie APIs
+7. **Security Audit** - List of APIs with high and medium security risks
+8. **Unsecured APIs** - List of APIs with basic or no authentication
+9. **API Type** - Visual distribution of API types across your workspace
+10. **BOLA (Broken Object Level Authorization)** - List of APIs with failed BOLA security check
+    - **What it means**: Users can access objects they shouldn't (e.g., viewing `/users/123` when they should only access `/users/456`)
+    - **Real example**: Alice can access Bob's profile by changing the user ID in the URL
+    - **OWASP**: API1:2023 - Most common and dangerous API vulnerability
+11. **BFLA (Broken Function Level Authorization)** - List of APIs with failed BFLA security check
+    - **What it means**: Regular users can access admin functions (e.g., regular user calling `DELETE /admin/users`)
+    - **Real example**: A standard user can delete other users because the endpoint doesn't check if they're an admin
+    - **OWASP**: API5:2023 - Privilege escalation vulnerability
+12. **Risky Customers** - List of risky customers
+13. **Sensitive APIs** - List of sensitive APIs
+14. **AI Agents** - Visual distribution of AI models across your APIs
+15. **API Environment** - Visual distribution of environments across your workspace
+
+<TipCard>
+**BOLA vs BFLA Quick Reference:**
+- **BOLA** = "Can I access *this specific thing*?" → Horizontal privilege escalation (accessing someone else's data at the same level)
+- **BFLA** = "Can I use *this function at all*?" → Vertical privilege escalation (accessing admin/privileged functions)
+</TipCard>
+
+### Understanding Security Risk Levels
+
+<ImageCard src="/workflow/security/threat-levels.jpg" alt="Security Audit Widget - High and Medium Risk Breakdown" />
+
+The Security Audit widget shows:
+- **API List**: Each API with its High Risk and Medium Risk percentages
+- **Trend Graph**: Line chart showing High Level Security Threat (orange) and Medium Level Security Threat (red) over time
+- **Risk Distribution**: Visual breakdown of security risks across your APIs
+
+This helps you prioritize which APIs need immediate security attention based on their risk profiles.
+
+<NoteCard>
+**Team Alignment**: Different team members can configure their own dashboard views. Security analysts might focus on threat detection widgets, while security engineers prioritize compliance checks and remediation metrics.
+</NoteCard>
+
+---
+
+## Step 2: Monitor Risky IPs
+
+Treblle automatically flags requests from known malicious sources, helping you identify threats before they cause damage.
+
+### Navigate to Risky IPs Dashboard
+
+1. Go to your **API Dashboard**
+2. Click **Customize Dashboard** (grid icon with four squares)
+3. Enable the **"Risky IPs"** widget
+4. Click **Save Changes**
+
+<ImageCard src="/workflow/security/risky-api-widget.jpg" alt="Enable Risky IPs Widget in Customize Dashboard" />
+
+Once enabled, the Risky IPs widget displays as a world map showing geographic distribution of risky IP addresses:
+
+<ImageCard src="/workflow/security/risky-api.jpg" alt="Risky IPs World Map Widget" />
+
+### Viewing IP Security in Individual Requests
+
+To see detailed IP security information for a specific request:
+
+1. **Navigate to Requests**
+   
+   Go to the **Requests** section in your API dashboard.
+
+2. **Select a Request**
+   
+   Click on any request to open the detailed view.
+
+3. **Check Security Tab**
+   
+   In the request details, click on the **Security** tab to view IP reputation information.
+
+<ImageCard src="/workflow/security/ip-reputation.jpg" alt="Request Security Tab with IP Reputation Check" />
+
+The Security tab shows:
+- **IP Reputation Check**: Pass/Fail status with explanation
+- **Security Audit**: Donut chart showing 46% Failed, 54% Passed
+- **Threat Levels**: Breakdown by High, Medium, and Low Impact threats
+- **13 Security Checks**: Full list of OWASP API Security checks with status
+- **Detailed Explanations**: Click on any check to see what it evaluates
+
+The tooltip explains: "IP Reputation check evaluates the trustworthiness and reputation of an IP address based on its historical behavior and associations. It helps identify potential threats, such as spam or malicious activity, by assessing the IP's track record and reputation within the online community. Treblle uses it's own network alongside 3rd party services to check the reputation of your user's IP address."
+
+### Viewing User IP Information
+
+You can also view geographic information about request IPs in the **Info** tab:
+
+<ImageCard src="/workflow/security/ip-info.jpg" alt="User IP Information and Geographic Location Map" />
+
+**Info Tab Shows:**
+- **User IP**: Complete IP address of the requesting client (60.240.241.135)
+- **Location**: Full geographic location including city, state, and country (Brisbane, Queensland, Australia)
+- **Visual Map**: Interactive Google Maps widget showing the exact geographic origin of the request with a pin marker
+- **Device Type**: Desktop, Mobile, or other
+- **Browser/App**: Client application information
+- **Server Data**: Server location and configuration details
+
+This helps you:
+- Identify unusual geographic patterns
+- Detect requests from unexpected locations
+- Correlate IP reputation with geographic risk
+- Spot account compromise (same user from multiple distant locations)
+
+### Understanding IP Reputation
+
+**What is IP Reputation?**
+
+IP Reputation evaluates the trustworthiness and reputation of an IP address based on its historical behavior and associations. It helps identify potential threats, such as spam or malicious activity, by assessing the IP's track record and reputation within the online community.
+
+**How Treblle Checks IP Reputation:**
+
+Treblle uses **its own network alongside 3rd party services** to check the reputation of your user's IP addresses, providing comprehensive threat intelligence for every request.
+
+### Risk Assessment Factors
+
+The risk scoring considers multiple factors:
+- **Historical Behavior**: Past malicious activities associated with the IP
+- **Geographic Risk**: Location-based risk assessment
+- **Network Reputation**: Reputation of the hosting network or ISP
+- **Activity Patterns**: Unusual request patterns or behaviors
+- **Threat Intelligence**: Data from security feeds and databases
+
+<TipCard>
+**Whitelisting Strategy**: If you see legitimate traffic from VPNs/proxies (e.g., remote employees, partner APIs), create IP whitelist rules to exclude them from risky IP alerts while maintaining monitoring.
+</TipCard>
+
+### Blocking Risky IPs
+
+When you identify confirmed malicious IPs:
+
+**Option 1: Block at API Gateway Level**
+```javascript
+// Example: Express middleware to block risky IPs
+const riskyIPs = ['1.2.3.4', '5.6.7.8']; // From Treblle Risky IPs list
+
+app.use((req, res, next) => {
+  const clientIP = req.ip || req.connection.remoteAddress;
+  
+  if (riskyIPs.includes(clientIP)) {
+    return res.status(403).json({ 
+      error: 'Access denied',
+      message: 'Your IP has been flagged for suspicious activity'
+    });
+  }
+  
+  next();
+});
+```
+
+**Option 2: Block at Infrastructure Level**
+- **CloudFlare**: Add IP to blocked list in Firewall Rules
+- **AWS WAF**: Create IP set and block rule
+- **Nginx**: Add `deny` directive to configuration
+- **Cloud Load Balancer**: Configure IP deny list
+
+**Option 3: Rate Limit Instead of Block**
+- Reduce rate limits for risky IPs (e.g., 10 req/min instead of 100 req/min)
+- Require additional authentication (CAPTCHA, MFA)
+- Add request delays to slow down automated attacks
+
+<NoteCard>
+**Automation Opportunity**: Export risky IPs from Treblle API and automatically sync to your firewall/WAF every hour. This creates a dynamic blocklist that updates as new threats are identified.
+</NoteCard>
+
+---
+
+## Step 3: Set Up Spike Alerts
+
+Spike Alerts notify you immediately when unusual traffic patterns occur, enabling rapid response to attacks.
+
+### Navigate to Alerts Configuration
+
+1. Go to **My Alerts** in the left navigation bar (under the triangle icon)
+2. You'll see the Alert Settings page with two tabs: **Custom alerts** and **Saved searches**
+3. Click **+ New Alert** to create a new alert
+
+<ImageCard src="/workflow/security/alerts.jpg" alt="Alert Settings Page - Create Custom Alert" />
+
+### Configure Security-Focused Spike Alerts
+
+When you click **+ New Alert**, a configuration dialog appears:
+
+<ImageCard src="/workflow/security/spike-alerts.jpg" alt="Spike Alert Configuration Dialog" />
+
+The alert configuration includes:
+- **Name**: Descriptive name for the alert (e.g., "DDoS Alerts")
+- **Type**: "Spike" for traffic spike detection
+- **From saved search**: Select a pre-configured saved search to monitor
+- **Channel**: Choose notification method (Email, Slack, etc.)
+- **Frequency**: How often to check (15 mins recommended)
+- **People**: Who should receive the alert notifications
+
+Create alerts for critical security events:
+
+**Alert 1: Failed Authentication Spike**
+- **Metric**: Failed authentication requests (401/403 responses on auth endpoints)
+- **Threshold**: 50 failures in 5 minutes
+- **Notification**: Slack, Email, PagerDuty (critical)
+- **Use Case**: Detect brute force and credential stuffing attacks
+
+**Alert 2: Risky IP Request Spike**
+- **Metric**: Requests from risky IPs
+- **Threshold**: 100 requests in 10 minutes from same IP
+- **Notification**: Slack, Email
+- **Use Case**: Identify scanning and reconnaissance activity
+
+**Alert 3: Error Rate Spike**
+- **Metric**: 4xx/5xx error responses
+- **Threshold**: 20% error rate (200+ errors in 5 minutes)
+- **Notification**: Email, Slack
+- **Use Case**: Detect attacks causing errors (injection, DDoS, exploitation attempts)
+
+**Alert 4: Unusual Endpoint Access**
+- **Metric**: Requests to admin/config endpoints
+- **Threshold**: 10+ requests to /admin/* from non-admin IPs
+- **Notification**: Email, Slack, PagerDuty (high priority)
+- **Use Case**: Detect privilege escalation attempts
+
+**Alert 5: Geographic Anomaly**
+- **Metric**: Requests from unexpected countries
+- **Threshold**: 50+ requests from countries you don't serve
+- **Notification**: Email
+- **Use Case**: Identify distributed attacks and bot networks
+
+### Alert Configuration Best Practices
+
+<Checklist>
+    <Checklist.item id="test-alerts">**Test alerts** before deploying to production - send test notifications to verify delivery</Checklist.item>
+    <Checklist.item id="escalation">**Set up escalation paths** - start with email, escalate to PagerDuty for critical threats</Checklist.item>
+    <Checklist.item id="business-hours">**Adjust thresholds for business hours** - higher during peak traffic, lower during off-hours</Checklist.item>
+    <Checklist.item id="alert-fatigue">**Avoid alert fatigue** - tune thresholds to minimize false positives while catching real threats</Checklist.item>
+    <Checklist.item id="documentation">**Document response procedures** - what should the on-call engineer do when alerted?</Checklist.item>
+</Checklist>
+
+### Alert Response Workflow
+
+When you receive a spike alert via email, it will look like this:
+
+<ImageCard src="/workflow/security/email-notification.jpg" alt="Spike Alert Email Notification" />
+
+The email notification shows:
+- **Alert Title**: "New Alert on your API"
+- **Details**: "Unusual traffic detected on API 'Platform': 615 requests in 15 minutes (2720.83% above 7-day average)"
+- **Action Button**: "View API" to immediately investigate in Treblle dashboard
+
+---
+
+## Step 4: Create Custom Security Alerts
+
+Beyond spike alerts, create custom alerts for specific security conditions and attack patterns.
+
+### Navigate to Custom Alerts
+
+1. Go to **My Alerts** in the left navigation
+2. Click **+ New Alert**
+3. Choose **Type**: "Saved Search" for custom conditions
+4. Define custom conditions based on saved searches
+
+<ImageCard src="/workflow/security/custom-alert.jpg" alt="Custom Alert Configuration Dialog" />
+
+The custom alert dialog allows you to:
+- **Name**: Give your alert a descriptive name (e.g., "High alert")
+- **Type**: Choose "Saved Search" to alert on specific search criteria
+- **From saved search**: Select which saved search triggers the alert (e.g., "High threat level requests")
+- **Channel**: Email, Slack, or other notification channels
+- **Frequency**: How often to check (15 mins minimum)
+- **People**: Team members to notify (e.g., "Vedran Cindric, Scott Ehrlich")
+
+---
+
+## Step 5: Enable DDoS Monitoring
+
+Distributed Denial of Service (DDoS) attacks can overwhelm your APIs. Enable monitoring to detect and mitigate them early.
+
+### Enable DDoS Monitoring Widget
+
+1. **Navigate to API Dashboard**
+   
+   Go to your individual API dashboard for the API you want to monitor.
+
+2. **Open Customize Dashboard**
+   
+   Click the **Customize Dashboard** button (grid icon with four squares) on the right side of the dashboard.
+
+<ImageCard src="/workflow/security/ddos-widget.jpg" alt="Enable DDoS Monitoring Widget in Customize Dashboard" />
+
+3. **Enable DDoS Widget**
+
+   In the customize menu, find and enable the **"Denial of Service"** widget. The description reads: "Monitor your APIs threat level based on real-time traffic."
+
+4. **Save Changes**
+   
+   Click **Save Changes** to add the DDoS monitoring widget to your dashboard.
+
+### Understanding DDoS Detection
+
+Once enabled, the DDoS Threat Level widget appears on your dashboard:
+
+<ImageCard src="/workflow/security/ddos.jpg" alt="DDoS Threat Level Widget on Dashboard" />
+
+The widget shows:
+- **Current Status**: "None" (with green indicator when no threat)
+- **Percentage Change**: "+0.06% vs avg" showing comparison to average traffic
+- **Trend Indicator**: Visual indicator of threat level changes
+
+Treblle's DDoS detection monitors traffic patterns in 15-minute intervals and compares them to daily averages to identify potential attacks.
+
+**How It Works:**
+- **15-Minute Intervals**: Analyzes traffic in 15-minute windows
+- **Daily Averages**: Uses historical data to establish baseline
+- **Percentage Increases**: Determines how much current traffic exceeds normal
+- **Threat Flagging**: Automatically categorizes threat levels
+
+---
+
+## Complete Security Monitoring Workflow
+
+Here's how all the security features work together for comprehensive protection:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>1. Continuous Monitoring</InfoCard.title>
+        <InfoCard.description>
+            Security Dashboard displays real-time threat status across all workspace APIs. Risky IPs and DDoS widgets provide instant visibility into attack patterns.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>2. Threat Detection</InfoCard.title>
+        <InfoCard.description>
+            API Security Checks continuously evaluate requests against OWASP API Security Top 10. Risky IPs are automatically flagged based on threat intelligence feeds.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>3. Real-Time Alerting</InfoCard.title>
+        <InfoCard.description>
+            Spike Alerts and Custom Alerts fire when suspicious patterns detected. Notifications sent to Slack, email, or PagerDuty based on severity. Security team responds immediately.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>4. Investigation & Response</InfoCard.title>
+        <InfoCard.description>
+            Team drills down into specific requests, analyzes attack patterns, correlates across endpoints. Evidence collected for blocking decisions and incident reports.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>5. Mitigation</InfoCard.title>
+        <InfoCard.description>
+            IPs blocked at WAF, rate limits adjusted, vulnerable endpoints patched. Changes deployed while monitoring effectiveness in real-time via Security Dashboard.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>6. Continuous Improvement</InfoCard.title>
+        <InfoCard.description>
+            Weekly security reviews analyze trends, update alert thresholds, refine detection rules. Security posture improves iteratively based on real attack data.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+---
+
+## Next Steps
+
+Now that you've configured comprehensive API security monitoring:
+
+- **Create runbooks**: Document response procedures for each alert type
+- **Train your team**: Ensure all security personnel know how to respond to alerts
+- **Integrate with SOC**: Connect Treblle to your Security Operations Center workflows
+- **Schedule drills**: Conduct security incident response exercises quarterly
+- **Automate responses**: Build automation for common mitigation actions
+
+---
+
+Your API security program is now equipped to detect, respond to, and prevent attacks before they impact your users or business.
+
+<PaginationCards />
