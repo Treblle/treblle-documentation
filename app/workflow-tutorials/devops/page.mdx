@@ -1,0 +1,718 @@
+---
+title: "Tracking Microservices Performance"
+metaTitle: "DevOps Engineer Workflow - Monitor Distributed Systems with Treblle"
+description: "Learn how to use Trace, API Dashboard, Metadata, and Requests to track performance across microservices, correlate distributed requests, and optimize system-wide latency."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { TipCard } from "~components/cards/tip";
+import { NoteCard } from "~components/cards/note";
+import { CautionCard } from "~components/cards/caution";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { Checklist } from "~components/sections/checklist";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Tracking Microservices Performance
+
+**Scenario**: You manage a distributed microservices architecture and need to track requests across multiple services, identify performance bottlenecks, correlate failures, and maintain system health.
+
+**Features Used**: 
+- Trace (Request correlation across services)
+- API Dashboard (Performance metrics)
+- Metadata (Business context)
+- Requests (Detailed request analysis)
+
+---
+
+## Overview
+
+In microservices architectures, a single user action often triggers requests across multiple services. Understanding the complete flow and identifying where issues occur requires:
+
+1. **Request Correlation**: Track a request as it flows through multiple services
+2. **Performance Visibility**: Monitor latency, errors, and throughput across all services
+3. **Business Context**: Understand which customers, features, or regions are affected
+4. **Root Cause Analysis**: Quickly identify which service in the chain is causing problems
+
+This workflow demonstrates how to use Treblle's tracing and monitoring features to gain complete visibility into your distributed system.
+
+---
+
+## Step 1: Implement Trace ID Propagation
+
+To track requests across microservices, you need to propagate a trace ID through your entire request chain.
+
+### Understanding Trace IDs
+
+A **trace ID** is a unique identifier that follows a request through your entire system:
+- User makes request to API Gateway (trace ID created)
+- API Gateway calls Auth Service (trace ID passed)
+- Auth Service calls User Service (trace ID passed)
+- User Service calls Database (trace ID logged)
+
+All these requests share the same trace ID, allowing you to see the complete picture.
+
+### Implementation Methods
+
+Treblle supports trace ID propagation through the `treblle-metadata` header:
+
+<NoteCard>
+**Recommended Approach**: Include `trace-id` inside the `treblle-metadata` header as a flat key-value pair. This approach provides the best integration with Treblle's Trace feature.
+</NoteCard>
+
+#### Method 1: Using treblle-metadata Header (Recommended)
+
+**API Gateway (Request Entry Point)**
+
+```javascript
+// Node.js / Express - Generate and propagate trace ID
+const { v4: uuidv4 } = require('uuid');
+
+app.use((req, res, next) => {
+  // Generate trace ID if not present
+  const traceId = req.headers['x-trace-id'] || uuidv4();
+  
+  // Add to treblle-metadata for Treblle tracking
+  req.headers['treblle-metadata'] = JSON.stringify({
+    'trace-id': traceId,
+    'service': 'api-gateway',
+    'environment': process.env.NODE_ENV
+  });
+  
+  // Also pass as standard header to downstream services
+  req.headers['x-trace-id'] = traceId;
+  
+  next();
+});
+```
+
+**Downstream Microservices**
+
+```javascript
+// Auth Service, User Service, etc.
+app.use((req, res, next) => {
+  // Extract trace ID from incoming request
+  const traceId = req.headers['x-trace-id'];
+  
+  // Propagate in treblle-metadata for this service
+  req.headers['treblle-metadata'] = JSON.stringify({
+    'trace-id': traceId,
+    'service': 'auth-service',
+    'environment': process.env.NODE_ENV
+  });
+  
+  next();
+});
+
+// When making calls to other services
+async function callUserService(userId) {
+  const traceId = req.headers['x-trace-id'];
+  
+  const response = await axios.get(`https://user-service/users/${userId}`, {
+    headers: {
+      'x-trace-id': traceId,
+      'treblle-metadata': JSON.stringify({
+        'trace-id': traceId,
+        'service': 'user-service',
+        'caller': 'auth-service'
+      })
+    }
+  });
+  
+  return response.data;
+}
+```
+
+#### Method 2: Using Alternative Tracing Headers
+
+Treblle also supports the `treblle-tag-id` header for tracing:
+
+```javascript
+// Alternative approach
+req.headers['treblle-tag-id'] = traceId;
+```
+
+<CautionCard>
+**Important**: If both `treblle-metadata` with `trace-id` and `treblle-tag-id` are present, the `trace-id` in `treblle-metadata` takes precedence. Choose one approach and use it consistently across all services.
+</CautionCard>
+
+### Python Implementation
+
+```python
+# Flask - API Gateway
+import uuid
+import json
+from flask import request
+
+@app.before_request
+def add_trace_id():
+    trace_id = request.headers.get('x-trace-id', str(uuid.uuid4()))
+    
+    request.environ['treblle-metadata'] = json.dumps({
+        'trace-id': trace_id,
+        'service': 'api-gateway',
+        'environment': os.getenv('ENVIRONMENT')
+    })
+    
+    request.environ['x-trace-id'] = trace_id
+
+# Downstream service call
+def call_downstream_service(endpoint):
+    trace_id = request.headers.get('x-trace-id')
+    
+    response = requests.get(
+        f'https://downstream-service{endpoint}',
+        headers={
+            'x-trace-id': trace_id,
+            'treblle-metadata': json.dumps({
+                'trace-id': trace_id,
+                'service': 'downstream-service',
+                'caller': 'api-gateway'
+            })
+        }
+    )
+    return response.json()
+```
+
+### PHP Implementation
+
+```php
+// Laravel - Middleware
+namespace App\Http\Middleware;
+
+class TraceIdMiddleware
+{
+    public function handle($request, Closure $next)
+    {
+        $traceId = $request->header('x-trace-id', Str::uuid()->toString());
+        
+        $request->headers->set('treblle-metadata', json_encode([
+            'trace-id' => $traceId,
+            'service' => 'api-gateway',
+            'environment' => env('APP_ENV')
+        ]));
+        
+        $request->headers->set('x-trace-id', $traceId);
+        
+        return $next($request);
+    }
+}
+
+// Downstream service call
+use Illuminate\Support\Facades\Http;
+
+function callDownstreamService($endpoint) {
+    $traceId = request()->header('x-trace-id');
+    
+    $response = Http::withHeaders([
+        'x-trace-id' => $traceId,
+        'treblle-metadata' => json_encode([
+            'trace-id' => $traceId,
+            'service' => 'user-service',
+            'caller' => 'api-gateway'
+        ])
+    ])->get("https://user-service{$endpoint}");
+    
+    return $response->json();
+}
+```
+
+### Verification Checklist
+
+<Checklist>
+    <Checklist.item id="trace-generation">**Trace ID Generation** - Generate unique trace ID at entry point (API Gateway, Load Balancer)</Checklist.item>
+    <Checklist.item id="header-propagation">**Header Propagation** - Pass trace ID to all downstream services via headers</Checklist.item>
+    <Checklist.item id="metadata-format">**Metadata Format** - Use JSON stringified object with `trace-id` as key in `treblle-metadata`</Checklist.item>
+    <Checklist.item id="service-identification">**Service Identification** - Include service name in metadata for each service</Checklist.item>
+    <Checklist.item id="logging">**Logging Integration** - Log trace ID in application logs for correlation</Checklist.item>
+</Checklist>
+
+<TipCard>
+**Testing Tip**: Use `curl` to test trace ID propagation: `curl -H "x-trace-id: test-123" https://your-api.com/endpoint` and verify the trace ID appears in Treblle for all services involved in handling the request.
+</TipCard>
+
+---
+
+## Step 2: View Complete Request Traces
+
+Once trace ID propagation is implemented, you can view the complete flow of requests through your system.
+
+### Navigate to Trace Dashboard
+
+1. Go to **Trace** in the left navigation bar
+2. You'll see a list of all traces with their associated requests
+3. Switch between **List** and **Table** views
+
+<ImageCard src="/workflow/devops/list-trace-view.jpg" alt="Trace Dashboard - List View" />
+
+The Trace dashboard in List view displays each trace as a card showing:
+- **Trace ID**: Unique identifier (e.g., `b52a4bc0-210a-4501-9ab3-7c50236f7eaa`)
+- **Duration**: Total time (e.g., `0ms`, `1000ms`)
+- **Status**: Success (green indicator) or Failed
+- **Requests**: Number of API calls in the trace (e.g., `2`)
+- **APIs**: Number of unique APIs involved (e.g., `2`)
+- **Parent API**: The first API called (e.g., "Platform API (Forge)", "Identity API")
+- **Timestamp**: When the trace was created
+
+### Table View
+
+<ImageCard src="/workflow/devops/table-trace-view.jpg" alt="Trace Dashboard - Table View" />
+
+The Table view provides a compact, tabular format showing:
+- **Trace Name**: The trace ID
+- **Requests #**: Number of requests
+- **Api #**: Number of APIs
+- **Parent Api Name**: First API in the chain
+- **Environment**: Environment indicator (pink "P" badge)
+- **Status**: Pass/Fail indicator
+- **Duration**: Time taken
+- **Time**: Timestamp
+
+### Filtering Traces
+
+Use filters to find specific traces:
+
+<ImageCard src="/workflow/devops/filter.jpg" alt="Trace Filters" />
+
+**Available Filters:**
+
+**Status**:
+- Filter by Success or Failed traces
+- Quickly isolate problematic request flows
+
+**Duration**:
+<ImageCard src="/workflow/devops/duration-filter.jpg" alt="Duration Filter Options" />
+
+Filter by time ranges:
+- 0ms - 200ms (very fast)
+- 200ms - 500ms (fast)
+- 500ms - 1s (moderate)
+- 1s - 2s (slow)
+- 2s - 3s (very slow)
+- 3s - 5s (extremely slow)
+
+**APIs**:
+- Filter traces involving specific microservices
+- Search for particular APIs in the trace chain
+- Analyze cross-service dependencies
+
+<NoteCard>
+**Performance Baseline**: After implementing tracing, monitor for a week to establish baseline performance. This helps you identify anomalies when they occur.
+</NoteCard>
+
+---
+
+## Step 3: View Metadata in Requests
+
+Deep dive into specific requests to see the business context and trace information.
+
+### Navigate to Request Details
+
+1. Go to **Requests** in the left navigation
+2. Click on any request to open detailed view
+3. Click on the **Metadata** tab
+
+<ImageCard src="/workflow/devops/metadata-tab.jpg" alt="Treblle Metadata Header in General Tab" />
+
+The Metadata tab displays all custom metadata fields you've added:
+- **Customer**: Shows the `user-id` field (e.g., "I5paNJD0miydDAJ")
+- **Trace ID**: Displays the trace ID for correlation (e.g., "5adf904e-3e14-4571-8866-7b76494790da")
+- **Custom Fields**: All other metadata like `company_SAqzO`, `treblle-username`, `x-customer-id`
+
+### Viewing Metadata in Headers
+
+You can also see the raw `treblle-metadata` header:
+
+1. Click on any request
+2. Go to the **General** tab
+3. Click on **Headers** sub-tab
+
+The `treblle-metadata` header (line 11 in the screenshot) shows the escaped JSON string containing:
+```json
+{
+  "tag-id": "5adf904e-3e14-4571-8866-7b76494790da",
+  ...other metadata fields
+}
+```
+
+### Understanding Metadata Structure
+
+Based on the documentation, metadata must be:
+- **Flat key-value pairs**: No nested objects
+- **JSON stringified**: Use `JSON.stringify()` when sending
+- **Maximum 2000 characters**: Total size limit
+
+**Special Fields:**
+- `trace-id` or `tag-id`: Used for grouping requests in Trace section
+- `user-id`: Links to Customer Dashboard
+- All other fields: Available for filtering and custom analysis
+
+---
+
+## Step 4: Add Business Context with Metadata
+
+Metadata enriches traces with business information, making it easier to understand impact and prioritize fixes.
+
+### Implementing Metadata
+
+Beyond trace IDs, add contextual information to every request:
+
+```javascript
+// Example: E-commerce API
+req.headers['treblle-metadata'] = JSON.stringify({
+  'trace-id': traceId,
+  'customer-id': user.customerId,
+  'customer-tier': user.tier, // 'free', 'pro', 'enterprise'
+  'feature': 'checkout',
+  'region': 'us-east-1',
+  'environment': 'production',
+  'version': 'v2.1.0',
+  'session-id': sessionId
+});
+```
+
+```python
+# Example: SaaS Platform
+request.environ['treblle-metadata'] = json.dumps({
+    'trace-id': trace_id,
+    'organization-id': org.id,
+    'plan': org.subscription_plan,
+    'user-role': current_user.role,
+    'feature-flag': 'new-dashboard-v2',
+    'region': get_region(),
+    'tenant': org.tenant_id
+})
+```
+
+### Useful Metadata Fields for DevOps
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Customer Identification</InfoCard.title>
+        <InfoCard.description>
+            `customer-id`, `organization-id`, `tenant-id` - Track which customers are experiencing issues. Prioritize fixes for high-value customers.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Deployment Context</InfoCard.title>
+        <InfoCard.description>
+            `version`, `build`, `commit-sha` - Correlate performance issues with specific deployments. Quickly identify if a new release introduced problems.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Infrastructure Details</InfoCard.title>
+        <InfoCard.description>
+            `region`, `availability-zone`, `container-id`, `instance-id` - Identify if issues are isolated to specific infrastructure. Useful for cloud provider outages.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Feature Flags</InfoCard.title>
+        <InfoCard.description>
+            `feature-flag-name`, `experiment-id`, `variant` - Track performance of new features behind flags. Rollback if new feature causes degradation.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+### Viewing Metadata in Traces
+
+Once metadata is implemented, you can:
+
+1. **Filter traces by metadata**: Find all traces for a specific customer or feature
+2. **Group by metadata values**: See performance across different customer tiers
+3. **Correlate issues**: Identify if problems affect specific regions or versions
+
+<ImageCard src="/workflow/devops/trace-with-metadata.jpg" alt="Trace View Showing Metadata Context" />
+
+<CautionCard>
+**PII Warning**: Never include sensitive personal information (passwords, credit card numbers, SSN) in metadata. Use anonymized IDs and aggregate categories only.
+</CautionCard>
+
+---
+
+## Step 4: Monitor API Performance Dashboard
+
+The API Dashboard provides high-level performance metrics across all services.
+
+### Navigate to API Dashboard
+
+1. Click on **APIs** in the left navigation
+2. Select the API you want to monitor
+3. View the **Dashboard** with performance widgets
+
+<ImageCard src="/workflow/devops/api-dashboard.jpg" alt="API Dashboard with Performance Metrics and Widgets" />
+
+The API Dashboard shows multiple widgets:
+- **DDoS Threat Level**: None (+0.97% vs avg)
+- **Missing Security Headers**: Bar chart showing security header compliance
+- **SQL Injection**: Donut chart (0% Failed, 100% Pass)
+- **API compliance**: 62% compliance score
+- **New Requests**: 893.0K total requests
+- **New Endpoints**: 8 endpoints
+- **New Customers**: 20 customers
+- **Governance Score**: D (65)
+- **Zombie Endpoints**: 0
+- **CO2 Emissions**: 935.36 kg
+- **Recent requests** table with Method, Response, Name, Load time, Threat, and Time columns
+- **New Problems**: 1 problem detected
+
+### Key Performance Metrics
+
+**Request Volume**:
+- Requests per second (RPS)
+- Requests per minute (RPM)
+- Daily/weekly trends
+- Peak traffic times
+
+**Latency Metrics**:
+- Average response time
+- P50 (median), P95, P99 latency
+- Slowest endpoints
+- Latency distribution graph
+
+**Error Rates**:
+- 4xx errors (client errors)
+- 5xx errors (server errors)
+- Error rate percentage
+- Error trends over time
+
+**Success Rate**:
+- Percentage of successful requests (2xx responses)
+- Availability (uptime based on successful responses)
+- Success rate by endpoint
+
+### Setting Up Dashboard Widgets
+
+Customize your dashboard to focus on critical metrics:
+
+1. Click **Customize Dashboard** (grid icon)
+2. Enable relevant widgets for your monitoring needs
+3. Toggle individual widgets on/off
+4. Click **Save Changes**
+
+<ImageCard src="/workflow/devops/widget-1.jpg" alt="Customize Dashboard Widgets - Part 1" />
+
+**Available Dashboard Widgets (Part 1):**
+- **Recent Requests**: List of recent requests made to your API
+- **Top Cities**: List of top cities from which users access your API
+- **Top Countries**: List of top countries from which users access your API
+- **Requests Per Day**: Overview of request volume per time period
+- **Recent Requests Map**: Recent requests on a live map
+- **Top Devices**: List of top devices used to access your API
+- **Client App Versions**: Which versions of apps access your API
+- **Average Load Time**: The average load time on your API
+- **Average Response Size**: The average response size on your API
+
+<ImageCard src="/workflow/devops/widget-2.jpg" alt="Customize Dashboard Widgets - Part 2" />
+
+**Available Dashboard Widgets (Part 2):**
+- **Performance Per Day**: Overview of request load time per time period
+- **Top Customers**: List of top customers accessing your API
+- **Recent Questions**: List of recent questions people asked Alfred AI
+- **Top Questions**: List of top questions people asked Alfred AI
+- **Problems Heartbeat**: Average health of your API
+- **Total Requests**: Number of requests in your API in the selected period
+- **Total Endpoints**: Number of endpoints in your API in the selected period
+- **Compliance**: Average compliance percentage of your API
+- **Governance**: Average Governance score of your API
+- **Total Customers**: Number of customers in your API in the selected period
+
+<ImageCard src="/workflow/devops/widget-3.jpg" alt="Customize Dashboard Widgets - Part 3" />
+
+**Available Dashboard Widgets (Part 3):**
+- **Co2 Emissions**: Gain insight into the CO2 emissions generated by your APIs
+- **Security Headers**: Percentage of requests that failed security header check
+- **Denial Of Service**: Monitor your APIs threat level based on real-time traffic
+- **SQL Injection**: Percentage of requests that failed or passed SQL injection check
+- **Zombie Endpoints**: Number of endpoints with no activity in last 30 days
+
+**Recommended Widgets for DevOps:**
+- **Total Requests**: Track request volume changes
+- **Average Load Time**: Monitor average latency trends
+- **Performance Per Day**: See performance trends over time
+- **Recent Requests**: Quick access to latest activity
+- **Problems Heartbeat**: Overall API health status
+
+---
+
+## Step 5: Filter and Analyze Requests
+
+When performance issues occur, use the Requests section to drill down into specific requests.
+
+### Navigate to Requests
+
+1. Click **Requests** in the left navigation
+2. Use the **Filter** button to narrow down to problematic requests
+
+<ImageCard src="/workflow/devops/request-filter.jpg" alt="Requests Filter Panel" />
+
+### Available Filters
+
+The filter panel provides multiple options:
+
+**REQUEST Filters:**
+- **Method**: GET, POST, PUT, DELETE, PATCH, etc.
+- **Response code**: Filter by status codes (200, 404, 500, etc.)
+- **Endpoints**: Search for specific endpoints
+- **Request Parameters**: Filter by query parameters
+- **Has Problems**: Filter requests with detected issues (Any dropdown)
+
+**METADATA Filters:**
+- **Customer**: Search for specific customer IDs
+- **Trace ID**: Enter trace ID to see all requests in a trace
+- **IP Address**: Filter by client IP
+- **Parameter/Value**: Custom parameter filtering
+
+### Saved Searches
+
+Click **Save search** to save frequently used filter combinations for quick access later.
+
+<TipCard>
+**Pro Tip**: Create saved searches for common investigation patterns (e.g., "Slow Requests", "Customer Errors"). This speeds up recurring troubleshooting tasks.
+</TipCard>
+
+### Analyzing Request Details
+
+<ImageCard src="/workflow/devops/request-all-tabs.png" alt="Trace Dashboard - List View" />
+
+Click on any request to see complete details across multiple tabs:
+
+**General Tab**:
+- Request body, headers (including `treblle-metadata`), and response data
+- HTTP method, path, status code
+- Request/response body content
+
+**Info Tab**:
+- User data (IP, location, device, AI Agent detection)
+- Server data (timezone, OS, software)
+- Geographic map of request origin
+
+**Security Tab**:
+- 13 OWASP security checks
+- Threat level assessment
+- IP reputation analysis
+
+**API Compliance Tab**:
+- Compliance standards validation
+- API governance metrics
+
+**Metadata Tab**:
+- All custom metadata fields
+- Customer ID
+- Trace ID for correlation
+- Business context (company, environment, custom fields)
+
+<NoteCard>
+**Complete Visibility**: The combination of trace ID in metadata, request details, and performance metrics gives you end-to-end visibility into your distributed system's behavior.
+</NoteCard>
+
+---
+
+## Complete DevOps Monitoring Workflow
+
+Here's how all the features work together for comprehensive monitoring:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>1. Proactive Monitoring</InfoCard.title>
+        <InfoCard.description>
+            API Dashboard shows overall system health. DevOps team monitors request volume, latency trends, and error rates throughout the day.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>2. Issue Detection</InfoCard.title>
+        <InfoCard.description>
+            Spike in latency or errors detected on dashboard. Team receives alert and begins investigation immediately.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>3. Trace Analysis</InfoCard.title>
+        <InfoCard.description>
+            Navigate to Trace dashboard, filter for slow/failed requests during incident window. Identify which service in the chain is causing the problem.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>4. Context Understanding</InfoCard.title>
+        <InfoCard.description>
+            Review metadata to understand impact. Is it affecting all customers or just one tier? Specific region? New deployment version?
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>5. Deep Dive Investigation</InfoCard.title>
+        <InfoCard.description>
+            Click into specific requests, review request/response details, analyze timing breakdown. Identify root cause (database query, external API, resource exhaustion).
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>6. Resolution & Validation</InfoCard.title>
+        <InfoCard.description>
+            Deploy fix, monitor dashboard and traces to confirm issue resolved. Performance returns to baseline, error rate drops to normal.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+---
+
+## Troubleshooting Common Issues
+
+### Issue 1: Traces Not Appearing
+
+**Problem**: Implemented trace ID propagation but not seeing traces in Treblle
+
+**Checklist**:
+<Checklist>
+    <Checklist.item id="header-format">**Check header format** - Ensure `treblle-metadata` contains JSON with `trace-id` key</Checklist.item>
+    <Checklist.item id="all-services">**Verify all services** - Confirm every service in chain propagates the trace ID</Checklist.item>
+    <Checklist.item id="treblle-sdk">**SDK version** - Update to latest Treblle SDK version in all services</Checklist.item>
+    <Checklist.item id="request-logs">**Check request logs** - Verify headers are actually being sent</Checklist.item>
+</Checklist>
+
+### Issue 2: Incomplete Traces
+
+**Problem**: Traces show some services but missing others
+
+**Causes**:
+- Service not instrumented with Treblle
+- Trace ID not propagated to that service
+- Service using different header name
+
+**Solution**:
+1. Verify Treblle SDK installed on missing service
+2. Log headers at service entry point
+3. Confirm trace ID matches across all services
+
+### Issue 3: Performance Overhead Concerns
+
+**Problem**: Worried about Treblle SDK adding latency
+
+**Reality**:
+- SDK overhead: < 5ms per request
+- Async data transmission (non-blocking)
+- Sampling available for high-traffic APIs
+
+**Configuration**:
+```javascript
+// Sample 10% of requests in production
+treblle.init({
+  apiKey: process.env.TREBLLE_API_KEY,
+  projectId: process.env.TREBLLE_PROJECT_ID,
+  sampling: process.env.NODE_ENV === 'production' ? 0.1 : 1.0
+});
+```
+
+---
+
+## Next Steps
+
+Now that you've implemented comprehensive microservices monitoring:
+
+- **Create runbooks**: Document common trace patterns and their solutions
+- **Train your team**: Ensure all engineers know how to read traces
+- **Set up dashboards**: Create team-specific views (frontend, backend, infrastructure)
+- **Automate responses**: Build automation for common issues (auto-scaling, circuit breakers)
+- **Regular reviews**: Weekly performance review meetings using Treblle data
+
+---
+
+Your microservices architecture is now fully observable, enabling rapid troubleshooting and continuous performance optimization.
+
+<PaginationCards />
