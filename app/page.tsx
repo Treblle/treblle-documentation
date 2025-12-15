@@ -178,7 +178,7 @@ export default function Home() {
                             description="Set up your workspace in just a few clicks."
                         />
                     </Link>
-                    <Link href="/integrate-treblle/integrations" className={landingPageLink}>
+                    <Link href="/integrate-treblle/treblle-integrations" className={landingPageLink}>
                         <LandingPageCards
                             icon={
                                 <SquareCode
