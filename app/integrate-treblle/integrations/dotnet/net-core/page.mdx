@@ -9,6 +9,7 @@ import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { InfoTable } from "~components/tables/info-table";
+import { CautionCard } from "~components/cards/caution";
 
 # Treblle with .NET Core
 
@@ -173,6 +174,69 @@ builder.Services.AddTreblle(options =>
 var app = builder.Build();
 app.UseTreblle();
 ```
+
+## Exception Handling Configuration
+
+The Treblle .NET Core SDK includes built-in exception handling capabilities. As of v2.0.4, the `useExceptionHandler` parameter is enabled by default and helps capture API errors without exposing sensitive information in response bodies.
+
+### Usage
+
+```csharp
+// Import the Treblle SDK
+using Treblle.Net.Core;
+
+// Register Treblle Services
+builder.Services.AddTreblle();
+
+// Build your application
+var app = builder.Build();
+
+// Enable the Treblle Middleware with exception handler (enabled by default in v2.0.4+)
+app.UseTreblle();
+
+// Or explicitly disable if needed
+app.UseTreblle(useExceptionHandler: false);
+```
+
+### Configuration Options
+
+The `useExceptionHandler` parameter controls whether Treblle should use its built-in exception handling middleware:
+
+- **`true` (default in v2.0.4+)**: Enables automatic exception capture and error tracking
+- **`false`**: Disables the exception handler if you're using a custom error handling solution
+
+### Example with Exception Handling
+
+```csharp
+// Import the Treblle SDK
+using Treblle.Net.Core;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Register Treblle Services
+builder.Services.AddTreblle();
+
+// Build your application
+var app = builder.Build();
+
+// Enable the Treblle Middleware (useExceptionHandler is true by default)
+app.UseTreblle();
+
+app.MapControllers();
+app.Run();
+```
+
+### What It Does
+
+When `useExceptionHandler` is enabled:
+- Captures exceptions thrown by your API endpoints
+- Logs error details to Treblle for monitoring and debugging
+- Prevents sensitive information from being exposed in error responses
+- Records 500-level errors with proper error tracking
+
+### Note
+
+In v2.0.4 and later, the duplicate request logging issue that occurred when exceptions were thrown has been resolved. The exception handler now correctly tracks errors without creating duplicate entries in your Treblle dashboard.
 
 <TipCard>
 If you have problems of any kind, feel free to reach out via email support@treblle.com and we'll do our best to help you out.
