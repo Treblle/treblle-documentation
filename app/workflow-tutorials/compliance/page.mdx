@@ -1,0 +1,775 @@
+---
+title: "Monitoring API Compliance"
+metaTitle: "Compliance Officer Workflow - Monitor API Compliance with Treblle"
+description: "Learn how to monitor API compliance with GDPR, CCPA, HIPAA, and PCI DSS using Treblle's compliance dashboard, review security checks, and track governance scores."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { TipCard } from "~components/cards/tip";
+import { NoteCard } from "~components/cards/note";
+import { CautionCard } from "~components/cards/caution";
+import { InfoCards } from "~components/cards/info-cards";
+import { InfoCard } from "~components/cards/info-card";
+import { Checklist } from "~components/sections/checklist";
+import { InfoTable } from "~components/tables/info-table";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Monitoring API Compliance
+
+**Scenario**: You need to monitor API compliance with data protection regulations (GDPR, HIPAA, PCI DSS, CCPA), review security posture, track governance scores, and ensure sensitive data is properly masked.
+
+**Features Used**: 
+- API Compliance
+- Data Masking
+- API Security
+- API Governance
+
+---
+
+## Overview
+
+As a compliance officer, you need to:
+
+1. **Monitor Compliance Status**: Track API compliance with GDPR, CCPA, PCI DSS, and HIPAA
+2. **Review Non-Compliant Requests**: Identify and analyze requests that fail compliance checks
+3. **Track Security Checks**: Monitor the 13 security checks Treblle performs on every request
+4. **Assess Governance Quality**: Review API governance scores and categories
+5. **Ensure Data Masking**: Verify sensitive fields are masked at the SDK level
+
+This workflow demonstrates how to use Treblle's compliance monitoring features to track regulatory compliance.
+
+---
+
+## Step 1: Check API Compliance Dashboard
+
+The API Compliance dashboard provides an overview of your API's compliance status.
+
+### Navigate to Compliance Dashboard
+
+1. After logging into Treblle, go to the **Dashboard**
+2. The **API Compliance percentage** shows your overall compliance status
+
+<ImageCard src="/workflow/compliance/api-compliance-tab.jpg" alt="API Compliance Widget on Dashboard" />
+
+The dashboard shows:
+- **API compliance** widget with percentage (e.g., 62%)
+
+### Access Detailed Compliance View
+
+1. Click the **Compliance** tab in the left-hand menu
+2. You'll see the compliance dashboard with two view options:
+   - **Calendar View**: Daily compliance tracking
+   - **Graph View**: Trend analysis over time
+
+<ImageCard src="/workflow/compliance/compliance.jpg" alt="Compliance Dashboard Overview" />
+
+The compliance overview displays:
+- **Overall API Compliance**: Circular gauge showing percentage (97.62% in the example)
+- **Fail** indicator if below threshold
+- **View requests** link to see non-compliant requests
+
+### Understanding Compliance Metrics
+
+The compliance percentage is broken down by regulation:
+- **GDPR**: 90.49% (Fail indicator) - Personal data handling checks
+- **PCI**: 100% (Pass) - Payment card data security
+- **CCPA**: 100% (Pass) - California consumer privacy
+- **HIPAA**: 100% (Pass) - Health information security
+
+<NoteCard>
+**Baseline Tracking**: Monitor your compliance percentage daily to identify trends and catch issues early. A sudden drop in compliance indicates new problems that need investigation.
+</NoteCard>
+
+---
+
+## Step 2: Review Compliance by Day
+
+Use the Calendar View to track daily compliance and identify problematic periods.
+
+### Using Calendar View
+
+1. In the **Compliance** section, ensure you're in **Calendar View**
+2. Hover over any date to see the compliance percentage for that day
+
+<ImageCard src="/workflow/compliance/compliance-calender.jpg" alt="Calendar View with Daily Compliance" />
+
+The Calendar View shows:
+- Each date with a **Fail** indicator (red badge)
+- Hover tooltip showing compliance percentage (e.g., "16 December, 2025: Failing on 37.32% requests")
+- Monthly view for December 2025
+- Navigation arrows to switch months
+
+### View Non-Compliant Requests
+
+1. Click on any date in the calendar
+2. See all requests flagged as non-compliant for that specific day
+
+<ImageCard src="/workflow/compliance/compliance-requests.jpg" alt="Non-Compliant Requests for Selected Date" />
+
+This shows:
+- Filter applied: `Date: 2025-12-10` and `Compliance: Fail`
+- Which requests failed compliance checks
+- The specific compliance violations
+- Request details for investigation (Method, Response, Name, Load time, Threat, Device, AI Agent, Location, Time)
+
+### Using Graph View
+
+Switch to **Graph View** to monitor compliance trends:
+
+<ImageCard src="/workflow/compliance/compliance-graph.jpg" alt="Compliance Graph View" />
+
+The graph shows:
+- **Percentage of Failed Requests** over time
+- Bar chart for each day in December 2025
+- Y-axis showing 0% to 100%
+- Easy visualization of compliance trends and patterns
+
+<TipCard>
+**Weekly Review**: Check the Graph View every week to identify patterns. If compliance is declining, investigate which APIs or endpoints are causing issues.
+</TipCard>
+
+---
+
+## Step 3: Analyze Individual Request Compliance
+
+Review detailed compliance checks for specific requests.
+
+### Navigate to Request Compliance
+
+1. Go to **Requests** section
+2. Click on any request to open detailed view
+3. Navigate to the **API Compliance** tab
+
+<ImageCard src="/workflow/compliance/compliance-general-tab.jpg" alt="Request API Compliance Tab" />
+
+### Understanding Request Compliance Score
+
+Each request displays:
+
+**Request Compliance Score**: 
+- **100%** with green checkmark = "Request Compliance"
+- Overall compliance for this specific request
+
+**Individual Regulation Checks**:
+
+The right panel shows expandable sections for each regulation:
+
+**GDPR** (100% - Pass):
+- Email
+- HomeAddress
+- IDCardNumber
+- IPAddress
+- NameAndSurname
+
+**PCI** (expandable):
+- Payment card data security checks
+
+**CCPA** (expandable):
+- GeoLocation
+- SocialSecurityNumber  
+
+**HIPAA** (expandable):
+- MedicalRecordNumber
+- HealthInsuranceID
+- ICD10DiagnosisCodes
+- LabTestResults
+- PrescriptionNumbers
+
+**Detailed Information**:
+- Each regulation shows specific fields checked
+- **Pass** indicators (green) for compliant fields
+- Click on any regulation to expand and see all checks performed
+
+### Compliance Checks Overview
+
+Treblle validates requests against multiple standards to ensure:
+- Personal data is handled correctly (GDPR)
+- Payment information is secured (PCI)
+- Privacy requirements are met (CCPA)
+- Health information is protected (HIPAA)
+
+<NoteCard>
+**Prioritization**: Focus on requests that fail multiple compliance checks first, as these pose the highest regulatory risk. Address PCI DSS and HIPAA violations immediately due to their strict penalties.
+</NoteCard>
+
+---
+
+## Step 4: Monitor Security Checks
+
+Treblle performs 13 automated security checks on every API request.
+
+### View Security in Requests
+
+1. Go to **Requests** section
+2. Click on any request
+3. Navigate to the **Security** tab
+
+<ImageCard src="/workflow/compliance/security-tab.jpg" alt="Security Tab Showing 13 Checks and Threat Levels" />
+
+The Security tab displays:
+
+**Security Audit Graph**:
+- Donut chart showing **46% Fail, 54% Pass**
+- **Threat with High Impact**: 0
+- **Threat with Medium Impact**: 0  
+- **Threat with Low Impact**: 6
+
+**Security Audit List**:
+All 13 security checks with Status (Fail/Pass), Security Audit name, and Impact level:
+- API8 - Security Misconfiguration - Content Type Specification (Fail, Low)
+- API9 - Improper Inventory Management - Method Limiting (Fail, Low)
+- API8 - Security Misconfiguration - Security Policies (Fail, Low)
+- API8 - Security Misconfiguration - Force Secure Connection (Fail, Low)
+- API8 - Security Misconfiguration - MIME Sniffing (Fail, Low)
+- API8 - Security Misconfiguration - Embedding Prevention (Fail, Low)
+- **API10 - Unsafe Consumption of APIs - IP reputation (Pass, High)** ← Expanded showing detailed explanation
+
+### Security Threat Levels
+
+Requests are categorized into three threat levels:
+
+**Low Threat Level** (Low Impact):
+- IDs vs UUIDs
+- Rate Limiting
+- Content Labeling
+- MIME Sniffing Protection
+- Force Secure Connection
+- Embedding Prevention
+- Security Policies
+- Content-Type Specification
+- Method Limiting
+
+**Medium Threat Level**:
+- Authorization issues
+
+**High Threat Level** (High Impact):
+- SQL Injection
+- IP Reputation
+- Secure Connection (HTTPS enforcement)
+
+### Understanding IP Reputation Check
+
+<ImageCard src="/workflow/compliance/ip-reputation.jpg" alt="IP Reputation Check Detail" />
+
+When you expand the IP reputation check (API10), you see:
+
+**IP Reputation check evaluates the trustworthiness and reputation of an IP address** based on its historical behavior and associations. It helps identify potential threats, such as spam or malicious activity, by assessing the IP's track record and reputation within the online community.
+
+**Treblle uses it's own network alongside 3rd party** services to check the reputation of your user's IP address.
+
+<CautionCard>
+**High Threat Priority**: Address High Threat Level issues immediately. SQL Injection, missing HTTPS, and IP reputation issues pose serious security risks and can lead to compliance violations.
+</CautionCard>
+
+---
+
+## Step 5: Review API Governance Score
+
+API Governance measures how well your APIs follow best practices and standards.
+
+### Navigate to API Governance
+
+1. Click on **Governance** in the left navigation bar (API level)
+2. View your overall governance dashboard
+
+<ImageCard src="/workflow/compliance/api-governance.jpg" alt="API Governance Dashboard" />
+
+### Understanding Governance Score
+
+<ImageCard src="/workflow/compliance/scores.jpg" alt="API Governance Score Breakdown" />
+
+Treblle assigns:
+- **Overall API Score**: D 63 (out of 100)
+- **Grade**: Letter grade from A to F
+- **Last updated**: Timestamp showing when scores were calculated
+- **Run Now** button to recalculate scores
+
+The score is based on four main categories:
+
+**Category Scores**:
+- **AI Ready**: F (52) - Pink badge
+- **Design**: D (63) - Orange badge  
+- **Performance**: A (100) - Green badge
+- **Security**: F (52) - Pink badge
+
+### 1. AI Ready Category
+
+Ensures your API can integrate with AI systems:
+- **Schema Types** (Fail)
+- **Parameter Descriptions** (Fail)
+- **Schema Description** (Fail)
+- **Operation ID** (Pass)
+- **Response Descriptions** (Pass)
+
+### 2. Design Category
+
+Checks API structure and usability (collapsed - click to expand for details):
+- Contact Information
+- Operation Descriptions or Summaries
+- Robust Responses
+- Examples Exist
+- Consistent Pluralization
+- Consistent Noun Usage
+- JSON Support
+- Information Descriptions
+- Rate Limiting
+- Versioning
+
+### 3. Performance Category
+
+Ensures APIs are fast and optimized (collapsed - click to expand):
+- Load Time
+- Compression Support
+- CDN Usage
+- HTTP2 Usage
+- Cache Support
+
+### 4. Security Category
+
+Verifies security best practices (collapsed - click to expand):
+- Insecure Direct Object Reference (IDOR) Risks
+- Content Type Options
+- iFrame Embedding
+- Strict Transport Security (HSTS)
+- Content Security Policy
+- Operation Enforces Security Scheme
+- Authorization
+- Secure URLs (HTTPS)
+- Security Field Contains a Scheme
+- Global Security Field is Defined
+
+<NoteCard>
+**Governance Impact on Compliance**: A low governance score often correlates with compliance issues. APIs with poor design, security, or performance are more likely to fail regulatory requirements.
+</NoteCard>
+
+---
+
+## Step 6: Monitor DDoS Threats
+
+Treblle automatically detects potential DDoS attacks by monitoring traffic spikes.
+
+### Enable DDoS Monitoring Widget
+
+1. Go to your API Dashboard
+2. Click **Customize Dashboard** (four squares icon)
+3. Find and enable the **"Denial of Service"** widget
+
+<ImageCard src="/workflow/compliance/ddos-widget.jpg" alt="Enable DDoS Widget in Customize Dashboard" />
+
+The Customize Dashboard dialog shows:
+- **Denial of Service** widget with description: "Monitor your APIs threat level based on real-time traffic"
+- Toggle switch (blue) to enable/disable
+- Click **Save Changes** to apply
+
+### Understanding DDoS Detection
+
+<ImageCard src="/workflow/compliance/ddos-tab.jpg" alt="DDoS Monitoring Widget on Dashboard" />
+
+The DDoS Threat Level widget shows:
+- **Current Status**: "None" with green checkmark
+- **Percentage Change**: "+0.05% vs avg" (in red, indicating increase)
+- Icon showing shield with checkmark (indicating no threat)
+
+The DDoS widget displays:
+- **Current Threat Level**: None, Low, Medium, or High
+- **Traffic Comparison**: Current vs. average traffic percentage
+- **Visual Indicator**: Color-coded status (green = safe, red = threat)
+
+**Detection Method**:
+- Analyzes traffic in 15-minute intervals
+- Compares to daily averages
+- Flags unusual request spikes
+- Categorizes threat levels automatically
+
+---
+
+## Step 7: Review Risky IPs
+
+Monitor IP addresses flagged as potentially malicious.
+
+### Enable Risky IPs Widget
+
+1. Go to your Security Dashboard
+2. Click **Customize Dashboard**
+3. Find and enable the **"Risky IPs"** widget
+
+<ImageCard src="/workflow/compliance/risky-ip-widget.jpg" alt="Enable Risky IPs Widget" />
+
+The widget option shows:
+- **Risky IPs**: "World map with risky IP's"
+- Toggle to enable/disable
+- Click **Save Changes**
+
+### Understanding Risky IPs Map
+
+<ImageCard src="/workflow/compliance/riskyip-tab.jpg" alt="Risky IPs World Map" />
+
+The Risky IPs widget displays:
+- **World map** showing geographic distribution
+- **Blue location pins** indicating risky IP locations
+- Visible locations: South Korea/Japan, Canada, United States, Europe (UK, France, Germany, Poland, Ukraine, etc.)
+- Interactive Google Maps interface with zoom controls
+
+### IP Information in Info Tab
+
+<ImageCard src="/workflow/compliance/ip-info.jpg" alt="User IP Information in Request Details" />
+
+The **Info** tab in individual requests shows:
+
+**User Data Section**:
+- **Device Type**: mobile
+- **Operating System**: N/A
+- **Browser**: sdk
+- **App Name**: N/A
+- **Client**: N/A
+- **Bundle**: N/A
+- **User IP**: 85.203.34.243
+- **Location**: London, Greater London, United Kingdom
+- **AI Agent**: N/A
+
+**Visual Map**:
+- Interactive Google Maps showing exact location
+- User popup displaying: "London, Greater London, United Kingdom" and "IP: 85.203.34.243"
+- Blue location pin on map
+
+**Server Data Section**:
+- Time Zone, Operating System, Software, Protocol, IP, City, Region, Country
+
+### IP Reputation in Security Tab
+
+To see IP reputation for individual requests:
+
+1. Go to **Requests** section
+2. Click on any request
+3. Navigate to **Security** tab
+4. Look for **API10 - Unsafe Consumption of APIs - IP reputation** check
+
+<ImageCard src="/workflow/compliance/ip-reputation.jpg" alt="User IP Information in Request Details" />
+
+The IP reputation check shows Pass/Fail status and explains how Treblle evaluates IP trustworthiness.
+
+**How IP Reputation Works**:
+
+Treblle evaluates IP trustworthiness using:
+- Treblle's own network
+- 3rd party services
+- Historical behavior analysis
+- Geographic risk assessment
+- Network reputation
+- Activity patterns
+- Threat intelligence databases
+
+<TipCard>
+**Risk Assessment Factors**: IPs are flagged based on past malicious activities, geographic risk, hosting network reputation, unusual request patterns, and security feed data.
+</TipCard>
+
+---
+
+## Step 8: Verify Data Masking Configuration
+
+Data masking ensures sensitive information is secured before being sent to Treblle.
+
+### Understanding Data Masking
+
+**Important**: Data masking happens at the **SDK level**, not in the Treblle UI. It must be configured when integrating Treblle into your application.
+
+### How Data Masking Works
+
+Data masking is integrated into all Treblle SDKs:
+- Masking happens **at the programming level**
+- Data is masked **before leaving your server**
+- Sensitive fields are replaced with stars (`*****`)
+
+### Default Masked Fields
+
+Treblle SDKs automatically mask these fields:
+- `password`
+- `pwd`
+- `secret`
+- `password_confirmation`
+- `passwordConfirmation`
+- `cc`
+- `card_number`
+- `cardNumber`
+- `ccv`
+- `ssn`
+- `credit_score`
+- `creditScore`
+- `api_key`
+
+### Custom Field Masking
+
+You can define additional fields to mask during SDK integration.
+
+**Example: Express.js**
+
+```javascript
+app.use(
+    treblle({
+        apiKey: process.env.TREBLLE_API_KEY,
+        sdkToken: process.env.TREBLLE_SDK_TOKEN,
+        additionalFieldsToMask: ['email', 'phone_number'],
+    })
+);
+```
+
+### Verify Masking in Treblle
+
+<ImageCard src="/workflow/compliance/platform.jpg" alt="Masked Data Example in General Tab" />
+
+In the Treblle platform, masked fields appear with stars in the request body:
+
+**REQUEST**:
+```json
+{
+  "email": "*****************",
+  "phone_number": "***********"
+}
+```
+
+**RESPONSE**:
+```json
+{
+  "data": {
+    "email": "*****************",
+    "phone_number": "***********"
+  },
+  "message": "User registered successfully!"
+}
+```
+
+The masked data shows:
+- Length matches original data (number of asterisks)
+- Value completely hidden
+- Applied to both requests and responses
+
+### Masking Scope
+
+Data masking applies to:
+- Request and response headers
+- Request and response data
+- Arrays of any depth
+- Object keys and values
+
+**Special Case - Authorization Header**:
+Only the API key value is masked, not the authentication type.
+
+Example:
+```
+Bearer lsGPLl4k6Vc4J0VhnFaMBqetNtn1ofsB
+```
+
+Becomes:
+```
+Bearer ********************************
+```
+
+<CautionCard>
+**SDK Configuration Required**: Data masking must be configured in your SDK integration code. There is no UI in Treblle to configure masking. Refer to your SDK documentation for specific implementation details.
+</CautionCard>
+
+---
+
+## Step 9: Export Compliance Data
+
+Export compliance data for reporting, documentation, and analysis.
+
+### Download Compliance Reports
+
+1. In the **Compliance** section, click the download icon (arrow down) in the top-right
+2. Choose your preferred export format:
+
+<ImageCard src="/workflow/compliance/download-compliance.jpg" alt="Export Compliance Data Options" />
+
+The dropdown menu shows three options:
+   - **PDF**: For formal reports and documentation
+   - **CSV**: For data analysis in spreadsheets
+   - **Excel**: For detailed analysis with formatting
+
+### Uses for Exported Data
+
+**PDF Reports**:
+- Share with stakeholders and management
+- Include in regulatory documentation
+- Archive for compliance records
+- Provide to external auditors
+
+**CSV/Excel Exports**:
+- Analyze compliance trends over time
+- Create custom charts and visualizations
+- Filter and sort non-compliant requests
+- Track remediation progress
+- Generate custom reports
+
+<TipCard>
+**Regular Exports**: Download weekly or monthly compliance reports to maintain a historical record of your compliance posture. This documentation is valuable during audits and regulatory reviews.
+</TipCard>
+
+---
+
+## Step 10: Manage Team Access
+
+Control who has access to view compliance data in your workspace.
+
+Access control features are available at the workspace level to:
+- Control who can view sensitive compliance logs
+- Ensure only authorized personnel access compliance data
+- Manage team member roles and permissions
+
+<NoteCard>
+**Access Control**: Limit access to compliance data to designated compliance officers, data protection officers, and security team members only.
+</NoteCard>
+
+---
+
+## Step 11: Custom Governance Rules (Enterprise)
+
+For Enterprise plans, you can upload custom Spectral rule sets to enforce organization-specific standards.
+
+### Access Governance Rules
+
+**Option 1 - From Settings**:
+1. Click **Settings** in left navigation (workspace level)
+2. Navigate to **Governance Rules** section
+
+**Option 2 - From Governance Page**:
+1. Go to **Governance** in left navigation
+2. Click **Settings** button in top-right
+
+### View Governance Rulesets
+
+<ImageCard src="/workflow/compliance/governance-ruleset.jpg" alt="Governance Rulesets Page" />
+
+The Governance Rules page shows:
+- **Spectral Ruleset** section header
+- **Search** bar to find rulesets
+- **+ New Ruleset** button in top-right
+- Empty state message: "Oh no, there is nothing to show."
+
+The rulesets table has columns for:
+- **Name**: Ruleset identifier
+- **Date Uploaded**: When added to Treblle
+- **Applies to**: Workspace or specific APIs
+- **Enabled**: Toggle to activate/deactivate
+
+### Upload Custom Ruleset
+
+<ImageCard src="/workflow/compliance/upload-ruleset.jpg" alt="Upload Spectral Ruleset Dialog" />
+
+1. Click **+ New Ruleset** button
+2. Upload dialog appears: **"Upload Spectral Ruleset"**
+3. Instructions shown: "When you upload a ruleset, you will need to assign it to one or more APIs. Only one ruleset can be applied per API."
+4. **Drag and drop area**: "Click or drag file to this area to upload."
+5. **File format**: "We only accept .yaml and .json files."
+6. **Cancel** and **Upload** buttons at bottom
+
+### Ruleset Management
+
+Each ruleset has actions menu:
+- **Open File**: View ruleset contents
+- **Apply To**: Modify API assignments
+- **Replace**: Upload new version
+- **Delete**: Remove ruleset
+
+**Important Rules**:
+- Only one ruleset per API
+- One ruleset can apply to multiple APIs
+- Custom rules replace default governance checks when applied
+
+<NoteCard>
+**Enterprise Feature**: Custom Governance Rules are available exclusively for Enterprise plans. Contact your account manager for access.
+</NoteCard>
+
+---
+
+## Complete Compliance Monitoring Workflow
+
+Here's how all the features work together:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>1. Daily Monitoring</InfoCard.title>
+        <InfoCard.description>
+            Check API Compliance dashboard every morning. Review compliance percentage, check Calendar View for any drops, and identify non-compliant requests.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>2. Request Analysis</InfoCard.title>
+        <InfoCard.description>
+            Click on non-compliant requests to view API Compliance tab. Review which regulations failed (GDPR, PCI DSS, CCPA, HIPAA) and understand specific violations.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>3. Security Review</InfoCard.title>
+        <InfoCard.description>
+            Check Security tab for all 13 security checks. Focus on High Threat issues (SQL Injection, HTTPS, IP Reputation). Review security overview graph for patterns.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>4. Governance Assessment</InfoCard.title>
+        <InfoCard.description>
+            Review API Governance score and grade. Check all four categories (AI Ready, Design, Performance, Security) for areas needing improvement.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>5. Threat Monitoring</InfoCard.title>
+        <InfoCard.description>
+            Monitor DDoS widget for traffic spikes. Review Risky IPs widget for malicious IP addresses. Check IP reputation in individual request Security tabs.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>6. Data Protection</InfoCard.title>
+        <InfoCard.description>
+            Verify sensitive fields are masked in request/response data. Confirm masking is configured correctly in SDK. Spot-check requests for proper masking.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+---
+
+## Best Practices
+
+### Daily Activities
+
+<Checklist>
+    <Checklist.item id="morning-check">**Morning Compliance Check** - Review compliance percentage on dashboard</Checklist.item>
+    <Checklist.item id="calendar-review">**Calendar View Review** - Check yesterday's compliance and any drops</Checklist.item>
+    <Checklist.item id="non-compliant">**Non-Compliant Analysis** - Review requests flagged as non-compliant</Checklist.item>
+    <Checklist.item id="security-threats">**High Threat Review** - Check for any High Threat security issues</Checklist.item>
+</Checklist>
+
+### Weekly Activities
+
+<Checklist>
+    <Checklist.item id="graph-trends">**Graph View Analysis** - Review compliance trends over past 7 days</Checklist.item>
+    <Checklist.item id="governance-score">**Governance Score Check** - Monitor API governance score and grade</Checklist.item>
+    <Checklist.item id="risky-ips">**Risky IP Review** - Check Risky IPs widget for new threats</Checklist.item>
+    <Checklist.item id="ddos-patterns">**DDoS Pattern Review** - Monitor for traffic spike patterns</Checklist.item>
+</Checklist>
+
+### Monthly Activities
+
+<Checklist>
+    <Checklist.item id="full-security">**Comprehensive Security Audit** - Review all 13 security checks across all requests</Checklist.item>
+    <Checklist.item id="governance-categories">**Governance Category Review** - Analyze AI Ready, Design, Performance, Security scores</Checklist.item>
+    <Checklist.item id="masking-verify">**Masking Verification** - Spot-check that sensitive fields remain properly masked</Checklist.item>
+    <Checklist.item id="team-access">**Team Access Audit** - Review who has access to compliance data</Checklist.item>
+</Checklist>
+
+---
+
+## Next Steps
+
+Now that you've set up compliance monitoring:
+
+- **Schedule daily reviews**: Check compliance dashboard every morning
+- **Set up team access**: Invite compliance team members to the platform
+- **Coordinate with engineering**: Share non-compliant requests for remediation
+- **Track improvements**: Use Graph View to measure compliance trends
+- **Document processes**: Create runbooks for handling compliance violations
+
+---
+
+Your organization now has comprehensive visibility into API compliance status and can proactively address regulatory requirements.
+
+<PaginationCards />
