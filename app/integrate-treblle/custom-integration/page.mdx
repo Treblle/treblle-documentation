@@ -1,6 +1,6 @@
 ---
-metaTitle: "Custom Treblle SDK – Build & Integrate Your Own - Treblle Documentation"
-description: "Learn how to create a custom Treblle SDK for your framework. Capture API data, implement masking, and send payloads to Treblle for real-time insights."
+metaTitle: "Custom Treblle Integration – Build & Integrate Your Own - Treblle Documentation"
+description: "Learn how to create a custom Treblle Integration for your framework. Capture API data, implement masking, and send payloads to Treblle for real-time insights."
 image: "/og-images/treblle-sdk.jpg"
 ---
 
@@ -14,24 +14,24 @@ import { NoteCard } from "~components/cards/note";
 import { Checklist } from "~components/sections/checklist";
 import Link from "next/link";
 
-# Custom SDK
+# Custom Integration
 
-Building a custom Treblle SDK allows you to integrate Treblle with frameworks or languages we don't officially support yet. 
+Building a custom Treblle Integration allows you to integrate Treblle with frameworks or languages we don't officially support yet. 
 
-This guide walks you through creating a production-ready SDK that captures API data and sends it to Treblle.
+This guide walks you through creating a production-ready Integration that captures API data and sends it to Treblle.
 
-## When to Build a Custom SDK
+## When to Build a Custom Integration
 
-Consider building a custom SDK when:
+Consider building a custom Integration when:
 
-- Your framework/language isn't in our [official integrations](/integrate-treblle/integrations)
+- Your framework/language isn't in our [official Integrations](/integrate-treblle/Integrations)
 - You need specialized functionality for your infrastructure
-- You're building a proprietary framework that needs Treblle integration
+- You're building a proprietary framework that needs Treblle Integration
 - You want to contribute back to the Treblle ecosystem
 
-## How Treblle SDKs Work
+## How Treblle Integrations Work
 
-Treblle SDKs act as middleware that:
+Treblle Integrations act as middleware that:
 
 1. **Intercept requests** before they reach your application
 2. **Capture request/response data** without modifying the API behavior  
@@ -47,11 +47,11 @@ Treblle SDKs act as middleware that:
 
 ## Core Requirements
 
-Every Treblle SDK must implement these essential components:
+Every Treblle Integration must implement these essential components:
 
 ### 1. Request/Response Capture
 
-Your SDK needs access to:
+Your Integration needs access to:
 - Request method, URL, headers, and body
 - Response status code, headers, body, and timing
 - Server information (IP, timezone, OS details)
@@ -79,7 +79,7 @@ cc, card_number, ccv, ssn, credit_score, api_key
 
 ### 3. Treblle Payload Format
 
-Your SDK must format data according to Treblle's JSON schema and send it to one of these endpoints:
+Your Integration must format data according to Treblle's JSON schema and send it to one of these endpoints:
 
 ```
 https://rocknrolla.treblle.com
@@ -232,43 +232,43 @@ const treblle = new TreblleSDK({
 });
 ```
 
-## Testing Your SDK
+## Testing Your Integration
 
 <Checklist>
     <Checklist.item id="basic">Basic functionality verified - requests appear in Treblle dashboard</Checklist.item>
     <Checklist.item id="masking">Masking verification - sensitive fields properly masked</Checklist.item>
-    <Checklist.item id="errors">Error handling - SDK failures don't break user APIs</Checklist.item>
+    <Checklist.item id="errors">Error handling - Integration failures don't break user APIs</Checklist.item>
     <Checklist.item id="performance">Performance tested with high request volumes</Checklist.item>
     <Checklist.item id="edge">Edge cases handled - empty responses, malformed data, network failures</Checklist.item>
 </Checklist>
 
 ## Examples and Reference
 
-Study existing SDKs for implementation patterns:
-- [PHP SDK](https://github.com/Treblle/treblle-php) - Framework-agnostic approach
-- [Express.js SDK](https://github.com/Treblle/treblle-express) - Middleware pattern
-- [Laravel SDK](https://github.com/Treblle/treblle-laravel) - Framework-specific integration
+Study existing Integrations for implementation patterns:
+- [PHP Integration](https://github.com/Treblle/treblle-php) - Framework-agnostic approach
+- [Express.js Integration](https://github.com/Treblle/treblle-express) - Middleware pattern
+- [Laravel Integration](https://github.com/Treblle/treblle-laravel) - Framework-specific Integration 
 
 ## Frequently Asked Questions
 
 <FAQ>
-    <FAQItem question="How do I ensure my SDK doesn't impact API performance?">
-        All data sending should be done asynchronously, after the response is sent to the user. Use non-blocking requests and implement proper error handling so that any SDK failures don't affect your user's API calls.
+    <FAQItem question="How do I ensure my Integration doesn't impact API performance?">
+        All data sending should be done asynchronously, after the response is sent to the user. Use non-blocking requests and implement proper error handling so that any Integration failures don't affect your user's API calls.
     </FAQItem>
 
     <FAQItem question="What happens if the Treblle endpoint is unavailable?">
-        Your SDK should handle errors gracefully and fail silently. The user's API should continue working normally even if Treblle is unreachable. Consider implementing retry logic with exponential backoff.
+        Your Integration should handle errors gracefully and fail silently. The user's API should continue working normally even if Treblle is unreachable. Consider implementing retry logic with exponential backoff.
     </FAQItem>
 
-    <FAQItem question="How do I test that my SDK is working correctly?">
-        Use the provided testing tools and follow the checklist to verify that your SDK is capturing and sending data as expected. Monitor the Treblle dashboard for incoming requests and their details.
+    <FAQItem question="How do I test that my Integration is working correctly?">
+        Use the provided testing tools and follow the checklist to verify that your Integration is capturing and sending data as expected. Monitor the Treblle dashboard for incoming requests and their details.
     </FAQItem>
     <FAQItem question="Can I add custom fields to mask beyond the defaults?">
-        Yes, your SDK should allow users to configure additional fields to mask through the configuration options. This is especially important for industry-specific sensitive data.
+        Yes, your Integration should allow users to configure additional fields to mask through the configuration options. This is especially important for industry-specific sensitive data.
     </FAQItem>
 
     <FAQItem question="What if I need to mask fields in nested objects?">
-        Your SDK should support masking fields in nested objects and arrays. Implement a recursive masking function that traverses the entire request and response payloads.
+        Your Integration should support masking fields in nested objects and arrays. Implement a recursive masking function that traverses the entire request and response payloads.
     </FAQItem>
     <FAQItem question="How do I test that masking is working correctly?">
         Send test requests with known sensitive data and verify in your Treblle dashboard that the values appear as asterisks. Test nested objects, arrays, and different data types to ensure comprehensive masking.
@@ -277,17 +277,17 @@ Study existing SDKs for implementation patterns:
 
 ## Getting Support
 
-- **SDK submission**: Email [hello@treblle.com](mailto:hello@treblle.com)
+- **Integration submission**: Email [hello@treblle.com](mailto:hello@treblle.com)
 - **Documentation**: This guide and [JSON schema reference](/resources/json-schema/)
 
 ## Contributing Back
 
-Once your SDK is working:
+Once your Integration is working:
 
 1. Open source it on GitHub
-2. Submit it to our [community SDKs list](/integrate-treblle/custom-sdk/)
-3. Consider making it an official Treblle SDK
+2. Submit it to our [community Integrations list](/integrate-treblle/custom-integration/)
+3. Consider making it an official Treblle Integration
 
-Building a custom SDK helps expand Treblle's ecosystem and enables more developers to benefit from API Intelligence.
+Building a custom Integration helps expand Treblle's ecosystem and enables more developers to benefit from API Intelligence.
 
 <PaginationCards />
