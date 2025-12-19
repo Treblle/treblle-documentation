@@ -18,358 +18,448 @@ const nextConfig: NextConfig = {
     async redirects() {
         return [
             // ============================================================================
+            // SDK TO INTEGRATIONS MIGRATION REDIRECTS
+            // ============================================================================
+            
+            // Main SDKs page redirect
+            {
+                source: "/integrate-treblle/sdks",
+                destination: "/integrate-treblle/treblle-integrations",
+                permanent: true,
+            },
+            
+            // Python SDKs
+            {
+                source: "/integrate-treblle/sdks/python/django",
+                destination: "/integrate-treblle/integrations/python/django",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/sdks/python/flask",
+                destination: "/integrate-treblle/integrations/python/flask",
+                permanent: true,
+            },
+            
+            // JavaScript/Node.js SDKs (catch-all for all JS frameworks)
+            {
+                source: "/integrate-treblle/sdks/javascript/:path*",
+                destination: "/integrate-treblle/integrations/javascript/:path*",
+                permanent: true,
+            },
+            
+            // PHP SDKs (catch-all)
+            {
+                source: "/integrate-treblle/sdks/php/:path*",
+                destination: "/integrate-treblle/integrations/php/:path*",
+                permanent: true,
+            },
+            
+            // Java SDKs (catch-all)
+            {
+                source: "/integrate-treblle/sdks/java/:path*",
+                destination: "/integrate-treblle/integrations/java/:path*",
+                permanent: true,
+            },
+            
+            // .NET SDKs (catch-all)
+            {
+                source: "/integrate-treblle/sdks/dotnet/:path*",
+                destination: "/integrate-treblle/integrations/dotnet/:path*",
+                permanent: true,
+            },
+            
+            // Go SDK
+            {
+                source: "/integrate-treblle/sdks/go",
+                destination: "/integrate-treblle/integrations/go",
+                permanent: true,
+            },
+            
+            // Ruby SDK
+            {
+                source: "/integrate-treblle/sdks/ruby",
+                destination: "/integrate-treblle/integrations/ruby",
+                permanent: true,
+            },
+
+            // ============================================================================
+            // CUSTOM INTEGRATION REDIRECTS
+            // ============================================================================
+            
+            // SDK to Integration migration
+            {
+                source: "/integrate-treblle/custom-sdk",
+                destination: "/integrate-treblle/custom-integration",
+                permanent: true,
+            },
+            
+            // Legacy custom path
+            {
+                source: "/integrations/custom",
+                destination: "/integrate-treblle/custom-integration",
+                permanent: true,
+            },
+            
+            // Old en/ path
+            {
+                source: "/en/sdk-development",
+                destination: "/integrate-treblle/custom-integration",
+                permanent: true,
+            },
+
+            // ============================================================================
             // INTEGRATION REDIRECTS
             // ============================================================================
 
             // Main integrations page
             {
                 source: "/en/integrations",
-                destination: "/integrate-treblle/integrations",
+                destination: "/integrate-treblle/treblle-integrations",
+                permanent: true,
+            },
+
+            // Legacy /integrations path
+            {
+                source: "/integrations",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
 
             // Ruby
             {
                 source: "/en/integrations/ruby",
-                destination: "/integrate-treblle/sdks/ruby",
+                destination: "/integrate-treblle/integrations/ruby",
                 permanent: true,
             },
             {
                 source: "/integrations/ruby",
-                destination: "/integrate-treblle/sdks/ruby",
+                destination: "/integrate-treblle/integrations/ruby",
                 permanent: true,
             },
 
             // JavaScript frameworks
             {
                 source: "/en/integrations/sails",
-                destination: "/integrate-treblle/sdks/javascript/sails",
+                destination: "/integrate-treblle/integrations/javascript/sails",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/sails",
-                destination: "/integrate-treblle/sdks/javascript/sails",
+                destination: "/integrate-treblle/integrations/javascript/sails",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/sails/",
-                destination: "/integrate-treblle/sdks/javascript/sails",
+                destination: "/integrate-treblle/integrations/javascript/sails",
                 permanent: true,
             },
             {
                 source: "/en/integrations/adonisjs",
-                destination: "/integrate-treblle/sdks/javascript/adonis",
+                destination: "/integrate-treblle/integrations/javascript/adonis",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/adonis",
-                destination: "/integrate-treblle/sdks/javascript/adonis",
+                destination: "/integrate-treblle/integrations/javascript/adonis",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/adonis/",
-                destination: "/integrate-treblle/sdks/javascript/adonis",
+                destination: "/integrate-treblle/integrations/javascript/adonis",
                 permanent: true,
             },
             {
                 source: "/en/integrations/strapi",
-                destination: "/integrate-treblle/sdks/javascript/strapi",
+                destination: "/integrate-treblle/integrations/javascript/strapi",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/strapi",
-                destination: "/integrate-treblle/sdks/javascript/strapi",
+                destination: "/integrate-treblle/integrations/javascript/strapi",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/strapi/",
-                destination: "/integrate-treblle/sdks/javascript/strapi",
+                destination: "/integrate-treblle/integrations/javascript/strapi",
                 permanent: true,
             },
             {
                 source: "/en/integrations/koa",
-                destination: "/integrate-treblle/sdks/javascript/koa",
+                destination: "/integrate-treblle/integrations/javascript/koa",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/koa",
-                destination: "/integrate-treblle/sdks/javascript/koa",
+                destination: "/integrate-treblle/integrations/javascript/koa",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/koa/",
-                destination: "/integrate-treblle/sdks/javascript/koa",
+                destination: "/integrate-treblle/integrations/javascript/koa",
                 permanent: true,
             },
             {
                 source: "/en/integrations/node",
-                destination: "/integrate-treblle/sdks/javascript/node",
+                destination: "/integrate-treblle/integrations/javascript/node",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/node",
-                destination: "/integrate-treblle/sdks/javascript/node",
+                destination: "/integrate-treblle/integrations/javascript/node",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/node/",
-                destination: "/integrate-treblle/sdks/javascript/node",
+                destination: "/integrate-treblle/integrations/javascript/node",
                 permanent: true,
             },
             {
                 source: "/en/integrations/express",
-                destination: "/integrate-treblle/sdks/javascript/express",
+                destination: "/integrate-treblle/integrations/javascript/express",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/express",
-                destination: "/integrate-treblle/sdks/javascript/express",
+                destination: "/integrate-treblle/integrations/javascript/express",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/express/",
-                destination: "/integrate-treblle/sdks/javascript/express",
+                destination: "/integrate-treblle/integrations/javascript/express",
                 permanent: true,
             },
             {
                 source: "/en/integrations/fastify",
-                destination: "/integrate-treblle/sdks/javascript/fastify",
+                destination: "/integrate-treblle/integrations/javascript/fastify",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/fastify",
-                destination: "/integrate-treblle/sdks/javascript/fastify",
+                destination: "/integrate-treblle/integrations/javascript/fastify",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/fastify/",
-                destination: "/integrate-treblle/sdks/javascript/fastify",
+                destination: "/integrate-treblle/integrations/javascript/fastify",
                 permanent: true,
             },
             {
                 source: "/en/integrations/directus",
-                destination: "/integrate-treblle/sdks/javascript/directus",
+                destination: "/integrate-treblle/integrations/javascript/directus",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/directus",
-                destination: "/integrate-treblle/sdks/javascript/directus",
+                destination: "/integrate-treblle/integrations/javascript/directus",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/directus/",
-                destination: "/integrate-treblle/sdks/javascript/directus",
+                destination: "/integrate-treblle/integrations/javascript/directus",
                 permanent: true,
             },
             {
                 source: "/en/integrations/nest",
-                destination: "/integrate-treblle/sdks/javascript/nest",
+                destination: "/integrate-treblle/integrations/javascript/nest",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/nest",
-                destination: "/integrate-treblle/sdks/javascript/nest",
+                destination: "/integrate-treblle/integrations/javascript/nest",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/nest/",
-                destination: "/integrate-treblle/sdks/javascript/nest",
+                destination: "/integrate-treblle/integrations/javascript/nest",
                 permanent: true,
             },
             {
                 source: "/en/integrations/nextjs",
-                destination: "/integrate-treblle/sdks/javascript/nextjs",
+                destination: "/integrate-treblle/integrations/javascript/nextjs",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/nextjs",
-                destination: "/integrate-treblle/sdks/javascript/nextjs",
+                destination: "/integrate-treblle/integrations/javascript/nextjs",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/nextjs/",
-                destination: "/integrate-treblle/sdks/javascript/nextjs",
+                destination: "/integrate-treblle/integrations/javascript/nextjs",
                 permanent: true,
             },
 
             // Go
             {
                 source: "/en/integrations/go",
-                destination: "/integrate-treblle/sdks/go",
+                destination: "/integrate-treblle/integrations/go",
                 permanent: true,
             },
             {
                 source: "/integrations/go",
-                destination: "/integrate-treblle/sdks/go",
+                destination: "/integrate-treblle/integrations/go",
                 permanent: true,
             },
             {
                 source: "/integrations/go/core",
-                destination: "/integrate-treblle/sdks/go",
+                destination: "/integrate-treblle/integrations/go",
                 permanent: true,
             },
 
             // PHP
             {
                 source: "/en/integrations/lumen",
-                destination: "/integrate-treblle/sdks/php/lumen",
+                destination: "/integrate-treblle/integrations/php/lumen",
                 permanent: true,
             },
             {
                 source: "/integrations/php/lumen",
-                destination: "/integrate-treblle/sdks/php/lumen",
+                destination: "/integrate-treblle/integrations/php/lumen",
                 permanent: true,
             },
             {
                 source: "/integrations/php/lumen/",
-                destination: "/integrate-treblle/sdks/php/lumen",
+                destination: "/integrate-treblle/integrations/php/lumen",
                 permanent: true,
             },
             {
                 source: "/en/integrations/symfony",
-                destination: "/integrate-treblle/sdks/php/symfony",
+                destination: "/integrate-treblle/integrations/php/symfony",
                 permanent: true,
             },
             {
                 source: "/integrations/php/symfony",
-                destination: "/integrate-treblle/sdks/php/symfony",
+                destination: "/integrate-treblle/integrations/php/symfony",
                 permanent: true,
             },
             {
                 source: "/integrations/php/symfony/",
-                destination: "/integrate-treblle/sdks/php/symfony",
+                destination: "/integrate-treblle/integrations/php/symfony",
                 permanent: true,
             },
             {
                 source: "/en/integrations/laravel",
-                destination: "/integrate-treblle/sdks/php/laravel",
+                destination: "/integrate-treblle/integrations/php/laravel",
                 permanent: true,
             },
             {
                 source: "/integrations/php/laravel",
-                destination: "/integrate-treblle/sdks/php/laravel",
+                destination: "/integrate-treblle/integrations/php/laravel",
                 permanent: true,
             },
             {
                 source: "/integrations/php/laravel/",
-                destination: "/integrate-treblle/sdks/php/laravel",
+                destination: "/integrate-treblle/integrations/php/laravel",
                 permanent: true,
             },
             {
                 source: "/en/integrations/php",
-                destination: "/integrate-treblle/sdks/php",
+                destination: "/integrate-treblle/integrations/php/no-framework",
                 permanent: true,
             },
             {
                 source: "/integrations/php/no-framework",
-                destination: "/integrate-treblle/sdks/php",
+                destination: "/integrate-treblle/integrations/php/no-framework",
                 permanent: true,
             },
             {
                 source: "/integrations/php/no-framework/",
-                destination: "/integrate-treblle/sdks/php",
+                destination: "/integrate-treblle/integrations/php/no-framework",
                 permanent: true,
             },
 
             // Python
             {
                 source: "/en/integrations/django",
-                destination: "/integrate-treblle/sdks/python/django",
+                destination: "/integrate-treblle/integrations/python/django",
                 permanent: true,
             },
             {
                 source: "/en/integrations/flask",
-                destination: "/integrate-treblle/sdks/python/flask",
+                destination: "/integrate-treblle/integrations/python/flask",
                 permanent: true,
             },
             {
                 source: "/integrations/python/django",
-                destination: "/integrate-treblle/sdks/python/django",
+                destination: "/integrate-treblle/integrations/python/django",
                 permanent: true,
             },
             {
                 source: "/integrations/python/flask",
-                destination: "/integrate-treblle/sdks/python/flask",
+                destination: "/integrate-treblle/integrations/python/flask",
                 permanent: true,
             },
 
             // Java
             {
                 source: "/en/integrations/spring",
-                destination: "/integrate-treblle/sdks/java/spring",
+                destination: "/integrate-treblle/integrations/java/spring",
                 permanent: true,
             },
             {
                 source: "/integrations/java/spring",
-                destination: "/integrate-treblle/sdks/java/spring",
+                destination: "/integrate-treblle/integrations/java/spring",
                 permanent: true,
             },
             {
                 source: "/integrations/java/aws-lambda",
-                destination: "/integrate-treblle/sdks/java/aws-lambda",
+                destination: "/integrate-treblle/integrations/java/aws-lambda",
                 permanent: true,
             },
             {
                 source: "/integrations/java/javax",
-                destination: "/integrate-treblle/sdks/java/javax",
+                destination: "/integrate-treblle/integrations/java/javax",
                 permanent: true,
             },
 
             // .NET
             {
                 source: "/en/integrations/net-core",
-                destination: "/integrate-treblle/sdks/dotnet/net-core",
+                destination: "/integrate-treblle/integrations/dotnet/net-core",
                 permanent: true,
             },
             {
                 source: "/en/integrations/net",
-                destination: "/integrate-treblle/sdks/dotnet/dotnet",
+                destination: "/integrate-treblle/integrations/dotnet/dotnet",
                 permanent: true,
             },
             {
                 source: "/integrations/net/net-core",
-                destination: "/integrate-treblle/sdks/dotnet/net-core",
+                destination: "/integrate-treblle/integrations/dotnet/net-core",
                 permanent: true,
             },
             {
                 source: "/integrations/net/net-core/",
-                destination: "/integrate-treblle/sdks/dotnet/net-core",
+                destination: "/integrate-treblle/integrations/dotnet/net-core",
                 permanent: true,
             },
             {
                 source: "/integrations/net/net",
-                destination: "/integrate-treblle/sdks/dotnet/dotnet",
+                destination: "/integrate-treblle/integrations/dotnet/dotnet",
                 permanent: true,
             },
             {
                 source: "/integrations/net/net/",
-                destination: "/integrate-treblle/sdks/dotnet/dotnet",
+                destination: "/integrate-treblle/integrations/dotnet/dotnet",
                 permanent: true,
             },
 
             // Ruby
             {
                 source: "/integrations/ruby/rails",
-                destination: "/integrate-treblle/sdks/ruby",
+                destination: "/integrate-treblle/integrations/ruby",
                 permanent: true,
             },
             {
                 source: "/integrations/ruby/rails/",
-                destination: "/integrate-treblle/sdks/ruby",
+                destination: "/integrate-treblle/integrations/ruby",
                 permanent: true,
             },
 
             // Community SDKs
             {
                 source: "/en/integrations/community-sdks",
-                destination: "/integrate-treblle/integrations#community-sdks",
-                permanent: true,
-            },
-
-            // Custom SDK Development
-            {
-                source: "/integrations/custom",
-                destination: "/integrate-treblle/custom-sdk",
+                destination: "/integrate-treblle/treblle-integrations#community-sdks",
                 permanent: true,
             },
 
@@ -409,32 +499,32 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/integrations/gateways/mulesoft",
-                destination: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/policy",
                 permanent: true,
             },
             {
                 source: "/integrations/gateways/mulesoft/",
-                destination: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/policy",
                 permanent: true,
             },
             {
                 source: "/integrations/gateways/mulesoft-app",
-                destination: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/app",
                 permanent: true,
             },
             {
                 source: "/integrations/gateways/mulesoft-app/",
-                destination: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/app",
                 permanent: true,
             },
             {
                 source: "/integrations/gateways/mulesoft/policy",
-                destination: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/policy",
                 permanent: true,
             },
             {
                 source: "/integrations/gateways/mulesoft/app",
-                destination: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/app",
                 permanent: true,
             },
 
@@ -690,11 +780,6 @@ const nextConfig: NextConfig = {
             {
                 source: "/en/who-is-treblle-for",
                 destination: "/getting-started/quickstart",
-                permanent: true,
-            },
-            {
-                source: "/en/sdk-development",
-                destination: "/integrate-treblle/custom-sdk",
                 permanent: true,
             },
             {
