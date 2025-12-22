@@ -1,7 +1,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { Button } from "nextra/components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { css } from "~styled-system/css/css";
 import { Box } from "~styled-system/jsx";
@@ -16,7 +16,13 @@ type Properties = {
 export default function MobileSidebarToggle({ title, sectionClass }: Properties) {
     const path = usePathname();
 
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        document.querySelector(`.${sectionClass}`)?.classList.add("hidden");
+    }, [path])
+
     function toggleSection() {
         setIsOpen(!isOpen);
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
