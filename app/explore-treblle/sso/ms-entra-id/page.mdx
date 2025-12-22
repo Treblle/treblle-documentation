@@ -49,21 +49,22 @@ The SSO setup process involves two main steps:
 
 <ImageCard src="/platform/sso/entra-id/1-dashboard.jpg" alt="Microsoft Entra ID Dashboard" />
 
-3. Select **Enterprise Applications** from the left sidebar
+The Microsoft Entra ID overview page will display your tenant information.
 
-<ImageCard src="/platform/sso/entra-id/2-select-option.jpg" alt="Microsoft Entra ID Dashboard" />
+3. From the left navigation menu, click **Add** dropdown and select **Enterprise application**
+
+<ImageCard src="/platform/sso/entra-id/2-select-option.jpg" alt="Add Enterprise Application" />
 
 ### Step 2: Create Enterprise Application
 
-1. Click **+ New application** at the top of the Enterprise Applications page
-
-2. Select **Create your own application**
-3. In the dialog that appears:
-   - **Name**: Enter `Treblle SSO Test` (or your preferred name)
-   - **Option**: Select **Integrate any other application you don't find in the gallery (Non-gallery)**
-4. Click **Create**
+1. Click **Create your own application** from the app gallery
 
 <ImageCard src="/platform/sso/entra-id/3-create-app.jpg" alt="Create Enterprise Application" />
+
+2. In the dialog that appears:
+   - **What's the name of your app?**: Enter `Treblle SSO Test` (or your preferred name)
+   - **What are you looking to do with your application?**: Select **Integrate any other application you don't find in the gallery (Non-gallery)**
+3. Click **Create**
 
 <TipCard>
 **Application Name**: Choose a descriptive name that helps your team identify this application, such as "Treblle Production" or "Treblle SSO".
@@ -73,38 +74,44 @@ The SSO setup process involves two main steps:
 
 1. After creating the application, you'll be redirected to the application overview page
 2. From the **Getting Started** section, click **2. Set up single sign on**
-3. Select **SAML** as the single sign-on method
 
-<ImageCard src="/platform/sso/entra-id/4-setup-sso.jpg" alt="Setup SSO" />
+<ImageCard src="/platform/sso/entra-id/4-setup-sso.jpg" alt="Setup SSO from Getting Started" />
 
-<ImageCard src="/platform/sso/entra-id/5-saml.jpg" alt="Select SAML" />
+3. On the **Select a single sign-on method** page, select **SAML**
+
+<ImageCard src="/platform/sso/entra-id/5-saml.jpg" alt="Select SAML Authentication Method" />
 
 ### Step 4: Configure Basic SAML Settings
 
 In the **Basic SAML Configuration** section, click **Edit** and configure the following:
 
-<ImageCard src="/platform/sso/entra-id/6-fill-details.jpg" alt="Basic SAML Configuration" />
+<ImageCard src="/platform/sso/entra-id/6-fill-details.jpg" alt="Basic SAML Configuration Edit Dialog" />
 
 #### Required Fields
+
+Enter the following Treblle URLs exactly as shown:
 
 <InfoTable title="Field" description="Value">
     <InfoTable.Row
         title="Identifier (Entity ID)"
-        description="[your-organization-identifier] (e.g., acme-corp, company-sso)"
+        description="https://identity.treblle.com/auth/saml2"
     />
     <InfoTable.Row
         title="Reply URL (Assertion Consumer Service URL)"
-        description="[your identifier]"
+        description="https://identity.treblle.com/login/saml/callback"
+    />
+    <InfoTable.Row
+        title="Sign on URL"
+        description="https://identity.treblle.com/enterprise-login"
     />
 </InfoTable>
 
 <NoteCard>
-**Important**: The `identifier` parameter in the Reply URL should match your Company Email Identifier that you'll configure in Treblle.
+**Important**: In the Reply URL, replace `treblle` with your chosen company identifier. This identifier should match what you'll configure in Treblle later (e.g., `treblle-entra-id`, `your-company-name`).
 </NoteCard>
 
 #### Optional Fields
 
-- **Sign on URL**: Leave empty (optional)
 - **Relay State**: Leave empty (optional)
 - **Logout URL**: Leave empty (optional)
 
@@ -141,14 +148,16 @@ The default attributes should work correctly. Microsoft Entra ID will map these 
 The default attribute mappings work for most organizations. Only modify these if your organization has specific requirements.
 </TipCard>
 
-### Step 6: Download SAML Certificate
+### Step 6: Download SAML Certificate and Note Configuration URLs
 
-In the **SAML Certificates** section:
+After saving the Basic SAML Configuration, scroll down to view the complete SAML setup page. This page shows all the information you'll need:
+
+<ImageCard src="/platform/sso/entra-id/download-certificate.jpg" alt="SAML Certificates Section" />
+
+In the **SAML Certificates** section (section 3):
 
 1. Locate **Certificate (Base64)**
 2. Click **Download** to save the certificate file
-
-<ImageCard src="/platform/sso/entra-id/7-find-details.jpg" alt="Download Certificate" />
 
 <CautionCard>
 **Security**: Keep this certificate file secure. You'll need its contents to configure Treblle in the next section.
@@ -156,25 +165,29 @@ In the **SAML Certificates** section:
 
 ### Step 7: Copy Configuration URLs
 
-In the **Set up [Your App Name]** section, copy the following values:
+On the same SAML configuration page, look at section 4 **Set up Treblle**:
+
+<ImageCard src="/platform/sso/entra-id/7-find-details.jpg" alt="Copy Configuration" />
+
+Copy the following two values - you'll need these for Treblle configuration:
 
 <InfoTable title="Field" description="Purpose">
     <InfoTable.Row
         title="Login URL"
-        description="URL where users will be redirected to authenticate"
+        description="URL where users will be redirected to authenticate (maps to Assertion Consumer Service URL in Treblle)"
     />
     <InfoTable.Row
         title="Microsoft Entra Identifier"
         description="Your IdP Issuer URL (required for Treblle configuration)"
     />
-    <InfoTable.Row
-        title="Logout URL"
-        description="URL for user logout (optional)"
-    />
 </InfoTable>
 
+**Example values from the image above:**
+- **Login URL**: `https://login.microsoftonline.com/0a27fe0d-8c82-...`
+- **Microsoft Entra Identifier**: `https://sts.windows.net/0a27fe0d-8c82-46f4-b29d...`
+
 <NoteCard>
-The **Microsoft Entra Identifier** is the most critical value. It typically looks like: `https://sts.windows.net/{tenant-id}/`
+The **Microsoft Entra Identifier** is critical. It typically looks like: `https://sts.windows.net/{tenant-id}/`
 </NoteCard>
 
 ---
@@ -185,23 +198,34 @@ The **Microsoft Entra Identifier** is the most critical value. It typically look
 
 1. Log in to your Treblle workspace as a workspace owner
 2. Navigate to **Settings** → **Authentication**
-3. The authentication configuration page will appear
+
+You can access this directly via:
+
+```
+https://platform.treblle.com/workspaces/{workspaceId}/settings/authentication/create
+```
+
+<ImageCard src="/platform/sso/entra-id/sso-page.jpg" alt="Treblle Authentication Settings - Empty State" />
+
+3. Click **Configure SSO** to begin the setup
+
+<ImageCard src="/platform/sso/entra-id/sso-before.jpg" alt="Empty SSO Configuration Form" />
 
 ### Step 9: Configure SSO in Treblle
-
-<ImageCard src="/platform/sso/entra-id/9-configure-treblle.jpg" alt="Configure Treblle SSO" />
 
 Fill in the following fields with the information from Microsoft Entra ID:
 
 #### Company Email Identifier
 
-Enter the unique identifier for your organization:
+Enter a unique identifier for your organization (this is used when users sign in with SSO):
 ```
-treblle-entra-id
+treblle
 ```
 
+**Example**: `treblle`, `acme-corp`, `your-company-name`
+
 <TipCard>
-This identifier should match the Entity ID you configured in Microsoft Entra ID. Choose a consistent naming convention across both platforms.
+Choose a memorable identifier - users will need to enter this when signing in via SSO. Use lowercase letters, numbers, and hyphens only. This should match the identifier you used in the Reply URL in Step 4.
 </TipCard>
 
 #### Authentication Type
@@ -210,36 +234,81 @@ Select **SAML** from the dropdown menu.
 
 #### Assertion Consumer Service URL
 
-Enter the callback URL:
+**This field needs the "Login URL" value from Microsoft Entra ID Step 7.**
+
+Paste the **Login URL** you copied from Azure. It should look like:
 ```
-[your-identifier]
+https://login.microsoftonline.com/0a27fe0d-8c82-46f4-b29d.../saml2
 ```
 
 <CautionCard>
-**Critical**: Ensure the `identifier` parameter in this URL matches both your Company Email Identifier in Treblle and the Reply URL configured in Microsoft Entra ID.
+**Critical**: Make sure to paste the **Login URL** from Azure into this field, NOT a Treblle URL.
 </CautionCard>
 
 #### Identity Provider Issuer
 
 Paste the **Microsoft Entra Identifier** URL you copied from Azure. It should look like:
 ```
-https://sts.windows.net/[your-tenant-id]/
+https://sts.windows.net/0a27fe0d-8c82-46f4-b29d-765493c80899/
 ```
 
 #### Identity Provider Certificate
 
 1. Open the downloaded Certificate (Base64) file in a text editor
-2. Copy the **entire contents** including the header and footer:
-   ```
-   -----BEGIN CERTIFICATE-----
-   [certificate content]
-   -----END CERTIFICATE-----
-   ```
-3. Paste it into the **Identity Provider Certificate** field in Treblle
+2. The certificate file will look like this:
+
+```
+-----BEGIN CERTIFICATE-----
+MIIC8DCCAdigAwIBAgIQeGtfDKjn05tBz9UKHNMfjjANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD
+EylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yNDExMDQxMzI1
+NDFaFw0yNzExMDQxMzI1NDFaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg
+U1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuDaI4BAJ*********
+*********************************************************************************
+*********************************************************************************
+vZozH+CUD/ejNBiAn1TOIOxm3XTCv2SzOqenr
+iLuYibYimC784HmnYewX4eaC8pTm
+oHFzyok4AcfznUykKVLHTCzNSQ3yS1uxrYCzaT82kUGwV2ezQt0kotPxf8+nntt73IdGiZdU++AT
+dqaOufZCUxKdwvjDau/YmOtrQkJBNBMGrF783ef5K6Z9UEoLJ6TEMh1+JLGOjUvgHxhlhNf9dXsT
+J1yRnAlJ6YLGXeKH+/KnBDqggGdZYEYZ2fVwmcoQGy7aoNPpKrG15ZRN9La8LOjnRFAbGWEgL1xK
+f9lPHEU1NgAreDBgUizK
+-----END CERTIFICATE-----
+```
+
+3. Copy **only** the certificate content between the markers (excluding the BEGIN and END lines)
+4. The content you paste into Treblle should look like this:
+
+```
+MIIC8DCCAdigAwIBAgIQeGtfDKjn05tBz9UKHNMfjjANBgkqhkiG9w0BAQsFADA0MTIwMAYDVQQD
+EylNaWNyb3NvZnQgQXp1cmUgRmVkZXJhdGVkIFNTTyBDZXJ0aWZpY2F0ZTAeFw0yNDExMDQxMzI1
+NDFaFw0yNzExMDQxMzI1NDFaMDQxMjAwBgNVBAMTKU1pY3Jvc29mdCBBenVyZSBGZWRlcmF0ZWQg
+U1NPIENlcnRpZmljYXRlMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuDaI4BAJ*********
+*********************************************************************************
+*********************************************************************************
+vZozH+CUD/ejNBiAn1TOIOxm3XTCv2SzOqenr
+iLuYibYimC784HmnYewX4eaC8pTm
+oHFzyok4AcfznUykKVLHTCzNSQ3yS1uxrYCzaT82kUGwV2ezQt0kotPxf8+nntt73IdGiZdU++AT
+dqaOufZCUxKdwvjDau/YmOtrQkJBNBMGrF783ef5K6Z9UEoLJ6TEMh1+JLGOjUvgHxhlhNf9dXsT
+J1yRnAlJ6YLGXeKH+/KnBDqggGdZYEYZ2fVwmcoQGy7aoNPpKrG15ZRN9La8LOjnRFAbGWEgL1xK
+f9lPHEU1NgAreDBgUizK
+```
 
 <NoteCard>
-Make sure to include the BEGIN and END certificate markers. The certificate is a single continuous block of text.
+**Important**: Remove the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` lines. Paste only the certificate content between these markers.
 </NoteCard>
+
+#### Complete Configuration Example
+
+Here's what your completed SSO configuration should look like:
+
+<ImageCard src="/platform/sso/entra-id/information.jpg" alt="Set up Treblle - Copy URLs" />
+
+
+The image above shows:
+- **Company Email Identifier**: `treblle` (your unique identifier)
+- **Authentication Type**: SAML (selected from dropdown)
+- **Assertion Consumer Service URL**: The Login URL copied from Azure
+- **Identity Provider Issuer**: The Microsoft Entra Identifier from Azure
+- **Identity Provider Certificate**: The certificate content (without BEGIN/END markers)
 
 ### Step 10: Enable SSO Login
 
@@ -253,55 +322,29 @@ Click **Save Authentication** to apply your SSO settings.
 
 ---
 
-## Part 3: Testing SSO
+## Part 3: Testing SSO in Azure Portal
 
-### Step 12: Test in Azure Portal
+### Step 12: Test SSO Configuration
 
-<ImageCard src="/platform/sso/entra-id/8-test.jpg" alt="Test SSO in Azure" />
-
-Before rolling out to your team, test the SSO configuration:
+Before rolling out to your team, test the SSO configuration in Azure:
 
 1. Go back to your Enterprise Application in Azure Portal
 2. Navigate to **Single sign-on** settings
-3. Scroll to **Test single sign-on with [Your App Name]**
-4. Click **Test sign in**
+3. Scroll to section 5 **Test single sign-on with Treblle SSO Test**
+4. Click **Test**
 
-<NoteCard>
-**Important**: You must assign users to the Enterprise Application before they can sign in. Go to **Users and groups** to add test users first.
-</NoteCard>
+<ImageCard src="/platform/sso/entra-id/8-test.jpg" alt="Test SSO Dialog in Azure" />
 
-### Step 13: Verify SSO in Treblle
+A test panel will appear on the right side showing:
+- **Testing sign in**: Instructions for testing
+- **Test sign in** button: Click this to test as your current user
+- **Resolving errors**: Section for troubleshooting if needed
 
-<ImageCard src="/platform/sso/entra-id/10-treblle-done.jpg" alt="SSO Enabled in Treblle" />
+<CautionCard>
+**Important**: You must assign users to the Enterprise Application before they can sign in. See Step 13 below.
+</CautionCard>
 
-After saving your configuration, you should see your SSO configuration listed in Treblle:
-
-- **Configuration Name**: treblle-entra-id
-- **Status**: Single Sign-On is enabled for this workspace
-
----
-
-## Part 4: User Login Flow
-
-### Step 14: Sign In with SSO
-
-<ImageCard src="/platform/sso/entra-id/11-sign-sso.jpg" alt="Sign In with SSO" />
-
-Once SSO is configured, users can sign in via SSO:
-
-1. Go to [https://identity.treblle.com/login](https://identity.treblle.com/login)
-2. Click **Sign in with SSO**
-3. Enter your organization's identifier
-
-<ImageCard src="/platform/sso/entra-id/12-enter-sso.jpg" alt="Enter SSO Identifier" />
-
-4. Enter your organization identifier: `treblle-entra-id`
-5. Click **Continue**
-6. You'll be redirected to Microsoft login
-7. Authenticate with your Microsoft credentials
-8. You'll be redirected back to Treblle and logged in
-
-### User Assignment in Microsoft Entra ID
+### Step 13: Assign Users in Microsoft Entra ID
 
 Before users can sign in, you must assign them to the application:
 
@@ -317,6 +360,44 @@ Before users can sign in, you must assign them to the application:
 
 ---
 
+## Part 4: User Login Flow
+
+### Step 14: Sign In with SSO
+
+Once SSO is configured, users can sign in via SSO:
+
+1. Go to [https://identity.treblle.com/login](https://identity.treblle.com/login) or simply [identity.treblle.com](https://identity.treblle.com)
+2. Click **Sign in with SSO**
+
+<ImageCard src="/platform/sso/entra-id/12-enter-sso.png" alt="Enter SSO Identifier" />
+
+3. Enter your organization identifier (the Company Email Identifier from Step 9)
+
+<ImageCard src="/platform/sso/entra-id/11-sign-sso.jpg" alt="Treblle Sign In Page with SSO Option" />
+
+In the example above, the identifier is `treblle`. Enter the identifier you configured in Step 9.
+
+4. Click **Continue**
+5. You'll be redirected to Microsoft login
+
+<ImageCard src="/platform/sso/entra-id/13-microsoft-login.jpg" alt="Microsoft Account Picker" />
+
+6. Select your Microsoft account or click "Use another account"
+7. Authenticate with your Microsoft credentials
+8. You'll be redirected back to Treblle and logged in
+
+### Post-Login Redirect Behavior
+
+**If you initially accessed identity.treblle.com from platform.treblle.com:**
+- You'll be automatically redirected back to the platform after successful login
+
+**If you went directly to identity.treblle.com:**
+- After logging in, you must manually navigate to [platform.treblle.com](https://platform.treblle.com)
+- The platform will redirect you back to identity to confirm your authentication token
+- You'll then be redirected back to the platform and fully authenticated
+
+---
+
 ## Managing SSO Configuration
 
 ### Updating SSO Settings
@@ -324,9 +405,10 @@ Before users can sign in, you must assign them to the application:
 To update your SSO configuration:
 
 1. In Treblle, navigate to Settings → Authentication
-2. Click **Update** on your SSO configuration
-3. Modify the necessary fields
-4. Click **Save Authentication**
+2. Find your SSO configuration
+3. Click **Edit** or the configuration name
+4. Modify the necessary fields
+5. Click **Save Authentication**
 
 ### Disabling SSO
 
@@ -351,6 +433,27 @@ To completely remove SSO:
 <CautionCard>
 **Permanent Action**: Deleting the SSO configuration cannot be undone. You'll need to reconfigure from scratch if you want to re-enable SSO.
 </CautionCard>
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**Issue**: "SAML Authentication Failed" error
+- **Solution**: Verify that the Login URL and Microsoft Entra Identifier are correctly copied from Azure
+- Check that the certificate is properly formatted without BEGIN/END markers
+
+**Issue**: Users can't see the Treblle application in Azure
+- **Solution**: Ensure users are assigned to the Enterprise Application in Azure (see Step 13)
+
+**Issue**: Certificate validation error
+- **Solution**: Make sure you've removed the `-----BEGIN CERTIFICATE-----` and `-----END CERTIFICATE-----` lines
+- Ensure there are no extra spaces or line breaks in the certificate
+
+**Issue**: Redirect loop after login
+- **Solution**: Verify that all three SAML URLs in Azure are exactly as specified in Step 4
+- Clear browser cookies and try again
 
 ---
 
