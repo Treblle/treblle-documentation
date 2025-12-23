@@ -1,0 +1,209 @@
+---
+title: "Monitor Your First API in 5 Minutes"
+metaTitle: "Monitor Your First API in 5 Minutes - Treblle Documentation"
+description: "Quick start guide to monitoring your first API with Treblle. Learn how to send requests, navigate the dashboard, and understand what Treblle captures."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+# Monitor Your First API in 5 Minutes
+
+You've just integrated Treblle into your application. Now what? Let's walk through what happens next and how to make sense of your first API requests.
+
+---
+
+## Before You Start
+
+You'll need:
+- A Treblle account (grab one at [treblle.com](https://treblle.com) if you haven't already)
+- An API that's receiving traffic (even a simple test endpoint works)
+- The Treblle SDK installed in your application
+
+<TipCard>
+If you haven't set up the SDK yet, check out our <Link href="/getting-started/quickstart">Getting Started Guide</Link>
+</TipCard>
+
+---
+
+## Step 1: Send Your First Request
+
+Once your SDK is configured with your API key and SDK Token, you can make a normal API request. That's it. There is no special setup or test mode to worry about.
+
+```bash copy
+# Example: A simple GET request
+curl https://your-api.com/api/users
+```
+
+The SDK automatically captures request headers, body, response data, timing, and metadata. Within seconds, you'll see them appear in Treblle.
+
+---
+
+## Step 2: Navigate to Your API Dashboard
+
+Head to your workspace in Treblle. You'll land on the home page, which shows all your APIs. Click on the API to which you just sent a request.
+
+<ImageCard src="/use-case-tutorials/monitor-api/apis.jpg" alt="Treblle APIs Dashboard" />
+
+You'll see your API's dashboard with some key metrics right at the top:
+- **Total requests** - Overall volume across all endpoints
+- **Number of endpoints** - How many distinct endpoints have been called
+- **Any errors or issues** - Quick visibility into problems
+- **Your API's governance score** - How well your API adheres to best practices
+
+<NoteCard>
+The dashboard updates in real-time as new requests come in, giving you instant visibility into your API's behavior.
+</NoteCard>
+
+---
+
+## Step 3: Inspect Your Request
+
+Click on **"Requests"** in the left sidebar. You'll see a list of all requests to your API. Find the one you just made and click it.
+
+<ImageCard src="/use-case-tutorials/monitor-api/request-tab.jpg" alt="Treblle Requests Tab" />
+
+The request details panel opens on the right. You'll see several tabs:
+
+<ImageCard src="/use-case-tutorials/monitor-api/all-tabs.jpg" alt="Treblle Request Details Tabs" />
+
+### General Tab
+Shows your request body, headers, and response data. Everything you sent, everything you got back. This is where you'll spend most of your time when debugging.
+
+### Info Tab
+Displays metadata like the user's IP address, location, device type, and when the request happened. It also shows server information and geographic data with an interactive map.
+
+### Security Tab
+Treblle runs 13 security checks on every request. You'll see which ones passed and which ones didn't. Each check explains what it's looking for and why it matters.
+
+<TipCard>
+Learn more about security features in our <Link href="/explore-treblle/platform/api-security/dashboard">API Security Guide</Link>
+</TipCard>
+
+### API Compliance Tab
+This tab shows how your request compares to regulatory standards like GDPR, PCI DSS, CCPA, and HIPAA. You'll get a compliance score and see specific checks that passed or failed.
+
+### Metadata Tab
+If you're passing custom business context (like customer IDs, trace IDs, or environment tags), you'll find it here. This is especially helpful for correlating API behavior with your business metrics.
+
+<NoteCard>
+Learn how to add custom metadata in our <Link href="/explore-treblle/platform/metadata">Metadata Documentation</Link>
+</NoteCard>
+
+---
+
+## Step 4: Check Your API's Health
+
+Go back to your API dashboard (click the API name at the top or select it from the left navigation). This is your command center.
+
+Look at the widgets on your dashboard. Out of the box, you'll see key metrics, but there's a lot more you can add. The default view typically shows:
+
+- Request volume over time
+- Average response times
+- Recent requests
+- Your API's governance score
+
+These aren't just numbers. They tell you how your API is performing in the real world.
+
+### Customize What You See
+
+Don't like the default view? Click the grid icon (four squares) in the top right to customize your dashboard. You can enable or disable widgets based on what matters to you.
+
+You'll see a long list of available widgets, including:
+
+<ImageCard src="/use-case-tutorials/monitor-api/widget-1.jpg" alt="Dashboard Widgets - Part 1" />
+
+**Performance widgets:**
+- Average Load Time
+- Average Response Size
+- Performance Per Day
+- Client App Versions
+
+<ImageCard src="/use-case-tutorials/monitor-api/widget-2.jpg" alt="Dashboard Widgets - Part 2" />
+
+**Security widgets:**
+- Security Headers (percentage of requests failing security checks)
+- Denial of Service (DDoS threat monitoring)
+- SQL Injection (requests that failed or passed SQL injection checks)
+- Zombie Endpoints (inactive endpoints in the last 30 days)
+
+**Usage widgets:**
+- Total Requests
+- Total Endpoints
+- Total Customers
+- Top Customers
+- Recent Requests
+- Requests Per Day
+
+<ImageCard src="/use-case-tutorials/monitor-api/widget-3.jpg" alt="Dashboard Widgets - Part 3" />
+
+**Location widgets:**
+- Top Cities
+- Top Countries
+- Recent Requests Map (live map of incoming requests)
+- Top Devices
+
+<ImageCard src="/use-case-tutorials/monitor-api/widget-4.jpg" alt="Dashboard Widgets - Part 4" />
+
+**Other widgets:**
+- Problems Heartbeat (API health trends over time)
+- Compliance (average compliance percentage)
+- Governance (governance score)
+- CO2 Emissions (environmental impact tracking)
+- Recent Questions (what people ask Alfred AI about your API)
+- Top Questions (most common Alfred AI questions)
+
+Toggle the ones you want to see, then click **"Save Changes"** at the bottom. Your dashboard will update instantly.
+
+<TipCard>
+Most people start with the basics (requests, errors, performance) and add security or compliance widgets as they need them. There's no right answer here. Pick what helps you understand your API's behavior.
+</TipCard>
+
+---
+
+## What You've Just Done
+
+In five minutes, you've:
+- Confirmed your API is sending data to Treblle
+- Learned where to find request details
+- Understood your API's current health
+- Set up monitoring for errors
+
+That's the foundation. From here, you can dig deeper into security issues, track down slow endpoints, or analyze customer behavior. But first, get comfortable with these basics.
+
+**Make a few more requests. Click around. See what Treblle captures.**
+
+---
+
+## Quick Tips
+
+### Data Masking is Automatic
+
+Your data is masked by default. Treblle automatically masks sensitive fields like passwords, API keys, and credit card numbers before data leaves your server. You can configure additional fields in your SDK settings.
+
+<NoteCard>
+Learn more about <Link href="/explore-treblle/platform/data-masking">**Data Masking**</Link>
+</NoteCard>
+
+### Request Filtering is Powerful
+
+In the Requests tab, you can filter by status code, threat level, device type, location, and more. Save your frequent filters for quick access.
+
+<NoteCard>
+Learn more about <Link href="/explore-treblle/platform/requests/dashboard">**Requests**</Link>
+</NoteCard>
+
+### The Governance Score Matters
+
+That score on your API dashboard evaluates your API against industry standards for security, design, performance, and AI readiness. Click on it to see specific recommendations.
+
+<NoteCard>
+Learn more about <Link href="/explore-treblle/platform/api-governance/dashboard">**API Governance**</Link>
+</NoteCard>
+
+---
+
+<PaginationCards />

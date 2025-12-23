@@ -1,0 +1,582 @@
+---
+title: "Track Down a Customer-Specific Issue"
+metaTitle: "Track Down a Customer-Specific Issue - Treblle Documentation"
+description: "Learn how to identify and resolve API issues affecting specific customers using Treblle's Customer Dashboard and request filtering."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+# Track Down a Customer-Specific Issue
+
+One customer reports errors while everyone else's requests succeed. Your logs show successful authentication and valid requests, but something's breaking for this specific user. Treblle's Customer Dashboard enables you to isolate and analyze all requests from a single customer, identifying what's different about their usage pattern.
+
+---
+
+## What You'll Need
+
+- A Treblle account with an API sending requests
+- Customer identification implemented (using `treblle-user-id` header)
+- At least one customer with multiple requests in your system
+
+---
+
+## Understanding Customer Tracking
+
+Before you can track customer-specific issues, you need to identify customers in your API requests. Treblle uses the `treblle-user-id` header to link requests to specific customers.
+
+You can pass any identifier, such as user ID, UUID, email, username, or company name. Include this header in either your request or response, and Treblle will pick it up.
+
+### Implementing Customer Tracking
+
+Here's how to add customer identification in Express:
+
+```javascript copy
+// Custom middleware to add Customer information
+app.use((req, res, next) => {
+  if (req.user) { // Ensure the user is authenticated
+    req.headers['treblle-user-id'] = req.user.id; // Attach Customer ID
+  }
+  next();
+});
+
+// Treblle Middleware
+app.use(treblle({
+  apiKey: process.env.TREBLLE_API_KEY,
+  projectId: process.env.TREBLLE_PROJECT_ID
+}));
+```
+
+---
+
+## Quick Customer View at Workspace Level
+
+For a high-level view of top customers across all your APIs, refer to the workspace home page.
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/workspace.jpg" alt="Workspace Top Customers" />
+
+The workspace home page shows key metrics:
+- **Total APIs**: 38
+- **Total Requests**: 1.9M
+- **Total Endpoints**: 357
+- **Total Customers**: 105.9K (highlighted in screenshot)
+
+Dashboard widgets include:
+- **New Customers**: 350
+- **New Endpoints**: 343
+- **CO₂ Emissions**: 1.2K kg
+- **APIs compliance**: 63%
+- **New APIs**: 38
+- **New Requests**: 1.6M
+- **New Problems**: 245 (with trend graph showing 5xx: 110762 and 4xx: 233887)
+
+The **Top customers** widget shows the highest-traffic customers across your entire workspace:
+- Adobe: 99.0K
+- Amazon: 98.8K
+- Apple: 98.7K
+- Microsoft: 98.7K
+- Netflix: 98.7K
+- Meta: 98.6K
+- Walmart: 98.5K
+- Google: 98.4K
+- Tesla: 98.4K
+
+This provides context on which customers are the heaviest users, but for detailed debugging, you need the individual API view.
+
+---
+
+## Access the Customer Dashboard
+
+Customer analysis happens at the individual API level. Navigate to the specific API that is experiencing issues, then click "Customers" in the left sidebar.
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/customer-dashboard.jpg" alt="Customers Dashboard" />
+
+The Customer Dashboard header shows time filter options and summary widgets:
+
+### Time Filters
+- View all / 24H / 72H / 7D / 14D / 30D / **All Time** (selected) / Custom
+
+### Summary Widgets
+
+At the top, you'll see four key metrics:
+- **New Customers**: 37 (with info icon)
+- **Active Customers**: 37
+- **Top Customer**: Adobe, 9.07% (with info icon)
+- **Avg. Requests**: 52.0K
+
+### Dashboard Sections
+
+Below the widgets:
+
+**Favorite customers** section (left):
+- Shows customers you've marked as favorites
+- Currently displays: "Oh no, there is nothing to show." (empty state)
+
+**Top customers** section (right):
+- Lists customers with highest request volumes:
+  - Adobe: 99.1K
+  - Amazon: 98.8K
+  - Apple: 98.7K
+  - Microsoft: 98.7K
+  - Netflix: 98.7K
+  - Meta: 98.7K
+  - Walmart: 98.5K
+  - Google: 98.4K
+  - Tesla: 98.4K
+
+<TipCard>
+Click on any customer name to view their detailed profile and request history.
+</TipCard>
+
+---
+
+## Customize the Customer Dashboard
+
+Click the "Customize Dashboard" button (grid icon) in the top right to show or hide widgets based on your needs.
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/customize-dashboard.jpg" alt="Customize Customer Dashboard" />
+
+The Customize Dashboard modal displays:
+
+**Header:**
+- "Customize Dashboard" title
+- Close button (X) in top right
+- **Enable all widgets** toggle switch (currently ON)
+
+**Available Widgets** (all shown with blue toggle switches enabled):
+
+1. **New Customers**
+   - Description: Number of new customers in your API
+
+2. **Active Customers**
+   - Description: Number of active customers in your API
+
+3. **Top Customer**
+   - Description: Customer with highest number of requests
+
+4. **Average Requests Per Customer**
+   - Description: Average number of API requests made by all customers
+
+5. **Favorite Customers**
+   - Description: List of customers you marked as favorite
+
+6. **Top Customers List**
+   - Description: List of customers with highest number of requests in your API
+
+**Footer:**
+- **Cancel** button (left, with X icon)
+- **Save Changes** button (right, blue)
+
+<TipCard>
+For debugging, enable "Top Customer" and "Top Customers List" widgets to quickly identify high-volume customers and spot unusual patterns.
+</TipCard>
+
+---
+
+## View All Customers
+
+To see a complete list of all customers, click "View all" or navigate to the Customers section. You can toggle between **Table** and **List** views.
+
+### Table View
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/table-view.jpg" alt="Customers Table View" />
+
+The Table view displays customers in a compact table format:
+
+**Header:**
+- **Back to Customers Dashboard** link
+- Time filters: 24H / 72H / 7D / 14D / 30D / All Time / Custom
+- View toggle: List / **Table** (selected)
+
+**Controls:**
+- Showing 1 to 20 of 37 customers (20/page dropdown)
+- **Search customers...** search bar
+- **Sort by: Request Date ↓** dropdown
+- **Filter** button
+- Pagination: 1 (highlighted), 2, > buttons
+- **View fields** dropdown
+
+**Table Columns:**
+- **Customer Name**: Tesla, Adobe, Amazon, Microsoft, Google, Walmart, Netflix, harsha, J.P. Morgan, vedran, Meta, Apple, andy, tea, Filip_Leskovec_Mhx, Rahul_Khinchi_M3i, h4912dn7d3mdl, Tuna, lovroLasicE1T
+- **Overall Percentage**: Percentages with trend indicators (e.g., 9.01% 0% ↗, 9.07% 0% ↗, 9.04% 0% ↗)
+- **Last Request**: Time stamps (a minute ago, 2 minutes ago, 3 minutes ago, 8 minutes ago, 5 days ago, 8 days ago, a month ago)
+
+Each row has a star icon for favoriting and a menu icon (⋮) on the right.
+
+### List View
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/list-view.jpg" alt="Customers List View" />
+
+The List view displays customers as individual cards with request graphs:
+
+**Header:**
+- Same controls as Table view
+- View toggle: **List** (selected) / Table
+
+**Customer Cards:**
+
+Each customer card shows:
+- **Customer name** (e.g., Tesla, Adobe, Amazon, Microsoft, Google, Walmart)
+- **Requests →** with count (e.g., 98.4K, 99.1K, 98.8K, 98.7K, 98.4K, 98.5K)
+- **Overall Percentage (of requests)** (e.g., 9.01%, 9.07%, 9.04%, 9.04%, 9.01%, 9.01%)
+- **Request graph**: Blue area chart showing request volume over time
+- **Last Request**: Timestamp (e.g., "Last Request: 2 minutes ago")
+- Star icon for favoriting
+- Menu icon (⋮)
+
+<TipCard>
+Use List view to quickly visualize request patterns and trends for each customer. Use Table view for a compact overview when scanning many customers.
+</TipCard>
+
+---
+
+## Find the Customer with Issues
+
+If you know the customer's name or ID, use the search or scroll through the list. If you don't know who's having problems, look for patterns:
+
+**Low request counts with recent activity**: A customer who has just started using your API may be encountering errors during onboarding.
+
+**High percentage but declining**: A previously active customer whose requests dropped might be hitting errors and giving up.
+
+**Unusual timing**: Check the "Last Request" column. If a customer is active but their last request was hours ago, they might have stopped trying after encountering errors.
+
+Click on the customer to see their detailed profile.
+
+---
+
+## Analyze the Customer Profile
+
+Click on any customer to view their detailed profile. You can toggle between **Table** and **List** views for their requests.
+
+### Customer Profile - Table View
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/individual-table.jpg" alt="Customer Profile Table View" />
+
+The customer profile page shows:
+
+**Header:**
+- **Back to Customers** link
+- Time filters: 1MIN / 5MIN / 24H / 72H / **7D** (selected) / 14D / 30D / All Time / Custom
+- Star icon to favorite this customer
+
+**Customer Summary:**
+- **Customer name**: Adobe
+- **Requests**: 12.1K (+1.22% trend)
+- **Overall Percentage (of requests)**: 9.31% (+0.12% trend)
+- **DESCRIPTION** field (empty in screenshot)
+- **Request graph**: Blue area chart showing request volume over the 7-day period
+
+### Requests Section (Table View)
+
+**Controls:**
+- View toggle: List / **Table** (selected)
+- **Search requests...** search bar
+- **Sort by: Created at ↓** dropdown
+- **Filter** button
+- **View fields** dropdown
+- Showing 1 to 20 of 12175 Requests (20/page dropdown)
+- Pagination: < 1 2 3 4 5 ... 609 >
+
+**Table Columns:**
+- **Method**: GET, POST (color-coded)
+- **Response**: 200 status codes (green)
+- **Name**: Endpoint paths (articles/5c9bb029-5599-3e56-a9cc-967cfcb64775, articles, articles/.../favorite, auth/register, users/..., etc.)
+- **Load time**: Request duration (20.9ms, 26.54ms, 21.26ms, 29.76ms, etc.)
+- **Threat**: Low, Medium indicators
+- **Device**: Device icons (mobile, desktop)
+- **AI Agent**: AI service detection (blank, ChatGPT, Perplexity, Claude shown)
+- **Location**: Geographic locations (Tyrese Strand Stockholms Lan Sweden, New Rochelle New York, Stockholm, Wien Austria, Bethlehem Pennsylvania, Amsterdam, San Jose California, Chicago Illinois)
+- **Time**: Timestamps (a minute ago, 2 minutes ago, 4 minutes ago, 5 minutes ago, 6 minutes ago, 7 minutes ago, 8 minutes ago)
+
+### Customer Profile - List View
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/individual-list.jpg" alt="Customer Profile List View" />
+
+The List view displays each request as an expandable card:
+
+**Controls:**
+- View toggle: **List** (selected) / Table
+- Same search, sort, and filter options
+
+**Request Cards:**
+
+Each card shows:
+- **Method badge** and **Response code** (e.g., GET 200, POST 200)
+- **Customer**: Adobe
+- **Trace ID**: Customer identifier (e.g., 1JmBdjahcz, mQfxtEvBXp, wryrYpzmu1)
+- **Endpoint path**: Full endpoint URL (e.g., `articles/{uuid}`)
+- **UUID**: Request identifier
+- **Threat level**: Low Threat, Medium Threat indicators
+- **Timestamp**: When request occurred (a minute ago, 2 minutes ago)
+
+**Expanded details** (shown for some cards):
+- **Response size**: File size (e.g., 0.55kb, 8.89kb)
+- **Load time**: Duration (e.g., 20.9ms, 26.54ms)
+- **Device**: Device type (android)
+- **Location**: Geographic location
+- **Response body preview**: JSON snippet (e.g., `{"user":"78203d82-c84a-33d1-8982-56cc976f5cdb"}`)
+
+<TipCard>
+List view is ideal for detailed request inspection, while Table view helps you scan many requests quickly to identify patterns.
+</TipCard>
+
+### Analyzing the Request Graph
+
+The request graph shows volume over time. Look for:
+- **Sudden drops**: Indicate when problems started
+- **Spikes followed by silence**: Customer tried repeatedly, then gave up
+- **Unusual patterns**: Irregular usage compared to their normal baseline
+
+In the Adobe example, the graph shows relatively consistent usage with some variation over the 7-day period.
+
+---
+
+## Examine Their Request History
+
+From either the Table or List view, you can examine all requests from this customer.
+
+### Sort Request History
+
+Use the **Sort by** dropdown to organize requests:
+- **Created at** ↓ ↑ (ascending/descending)
+- **Request Date**
+- **Response code**
+- **Load time**
+
+Useful sorts for debugging:
+- **Response code**: See all errors together
+- **Load time**: Find slow requests
+- **Created at**: Chronological order to trace issue progression
+
+### Adjust Time Range
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/time.jpg" alt="Time Range Filters" />
+
+Use the time filters at the top to analyze different periods:
+- **1MIN**: Last minute
+- **5MIN**: Last 5 minutes  
+- **24H**: Last 24 hours
+- **72H**: Last 72 hours
+- **7D**: Last 7 days (default)
+- **14D**: Last 14 days
+- **30D**: Last 30 days
+- **All Time**: Complete history
+- **Custom**: Choose specific date range
+
+<TipCard>
+When investigating issues, start with a recent time period (24H or 7D) to see current behavior, then expand to All Time to identify when the problem started.
+</TipCard>
+
+---
+
+## Filter Customer Requests
+
+Click "Filter" to narrow down the customer's requests using multiple criteria.
+
+### Filter Panel - Part 1 (Metadata and User Info)
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/filter-2.jpg" alt="Filter Panel - Metadata and User Info" />
+
+The filter panel includes multiple sections:
+
+**METADATA Section:**
+- **Trace ID**: Text input field
+- **IP Address**: Text input field
+- **Parameter** / **Value**: Two fields with "+" button to add multiple parameter filters
+
+**USER INFO Section:**
+- **Device**: Multi-select dropdown ("Select one or more options...")
+- **Location**: Search field ("Search for location")
+- **Client App Version**: Text input field
+
+**SECURITY & COMPLIANCE Section:**
+- **Security Threat Level**: Multi-select dropdown ("Select one or more options...")
+- **Compliance**: Dropdown ("Select option...")
+
+**Bottom Controls:**
+- **Clear All** button (with refresh icon)
+- **Filter** button (blue)
+
+### Filter Panel - Part 2 (Request Filters)
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/filter.jpg" alt="Filter Panel - Request and Metadata" />
+
+Additional filter options shown:
+
+**REQUEST Section:**
+- **Method**: Multi-select ("Select one or more options...")
+- **Response code**: Multi-select ("Select one or more options...")
+- **Endpoints**: Search field ("Search for endpoints")
+- **Request Parameters**: Text input field
+- **Has Problems**: Dropdown set to "Any"
+
+**METADATA Section** (when scrolled):
+- **Trace ID**: Text input field
+- **IP Address**: Text input field
+- **Parameter** / **Value**: Fields with "+" button
+
+**USER INFO Section** (partial view):
+- **Device**: Multi-select dropdown
+
+The customer is automatically pre-filtered (shown as "Adobe" in the customer profile context).
+
+### Common Filter Combinations
+
+**Find Failed Requests:**
+- Response code: 400, 403, 500, etc.
+- This shows only requests that failed
+
+**Endpoint-Specific Issues:**
+- Endpoints: Enter specific endpoint path
+- Method: Select POST, GET, etc.
+- Helps identify if problems occur only on certain endpoints
+
+**Device-Specific Problems:**
+- Device: Select Mobile, Desktop, or Tablet
+- Check if errors only occur on specific device types
+
+**Location-Based Issues:**
+- Location: Search for specific cities, regions, or countries
+- Verify if errors correlate with geographic location
+
+**Security Concerns:**
+- Security Threat Level: Select High, Medium, or Low
+- Identify if customer's requests trigger security flags
+
+**Metadata Tracking:**
+- Trace ID: Enter trace ID for distributed request tracing
+- IP Address: Filter by specific IP addresses
+- Parameter/Value: Filter by custom request parameters
+
+<TipCard>
+Combine multiple filters to narrow down the exact scenario causing problems. For example: POST requests to /auth/login from mobile devices with response code 401.
+</TipCard>
+
+---
+
+## Compare Failed and Successful Requests
+
+Click on a failed request (one with a 400, 403, 500, or similar error code). Look at the request details in the tabs:
+
+### Info Tab
+- **Device type**: Is the customer using an unusual device or browser?
+- **Location**: Are they in a region with specific regulatory requirements or network conditions?
+- **Client version**: Are they using an outdated app version?
+
+### Security Tab
+Look at security checks. The customer's requests might be:
+- Triggering rate limits
+- Failing authorization checks
+- Coming from flagged IP addresses
+- Missing required security headers
+
+### API Compliance Tab
+Check if the customer's requests fail compliance checks. Some customers might send data that violates:
+- GDPR requirements
+- PCI DSS standards
+- CCPA regulations
+- HIPAA rules
+
+---
+
+## Review Metadata
+
+If you're passing custom metadata, check the Metadata tab.
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/metadata.jpg" alt="Customer Metadata" />
+
+You'll see:
+- **Customer identifier**: Confirms which customer this is (e.g., "vedran")
+- **Trace ID**: If you're using tracing, this links related requests (e.g., "demo-rTgqR")
+- **Custom fields**: Any additional metadata you've added
+
+Custom metadata helps correlate business context with technical issues. For example, this customer may be on a specific subscription tier with different rate limits.
+
+---
+
+## Look for Patterns Across Requests
+
+Don't just look at one failed request. Look at all of them together. Common patterns:
+
+**All errors on specific endpoints**: The customer is misusing an endpoint or hitting a bug in that particular endpoint.
+
+**Errors started at a specific time**: Something changed (e.g., deployment, customer's subscription, or their app version).
+
+**Mix of success and failure**: The customer is doing something intermittently wrong, or there's a race condition.
+
+**Errors only from specific device/location**: Environment-specific issue (network conditions, regional restrictions).
+
+**Increasing error rate**: The problem is getting worse over time, which may indicate a degrading service or an accumulating issue.
+
+---
+
+## Check Customer Usage Patterns
+
+Return to the customer profile and examine the request graph over a more extended time period. Use the time filter at the top to switch between 24 hours, 72 hours, 7 days, 14 days, 30 days, or All Time.
+
+Look for:
+- **When did errors start?**: Correlate with your deployments or changes
+- **Was there a pattern before errors?**: Regular usage that suddenly broke
+- **Are they still trying?**: Active attempts vs. giving up
+- **How often do they retry?**: Immediate retries suggest an automated system
+
+---
+
+## Compare to Other Customers
+
+Go back to the Customer Dashboard main view. Look at other customers:
+- Are other customers hitting the same errors?
+- Do successful customers use the API differently?
+- Is this customer's usage pattern unusual compared to others?
+
+If only one customer has issues, the problem is likely specific to their usage pattern, data, or environment. If multiple customers have similar issues, it's a broader API problem.
+
+---
+
+## Create Alerts for This Customer
+
+Once you've identified the issue pattern, set up an alert to catch it immediately if it happens again (or to other customers).
+
+<ImageCard src="/use-case-tutorials/customer-specific-issue/alerts.jpg" alt="Customer Alerts" />
+
+<NoteCard>
+Learn more about creating alerts in the <Link href="https://docs.treblle.com/explore-treblle/platform/alerts/custom-alerts">Set Up Custom Alerts</Link> docs.
+</NoteCard>
+
+---
+
+## Document Your Findings
+
+Go back to the customer profile. In the description field, add notes about:
+- What issue you found
+- When it started
+- What caused it
+- How you fixed it
+- Any workarounds you provided
+
+This helps your team if the customer contacts support again or if similar patterns emerge with other customers.
+
+---
+
+## Common Customer-Specific Issues
+
+**Incorrect API version**: The customer is calling deprecated endpoints or using outdated request formats.
+
+**Permission problems**: The customer's account lacks access to specific features or data they're requesting.
+
+**Data format mismatches**: The customer sends data in unexpected formats (e.g., dates, currencies, nested objects).
+
+**Rate limiting**: Customer exceeds rate limits due to aggressive polling or batch operations.
+
+**Regional restrictions**: Customer's location triggers geo-blocking or requires special handling.
+
+**Integration bugs**: The customer's client library or SDK contains bugs that other customers using different tools don't encounter.
+
+**Account-specific configuration**: Customer's account has settings that affect API behavior differently from other accounts.
+
+---
+
+<PaginationCards />

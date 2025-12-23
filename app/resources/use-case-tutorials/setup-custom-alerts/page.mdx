@@ -1,0 +1,346 @@
+---
+title: "Set Up Custom Alerts"
+metaTitle: "Set Up Custom Alerts - Treblle Documentation"
+description: "Learn how to configure custom alerts in Treblle to get notified about errors, performance issues, and security threats before they become problems."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+# Set Up Custom Alerts
+
+Stay ahead of API issues by configuring custom alerts. Get notified via email or Slack when specific conditions are met, so you can respond to problems before they impact your users.
+
+---
+
+## What You'll Learn
+
+By the end of this tutorial, you'll be able to:
+- Filter requests to identify specific patterns
+- Save custom searches for reuse
+- Create alerts based on saved searches
+- Configure notification channels (Email, Slack)
+- Set alert frequency and recipients
+
+<NoteCard>
+This tutorial assumes you already have Treblle integrated and receiving API requests. If not, check out <Link href="/resources/use-case-tutorials/setup-custom-alerts/monitor-first-api">Monitor Your First API in 5 Minutes</Link> first.
+</NoteCard>
+
+---
+
+## Step 1: Filter Your Requests
+
+The first step is to identify what you want to monitor. Treblle lets you filter requests by various criteria to pinpoint exactly what matters.
+
+Navigate to your API's **Requests** tab, then click the **Filter** button in the top right.
+
+<ImageCard src="/use-case-tutorials/setup-custom-alerts/filter.jpg" alt="Request Filtering Options" />
+
+You can filter by:
+
+### Request Properties
+- **Method** - GET, POST, PUT, DELETE, etc.
+- **Response code** - 200, 404, 500, etc.
+- **Endpoints** - Specific API endpoints
+- **Request Parameters** - Query parameters or path variables
+
+### User Information
+- **Device** - Mobile, Desktop, Tablet
+- **Location** - Country, city, or region
+- **Client App Version** - Track specific app versions
+
+### Security & Compliance
+- **Security Threat Level** - High, Medium, Low
+- **Compliance** - Pass or Fail
+
+<TipCard>
+Start with broad filters and narrow down. For example, filter for all 500 errors first, then add specific endpoints if needed.
+</TipCard>
+
+### Common Filter Examples
+
+**Monitor High-Threat Requests:**
+- Security Threat Level: High
+- This catches potential security issues like SQL injection attempts or DDoS patterns
+
+**Track Slow Endpoints:**
+- Response Time: > 1000ms
+- This helps identify performance bottlenecks
+
+**Watch Authentication Failures:**
+- Endpoint: `/auth/login`
+- Response Code: 401 or 403
+
+**Monitor Production Errors:**
+- Response Code: 500, 502, 503, 504
+- This catches server-side errors
+
+---
+
+## Step 2: Save Your Search
+
+Once you've configured your filters, save the search so you can reuse it and create alerts from it.
+
+Click the **Save search** button at the top right of the Requests page.
+
+<ImageCard src="/use-case-tutorials/setup-custom-alerts/save-search.jpg" alt="Save Search Dialog" />
+
+**Give your search a descriptive name**, such as:
+- "High threat level requests"
+- "Monitor uptime and response times"
+- "Production 500 errors"
+- "Authentication failures"
+- "Slow API responses"
+
+<TipCard>
+Use clear, descriptive names that explain what the search monitors. This makes it easier to manage multiple alerts later.
+</TipCard>
+
+Click **Save Search** to store your filter configuration.
+
+<NoteCard>
+Saved searches appear in the **Saved search** dropdown on the Requests page, making them easy to access anytime.
+</NoteCard>
+
+---
+
+## Step 3: Create a Custom Alert
+
+Now that you have a saved search, you can create an alert that notifies you when matching requests occur.
+
+Navigate to **My Alerts** in the left sidebar, then click on the **Custom alerts** tab.
+
+Click **+ New Custom Alert** button.
+
+<ImageCard src="/use-case-tutorials/setup-custom-alerts/new-custom-alert.jpg" alt="Create New Custom Alert" />
+
+Configure your alert with these settings:
+
+### Alert Name
+Give your alert a clear, descriptive name (e.g., "Server Error Alert" or "High Threat Notifications").
+
+### Type
+Select **"Saved Search"** from the dropdown.
+
+### From saved search
+Choose the saved search you created in Step 2 from the dropdown menu.
+
+<TipCard>
+You can create multiple alerts from the same saved search with different notification settings.
+</TipCard>
+
+### Channel
+Choose how you want to be notified:
+- **Email** - Notifications sent to specified email addresses
+- **Slack** - Messages posted to a Slack channel (requires Slack integration)
+
+### Frequency
+Set how often you want to receive alerts:
+- **Real-time** - Get notified immediately when conditions are met
+- **Hourly** - Receive a digest once per hour
+- **Daily** - Get a daily summary
+- **Weekly** - Weekly digest of matching requests
+
+<NoteCard>
+For critical issues like server errors or security threats, use real-time alerts. For monitoring trends, daily or weekly digests work better.
+</NoteCard>
+
+### People
+Select who should receive the alert notifications. You can choose:
+- Yourself
+- Specific team members
+- Multiple recipients
+
+Click **Create alert** to activate your custom alert.
+
+---
+
+## Step 4: Configure Slack Notifications (Optional)
+
+If you want to receive alerts in Slack, you'll need to set up the Slack integration first.
+
+Navigate to **API Settings** in the left sidebar, then scroll to the **Slack channels** section.
+
+<ImageCard src="/use-case-tutorials/setup-custom-alerts/slack.jpg" alt="Slack Channel Configuration" />
+
+Click **+ Add channel** and follow the prompts to:
+
+1. **Authorize Treblle** to access your Slack workspace
+2. **Select the channel** where you want notifications posted
+3. **Configure the webhook** settings
+
+Once configured, you can select Slack as a notification channel when creating alerts.
+
+<TipCard>
+Create dedicated Slack channels for different alert types (e.g., #api-errors, #api-security) to keep notifications organized.
+</TipCard>
+
+---
+
+## Common Alert Scenarios
+
+Here are some proven alert configurations to get you started:
+
+### Scenario 1: Production Error Monitoring
+
+**Saved Search:**
+- Response Code: 500, 502, 503, 504
+
+**Alert Settings:**
+- Name: "Production Errors"
+- Frequency: Real-time
+- Channel: Email + Slack
+- Recipients: Engineering team
+
+**Why:** Catch server errors immediately so you can respond before users are impacted.
+
+---
+
+### Scenario 2: Security Threat Detection
+
+**Saved Search:**
+- Security Threat Level: High
+
+**Alert Settings:**
+- Name: "Security Threats"
+- Frequency: Real-time
+- Channel: Email + Slack
+- Recipients: Security team
+
+**Why:** Get notified of potential attacks like SQL injection attempts or DDoS patterns.
+
+---
+
+### Scenario 3: Performance Degradation
+
+**Saved Search:**
+- Response Time: > 2000ms
+
+**Alert Settings:**
+- Name: "Slow API Responses"
+- Frequency: Hourly
+- Channel: Email
+- Recipients: Performance team
+
+**Why:** Track performance issues without alert fatigue from individual slow requests.
+
+---
+
+### Scenario 4: Authentication Issues
+
+**Saved Search:**
+- Endpoint: `/auth/login` or `/auth/register`
+- Response Code: 401, 403
+
+**Alert Settings:**
+- Name: "Auth Failures"
+- Frequency: Daily
+- Channel: Email
+- Recipients: Backend team
+
+**Why:** Monitor authentication patterns to detect potential account security issues.
+
+---
+
+### Scenario 5: API Compliance Failures
+
+**Saved Search:**
+- Compliance: Fail
+
+**Alert Settings:**
+- Name: "Compliance Issues"
+- Frequency: Real-time
+- Channel: Email
+- Recipients: Compliance team
+
+**Why:** Stay on top of GDPR, PCI DSS, or HIPAA compliance violations.
+
+---
+
+## Managing Your Alerts
+
+### View Active Alerts
+
+Navigate to **My Alerts** to see all your configured alerts. You'll see:
+- Alert name and type
+- Last triggered time
+- Number of notifications sent
+- Status (active/paused)
+
+### Edit an Alert
+
+Click on any alert to modify:
+- Notification frequency
+- Recipients
+- Search criteria
+
+### Pause or Delete Alerts
+
+- **Pause** alerts temporarily if you're doing maintenance
+- **Delete** alerts you no longer need
+
+<TipCard>
+Pause alerts during planned maintenance windows to avoid unnecessary notifications.
+</TipCard>
+
+---
+
+## Best Practices
+
+### Start Simple
+Begin with a few critical alerts (errors, security threats) and expand gradually. Too many alerts lead to alert fatigue.
+
+### Use Descriptive Names
+Clear alert names help your team understand what's being monitored without opening the alert details.
+
+### Set Appropriate Frequencies
+- **Real-time**: Critical issues (errors, security threats)
+- **Hourly**: Performance monitoring
+- **Daily**: Trend analysis, compliance checks
+- **Weekly**: General health reports
+
+### Test Your Alerts
+After creating an alert, trigger it manually to ensure notifications are working correctly.
+
+### Review Regularly
+Periodically review your alerts to ensure they're still relevant and adjust thresholds as needed.
+
+### Combine with Dashboards
+Use alerts alongside custom dashboards to get both reactive notifications and proactive monitoring.
+
+---
+
+## Troubleshooting
+
+### Not Receiving Notifications?
+
+**Check your email settings:**
+- Verify your email address in account settings
+- Check spam/junk folders
+- Ensure email notifications are enabled
+
+**For Slack notifications:**
+- Verify Slack integration is active
+- Check channel permissions
+- Test with a simple alert first
+
+### Too Many Alerts?
+
+**Adjust your filters:**
+- Make conditions more specific
+- Increase frequency to hourly or daily
+- Combine similar alerts into digests
+
+### Alert Not Triggering?
+
+**Verify your saved search:**
+- Go to Requests and load your saved search
+- Confirm it returns the expected results
+- Check if the filter conditions are too restrictive
+
+---
+
+<PaginationCards />
