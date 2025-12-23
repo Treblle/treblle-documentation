@@ -19,9 +19,11 @@ export default function MobileSidebarToggle({ title, sectionClass }: Properties)
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        document.querySelector(`.${sectionClass}`)?.classList.add("hidden");
-    }, [path])
+        if (window.innerWidth < 768) {
+            // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+            document.querySelector(`.${sectionClass}`)?.classList.add("hidden");
+        }
+    }, [path, sectionClass]);
 
     function toggleSection() {
         setIsOpen(!isOpen);
