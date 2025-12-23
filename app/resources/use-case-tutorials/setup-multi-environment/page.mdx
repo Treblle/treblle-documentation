@@ -1,0 +1,341 @@
+---
+title: "Set Up Multi-Environment Monitoring"
+metaTitle: "Set Up Multi-Environment Monitoring - Treblle Documentation"
+description: "Learn how to configure and monitor multiple environments (Development, Staging, Production) in Treblle to track your API across different deployment stages."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+# Set Up Multi-Environment Monitoring
+
+Managing APIs across multiple environments (Development, Staging, Production) can be challenging. Each environment serves a different purpose and requires separate monitoring. Treblle allows you to create separate API instances for each environment, giving you complete visibility into how your API behaves at every stage of deployment.
+
+---
+
+## What You'll Need
+
+- A Treblle account
+- Access to your application in different environments (Development, Staging, Production)
+- Ability to configure environment variables
+
+---
+
+## Understanding Environments
+
+Before setting up monitoring, it's important to understand the different environment options Treblle provides:
+
+### Environment Types
+
+Treblle supports four environment types:
+
+- **Production**: Your live, customer-facing API
+- **Staging**: Pre-production environment for final testing
+- **Development**: Development environment for active development
+- **Unknown**: Default when no environment is specified
+
+### API Types
+
+You can also classify APIs by access type:
+
+- **Internal**: APIs used only within your organization
+- **External**: Public-facing APIs for external consumers
+- **Partner**: APIs used by your partners or customers
+
+<NoteCard>
+Use the **Partner** type for APIs that your customers or partners integrate with. This helps you monitor and support customer integrations separately from your internal and public APIs.
+</NoteCard>
+
+### API Categories
+
+Organize APIs by business function:
+
+- Financial
+- Government
+- Healthcare
+- E-commerce
+- Social Media
+- Entertainment
+- Education
+- And more...
+
+---
+
+## Step 1: Create API for Each Environment
+
+For each environment you want to monitor, create a separate API instance in Treblle.
+
+### Create Your First API
+
+<ImageCard src="/use-case-tutorials/setup-multi-environment/multi-env-step1.png" alt="API Info Form" />
+
+Navigate to **APIs** in the sidebar and click **+ New API**. You'll see the "Add New API" wizard with three steps:
+
+1. **API Info** (current step)
+2. Integrations
+3. Setup
+
+Fill in the **API Info** form:
+
+**API Name*** (required)
+- Enter a descriptive name for this environment
+- Examples: "My API - Production", "My API - Staging", "My API - Dev"
+
+**Environment*** (required) - Dropdown with options:
+- Production
+- Staging (shown selected in screenshot)
+- Development
+- Unknown
+
+**Category*** (required) - Dropdown with options:
+- Financial (shown selected in screenshot)
+- Government
+- Healthcare
+- E-commerce
+- Social Media
+- Entertainment
+- Education
+- And more...
+
+**Type*** (required) - Dropdown with options:
+- Internal (shown selected in screenshot)
+- External
+- Partner
+
+**Tags** (optional)
+- Add custom tags to organize your APIs
+- Press enter to add tags to the list
+- Placeholder: "Select tags"
+
+Click **Next →** to proceed to the Integrations step.
+
+<TipCard>
+Use a consistent naming convention across environments, such as "MyApp - Production", "MyApp - Staging", "MyApp - Development" to easily identify related APIs.
+</TipCard>
+
+---
+
+## Step 2: Choose Your Integration Method
+
+<ImageCard src="/use-case-tutorials/setup-multi-environment/multi-env-step2.png" alt="Integration Selection" />
+
+After providing API info, you'll reach the **Integrations** step. Choose how you want to integrate Treblle with your API.
+
+Click **Back** to return to API Info or click **Create API and Integrate →** to proceed to setup.
+
+<NoteCard>
+Select the same integration method for all environments of the same API. This ensures consistent data collection across your deployment pipeline.
+</NoteCard>
+
+---
+
+## Step 3: Configure Integration
+
+<ImageCard src="/use-case-tutorials/setup-multi-environment/multi-env-step3.png" alt="Express Setup Instructions" />
+
+After selecting your integration (Express shown in example), you'll see the **Express Setup** page with implementation instructions:
+
+Click **Finish →** to complete the setup.
+
+**Top right**: **Read Full Documentation** link for detailed instructions.
+
+<TipCard>
+Store your SDK tokens and API keys as environment variables. Never commit credentials directly in your code.
+</TipCard>
+
+---
+
+## Step 4: Configure Environment Variables
+
+The key to multi-environment monitoring is using different API keys for each environment. Each environment should have its own unique credentials.
+
+### Environment Variable Setup
+
+For each environment, configure these variables:
+
+**Production:**
+```bash
+export TREBLLE_SDK_TOKEN=<your-production-sdk-token>
+export TREBLLE_API_KEY=<your-production-api-key>
+```
+
+**Staging:**
+```bash
+export TREBLLE_SDK_TOKEN=<your-staging-sdk-token>
+export TREBLLE_API_KEY=<your-staging-api-key>
+```
+
+**Development:**
+```bash
+export TREBLLE_SDK_TOKEN=<your-development-sdk-token>
+export TREBLLE_API_KEY=<your-development-api-key>
+```
+
+### Using .env Files
+
+Create separate `.env` files for each environment:
+
+**.env.production:**
+```bash
+TREBLLE_SDK_TOKEN=production_token_here
+TREBLLE_API_KEY=production_key_here
+```
+
+**.env.staging:**
+```bash
+TREBLLE_SDK_TOKEN=staging_token_here
+TREBLLE_API_KEY=staging_key_here
+```
+
+**.env.development:**
+```bash
+TREBLLE_SDK_TOKEN=development_token_here
+TREBLLE_API_KEY=development_key_here
+```
+
+### Cloud Platform Configuration
+
+For cloud deployments, set environment variables through your platform's dashboard:
+
+- **AWS**: Lambda Environment Variables or Systems Manager Parameter Store
+- **Azure**: Application Settings
+- **Heroku**: Config Vars
+- **Vercel**: Environment Variables
+- **Docker**: Docker Compose environment section
+
+<NoteCard>
+Keep your credentials secure. Use secret management services for production environments and never expose API keys in client-side code.
+</NoteCard>
+
+---
+
+## Step 5: Verify Each Environment
+
+<ImageCard src="/use-case-tutorials/setup-multi-environment/multi-env-api-info.png" alt="APIs List with Environments" />
+
+After setting up your environments, navigate to **APIs** in the sidebar to see all your API instances.
+
+The APIs list shows:
+
+**API Cards displaying:**
+- **API Name** (e.g., "Demo API", "test", "Prompt Enhancer API", "test1")
+- **Environment Badge**: Staging, Production, Development, Unknown (color-coded)
+- **Category Badge**: (if applicable)
+- **Type Badge**: Internal or External
+- **Integrate SDK message**: For newly created APIs
+
+**Example APIs shown:**
+1. **Demo API** - Staging - Internal - 9.9K requests, 8 endpoints, 1 problem
+2. **test** - Production - Financial - Internal - Integrate SDK prompt, No data
+3. **Prompt Enhancer API** - Production - Internal - 3.4K requests, 2 endpoints, 0 problems
+4. **test1** - Development - Government - Internal - Integrate SDK prompt, No data
+5. **test1** - Unknown - Rnd - External - Integrate SDK prompt, No data
+
+<TipCard>
+Use the environment badges to quickly identify which APIs are in production versus development or staging. This helps prevent accidentally modifying production settings.
+</TipCard>
+
+---
+
+## Compare Environments
+
+Once all environments are set up and receiving data, you can compare their behavior:
+
+### Compare Request Volumes
+
+Look at the request counts for each environment:
+- Production typically has the highest volume
+- Staging should mirror production load during testing
+- Development has variable, lower volume
+
+### Compare Error Rates
+
+Navigate to each API's dashboard to compare:
+- Production errors impact real users
+- Staging errors indicate issues before production release
+- Development errors are expected during active development
+
+### Compare Performance
+
+Check load times across environments:
+- Production should have optimized performance
+- Staging should match production configuration
+- Development may be slower due to debug tools
+
+### Compare Endpoints
+
+Verify endpoint parity:
+- All environments should have the same endpoints
+- New endpoints appear in development first
+- Changes flow: Development → Staging → Production
+
+---
+
+## Set Up Environment-Specific Alerts
+
+<NoteCard>
+Learn more about setting up alerts in the <Link href="https://docs.treblle.com/explore-treblle/platform/alerts/custom-alerts">Set Up Custom Alerts</Link> tutorial.
+</NoteCard>
+
+Configure different alert thresholds for each environment.
+
+### Production Alerts
+
+Set strict monitoring for production:
+- Alert on any 5xx errors
+- Alert when error rate exceeds 1%
+- Alert when average response time exceeds 500ms
+- Send to on-call team via Slack/PagerDuty
+
+### Staging Alerts
+
+Set moderate monitoring for staging:
+- Alert on critical errors during load testing
+- Alert when error rate exceeds 5%
+- Send to development team via Slack
+
+### Development Alerts
+
+Set lenient monitoring for development:
+- Optional: Alert on persistent errors
+- Focus on security vulnerabilities
+- Send to individual developers
+
+---
+
+## Troubleshooting
+
+### API Not Receiving Requests
+
+**Problem**: Environment shows "Integrate SDK" or "No data"
+
+**Solution**:
+1. Verify environment variables are set correctly
+2. Check that the SDK is properly initialized
+3. Restart your application after setting variables
+4. Make test requests to generate data
+
+### Wrong Environment Showing
+
+**Problem**: Requests appear in wrong environment
+
+**Solution**:
+1. Verify you're using the correct API key for that environment
+2. Check environment variable names match exactly
+3. Ensure you're not mixing production and staging keys
+
+### Missing Environments
+
+**Problem**: Only seeing production data
+
+**Solution**:
+1. Create separate API instances for each environment
+2. Configure unique API keys for each
+3. Deploy with environment-specific credentials
+
+---
+
+<PaginationCards />

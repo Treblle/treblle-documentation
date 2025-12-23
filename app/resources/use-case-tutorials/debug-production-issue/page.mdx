@@ -1,0 +1,251 @@
+---
+title: "Debug a Production Issue"
+metaTitle: "Debug a Production Issue - Treblle Documentation"
+description: "Learn how to quickly identify, investigate, and resolve API issues in production using Treblle's debugging tools and request inspection features."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import PaginationCards from "~components/cards/pagination-cards";
+import Link from "next/link";
+
+# Debug a Production Issue
+
+When issues arise in production, Treblle helps you quickly identify, investigate, and resolve API problems using request inspection and analysis tools.
+
+---
+
+## What You'll Learn
+
+By the end of this tutorial, you'll know how to:
+- Navigate to the Endpoints view and identify problem areas
+- Sort and filter endpoints to find issues
+- Inspect individual request details
+- View performance metrics
+- Check metadata for debugging context
+- Review API compliance scores
+
+<NoteCard>
+This tutorial assumes you're already monitoring your API with Treblle. If not, start with <Link href="/resources/use-case-tutorials/debug-production-issue/monitor-first-api">Monitor Your First API in 5 Minutes</Link>.
+</NoteCard>
+
+---
+
+## Step 1: Navigate to Endpoints
+
+Navigate to the **Endpoints** tab in your API to see all available endpoints.
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/endpoints.jpg" alt="Endpoints Overview" />
+
+The Endpoints view shows:
+- Endpoint paths (e.g., `users/{uuid}`, `articles/{uuid}`)
+- Total requests count
+- Average load time
+- Performance graph visualizations
+- Documentation status ("In Docs")
+- Last request timestamp
+
+### Sort Endpoints
+
+Click the **Sort by** dropdown to organize endpoints:
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/sort.jpg" alt="Sort Options" />
+
+Available sort options include:
+- **Path Name** ↑ (ascending)
+- **Path Name** ↓ (descending)  
+- **Alias** ↑ ↓
+- **Request count** ↑ ↓
+- **Load time** ↑ ↓
+- **Request Date** ↑ ↓
+- **Created At** ↑ ↓ (selected in screenshot)
+
+### Filter Endpoints
+
+Use the **Filter** button to narrow down endpoints:
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/filter.jpg" alt="Endpoint Filters" />
+
+Filter options shown:
+- **Method** - Select HTTP method
+- **Endpoint Group** - Select groups
+- **Has Problems** - Toggle to show only endpoints with issues
+- **Included In Docs** - Filter by documentation status
+- **Muted** - Show/hide muted endpoints
+- **Is Zombie** - Filter zombie endpoints
+
+---
+
+## Step 2: View Endpoint Details and Performance
+
+Click on an endpoint to see detailed information:
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/general.jpg" alt="Endpoint Details" />
+
+The endpoint details page shows:
+- Request count (13.2K) with trend indicator
+- Average load time (29.67ms) with trend
+- Description field
+- Performance graph
+- Recent requests table with columns: Method, Response, Name, Load time, Threat, Device, AI Agent
+
+### Dashboard Performance Widgets
+
+View performance metrics across your dashboard:
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/performance.jpg" alt="Performance Dashboard" />
+
+The dashboard includes widgets for:
+- **Performance** - Graph showing response time trends over multiple days
+- **Average load time** - Bar chart showing load times (78.69ms shown)
+- **DDoS Threat Level** - Shows "None" with percentage
+- **API compliance** - Shows 62%
+- **New Requests** - Shows 240.4K
+- **New Endpoints** - Shows 8
+- **Top cities** - List showing Chicago, Stockholm, Wien, Chennai, San Jose, Brisbane, Amsterdam
+
+And a requests table showing recent API calls with Method, Response, Name, Load time, Threat, Time, and Top cities columns.
+
+---
+
+## Step 3: Inspect Individual Requests
+
+From the endpoint view or requests table, click on a specific request to view its details.
+
+### General Tab
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/general.jpg" alt="Request General Tab" />
+
+The General tab displays:
+
+**REQUEST section** shows:
+- Body (JSON format with tabs for Body, Authorization, Documentation, Headers)
+- Request payload details
+
+**RESPONSE section** shows:
+- Body (JSON format with tabs for Body, Documentation, Headers)
+- Response payload with fields like:
+  - `"code": 200`
+  - `"message": "Showing a single user"`
+  - `"status": true`
+  - `"users"` object with creator details
+
+The interface shows tabs at the top: General, Info, API Compliance, Metadata
+
+### Info Tab
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/info.jpg" alt="Info Tab" />
+
+The Info tab provides environmental context:
+
+**USER DATA:**
+- Device Type: mobile
+- Operating System: N/A
+- Browser: sdk
+- App Name: N/A
+- Client: N/A
+- Bundle: N/A
+- User IP: 75.99.242.149
+- Location: New Rochelle, New York
+- AI Agent: N/A
+
+**SERVER DATA:**
+- Time Zone: UTC
+- Operating System: Linux
+- Software: vapor
+- Protocol: N/A
+- IP: bogon
+- City: New Rochelle
+- Region: New York
+- Country: United States
+
+The tab also includes an interactive Google Maps widget showing the user's location.
+
+---
+
+## Step 4: Check API Compliance
+
+Navigate to the **API Compliance** tab to view regulatory compliance information.
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/api-compliance.jpg" alt="API Compliance Tab" />
+
+The API Compliance tab displays:
+
+**Overall Request Compliance:** 95%
+
+**Regulatory Standards Breakdown:**
+
+**GDPR: 80%** (Fail status)
+- Expandable section showing:
+  - Email: Fail
+  - HomeAddress: Pass
+  - IDCardNumber: Pass
+  - IPAddress: Pass
+  - NameAndSurname: Pass
+
+**PCI: 100%** (Pass status)
+- Expandable section showing:
+  - CCSecurityCode: Pass
+  - CreditCardNumber: Pass
+  - ExpirationDate: Pass
+
+**CCPA: 100%** (Pass status)
+- Expandable section showing:
+  - GeoLocation: Pass
+
+**HIPAA: 100%** (Pass status)
+
+Each compliance standard shows a percentage score and Pass/Fail status, with expandable sections to view individual field compliance checks.
+
+---
+
+## Step 5: Review Metadata
+
+Navigate to the **Metadata** tab to view custom business context.
+
+<ImageCard src="/use-case-tutorials/debug-production-issue/metadata.jpg" alt="Metadata Tab" />
+
+The Metadata tab displays custom fields you've added to your API calls:
+- **Customer:** Apple
+- **Trace ID:** mQfxtEvBXp
+- **Region:** APAC
+- **Plan:** Platinum Plan
+
+### What is Metadata?
+
+Metadata allows you to send additional contextual information about your API requests by adding a `treblle-metadata` header containing a stringified JSON object.
+
+### How to Add Metadata
+
+Add the `treblle-metadata` header to your API requests:
+
+```javascript copy
+const headers = {
+    "Host": "api.yourservice.com",
+    "Content-Type": "application/json",
+    'treblle-metadata': JSON.stringify({
+        'trace-id': 'seeder-we3e3er321e312e2',
+        'user-id': 'rahul',
+        'company': 'acme-corp',
+        'region': 'APAC',
+        'plan': 'Platinum'
+    })
+};
+```
+
+<NoteCard>
+Learn more about metadata configuration in the <Link href="/explore-treblle/platform/metadata">Metadata Documentation</Link>.
+</NoteCard>
+
+### Special Metadata Fields
+
+**Trace ID (`trace-id`)**: Used for API Traceability to group related requests across services in the Trace section.
+
+**User ID (`user-id`)**: Links requests to the Customer Dashboard for user-specific analysis in the Customers section.
+
+**Custom Fields**: All other metadata fields appear in the Metadata tab and can be used for filtering requests.
+
+---
+
+<PaginationCards />
