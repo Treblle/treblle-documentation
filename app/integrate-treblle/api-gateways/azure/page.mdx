@@ -184,26 +184,63 @@ Content-Type: application/json
 
 ### Step 10: Configure API Policies
 
-#### Apply Policy to API
+You can apply the Treblle policy at different levels depending on your monitoring needs:
 
-1. Navigate to your **API** in APIM
+#### Policy Configuration Levels
+
+<InfoTable title="Policy Level" description="Scope and Use Case">
+    <InfoTable.Row
+        title="Global Level"
+        description="Monitors all APIs in your APIM instance - Best for organization-wide visibility"
+    />
+    <InfoTable.Row
+        title="API Level"
+        description="Monitors a specific API - Best for selective monitoring"
+    />
+    <InfoTable.Row
+        title="Operation Level"
+        description="Monitors specific API operations - Best for granular control"
+    />
+</InfoTable>
+
+#### Option A: Apply Policy at Global Level
+
+Use this approach to monitor all APIs in your APIM instance automatically.
+
+1. Navigate to **APIs** in your APIM service
+2. Select **All APIs** from the API list
+3. Go to **Inbound processing** → **Code view**
+4. Add the policy content from the repository: [Policy-Content.xml](https://github.com/Treblle/treblle-azure/blob/main/Policy-Content.xml)
+5. Update the logger name to match your created logger (`treblle-logger`)
+6. Click **Save**
+
+<NoteCard>
+When applied at the global level, the policy will automatically monitor all existing and future APIs in your APIM instance. This is the recommended approach for comprehensive monitoring.
+</NoteCard>
+
+#### Option B: Apply Policy at API Level
+
+Use this approach to monitor specific APIs individually.
+
+1. Navigate to your **specific API** in APIM
 2. Go to **Design** tab → **Inbound processing** → **Code view**
 3. Add the policy content from the repository: [Policy-Content.xml](https://github.com/Treblle/treblle-azure/blob/main/Policy-Content.xml)
 4. Update the logger name to match your created logger (`treblle-logger`)
+5. Click **Save**
 
-#### Policy Configuration Options
+#### Create and Activate Revision (For API-Level Configuration)
 
-- **API Level**: Applies to specific API
-- **Global Level**: Applies to all APIs  
-- **Operation Level**: Applies to specific operations
-
-#### Create and Activate Revision
+If you applied the policy at the API level, you need to create and activate a revision:
 
 1. Go to **Revisions** tab in your API
 2. Click **+ Add revision**
 3. Add your policy changes
 4. Click **Create**
 5. Set the new revision as current
+
+<TipCard>
+For global-level policies, revision management is not required as the policy is applied at the instance level.
+</TipCard>
 
 ### Step 11: Deploy Azure Function App
 
