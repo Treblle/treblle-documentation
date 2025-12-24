@@ -10,19 +10,71 @@ import { TipCard } from "~components/cards/tip";
 import PaginationCards from "~components/cards/pagination-cards";
 import { CautionCard } from "~components/cards/caution";
 import { ImageCard } from "~components/cards/image-card";
+import { InfoTable } from "~components/tables/info-table";
 
 ## WSO2 Plugin
 
+The Treblle WSO2 SDK integrates with WSO2's Global Synapse Handler to capture API request/response data and send it asynchronously to Treblle's monitoring service, ensuring zero impact on API performance.
+
+## Supported Versions
+
+<InfoTable title="WSO2 Version" description="Support Status & Maven Profile">
+    <InfoTable.Row
+        title="WSO2 API Manager 3.2.x"
+        description="Profile: wso2am-3.2 | APIM: 6.7.206 | Synapse: 2.1.7-wso2v183"
+    />
+    <InfoTable.Row
+        title="WSO2 API Manager 4.0.x"
+        description="Profile: wso2am-4.0 | APIM: 9.0.0 | Synapse: 4.0.0-wso2v100"
+    />
+    <InfoTable.Row
+        title="WSO2 API Manager 4.1.x"
+        description="Profile: wso2am-4.1 | APIM: 9.1.0 | Synapse: 4.0.0-wso2v102"
+    />
+    <InfoTable.Row
+        title="WSO2 API Manager 4.2.x"
+        description="Profile: wso2am-4.2 | APIM: 9.2.0 | Synapse: 4.0.0-wso2v103"
+    />
+    <InfoTable.Row
+        title="WSO2 API Manager 4.3.x (Default)"
+        description="Profile: wso2am-4.3 | APIM: 9.29.120 | Synapse: 4.0.0-wso2v105"
+    />
+    <InfoTable.Row
+        title="WSO2 API Manager 4.4.x"
+        description="Profile: wso2am-4.4 | APIM: 9.31.0 | Synapse: 4.0.0-wso2v106"
+    />
+</InfoTable>
+
+<NoteCard>
+The extension uses Maven profiles to support multiple WSO2 versions with a single codebase. By default, it builds for WSO2 APIM 4.3.x. You must deploy the correct JAR artifact that matches your WSO2 API Manager version.
+</NoteCard>
+
+### Key Features
+
+- **Non-blocking**: Never blocks or slows down API requests, even on failures - handler always returns `true`
+- **Thread-safe**: Uses concurrent queues and atomic operations
+- **Load-balanced**: Distributes traffic across multiple Treblle endpoints
+- **Sensitive data masking**: Automatically redacts passwords, tokens, credit cards, SSN, etc.
+- **Multi-tenant support**: Filter by tenant domains
+- **Route path capture**: Captures API resource template patterns (e.g., `/users/{userId}`)
+- **API identification**: Captures API UUID and name for accurate tracking
+- **Content-type aware**: Only captures `application/json` request/response bodies
+- **CORS-aware**: Automatically filters OPTIONS requests
+
 ## Prerequisites
 
-Before you begin, make sure you have:
+Before you begin, ensure you have:
 
-- **Java**: Version 8 or later (`java -version`)
+- **Java**: Version 8 or higher (`java -version`)
 - **Maven**: Version 3.6.0 or later (`mvn -version`)
+- **WSO2 API Manager**: Version 3.2.x or later
+- **Treblle Account**: With SDK token and API key ([Get started](https://treblle.com))
 
-## Step 1: Install WSO2 API Manager
+## Getting Started with WSO2 API Manager
 
-1. **Download** the WSO2 API Manager 4.3.0 from the official [WSO2 website](https://wso2.com/api-manager/previous-releases/).
+### Step 1: Install WSO2 API Manager
+
+1. **Download** WSO2 API Manager from the official [WSO2 website](https://wso2.com/api-manager/).
 
 <ImageCard src="/platform/wso2/wso2-website.png" alt="WSO2 Website" />
 
@@ -32,225 +84,287 @@ Before you begin, make sure you have:
    cd wso2am-4.3.0/bin/
    ./api-manager.sh
    ```
+
 3. **Open the Admin Console in your browser**:
    - URL: `https://localhost:9443/carbon`
    - Username: `admin`
    - Password: `admin`
 
-## Step 2: Create an API in WSO2 API Manager
+### Step 2: Create an API in WSO2 API Manager
 
-1. **Log in to the Publisher Portal at** `https://localhost:9443/publisher`.
+1. **Log in to the Publisher Portal** at `https://localhost:9443/publisher`.
 
 <ImageCard src="/platform/wso2/publisher.png" alt="Publisher Portal" />
 
 2. **Use the default credentials**:
    - Username: `admin`
    - Password: `admin`
-3. **Create a New API**:
 
-   - Choose the API type (e.g., REST API, SOAP API).
-   - Provide details like API Name, Context Path, Version, and Endpoint URL.
+3. **Create a New API**:
+   - Choose the API type (e.g., REST API, SOAP API)
+   - Provide details like API Name, Context Path, Version, and Endpoint URL
 
    <ImageCard src="/platform/wso2/api-details.png" alt="API Details" />
 
-   - Publish the API.
+   - Publish the API
 
    <ImageCard src="/platform/wso2/publish.png" alt="Publish API" />
 
 4. **Test the API**:
-
-   - Log in to the Developer Portal at `https://localhost:9443/devportal/apis`.
+   - Log in to the Developer Portal at `https://localhost:9443/devportal/apis`
 
    <ImageCard src="/platform/wso2/developer-portal.png" alt="Developer Portal" />
 
 5. **Subscribe to the API**:
-
-   - Go to the **Subscription** section.
+   - Go to the **Subscription** section
 
    <ImageCard src="/platform/wso2/subscribe.png" alt="Subscribe to API" />
 
-   - Use the **Subscription and Key Generation Wizard** to generate an access token:
+   - Use the **Subscription and Key Generation Wizard** to generate an access token
 
    <ImageCard src="/platform/wso2/access-token.jpg" alt="Access Token Generation" />
 
-## Step 3: Test the API
+### Step 3: Test the API
 
-- Return to the Developer Portal and locate the API you subscribed to.
-- Click the **Try Out** option to test your API directly within the portal.
+- Return to the Developer Portal and locate the API you subscribed to
+- Click the **Try Out** option to test your API directly within the portal
 
   <ImageCard src="/platform/wso2/try-out.png" alt="Try Out API" />
 
 - Select the key type for testing:
-
-  - **Sandbox:** For testing the API in a non-production environment.
-  - **Production:** For live use in production.
+  - **Sandbox:** For testing the API in a non-production environment
+  - **Production:** For live use in production
 
   <ImageCard src="/platform/wso2/test-key.png" alt="Select Test Key" />
 
-- Choose the method you want to test (e.g., `GET`).
+- Choose the method you want to test (e.g., `GET`)
 
   <ImageCard src="/platform/wso2/try-it-out-2.png" alt="API Testing Interface" />
 
-- Execute the request by providing the required parameters.
+- Execute the request by providing the required parameters
 
   <ImageCard src="/platform/wso2/working-api.png" alt="API Response" />
 
-## Step 4: Set Up Treblle
+### Step 4: Set Up Treblle Account
 
-Follow these steps to integrate Treblle with your WSO2 API Manager:
+Follow these steps to create your Treblle account and get API credentials:
 
 1. Visit the [Treblle website](https://treblle.com) and log in or [sign up](https://platform.treblle.com/) for an account if you don't have one.
-2. Once logged in, create a new api by providing the following details:
 
-   - **API Name.**
-   - **Base URL.**
-   - **Environment.**
-   - **Platform.**
+2. Once logged in, click **"New API"** and provide the following details:
+   - **API Name** (e.g., WSO2-4.3.0)
+   - **Environment** (Production, Staging, Development, etc.)
+   - **Category** (Healthcare, Finance, E-commerce, etc.)
+   - **Type** (Internal, External, Partner)
+   - **Tags** (Optional - for organizing your APIs)
 
-   <ImageCard src="/platform/wso2/treblle-api.png" alt="Create Treblle API" />
+   <ImageCard src="/platform/wso2/step1.jpg" alt="Create New API in Treblle" />
 
-3. After adding an API, Treblle will generate:
+3. Select **WSO2** from the **Integrations** page to access WSO2-specific setup instructions:
 
-   - **API Key**
-   - **SDK Token**
+   <ImageCard src="/platform/wso2/step2.jpg" alt="Select WSO2 Integration" />
 
-   <ImageCard src="/platform/wso2/sdk.png" alt="Treblle Credentials" />
+   The setup wizard will provide:
+   - Step-by-step installation commands
+   - Configuration snippets for `deployment.toml`
+   - Logger configuration for `log4j2.properties`
+   - Your unique **API Key** and **SDK Token**
+
+4. After completing the setup, Treblle will generate your credentials:
+   - **API Key** - Project identifier
+   - **SDK Token** - Authentication token
 
 <NoteCard>
-These credentials are essential for integrating Treblle with your WSO2 API Manager.
+Save these credentials securely - you'll need them to configure environment variables in the next step. The SDK Token and API Key are unique to your Treblle project and cannot be recovered if lost.
 </NoteCard>
 
-## Step 5: Install Treblle Data Publisher Extension
+## Installation
 
-1. Clone the Treblle Data Publisher repository:
-   ```bash copy
-   git clone https://github.com/Treblle/treblle-wso2.git
-   cd wso2am-4.3.0
-   ```
-2. Build the project:
-   ```bash copy
-   mvn clean install
-   ```
-   This will generate the necessary **.jar** file for the Treblle Data Publisher extension.
+### Step 1: Build from Source
 
-3. Copy the generated JAR file to WSO2 API Manager:
-   ```bash copy
-   cp target/treblle-data-publisher-*.jar /path/wso2am-4.3.0/repository/components/lib
-   ```
+<TipCard>
+The extension uses Maven profiles to build version-specific JARs. Choose the profile that matches your WSO2 API Manager version.
+</TipCard>
 
-<NoteCard>
-If `mvn clean install` is giving ERRORS. Please download the `aspectjweaver-1.8.5.jar` file from the [WSO2 Nexus repository](https://maven.wso2.org/nexus/content/groups/wso2-public/org/aspectj/aspectjweaver/1.8.5/aspectjweaver-1.8.5.jar) manually.
-
-Assuming your downloaded JAR is in your Downloads folder: 
+**Building for Default Version (WSO2 APIM 4.3.x):**
 
 ```bash copy
-mv ~/Downloads/aspectjweaver-1.8.5.jar ~/.m2/repository/org/aspectj/aspectjweaver/1.8.5/
+# Clone the repository
+git clone https://github.com/Treblle/treblle-wso2.git
+cd treblle-wso2
+
+# Build for default version (4.3.x)
+mvn clean install
 ```
-</NoteCard>
 
-## Step 6: Configure WSO2 API Manager for Treblle
+The JAR artifact will be created in the `target/` directory as `treblle-data-publisher-4.3.x-1.0.0.jar`
 
-1. **Stop WSO2 if it's running:**
-   ```bash copy
-   cd /path/to/your/wso2am-4.3.0/bin
-   ./api-manager.sh stop
-   # Or force kill if needed:
-   # pkill -f "org.wso2.carbon.bootstrap.Bootstrap"
-   ```
+**Building for Specific WSO2 Versions:**
 
-2. Update the `deployment.toml` file (Add at the **beginning of the file**):
+```bash copy
+# For WSO2 APIM 3.2.x
+mvn clean install -P wso2am-3.2
 
-   ```bash copy
-   /wso2am-4.3.0/repository/conf/deployment.toml
-   ```
+# For WSO2 APIM 4.0.x
+mvn clean install -P wso2am-4.0
 
-   ```toml copy
-   [synapse_handlers.treblle_publisher]
-   enabled=true
-   class="com.treblle.wso2publisher.handlers.APILogHandler"
-   ```
+# For WSO2 APIM 4.1.x
+mvn clean install -P wso2am-4.1
 
-3. Update `log4j2.properties`:
+# For WSO2 APIM 4.2.x
+mvn clean install -P wso2am-4.2
 
-    To enable the logs to populate under the default wso2carbon.log, you can create a custom appender to log the entries to a separate log file.
+# For WSO2 APIM 4.3.x (default)
+mvn clean install -P wso2am-4.3
 
-     ```bash copy
-      /wso2am-4.3.0/repository/conf/log4j2.properties
-     ```
-
-     ```properties copy
-     logger.treblle_publisher.name = com.treblle.wso2publisher
-     logger.treblle_publisher.level = INFO
-     logger.treblle_publisher.appenderRef.CARBON_LOGFILE.ref = CARBON_LOGFILE
-     ```
-
-4. Set `environment variables`:
-
-   Open a terminal and add the following environment variables. Alternatively, set these variables in your .bash_profile or .bashrc to make them persistent across sessions.
+# For WSO2 APIM 4.4.x
+mvn clean install -P wso2am-4.4
+```
 
 <CautionCard>
-**IMPORTANT:** Set these environment variables before starting WSO2. Open a terminal and run the appropriate commands for your operating system.
+The JAR artifact name includes the version suffix (e.g., `treblle-data-publisher-3.2.x-1.0.0.jar`). Always ensure you deploy the correct JAR artifact that matches your WSO2 API Manager version.
 </CautionCard>
 
-**For MacOS/Linux:**
+### Step 2: Deploy the JAR
+
+Copy the built JAR artifact that matches your WSO2 version to your API Manager gateway:
+
+```bash copy
+# Example for WSO2 APIM 4.3.x (default)
+cp target/treblle-data-publisher-4.3.x-1.0.0.jar <APIM_HOME>/repository/components/lib/
+
+# For other versions, use the appropriate JAR file:
+# cp target/treblle-data-publisher-3.2.x-1.0.0.jar <APIM_HOME>/repository/components/lib/
+# cp target/treblle-data-publisher-4.0.x-1.0.0.jar <APIM_HOME>/repository/components/lib/
+# cp target/treblle-data-publisher-4.4.x-1.0.0.jar <APIM_HOME>/repository/components/lib/
+```
+
+Replace `<APIM_HOME>` with your WSO2 API Manager installation directory (e.g., `/opt/wso2am-4.3.0`).
+
+### Step 3: Configure the Global Synapse Handler
+
+Add the following configuration at the **beginning** of `<APIM_HOME>/repository/conf/deployment.toml`:
+
+<CautionCard>
+This configuration must be placed at the beginning of the file to ensure the handler is registered before other handlers. This is the Global Synapse Handler approach that automatically monitors ALL APIs.
+</CautionCard>
+
+```toml copy
+[synapse_handlers.treblle_publisher]
+enabled=true
+class="com.treblle.wso2publisher.handlers.APILogHandler"
+```
+
+### Step 4: Configure Logging
+
+Add the following to `<APIM_HOME>/repository/conf/log4j2.properties`:
+
+<NoteCard>
+This enables Treblle extension logs in the default `wso2carbon.log`. You can create a custom appender for separate log files if needed.
+</NoteCard>
+
+```properties copy
+# Add treblle_publisher to the loggers list (find the existing loggers line and append)
+loggers = treblle_publisher, AUDIT_LOG, ...
+
+# Add these lines at the end of the file
+logger.treblle_publisher.name = com.treblle.wso2publisher
+logger.treblle_publisher.level = INFO
+logger.treblle_publisher.appenderRef.CARBON_LOGFILE.ref = CARBON_LOGFILE
+```
+
+### Step 5: Set Environment Variables
+
+Before starting the WSO2 API Manager, configure the required environment variables.
+
+<CautionCard>
+**IMPORTANT:** Set these environment variables before starting WSO2. Open a terminal and run the appropriate commands for your operating system. Changes require a restart to take effect.
+</CautionCard>
+
+**For macOS/Linux:**
+
 ```bash copy
 # Required variables
-export TREBLLE_API_KEY="your-api-key"           # Your Treblle API key
 export TREBLLE_SDK_TOKEN="your-sdk-token"      # Your Treblle SDK Token
-export TREBLLE_GATEWAY_URL="your-gateway-url"    # Your WSO2 gateway URL
+export TREBLLE_API_KEY="your-api-key"          # Your Treblle API key
+export TREBLLE_GATEWAY_URL="https://your-gateway-url"  # Your WSO2 gateway URL
 
 # Optional variables with defaults
-export TREBLLE_QUEUE_SIZE=20000                  # Max size of the request queue
-export TREBLLE_WORKER_THREADS=1                  # Number of worker threads
-export ADDITIONAL_MASK_KEYWORDS="Authorization,token"  # Fields to mask
-export TREBLLE_ENABLED_TENANT_DOMAINS="carbon.super"  # Enabled tenant domains
+export TREBLLE_QUEUE_SIZE=20000                 # Max size of the request queue (default: 20000)
+export TREBLLE_WORKER_THREADS=1                 # Number of worker threads (default: 1)
+export ADDITIONAL_MASK_KEYWORDS="Authorization,X-API-Key,token"  # Additional fields to mask
+export TREBLLE_ENABLED_TENANT_DOMAINS="carbon.super"  # Enabled tenant domains (default: all)
 ```
 
 **For Windows:**
-```batch copy
+
+```cmd copy
 :: Required variables
-set TREBLLE_API_KEY=your-api-key
 set TREBLLE_SDK_TOKEN=your-sdk-token
+set TREBLLE_API_KEY=your-api-key
 set TREBLLE_GATEWAY_URL=https://your-wso2-gateway-url
 
 :: Optional variables
-set TREBLLE_QUEUE_SIZE=20000                     :: Default queue size
-set TREBLLE_WORKER_THREADS=1                     :: Default worker threads
-set ADDITIONAL_MASK_KEYWORDS=Authorization,token  :: Default masked fields
-set TREBLLE_ENABLED_TENANT_DOMAINS=carbon.super  :: Default tenant domain
+set TREBLLE_QUEUE_SIZE=20000
+set TREBLLE_WORKER_THREADS=1
+set ADDITIONAL_MASK_KEYWORDS=Authorization,X-API-Key,token
+set TREBLLE_ENABLED_TENANT_DOMAINS=carbon.super
 ```
 
 **Verifying Environment Variables:**
 
-To check that your environment variables are properly set up for Treblle:
+To check that your environment variables are properly set:
 
 ```bash copy
 # For Linux/macOS
-echo $TREBLLE_API_KEY
 echo $TREBLLE_SDK_TOKEN
+echo $TREBLLE_API_KEY
 echo $TREBLLE_GATEWAY_URL
 
 # For Windows
-echo %TREBLLE_API_KEY%
 echo %TREBLLE_SDK_TOKEN%
+echo %TREBLLE_API_KEY%
 echo %TREBLLE_GATEWAY_URL%
 ```
 
-## Step 7: Configure OAuth2 Authentication
+### Step 6: Generate OAuth2 Token for Testing
 
-- To generate an OAuth2 Token, log in to the Developer Portal at `https://localhost:9443/devportal`.
-- Under the **Subscription** section, click on your created application.
+To test your API with Treblle monitoring:
+
+- Log in to the Developer Portal at `https://localhost:9443/devportal`
+- Under the **Subscription** section, click on your created application
 
   <ImageCard src="/platform/wso2/try.png" alt="Application subscription" />
 
-- Select either **Production** or **Sandbox** as the key type.
+- Select either **Production** or **Sandbox** as the key type
 
   <ImageCard src="/platform/wso2/production.png" alt="Select key type" />
 
-- Click **Generate Key** for the chosen environment and copy the generated access token.
-- This token is essential for accessing protected resources in your API.
+- Click **Generate Key** for the chosen environment and copy the generated access token
+- This token is essential for accessing protected resources in your API
 
-## Step 8: Verify Treblle Integration
+### Step 7: Start WSO2 API Manager
+
+Start your WSO2 API Manager gateway:
+
+```bash copy
+cd <APIM_HOME>/bin
+./api-manager.sh  # or api-manager.bat on Windows
+```
+
+Check the logs to verify the extension loaded successfully:
+
+```bash copy
+# View all WSO2 logs
+tail -f <APIM_HOME>/repository/logs/wso2carbon.log
+
+# Filter for Treblle-specific logs
+tail -f <APIM_HOME>/repository/logs/wso2carbon.log | grep -i treblle
+```
+
+You should see Treblle-related log entries indicating successful initialization.
+
+### Step 8: Verify Treblle Integration
 
 1. **Check WSO2 logs for Treblle activity:**
    ```bash copy
@@ -263,59 +377,394 @@ echo %TREBLLE_GATEWAY_URL%
 
 3. **Check your Treblle dashboard** to see captured API requests.
 
+## Configuration Reference
+
+<InfoTable title="Environment Variable" description="Configuration Details">
+    <InfoTable.Row
+        title="TREBLLE_SDK_TOKEN"
+        description="Your Treblle SDK token (REQUIRED) - Authentication token for Treblle service"
+    />
+    <InfoTable.Row
+        title="TREBLLE_API_KEY"
+        description="Your Treblle API key (REQUIRED) - Project identifier"
+    />
+    <InfoTable.Row
+        title="TREBLLE_GATEWAY_URL"
+        description="Your WSO2 gateway URL (REQUIRED) - Example: https://localhost:8243"
+    />
+    <InfoTable.Row
+        title="TREBLLE_QUEUE_SIZE"
+        description="Max in-memory queue size for events - Default: 20000"
+    />
+    <InfoTable.Row
+        title="TREBLLE_WORKER_THREADS"
+        description="Number of background worker threads - Default: 1"
+    />
+    <InfoTable.Row
+        title="ADDITIONAL_MASK_KEYWORDS"
+        description="Additional fields to mask (comma-separated) - Example: Authorization,X-API-Key,token"
+    />
+    <InfoTable.Row
+        title="TREBLLE_ENABLED_TENANT_DOMAINS"
+        description="Tenant domains to monitor (comma-separated) - Default: All domains enabled"
+    />
+</InfoTable>
+
+### Default Masked Keywords
+
+The following keywords are **automatically masked** in headers and request/response bodies:
+- `password`, `pwd`, `secret`, `password_confirmation`
+- `cc`, `card_number`, `ccv`
+- `ssn`, `credit_score`
+
+Use `ADDITIONAL_MASK_KEYWORDS` to add more sensitive fields (e.g., `Authorization,X-API-Key,token`).
+
+### Treblle Endpoint Configuration
+
+**Load Balancing (Default Behavior):**
+
+If `TREBLLE_GATEWAY_URL` environment variable is **NOT set**, the extension automatically load-balances requests across Treblle's endpoints using round-robin:
+- `https://rocknrolla.treblle.com`
+- `https://punisher.treblle.com`
+- `https://sicario.treblle.com`
+
+**Custom Endpoint:**
+
+If `TREBLLE_GATEWAY_URL` is set in environment variables, all data is sent to your specified endpoint:
+
+```bash copy
+export TREBLLE_GATEWAY_URL="https://custom-treblle.your-domain.com"
+```
+
+**Use cases for custom endpoints:**
+- On-premise Treblle installations
+- Custom routing or proxy configurations
+- Regional endpoints for compliance
+- Development/testing environments
+
+<TipCard>
+For production deployments, we recommend using the default load-balanced endpoints unless you have a specific need for a custom endpoint.
+</TipCard>
+
+### Global vs API-Level Handlers
+
+<InfoTable title="Handler Type" description="Scope and Configuration">
+    <InfoTable.Row
+        title="Global Synapse Handler"
+        description="Monitors ALL APIs automatically - Configured in deployment.toml - Treblle uses this approach"
+    />
+    <InfoTable.Row
+        title="API-Level Handler"
+        description="Monitors specific APIs only - Configured in velocity_template.xml - Requires per-API configuration"
+    />
+</InfoTable>
+
+**Treblle uses the Global Synapse Handler approach** which means:
+- All APIs are automatically monitored without individual configuration
+- New APIs are automatically included when published
+- Consistent monitoring across your entire API infrastructure
+- Easier management and maintenance
+- Single configuration point in `deployment.toml`
+
+<TipCard>
+The Global Synapse Handler configuration in `deployment.toml` ensures zero-configuration monitoring for all your APIs. This is the recommended approach for comprehensive API observability.
+</TipCard>
+
+## What Metadata Does Treblle Capture?
+
+Treblle automatically captures comprehensive metadata for each API request:
+
+**Request Data:**
+- Timestamp
+- Source IP address (checks `X-FORWARDED-FOR` header first)
+- HTTP method (GET, POST, PUT, DELETE, etc.)
+- Request URL and path
+- Request headers
+- Request body (JSON only)
+- User agent
+- Route path template (e.g., `/users/{userId}/posts`)
+
+**Response Data:**
+- HTTP status code
+- Response headers
+- Response body (JSON only)
+- Response size (in bytes)
+- Load time (response time in microseconds)
+
+**API Identification:**
+- API name (`internal_name`)
+- API UUID (`internal_id`)
+
+**Server Information:**
+- Server IP address
+- Timezone
+- Operating system details (name, version, architecture)
+- Software version
+- Protocol and encoding
+
+**Error Tracking:**
+- Error type and messages for 4xx/5xx responses
+- Error source and details
+
+<NoteCard>
+Only `application/json` request and response bodies are captured. Other content types are automatically skipped. CORS preflight requests (OPTIONS method) are also filtered and not tracked.
+</NoteCard>
+
+## Multi-Tenant Support
+
+For WSO2 deployments with multiple tenants:
+
+### Configure Tenant Domains
+
+```bash copy
+export TREBLLE_ENABLED_TENANT_DOMAINS="carbon.super,tenant1.com,tenant2.com"
+```
+
+### Tenant-Specific Monitoring
+
+- Treblle tracks which tenant each API request belongs to
+- Dashboard shows requests grouped by tenant domain
+- Supports both super tenant (`carbon.super`) and sub-tenants
+- Only monitors APIs from enabled tenant domains
+
+<NoteCard>
+By default, if `TREBLLE_ENABLED_TENANT_DOMAINS` is not set, all tenant domains are enabled. Use this setting to restrict monitoring to specific tenants in multi-tenant deployments.
+</NoteCard>
+
+## Advanced Configuration
+
+### High-Volume Deployments
+
+For production environments with high API traffic:
+
+```bash copy
+# Increase queue size for high-volume scenarios
+export TREBLLE_QUEUE_SIZE=50000
+
+# Add more worker threads for parallel processing
+export TREBLLE_WORKER_THREADS=3
+```
+
+**Performance Tuning Tips:**
+- Start with default settings (queue size: 20,000, worker threads: 1)
+- Monitor queue full errors in logs
+- Increase `TREBLLE_QUEUE_SIZE` if you see "Event queue is full" messages
+- Increase `TREBLLE_WORKER_THREADS` for better throughput (2-4 threads recommended)
+- Each worker thread uses the pooled HTTP client for efficient connection reuse
+
+### Custom Masking Configuration
+
+Extend the default masked fields with your sensitive data:
+
+```bash copy
+# Mask additional fields beyond the defaults
+export ADDITIONAL_MASK_KEYWORDS="Authorization,X-API-Key,Custom-Auth-Header,Bearer-Token,Session-ID"
+```
+
+**Masking Behavior:**
+- Case-insensitive matching (e.g., "password" matches "Password", "PASSWORD")
+- Applies to both request and response headers and bodies
+- Nested JSON objects are recursively masked
+- Masked value is replaced with `"****"`
+
+### Connection Pooling
+
+The extension uses a pooled HTTP client for optimal performance:
+
+- **Max Total Connections**: 100
+- **Max Connections Per Route**: 20
+- **Connection Timeout**: 5 seconds
+- **Socket Timeout**: 10 seconds
+- **Connection Request Timeout**: 5 seconds
+- **Validate After Inactivity**: 2 seconds
+
+These settings are optimized for production use and don't require configuration.
+
 ## Troubleshooting
 
-### Common Issues and Solutions:
+### Extension Not Loading
 
-**1. Database Lock Error:**
+**Check logs** in `<APIM_HOME>/repository/logs/wso2carbon.log`:
+
+```bash copy
+grep -i treblle wso2carbon.log
+```
+
+**Verify JAR location:**
+
+```bash copy
+ls -la <APIM_HOME>/repository/components/lib/treblle-data-publisher-*.jar
+
+# Ensure the version matches your WSO2 APIM version
+# Example output: treblle-data-publisher-4.3.x-1.0.0.jar
+```
+
+**Verify deployment.toml configuration** is at the beginning of the file and properly formatted.
+
+### No Data in Treblle Dashboard
+
+1. **Verify environment variables are set:**
+   ```bash copy
+   echo $TREBLLE_SDK_TOKEN
+   echo $TREBLLE_API_KEY
+   echo $TREBLLE_GATEWAY_URL
+   ```
+
+2. **Check for errors in logs:**
+   ```bash copy
+   grep -i "treblle.*error" wso2carbon.log
+   tail -f wso2carbon.log | grep "treblle\|PublisherClient\|APILogHandler"
+   ```
+
+3. **Verify tenant domain filtering** (if using `TREBLLE_ENABLED_TENANT_DOMAINS`):
+   - Ensure your API's tenant domain is in the allowed list
+   - Default tenant is usually `carbon.super`
+   - Check logs for "Tenant domain not enabled" messages
+
+4. **Check content type** - Only `application/json` requests/responses are captured
+   - Verify your API uses `Content-Type: application/json`
+   - Other content types are intentionally skipped
+
+5. **Verify OPTIONS requests are not expected** - CORS preflight requests are automatically filtered
+
+### Queue Full Errors
+
+If you see "Event queue is full" errors in logs:
+
+```bash copy
+# Error message example:
+# Event queue is full. Starting to drop events.
+# Event queue is full. Events dropped so far - 1000
+```
+
+**Solutions:**
+
+1. **Increase queue size:**
+   ```bash copy
+   export TREBLLE_QUEUE_SIZE=50000
+   ```
+
+2. **Add more worker threads:**
+   ```bash copy
+   export TREBLLE_WORKER_THREADS=2  # or 3
+   ```
+
+3. **Check network connectivity** to Treblle endpoints:
+   ```bash copy
+   # Test connectivity to default endpoints
+   curl -I https://rocknrolla.treblle.com
+   curl -I https://punisher.treblle.com
+   curl -I https://sicario.treblle.com
+   ```
+
+### Publishing Failures
+
+**Check for HTTP status codes in logs:**
+
+```bash copy
+grep -i "Event publishing failed" wso2carbon.log
+```
+
+**Common status codes:**
+- **200-204**: Success - Event successfully published
+- **400-499**: Client error - Check your `TREBLLE_SDK_TOKEN` and `TREBLLE_API_KEY`
+- **500-599**: Server error - Treblle service may be temporarily unavailable
+
+**If you see 403 Forbidden:**
+- Verify your SDK token is correct
+- Verify your API key is correct
+- Check that you're not using placeholder text like "your-sdk-token"
+
+### Memory Issues
+
+If experiencing memory pressure:
+
+1. **Reduce `TREBLLE_QUEUE_SIZE`** (default 20,000)
+   ```bash copy
+   export TREBLLE_QUEUE_SIZE=10000
+   ```
+
+2. **Reduce `TREBLLE_WORKER_THREADS`** (default 1)
+   ```bash copy
+   export TREBLLE_WORKER_THREADS=1
+   ```
+
+3. **Use tenant domain filtering** to monitor specific APIs:
+   ```bash copy
+   export TREBLLE_ENABLED_TENANT_DOMAINS="carbon.super"
+   ```
+
+### Handler Not Executing
+
+**Verify configuration:**
+
+1. Check `deployment.toml` has the correct configuration at the beginning
+2. Verify environment variables are set before starting WSO2
+3. Check for startup errors in logs:
+   ```bash copy
+   grep -i "error\|exception" wso2carbon.log | grep -i treblle
+   ```
+
+**Enable debug logging:**
+
+In `log4j2.properties`, change the log level to DEBUG:
+
+```properties copy
+logger.treblle_publisher.level = DEBUG
+```
+
+Restart WSO2 and check logs for detailed debugging information:
+
+```bash copy
+tail -f wso2carbon.log | grep -i treblle
+```
+
+### Database Lock Errors
+
+If you see database lock errors on startup:
+
 ```bash copy
 # Kill any running WSO2 processes
 pkill -f "org.wso2.carbon.bootstrap.Bootstrap"
 
 # Remove lock files
-cd /path/to/your/wso2am-4.3.0/repository/database/
+cd <APIM_HOME>/repository/database/
 rm -f *.lock *.lck *.tmp
 ```
 
-**2. 403 Forbidden Errors in Logs:**
-- Verify your Treblle credentials are correct
-- Make sure you're using actual API key and SDK Token, not placeholder text
-- Check that `TREBLLE_GATEWAY_URL` contains only the base URL
+### SSL Certificate Issues
 
-**3. Extension Not Loading:**
-- Ensure the JAR file is in the correct location: `/repository/components/lib/`
-- Verify the `deployment.toml` configuration is at the beginning of the file
-- Check that log4j2.properties has been updated correctly
+For development/testing:
 
-**4. SSL Certificate Issues:**
-- Use the `-k` flag with cURL for testing
-- In Postman, disable SSL certificate verification in settings
+- Use the `-k` flag with cURL for testing: `curl -k https://...`
+- In API Testing tools, disable SSL certificate verification in settings
 - For development, you can use HTTP port 8280 instead of HTTPS 8243
 
-**5. View detailed logs:**
-```bash copy
-# View all WSO2 logs
-tail -f /path/to/your/wso2am-4.3.0/repository/logs/wso2carbon.log
+## Testing the Integration
 
-# Filter for Treblle-specific logs
-tail -f /path/to/your/wso2am-4.3.0/repository/logs/wso2carbon.log | grep "treblle\|PublisherClient\|APILogHandler"
-```
+### Step 1: Create and Publish an API
 
-## Example API Testing Commands
+Follow the WSO2 documentation to create and publish a test API in the Publisher Portal at `https://localhost:9443/publisher`.
 
-Here are example curl commands for different HTTP methods:
+### Step 2: Subscribe and Generate Token
+
+1. Log in to the Developer Portal at `https://localhost:9443/devportal`
+2. Subscribe to your test API
+3. Generate an access token (Production or Sandbox)
+
+### Step 3: Test API Calls
 
 **GET Request:**
 ```bash copy
 curl -k -X GET \
-  "https://localhost:8243/test/v1" \
+  "https://localhost:8243/test/v1/users" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
 **POST Request:**
 ```bash copy
 curl -k -X POST \
-  "https://localhost:8243/user-management/v1/users" \
+  "https://localhost:8243/test/v1/users" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"email": "john.doe@example.com", "first_name": "John", "last_name": "Doe"}'
@@ -324,7 +773,7 @@ curl -k -X POST \
 **PUT Request:**
 ```bash copy
 curl -k -X PUT \
-  "https://localhost:8243/user-management/v1/users/1" \
+  "https://localhost:8243/test/v1/users/123" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"email": "john.doe@example.com", "first_name": "John", "last_name": "Smith"}'
@@ -333,32 +782,32 @@ curl -k -X PUT \
 **DELETE Request:**
 ```bash copy
 curl -k -X DELETE \
-  "https://localhost:8243/user-management/v1/users/1" \
+  "https://localhost:8243/test/v1/users/123" \
   -H "Authorization: Bearer YOUR_ACCESS_TOKEN"
 ```
 
-## Dashboard Overview
+### Step 4: Verify in Treblle Dashboard
 
-The Treblle dashboard provides real-time insights into API requests, compliance checks, and potential issues.
+1. Log in to your Treblle dashboard at [https://platform.treblle.com](https://platform.treblle.com)
+2. Navigate to your Workspace -> API -> Request Tab
 
-<ImageCard src="/platform/wso2/dashboard.png" alt="Treblle Dashboard Overview" />
+## Getting Help
 
-**Customize the View**: Use the customization options at the **top right** of the dashboard to tailor the information displayed according to your needs.
+If you continue to experience issues:
 
-<ImageCard src="/platform/wso2/filter.png" alt="Dashboard Filters" />
+1. **Enable debug logging** in `log4j2.properties`:
+   ```properties
+   logger.treblle_publisher.level = DEBUG
+   ```
 
-## Detailed API Request Logs
+2. **Check console output** for detailed error messages
 
-**Request List**: View a detailed list of API requests, including key metrics and diagnostic information.
+3. **Verify credentials** are correct in Treblle dashboard
 
-<ImageCard src="/platform/wso2/request.png" alt="API Request List" />
-
-**Inspect Individual Requests**:
-
-<ImageCard src="/platform/wso2/request-detail.png" alt="Request Details" />
+4. **Test with a simple endpoint** first before complex APIs
 
 <TipCard>
-That's it! Your WSO2 API Manager is now integrated with Treblle. All API requests will be automatically captured and sent to your Treblle dashboard.
+That's it! Your WSO2 API Manager is now integrated with Treblle. All API requests will be automatically captured and sent to your Treblle dashboard through the Global Synapse Handler.
 </TipCard>
 
 <PaginationCards />
