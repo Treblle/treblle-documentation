@@ -184,8 +184,8 @@ curl -i -X POST http://localhost:8001/services/httpbin-service/routes \
 # Add Treblle plugin
 curl -i -X POST http://localhost:8001/services/httpbin-service/plugins \
   --data "name=treblle" \
-  --data "config.api_key=YOUR_TREBLLE_API_KEY" \
-  --data "config.project_id=YOUR_TREBLLE_SDK_TOKEN" \
+  --data "config.api_key=YOUR_TREBLLE_SDK_TOKEN" \
+  --data "config.project_id=YOUR_TREBLLE_API_KEY" \
   --data "config.mask_keywords[]=Authorization" \
   --data "config.mask_keywords[]=User-Agent" \
   --data "config.mask_keywords[]=Cookie"
@@ -213,8 +213,8 @@ curl -i -X POST http://localhost:9001/services/httpbin-service/routes \
 # Add Treblle plugin
 curl -i -X POST http://localhost:9001/services/httpbin-service/plugins \
   --data "name=treblle" \
-  --data "config.api_key=YOUR_TREBLLE_API_KEY" \
-  --data "config.project_id=YOUR_TREBLLE_SDK_TOKEN" \
+  --data "config.api_key=YOUR_TREBLLE_SDK_TOKEN" \
+  --data "config.project_id=YOUR_TREBLLE_API_KEY" \
   --data "config.mask_keywords[]=Authorization" \
   --data "config.mask_keywords[]=API_Key" \
   --data "config.mask_keywords[]=Secure-Token"
@@ -232,8 +232,8 @@ To print Treblle debug logs, set the debug flag to true:
 ```bash copy
 curl -i -X POST http://localhost:8001/services/httpbin-service/plugins \
   --data "name=treblle" \
-  --data "config.api_key=YOUR_TREBLLE_API_KEY" \
-  --data "config.project_id=YOUR_TREBLLE_SDK_TOKEN" \
+  --data "config.api_key=YOUR_TREBLLE_SDK_TOKEN" \
+  --data "config.project_id=YOUR_TREBLLE_API_KEY" \
   --data "config.debug=true"
 ```
 
