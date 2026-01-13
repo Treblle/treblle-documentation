@@ -8,6 +8,9 @@ image: "/og-images/java-javax.jpg"
 import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
+import { InfoTable } from "~components/tables/info-table";
+import { InfoCard } from "~components/cards/info-card";
+import Link from "next/link";
 
 <InfoCard type="individual">
     <InfoCard.title>
@@ -21,12 +24,20 @@ import { TipCard } from "~components/cards/tip";
 # Treblle with JavaX
 
 ## Requirements
-
-| Component | Minimum Version | Notes |
-|-----------|----------------|-------|
-| **Java** | 1.8+ | Compiled with Java 8 for broad compatibility |
-| **Servlet API** | 3.1.0+ | For `TreblleServletFilter` |
-| **JAX-RS API** | 2.1.1+ | For `TreblleContainerFilter` |
+<InfoTable>
+    <InfoTable.Row
+        title="Java (1.8+)"
+        description="Compiled with Java 8 to ensure broad compatibility."
+    />
+    <InfoTable.Row
+        title="Servlet API (3.1.0+)"
+        description="Required when using TreblleServletFilter."
+    />
+    <InfoTable.Row
+        title="JAX-RS API (2.1.1+)"
+        description="Required when using TreblleContainerFilter."
+    />
+</InfoTable>
 
 ### Supported Java Versions
 - Java 8 (1.8)
@@ -217,22 +228,49 @@ public class MyResourceConfig extends ResourceConfig {
 
 ### Required Parameters
 
-| Parameter | Type | Description |
-|-----------|------|-------------|
-| `sdkToken` | String | Your Treblle SDK token (get from [dashboard](https://app.treblle.com)) |
-| `apiKey` | String | Your Treblle API key (get from [dashboard](https://app.treblle.com)) |
+<InfoTable>
+    <InfoTable.Row
+        title="sdkToken"
+        description="Your Treblle SDK token. You can get this from the Treblle dashboard."
+    />
+    <InfoTable.Row
+        title="apiKey"
+        description="Your Treblle API key. You can get this from the Treblle dashboard."
+    />
+</InfoTable>
 
 ### Optional Parameters
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `customTreblleEndpoint` | String | `null` | Custom Treblle endpoint URL (for self-hosted) |
-| `debugMode` | Boolean | `false` | Enable debug logging (logs HTTP requests/responses) |
-| `excludedPaths` | String | `""` | Comma-separated path patterns to EXCLUDE (supports wildcards: `/health`, `admin/*`) |
-| `maskedKeywords` | String | `""` | Additional field names to mask (comma-separated) |
-| `connectTimeoutInSeconds` | Integer | `3` | HTTP connect timeout for Treblle API |
-| `readTimeoutInSeconds` | Integer | `3` | HTTP read timeout for Treblle API |
-| `maxBodySizeInBytes` | Integer | `2097152` | Max request/response body size for telemetry (2MB) |
+<InfoTable>
+    <InfoTable.Row
+        title="customTreblleEndpoint"
+        description="Custom Treblle endpoint URL for self-hosted setups. Default: null"
+    />
+    <InfoTable.Row
+        title="debugMode"
+        description="Enable debug logging to log HTTP requests and responses. Default: false"
+    />
+    <InfoTable.Row
+        title="excludedPaths"
+        description="Comma-separated path patterns to exclude from tracking. Supports wildcards like /health or admin/*. Default: empty"
+    />
+    <InfoTable.Row
+        title="maskedKeywords"
+        description="Additional request/response field names to mask. Provide as comma-separated values. Default: empty"
+    />
+    <InfoTable.Row
+        title="connectTimeoutInSeconds"
+        description="HTTP connection timeout when calling the Treblle API. Default: 3 seconds"
+    />
+    <InfoTable.Row
+        title="readTimeoutInSeconds"
+        description="HTTP read timeout for Treblle API responses. Default: 3 seconds"
+    />
+    <InfoTable.Row
+        title="maxBodySizeInBytes"
+        description="Maximum request/response body size captured for telemetry. Default: 2MB (2097152 bytes)"
+    />
+</InfoTable>
 
 ### Parameter Examples
 
