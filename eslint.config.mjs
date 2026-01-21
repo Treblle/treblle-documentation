@@ -7,7 +7,7 @@ import {
     tsTypecheckDisabled,
     tsTypechecked,
     prettier,
-} from "@treblle/eslint-config";
+} from "./eslint.base";
 
 export default tseslint.config(
     {
