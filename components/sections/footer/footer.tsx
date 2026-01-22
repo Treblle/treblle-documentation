@@ -231,11 +231,11 @@ export function Footer() {
                         css={{ display: { base: "none", lg: "block" } }}
                     />
                     <Box css={{ display: "flex", alignItems: "center" }}>
-                        <Link href="/privacy-policy" className={FooterLink}>
+                        <Link href="https://treblle.com/privacy-policy" className={FooterLink}>
                             Privacy Policy
                         </Link>
                         <Box className={FooterDivider} />
-                        <Link href="/terms-of-service" className={FooterLink}>
+                        <Link href="https://treblle.com/terms-of-service" className={FooterLink}>
                             Terms of Service
                         </Link>
                     </Box>
