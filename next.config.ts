@@ -756,6 +756,11 @@ const nextConfig: NextConfig = {
                 destination: "/explore-treblle/platform/analytics",
                 permanent: true,
             },
+            {
+                source: "/en/dashboard/api-analytics",
+                destination: "https://treblle.com/product/api-analytics",
+                permanent: true,
+            },
 
             // Sustainability
             {
