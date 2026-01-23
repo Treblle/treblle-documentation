@@ -20,14 +20,14 @@ const nextConfig: NextConfig = {
             // ============================================================================
             // SDK TO INTEGRATIONS MIGRATION REDIRECTS
             // ============================================================================
-            
+
             // Main SDKs page redirect
             {
                 source: "/integrate-treblle/sdks",
                 destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
-            
+
             // Python SDKs
             {
                 source: "/integrate-treblle/sdks/python/django",
@@ -39,42 +39,42 @@ const nextConfig: NextConfig = {
                 destination: "/integrate-treblle/integrations/python/flask",
                 permanent: true,
             },
-            
+
             // JavaScript/Node.js SDKs (catch-all for all JS frameworks)
             {
                 source: "/integrate-treblle/sdks/javascript/:path*",
                 destination: "/integrate-treblle/integrations/javascript/:path*",
                 permanent: true,
             },
-            
+
             // PHP SDKs (catch-all)
             {
                 source: "/integrate-treblle/sdks/php/:path*",
                 destination: "/integrate-treblle/integrations/php/:path*",
                 permanent: true,
             },
-            
+
             // Java SDKs (catch-all)
             {
                 source: "/integrate-treblle/sdks/java/:path*",
                 destination: "/integrate-treblle/integrations/java/:path*",
                 permanent: true,
             },
-            
+
             // .NET SDKs (catch-all)
             {
                 source: "/integrate-treblle/sdks/dotnet/:path*",
                 destination: "/integrate-treblle/integrations/dotnet/:path*",
                 permanent: true,
             },
-            
+
             // Go SDK
             {
                 source: "/integrate-treblle/sdks/go",
                 destination: "/integrate-treblle/integrations/go",
                 permanent: true,
             },
-            
+
             // Ruby SDK
             {
                 source: "/integrate-treblle/sdks/ruby",
@@ -85,21 +85,21 @@ const nextConfig: NextConfig = {
             // ============================================================================
             // CUSTOM INTEGRATION REDIRECTS
             // ============================================================================
-            
+
             // SDK to Integration migration
             {
                 source: "/integrate-treblle/custom-sdk",
                 destination: "/integrate-treblle/custom-integration",
                 permanent: true,
             },
-            
+
             // Legacy custom path
             {
                 source: "/integrations/custom",
                 destination: "/integrate-treblle/custom-integration",
                 permanent: true,
             },
-            
+
             // Old en/ path
             {
                 source: "/en/sdk-development",
@@ -756,6 +756,11 @@ const nextConfig: NextConfig = {
                 destination: "/explore-treblle/platform/analytics",
                 permanent: true,
             },
+            {
+                source: "/en/dashboard/api-analytics",
+                destination: "https://treblle.com/product/api-analytics",
+                permanent: true,
+            },
 
             // Sustainability
             {
@@ -831,6 +836,11 @@ const nextConfig: NextConfig = {
                 destination: "/explore-treblle/platform/alerts/spike-alerts",
                 permanent: true,
             },
+            {
+                source: "/explore-treblle/platform/alerts",
+                destination: "/explore-treblle/platform/alerts/spike-alerts",
+                permanent: true,
+            },
 
             // ============================================================================
             // ADMIN & ACCOUNT REDIRECTS
@@ -875,6 +885,11 @@ const nextConfig: NextConfig = {
                 destination: "/explore-treblle/admin/workspace-settings",
                 permanent: true,
             },
+            {
+                source: "/explore-treblle/workspace",
+                destination: "/explore-treblle/workspace/home",
+                permanent: true,
+            },
 
             // Password Management
             {
@@ -904,6 +919,26 @@ const nextConfig: NextConfig = {
             {
                 source: "/treblle/security-and-access",
                 destination: "/explore-treblle/account/security",
+                permanent: true,
+            },
+            {
+                source: "/explore-treblle/admin/invite-users",
+                destination: "/explore-treblle/admin/user-management/people",
+                permanent: true,
+            },
+            {
+                source: "/explore-treblle/admin/team-management",
+                destination: "/explore-treblle/admin/user-management/people",
+                permanent: true,
+            },
+            {
+                source: "/explore-treblle/admin/sso",
+                destination: "/explore-treblle/sso/treblle",
+                permanent: true,
+            },
+            {
+                source: "/explore-treblle/admin/user-management/groups",
+                destination: "/explore-treblle/admin/user-management/group",
                 permanent: true,
             },
 
@@ -946,10 +981,25 @@ const nextConfig: NextConfig = {
                 permanent: true,
             },
 
-            // FAQs
+            // Resources
             {
                 source: "/faqs",
                 destination: "/resources/faqs",
+                permanent: true,
+            },
+            {
+                source: "/resources/use-case-tutorials/debug-production-issue/monitor-first-api",
+                destination: "/resources/use-case-tutorials/monitor-first-api",
+                permanent: true,
+            },
+            {
+                source: "/resources/use-case-tutorials/debug-production-issue/monitor-first-api",
+                destination: "/resources/use-case-tutorials/monitor-first-api",
+                permanent: true,
+            },
+            {
+                source: "/resources/use-case-tutorials/setup-custom-alerts/monitor-first-api",
+                destination: "/resources/use-case-tutorials/monitor-first-api",
                 permanent: true,
             },
 
@@ -995,10 +1045,15 @@ const nextConfig: NextConfig = {
                 permanent: true,
             },
 
-            // GitHub Integration
+            // Integrations
             {
                 source: "/integrate-treblle/github-app",
                 destination: "/integrate-treblle/github-integration",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/api-gateways",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
         ];
