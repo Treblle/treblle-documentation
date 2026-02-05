@@ -14,10 +14,13 @@ import Link from "next/link";
 
 <InfoCard type="individual">
     <InfoCard.title>
-        <Link href="https://github.com/Treblle/treblle-spring" target="_blank">GitHub</Link>
+        <Link href="https://github.com/Treblle/treblle-spring" target="_blank">
+            GitHub
+        </Link>
     </InfoCard.title>
     <InfoCard.description>
-        The official Treblle SDK for JavaScript frameworks including Spring. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+        The official Treblle SDK for JavaScript frameworks including Spring. Seamlessly integrate
+        Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
     </InfoCard.description>
 </InfoCard>
 
@@ -28,17 +31,37 @@ import Link from "next/link";
 - Spring Boot 2.4.X
 - Java 8+
 
-## Installation
+### Install the SDK
 
-Add the following dependency:
+Add the subsequent dependency to your `pom.xml` file while ensuring it aligns with your Spring Boot version:
 
-```xml copy
+For Spring Boot `2.4.X` with `Java 8` and higher:
+
+```xml
 <dependencies>
+  <!-- Other dependencies -->
     <dependency>
         <groupId>com.treblle</groupId>
         <artifactId>treblle-spring-boot-starter</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.6</version>
     </dependency>
+  <!-- Other dependencies -->
+</dependencies>
+```
+
+**Note:** Version 1.x is maintained on the `1.x-java8` branch for legacy support.
+
+For Spring Boot `3.X` with `Java 17` and higher:
+
+```xml
+<dependencies>
+  <!-- Other dependencies -->
+    <dependency>
+        <groupId>com.treblle</groupId>
+        <artifactId>treblle-spring-boot-starter</artifactId>
+        <version>2.0.11</version>
+    </dependency>
+  <!-- Other dependencies -->
 </dependencies>
 ```
 
@@ -86,7 +109,8 @@ treblle.maskingKeywords=secretField,highlySensitiveField
 The Spring default behavior is to handle errors via the \`/error\` endpoint. To allow Treblle to properly process your error response bodies you should switch to controller based exception handling, for example by using \`@ControllerAdvice\` and \`@ExceptionHandler\` ( https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc )
 
 <TipCard>
-If you have problems of any kind feel free to reach out via [treblle.com](https://treblle.com) or email hello@treblle.com and we'll do our best to help you out.
+    If you have problems of any kind feel free to reach out via [treblle.com](https://treblle.com)
+    or email hello@treblle.com and we'll do our best to help you out.
 </TipCard>
 
 <PaginationCards />
