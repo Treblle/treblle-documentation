@@ -18,12 +18,15 @@
         "@ark-ui/react": "^5.30.0",
         "@statsig/react-bindings": "^3.30.2",
         "@statsig/web-analytics": "^3.30.2",
+        "cheerio": "^1.2.0",
+        "jsdom": "^28.0.0",
         "lucide-react": "^0.546.0",
         "next": "^15.3.6",
         "nextra": "^4.6.1",
         "nextra-theme-docs": "^4.6.1",
         "react": "^19.2.1",
-        "react-dom": "^19.2.1"
+        "react-dom": "^19.2.1",
+        "turndown": "^7.2.2"
     },
     "devDependencies": {
         "@next/eslint-plugin-next": "^15.5.7",
@@ -31,8 +34,10 @@
         "@treblle/eslint-config": "^1.1.0",
         "@treblle/prettier-config": "^1.0.2",
         "@treblle/typescript-config": "^1.0.1",
+        "@types/jsdom": "^27.0.0",
         "@types/node": "^20.17.14",
         "@types/react": "^19.2.7",
+        "@types/turndown": "^5.0.6",
         "eslint": "^9.39.1",
         "pagefind": "^1.4.0",
         "prettier": "^3.7.4",
