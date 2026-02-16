@@ -27,7 +27,6 @@ export async function GET(
                 status: response.status,
             });
         }
-
         const html = await response.text();
 
         const $ = cheerio.load(html);
@@ -42,7 +41,6 @@ export async function GET(
             ".nx-sidebar",
             ".nextra-toc",
             ".nx-toc",
-            '[class*="navbar"]',
             '[class*="Navbar"]',
             '[class*="footer"]',
             '[class*="Footer"]',
@@ -61,13 +59,7 @@ export async function GET(
             $(selector).remove();
         });
 
-        let mainContent =
-            $("main").html() ||
-            $("article").html() ||
-            $('[role="main"]').html() ||
-            $("body").html() ||
-            "";
-
+        let mainContent = $("main[data-pagefind-body]").html() || $("main").html() || "";
         if (!mainContent) {
             return new NextResponse("No content found", { status: 404 });
         }
