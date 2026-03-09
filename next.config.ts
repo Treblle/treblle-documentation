@@ -527,6 +527,21 @@ const nextConfig: NextConfig = {
                 destination: "/integrate-treblle/api-gateways/mulesoft/app",
                 permanent: true,
             },
+            {
+                source: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/app",
+                permanent: true,
+            },
+            {
+                source: "/resources/use-case-tutorials",
+                destination:"/resources/use-case-tutorials/monitor-first-api",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/integrations",
+                destination: "/integrate-treblle/treblle-integrations",
+                permanent: true,
+            },
 
             // ============================================================================
             // WORKSPACE-LEVEL REDIRECTS
