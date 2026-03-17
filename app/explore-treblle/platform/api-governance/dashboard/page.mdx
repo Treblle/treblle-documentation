@@ -8,95 +8,146 @@ import { ImageCard } from "~components/cards/image-card";
 import PaginationCards from "~components/cards/pagination-cards";
 import { NoteCard } from "~components/cards/note";
 
-# API Governance
+# Governance
 
-API governance in Treblle ensures your APIs follow industry standards and best practices. 
+The **Governance** section provides a structured view of your API's quality across two distinct dimensions: design-time and run-time. Together, they form the **Overall Governance Score** displayed at the top of the Overview tab. Design-time governance will exclusively use an OpenAPI specification for its calculations, while run-time governance will exclusively use available API taffic on Platform.
 
-It evaluates APIs across key areas, such as performance, security, design, and AI Readiness, and helps maintain compliance with GDPR, CCPA, and PCI regulations.
+> Governance is split into two independent perspectives. Design-time governance will not appear if no OpenAPI specification has been added to the API. Run-time governance will not appear if the API is not sending traffic to Treblle.
 
-<NoteCard>
-For Treblle to score your API, please ensure it is exposed to the internet via a public URL. An API running via localhost will not be scored.
-</NoteCard>
+---
 
-## Steps to view API Governance
+## Governance Score
 
-1. Click on API Governance in the left navigation bar.
+Governance scores are expressed as a letter grade alongside a numeric value out of 100. The same grading scale applies to both design-time and run-time scores:
 
-<ImageCard src="/platform/api-governance/governance.png" alt="API Governance Navigation" />
+| Grade | Score Range | Meaning |
+|---|---|---|
+| **A** | 90–100 | Excellent — well-structured, complete, and high quality |
+| **B** | 80–89 | Good — minor issues present |
+| **C** | 70–79 | Fair — notable gaps or violations that should be addressed |
+| **D** | 60–69 | Poor — significant issues requiring attention |
+| **F** | 0–59 | Critical — major violations that must be resolved |
 
-2. Overview of the API Governance dashboard.
-
-<ImageCard src="/platform/api-governance/dashboard.png" alt="API Governance Dashboard" />
+---
 
 ## Governance Categories
 
-Treblle's API governance measures your APIs across four main categories:
+Governance is evaluated across four categories. Not all categories apply to both design-time and run-time:
 
-<ImageCard src="/platform/api-governance/api-score.png" alt="API Governance Score" />
+| Category | Design-Time | Run-Time | Description |
+|---|---|---|---|
+| **Design** | ✓ | — | Evaluates structural quality and consistency of the API specification |
+| **AI Ready** | ✓ | — | Assesses how well the API is documented and structured for AI consumption |
+| **Performance** | ✓ | ✓ | Measures response times, error rates, and efficiency |
+| **Security** | ✓ | ✓ | Checks for security best practices such as authentication, rate limiting, and header usage |
 
-### AI Ready
+> Note here that checks for **Performance** and **Security** differs for design-time and run-time.
 
-AI Ready ensures your API is structured to allow easier integration with AI systems.
+Design and AI Ready are design-time only categories and will show **N/A** in any run-time view.
 
-The AI Ready category helps your API adhere to the following specifications:
+---
 
-- **Parameter Descriptions:** Checks if each parameter has descriptions 
-- **Schema Types or Descriptions:** Checks if each schema has descriptions or types 
-- **Operation ID:** Checks if each operation has an id
-- **Response Descriptions:** Checks if each response has descriptions 
+## Overview Tab
 
-<ImageCard src="/platform/api-governance/ai-ready.png" alt="AI Ready Category" />
+The Overview tab presents a consolidated view of your API's governance health. At the top, the **Overall Governance Score** combines design-time quality and run-time behaviour into a single grade, with a trend indicator showing whether the score is improving or declining.
 
-### Design
+Below the overall score, two sub-scores are displayed side by side:
 
-The Design category checks your API's basic structure and usability, ensuring it follows common conventions for clear, easy-to-understand interactions. 
+- **Design-Time Score** — derived from the current default OpenAPI specification. Click **View Details** to navigate to the Design-Time tab.
+- **Run-Time Score** — derived from live traffic observed over the last 7 days. Click **View Details** to navigate to the Run-Time tab.
 
-Here's how Treblle evaluates your API design:
- 
-- **Contact Information**: Verifies the presence of contact details (name, email, URL).  
-- **Operation Descriptions or Summaries**: Ensures that all operations have descriptions or summaries. 
-- **Robust Responses**: This check ensures that the API returns more than just the standard `200 OK` response code and provides accurate status codes to reflect different operations' outcomes.
-- **Examples Exist**: Ensures that endpoints include examples for parameters and responses to improve usability.  
-- **Consistent Pluralization**: Ensures that the base endpoint uses plural nouns to represent groups of resources (e.g., `/users` vs `/user`).  
-- **Consistent Noun Usage**: Ensures endpoints are described as nouns instead of verbs. For example, the POST method for endpoint `/user/{id}` vs. `/postUser/{id}`).
-- **JSON Support**: Ensures the content-type header is set to `application/json` for consistent data format.  
-- **Information Descriptions**: Verifies that each endpoint includes a description.
-- **Rate Limiting**: This checks for rate-limiting headers (`rate limit`, `x-rate-limit`) to protect against abuse and ensure fair usage. 
-- **Versioning**: To manage API changes without breaking existing integrations, we recommend URL-based versioning (`/v1`, `/v2`).  
+The Overview tab also includes four supplementary panels:
 
-<ImageCard src="/platform/api-governance/design.png" alt="Design Category" />
+- **Score by Category** shows the current design-time and run-time scores for each governance category in a table. Design and AI Ready categories show N/A in the Run-Time column.
+- **Design-Time Category Trends** lists each category with the number of points changed and the current score over the selected time period.
+- **Run-Time Category Trends** lists the run-time categories (Performance and Security) with point changes and current scores over the selected time period.
+- **Design-Time Score by OpenAPI Versions** lists every specification version with its filename, version number, source, and governance score — providing a historical view of how design-time quality has evolved across versions.
+- **Run-Time Violations by Category** displays a donut chart showing the proportion of violations attributed to each run-time category, along with violation counts and trend indicators.
+- **Most Design-Time Failed Tests** lists the individual tests that have failed most frequently, showing the test name, category, and number of failures.
 
-### Performance
+---
 
-The Performance category ensures that your APIs are fast, reliable, and optimized for speed.
+## Design-Time Tab
 
-- **Load Time**: Ensures responses are returned within an acceptable time frame (preferably under 500ms).  
-- **Compression Support**: This checker determines whether compression `content-encoding` headers exist, speeding up data transmission and reducing packet loss.   
-- **CDN Usage**: Checks for using Content Delivery Networks (CDN) to improve response time and distribution.  
-- **HTTP2 Usage**: This function checks the base URL of the first entry in the servers section for the version of the HTTP server.
-- **Cache Support**: Ensures the `cache-control` header is set to specify browser caching policies, including how resources are cached, where they are cached, and when they expire.
+The Design-Time tab provides a detailed breakdown of governance test results for a specific version of your OpenAPI specification. Use the **OpenAPI Version** dropdown in the top-right corner to select which version to inspect.
 
-<ImageCard src="/platform/api-governance/performace.png" alt="Performance Category" />
+The tab displays the **Overall Governance Score** for the selected version, followed by individual score tiles for each of the four categories: Design, AI Ready, Performance, and Security.
 
-### Security
+Each category section expands to show a list of individual tests, each marked as **Pass** or **Fail**. Clicking on a test row reveals a description of what the test evaluates and why it matters.
 
-Security checks ensure your API is protected from common threats and follow industry-standard practices to secure data and access.  
+### Comparing Versions
 
-Treblle assesses these critical aspects:
+Click **Compare Versions** in the top-right to open a side-by-side comparison view. Use the two version dropdowns to select the versions you want to compare. The comparison table shows the result of each test for both versions simultaneously. Directional arrows indicate where a test result has improved or declined between the two versions.
 
-- **Insecure Direct Object Reference (IDOR) Risks**: Ensures path parameters are correctly defined as strings with valid UUIDs, ULIDs, or Mongo ObjectIDs. 
-- **Content Type Options**: The `X-Content-Type-Options` header is set to `nosniff` to prevent MIME sniffing attacks.
-- **iFrame Embedding**: Verifies the presence of `X-Frame-Options` to protect against clickjacking attacks.  
-- **Strict Transport Security (HSTS)**: Ensures the `Strict-Transport-Security` header is set to enforce HTTPS usage.    
-- **Content Security Policy**: Ensures `Content-Security-Policy` headers are set to restrict resource loading from unauthorized sources.  
-- **Operation Enforces Security Scheme**: Ensures that security schemes are defined for all operations to prevent unauthorized access.  
-- **Authorization**: Ensures that the API implements proper authorization mechanisms to control access, including the presence of a `securitySchemes` object.
-- **Secure URLs (HTTPs)**: Ensures requests require HTTPS for encrypted communication.  
-- **Security Field Contains a Scheme**: Ensures the security field is not empty and includes proper definitions.
-- **Global Security Field is Defined**: This checks whether the global security field is defined for the API.
+### Custom Governance Rules
 
-<ImageCard src="/platform/api-governance/security.png" alt="Security Category" />
+Design-time governance can be fully customised by providing a **Spectral ruleset**. This allows teams to define their own governance standards in place of Treblle's default rules. Custom rulesets are configured via **Workspace Settings**.
 
-After evaluating these categories, Treblle assigns an API score out of 100, along with a grade ranging from **A** to **F**, to help you track the quality of your API governance.
+---
+
+## Run-Time Tab
+
+The Run-Time tab evaluates your API's behaviour based on live traffic observed by Treblle. Use the **Time** dropdown to filter results by a specific period (e.g. last 7 days). Click **Compare Periods** to view how run-time governance scores have changed between two time windows.
+
+At the top of the tab, the **Overall Governance Score** for the selected period is displayed, along with the timestamp of the most recent check. Click **Run Now** to trigger an immediate re-evaluation against current traffic.
+
+Category scores are shown for **Performance** and **Security**, each with a percentage trend indicator and a **View Violations** link.
+
+Each category expands to show individual tests marked as **Pass**, **Warning** or **Fail**.
+
+**Performance** tests include:
+
+- Load Time
+- Response Size
+- Client Error 400
+- Client Errors (401/403)
+- Client Error 404
+- Client Error 4xx overall
+- Client Error 429
+- Server Error 500
+- Server Error 502/503/504
+- Server Errors (5xx)
+- Compression
+- HTTP/2 Support
+
+**Security** tests include:
+
+- Consistent Noun Usage
+- Consistent Pluralization
+- Rate Limiting
+- Examples Exist
+- Contact Information
+- Multiple HTTP Methods
+- JSON Support
+- Operation Descriptions or Summaries
+- Robust Responses
+- Versioning
+- Information Description
+
+### Editing Run-Time Tests
+
+Each category in the Run-Time tab has an **Edit** button that opens the **Edit Tests** panel. This panel lists all available tests for that category with toggle switches, allowing you to choose which tests are included in the run-time governance score calculation. Toggle a test on or off as needed, then click **Save Changes** to apply your selection.
+
+---
+
+## Insights Tab
+
+The Insights tab visualises governance score trends over time through two line charts.
+
+### Design-Time Insights
+
+This chart plots governance scores on the vertical axis against OpenAPI specification versions on the horizontal axis. Each line represents a governance category: Overall, Security, Design, AI Ready, and Performance.
+
+Hovering over a data point displays a tooltip showing the version number, upload date, and individual category scores for that version.
+
+Use the **View Categories** filter to show or hide specific category lines. Use the **Versions** dropdown to control how many historical versions are included in the chart.
+
+### Run-Time Insights
+
+This chart plots governance scores on the vertical axis against calendar dates on the horizontal axis. Each line represents a run-time governance category: Overall, Security, Design, and Performance.
+
+Use the **View Categories** filter and the **Timeframe** dropdown to adjust the scope of the chart.
+
+Both charts use the same grade bands on the vertical axis: A (90–100), B (80–89), C (70–79), D (60–69), and F (0–59).
 
 <PaginationCards />
