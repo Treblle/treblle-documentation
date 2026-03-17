@@ -14,6 +14,8 @@ The **Governance** section provides a structured view of your API's quality acro
 
 > Governance is split into two independent perspectives. Design-time governance will not appear if no OpenAPI specification has been added to the API. Run-time governance will not appear if the API is not sending traffic to Treblle.
 
+<ImageCard src="/platform/api-governance/API governance - overview no run time.png" alt="Governance Overview no run time" /><ImageCard src="/platform/api-governance/API governance - overview no design time.png" alt="Governance Overview no design time" />
+
 ---
 
 ## Governance Score
@@ -51,6 +53,8 @@ Design and AI Ready are design-time only categories and will show **N/A** in any
 
 The Overview tab presents a consolidated view of your API's governance health. At the top, the **Overall Governance Score** combines design-time quality and run-time behaviour into a single grade, with a trend indicator showing whether the score is improving or declining.
 
+<ImageCard src="/platform/api-governance/API governance - overview.png" alt="Governance Overview" />
+
 Below the overall score, two sub-scores are displayed side by side:
 
 - **Design-Time Score** — derived from the current default OpenAPI specification. Click **View Details** to navigate to the Design-Time tab.
@@ -75,14 +79,17 @@ The tab displays the **Overall Governance Score** for the selected version, foll
 
 Each category section expands to show a list of individual tests, each marked as **Pass** or **Fail**. Clicking on a test row reveals a description of what the test evaluates and why it matters.
 
+<ImageCard src="/platform/api-governance/API governance - design time.png" alt="Design time governance" />
+
 ### Comparing Versions
 
 Click **Compare Versions** in the top-right to open a side-by-side comparison view. Use the two version dropdowns to select the versions you want to compare. The comparison table shows the result of each test for both versions simultaneously. Directional arrows indicate where a test result has improved or declined between the two versions.
 
+<ImageCard src="/platform/api-governance/API governance - design time.png" alt="Design time governance" />
+
 ### Custom Governance Rules
 
-Design-time governance can be fully customised by providing a **Spectral ruleset**. This allows teams to define their own governance standards in place of Treblle's default rules. Custom rulesets are configured via **Workspace Settings**.
-
+Design-time governance can be fully customised by providing a **Spectral ruleset**. This allows teams to define their own governance standards in place of Treblle's default rules. Custom rulesets are configured via [**Workspace Settings**](platform/api-governance/ruleset/page).
 ---
 
 ## Run-Time Tab
@@ -92,6 +99,8 @@ The Run-Time tab evaluates your API's behaviour based on live traffic observed b
 At the top of the tab, the **Overall Governance Score** for the selected period is displayed, along with the timestamp of the most recent check. Click **Run Now** to trigger an immediate re-evaluation against current traffic.
 
 Category scores are shown for **Performance** and **Security**, each with a percentage trend indicator and a **View Violations** link.
+
+<ImageCard src="/platform/api-governance/API governance - run time.png" alt="Run time governance" />
 
 Each category expands to show individual tests marked as **Pass**, **Warning** or **Fail**.
 
@@ -128,11 +137,15 @@ Each category expands to show individual tests marked as **Pass**, **Warning** o
 
 Each category in the Run-Time tab has an **Edit** button that opens the **Edit Tests** panel. This panel lists all available tests for that category with toggle switches, allowing you to choose which tests are included in the run-time governance score calculation. Toggle a test on or off as needed, then click **Save Changes** to apply your selection.
 
+<ImageCard src="/platform/api-governance/API governance - run time performance edit.png" alt="Run time edit" />
+
 ---
 
 ## Insights Tab
 
 The Insights tab visualises governance score trends over time through two line charts.
+
+<ImageCard src="/platform/api-governance/API governance - insights.png" alt="Governance insights" />
 
 ### Design-Time Insights
 
