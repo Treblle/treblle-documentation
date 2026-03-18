@@ -6,7 +6,7 @@
         "build": "next build --webpack",
         "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
         "commit": "cz",
-        "dev": "rm -rf .next && next dev",
+        "dev": "rm -rf .next && next dev --webpack",
         "format:check": "prettier . --check",
         "format:fix": "prettier . --write",
         "lint": "next lint",
