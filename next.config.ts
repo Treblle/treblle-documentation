@@ -14,7 +14,6 @@ const withNextra = nextra({
 });
 
 const nextConfig: NextConfig = {
-    feedback: false,
     async redirects() {
         return [
             // ============================================================================
