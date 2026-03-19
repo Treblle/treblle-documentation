@@ -11,7 +11,34 @@ export async function GET(
     try {
         const { page } = await params;
         const originalPath = page ? `/${page.join("/")}` : "/";
-        const baseUrl = request.nextUrl.origin;
+
+        // Basic path validation to prevent traversal or malformed paths
+        if (!originalPath.startsWith("/")) {
+            return new NextResponse("Invalid path", { status: 400 });
+        }
+        if (originalPath.split("/").includes("..")) {
+            return new NextResponse("Invalid path segment", { status: 400 });
+        }
+
+        const originUrl = request.nextUrl;
+
+        // Restrict protocol and disallow typical internal/loopback SSRF targets
+        if (originUrl.protocol !== "http:" && originUrl.protocol !== "https:") {
+            return new NextResponse("Invalid origin protocol", { status: 400 });
+        }
+
+        const hostname = originUrl.hostname.toLowerCase();
+        const disallowedHosts = new Set<string>([
+            "localhost",
+            "127.0.0.1",
+            "::1",
+        ]);
+        const isIpLiteral = /^[0-9.]+$/.test(hostname) || hostname.includes(":");
+        if (disallowedHosts.has(hostname) || isIpLiteral) {
+            return new NextResponse("Disallowed origin host", { status: 400 });
+        }
+
+        const baseUrl = originUrl.origin;
         const targetUrl = `${baseUrl}${originalPath}`;
 
         const response = await fetch(targetUrl, {
