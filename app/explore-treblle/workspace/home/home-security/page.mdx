@@ -1,0 +1,138 @@
+---
+title: "Home-Security"
+metaTitle: "Home - Security - Treblle Documentation"
+description: "The **Home-Security dashboard** provides a real-time overview of your API security posture across all environments, gateways, and services."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+
+# Home-Security dashboard
+
+The **Home-Security dashboard** provides a real-time overview of your API security posture across all environments, gateways, and services. It aggregates key safety metrics into a single view so you can quickly understand what risks exist across your APIs.
+
+This dashboard is powered by real-time API traffic analysis so you can see what's happening with your APIs in production.
+
+<ImageCard src="/Home - security.png" />
+
+## Security Overview Cards
+
+Below the top banner are key security indicators:
+
+<ImageCard src="/Home - security - 1.png" />
+
+### Vulnerable APIs
+Number of APIs currently flagged with known issues or risks.
+
+### APIs with Incidents
+APIs that have triggered security or operational incidents.
+
+### Zombie APIs
+APIs that exist but show little or no recent activity — often forgotten and unmaintained.
+
+### Non-Compliant APIs
+APIs that violate governance, security, or compliance standards.
+
+---
+
+## PII Footprint
+
+This table highlights APIs that may expose sensitive data.
+
+<ImageCard src="/Home - security - 2.png" />
+
+- **API**: API name
+- **Risk**: Severity level (Low, Medium, High)
+- **Problems**: Number of detected issues
+- **Occurrences**: Frequency of incidents
+- **Last Occurrence**: Most recent detection
+
+### Impacted Customers
+This section shows how security issues affect real users.
+
+- **Customer**:  Which customers are impacted
+- **API**: Which APIs are involved
+- **Failed Requests**: Number of failed or problematic requests
+
+---
+
+## API Distribution and Vulnerability Analysis
+
+Understanding exposure types helps assess risk boundaries.
+
+<ImageCard src="/Home - security - 3.png" />
+
+### APIs by Type
+Breakdown of APIs by:
+- Internal
+- External
+- Partner
+
+### BFLA (Broken Function Level Authorization)
+Shows APIs vulnerable to authorization flaws.
+
+- **API**: Name of the API
+- **BFLA #**: Number of requests that failed the BFLA mechanism check 
+
+### Authentication Types:
+Displays the security level of APIs.
+
+- **API**: Name of the API
+- **Authentication**: The authentication level can be basic, bearer, custom, or No Auth (Authentication)
+- **Status Indicator**: Status can be secure (proper and in place), risky (weak or misconfigured), or No Auth 
+
+### BOLA (Broken Object Level Authorization)
+Lists APIs vulnerable to object-level access issues.
+
+- **API**: Name of the API
+- **BOLA#**: Number of requests that failed the BOLA mechanism check 
+- **Status**: Access status usually marked as 403 with the message Forbidden
+
+### Risky IPs Map
+Visual representation of suspicious or risky traffic sources. Used to:
+
+- **Identify** geographic attack patterns
+- **Detect** unusual traffic spikes
+- **Support** incident investigation
+
+---
+
+## Security and Safety Checks
+
+Tracks API security issues aligned with OWASP standards.
+
+<ImageCard src="/Home - security - 4.png" />
+
+### Zombie APIs
+Lists APIs that are inactive or abandoned.
+
+- **API**: Name of the API
+- **Last Active**: Last time this API was active
+
+### OWASP 10
+Tracks API security issues aligned with OWASP standards.
+
+- **OWASP**: Shows the category of security risk classified as API#(1-10) with a security misconfiguration (e.g. SQL injection)
+- **Endpoints**: Shows affected endpoints as a percentage
+- **Status**: Status usually marked with Fail
+
+### Unsecured APIs
+Highlights APIs lacking proper authentication.
+
+- **API**: Name of the API
+- **Authentication**: The authentication level can be basic, bearer, custom, or No Auth (Authentication)
+
+---
+
+## Filters & Controls
+
+At the top-right of the dashboard, you can filter data by:
+
+- **Environment** (e.g. production, staging)
+- **Category** (e.g. end user, department)
+- **Time range** (e.g. last 24 hours)
+
+---
+
+<PaginationCards />
