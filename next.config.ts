@@ -14,7 +14,6 @@ const withNextra = nextra({
 });
 
 const nextConfig: NextConfig = {
-    feedback: false,
     async redirects() {
         return [
             // ============================================================================
@@ -525,6 +524,21 @@ const nextConfig: NextConfig = {
             {
                 source: "/integrations/gateways/mulesoft/app",
                 destination: "/integrate-treblle/api-gateways/mulesoft/app",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/api-gateways/mulesoft",
+                destination: "/integrate-treblle/api-gateways/mulesoft/app",
+                permanent: true,
+            },
+            {
+                source: "/resources/use-case-tutorials",
+                destination:"/resources/use-case-tutorials/monitor-first-api",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/integrations",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
 
