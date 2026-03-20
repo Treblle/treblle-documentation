@@ -1,0 +1,94 @@
+---
+title: "Home-Governance"
+metaTitle: "Home - Governance - Treblle Documentation"
+description: "The **Home-Governance dashboard** provides a real-time overview of API governance, scoring, and compliance across your entire API landscape."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+
+# Home-Governance dashboard
+
+The **Home-Governance dashboard** provides a real-time overview of API governance, design quality, and compliance across all environments, gateways, and services. It helps you understand how well your APIs follow best practices and where improvements are needed.
+
+This dashboard is powered by real-time API analysis, giving you a clear view of governance performance across your API ecosystem.
+
+<ImageCard src="/Home - governance.png" />
+
+### Overall Governance Score
+Displays the aggregated governance score across all APIs.
+
+<ImageCard src="/Home - governance - 1.png" />
+
+- Represented as a grade (A–F) and numeric score (0-100)
+- Reflects overall API quality, compliance, and consistency
+
+### Category Scores
+Breakdown of governance performance across key areas:
+
+- **Security**: Measures authentication, encryption, and security practices  
+- **Design**: Evaluates API structure, consistency, and standards  
+- **Performance**: Assesses efficiency and responsiveness  
+- **AI Ready**: Indicates how well APIs are prepared for AI and automation use cases  
+
+---
+
+## API Categories and Distribution
+
+This section helps you understand governance performance across different API groups.
+
+<ImageCard src="/Home - governance - 2.png" />
+
+### API Categories
+Shows governance scores grouped by API category (e.g. AI, Financial, Business).
+
+- Displays score per category
+- Helps identify weak areas across different API domains
+
+### APIs by Type
+Breakdown of APIs by exposure type:
+
+- **Internal**
+- **External**
+- **Partner**
+
+Helps assess governance maturity across different API audiences.
+
+---
+
+## Best and Lowest Scoring APIs
+
+This section highlights top and bottom performers.
+
+<ImageCard src="/Home - governance - 3.png" />
+
+### Best Scoring APIs
+Lists APIs with the highest governance scores.
+
+- **API**: Name of the API  
+- **Overall Score**: Grade and numeric score  
+- **Failed Checks**: Number of governance checks not passed  
+
+### Lowest Scoring APIs
+Lists APIs with the weakest governance performance.
+
+- **API**: Name of the API  
+- **Overall Score**: Grade and numeric score  
+- **Failed Checks**: Number of governance issues detected  
+
+This helps prioritize which APIs need immediate attention.
+
+---
+
+## Filters & Controls
+
+At the top-right of the dashboard, you can filter data by:
+
+- **Environment** (e.g. production, staging)
+- **Category** (e.g. end user, department)
+- **Time range** (e.g. last 24 hours)
+
+---
+
+<PaginationCards />

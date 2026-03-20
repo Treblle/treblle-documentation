@@ -1,0 +1,112 @@
+---
+title: "Home-Customers"
+metaTitle: "Home - Customers - Treblle Documentation"
+description: "The **Home-Customers dashboard** provides a real-time overview of API consumers, usage patterns, and customer impact across your API ecosystem."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+
+# Home-Customers dashboard
+
+The **Home-Customers dashboard** provides a real-time overview of how your APIs are being used by customers and consumers. It helps you understand usage patterns, identify key consumers, and measure the impact of API performance and issues on your users.
+
+This dashboard is powered by real-time API traffic analysis so you can see how customers interact with your APIs in production.
+
+<ImageCard src="/Home - customers.png" />
+
+## Customer Overview Cards
+
+Below the top banner are key customer and usage indicators:
+
+<ImageCard src="/Home - customers - 1.png" />
+
+### New Customers
+Number of new customers interacting with your APIs.
+
+- Indicates growth in API adoption
+- Helps track onboarding trends
+
+### Active Customers
+Total number of customers actively using your APIs.
+
+- Reflects real usage, not just registered users
+- Useful for monitoring engagement
+
+### Top Customer
+Highlights the customer generating the highest API usage.
+
+- Identifies key accounts and heavy users
+
+### Avg. Requests per Customer
+Shows the average number of API requests per customer.
+
+- Helps measure usage intensity
+- Indicates load distribution across customers
+
+---
+
+## Customer Usage Insights
+
+This section provides deeper insights into how customers interact with your APIs.
+
+<ImageCard src="/Home - customers - 2.png" />
+
+### Top Customers
+Lists customers with the highest number of API requests.
+
+- **Customer**: Name or identifier of the customer  
+- **Requests #**: Total number of requests generated  
+
+Helps identify:
+- High-value customers
+- Potential heavy-load contributors
+
+### Consumer Breakdown per API
+Shows how API usage is distributed between customers and AI agents.
+
+- **API**: Name of the API  
+- **Customers %**: Percentage of requests from human users  
+- **AI Agents %**: Percentage of requests from automated systems  
+
+Provides insight into:
+- Human vs automated traffic
+- AI adoption across APIs
+
+### API Consumers
+Visual breakdown of API usage by consumer type.
+
+- **Customers**: Human users interacting with APIs  
+- **AI Agents**: Automated or AI-driven consumers  
+
+---
+
+## Impacted Customers
+
+This section highlights customers affected by API issues.
+
+<ImageCard src="/Home - customers - 3.png" />
+
+- **Customer**: Name or identifier of the affected customer  
+- **API**: API involved in the issue  
+- **Failed Requests #**: Number of failed or problematic requests  
+
+Helps you:
+- Understand business impact of issues  
+- Prioritize fixes based on customer importance  
+- Identify recurring problem areas  
+
+---
+
+## Filters & Controls
+
+At the top-right of the dashboard, you can filter data by:
+
+- **Environment** (e.g. production, staging)
+- **Category** (e.g. end user, department)
+- **Time range** (e.g. last 24 hours)
+
+---
+
+<PaginationCards />
