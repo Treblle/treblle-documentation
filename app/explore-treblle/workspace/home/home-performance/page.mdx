@@ -1,0 +1,74 @@
+---
+title: "Home-Performance"
+metaTitle: "Home - Performance - Treblle Documentation"
+description: "The **Home-Performance dashboard** provides a high-level overview of your API performance, latency, and traffic behavior across your entire API landscape."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+
+# Home-Performance dashboard
+
+The **Home-Performance dashboard** provides a real-time overview of how your APIs are performing across all environments, gateways, and services. It helps you monitor speed, detect bottlenecks, and understand how your APIs behave under load.
+
+This dashboard is powered by real-time API traffic analysis so you can see actual performance in production environments.
+
+<ImageCard src="/Home - performance.png" />
+
+### Requests per Second
+Displays the number of API requests processed per second.
+
+- Helps measure system throughput
+- Indicates traffic spikes or drops
+
+### Average Load Time
+Shows how long APIs take to respond on average.
+
+- Measured in milliseconds (ms)
+- Includes indicators for best and worst performance
+
+### Latency Map
+Geographic visualization of API latency.
+
+Used to:
+- **Identify** regions with slower response times
+- **Detect** infrastructure or routing issues
+- **Understand** global performance distribution
+
+### Slowest APIs
+Lists APIs with the highest response times.
+
+- **API**: Name of the API
+- **Load Time**: Response time in milliseconds
+
+### Slowest Endpoints
+Lists specific endpoints causing performance issues.
+
+- **Endpoint**: API route (e.g. `/auth/login`)
+- **Load Time**: Response time in milliseconds
+
+### Average Response Size
+Shows the average size of API responses.
+
+- Measured in kilobytes (kb)
+- Includes best and worst size indicators
+
+Helps to:
+- **Optimize** payload size
+- **Reduce** bandwidth usage
+- **Improve** response speed
+
+---
+
+## Filters & Controls
+
+At the top-right of the dashboard, you can filter data by:
+
+- **Environment** (e.g. production, staging)
+- **Category** (e.g. end user, department)
+- **Time range** (e.g. last 24 hours)
+
+---
+
+<PaginationCards />

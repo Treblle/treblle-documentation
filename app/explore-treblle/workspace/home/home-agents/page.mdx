@@ -1,0 +1,127 @@
+---
+title: "Home-Agents"
+metaTitle: "Home - Agents - Treblle Documentation"
+description: "The **Home-Agents dashboard** provides a real-time overview of agent activity, job execution, and automation performance across your API ecosystem."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+
+# Home-Agents dashboard
+
+The **Home-Agents dashboard** provides a real-time overview of how AI agents interact with your APIs through automated jobs and workflows. It helps you track execution status, understand workload distribution, and monitor automation performance across your system.
+
+This dashboard is powered by real-time job and API activity data so you can see how agents are operating in production.
+
+<ImageCard src="/Home - agentic.png" />
+
+## Agent Activity Overview
+
+Below the top banner are key agent and job indicators:
+
+<ImageCard src="/Home - agentic - 1.png" />
+
+### Jobs in Progress
+Number of jobs currently being executed by agents.
+
+- Indicates active workload
+- Helps monitor real-time processing activity
+
+### Pending Jobs
+Jobs that are queued and waiting to be executed.
+
+- Useful for identifying backlogs
+- Indicates system load or delays
+
+### Jobs Completed
+Total number of successfully completed jobs.
+
+- Reflects overall system throughput
+- Indicates successful automation execution
+
+### Failed Jobs
+Number of jobs that failed during execution.
+
+- Helps detect issues in workflows
+- Indicates reliability of agent processes
+
+---
+
+## Job Execution Insights
+
+This section provides detailed visibility into agent activity.
+
+<ImageCard src="/Home - agentic - 2.png" />
+
+### Recent Jobs
+Lists recently executed jobs with detailed metadata.
+
+- **API**: API involved in the job  
+- **Agent**: Type of agent action (e.g. Build API, Build OpenAPI Spec)  
+- **Started At**: Timestamp of execution  
+- **Created By**: User who initiated the job  
+- **Status**: Job status (Pending, In Progress, Completed, Failed)  
+
+Helps you:
+- Track ongoing workflows  
+- Investigate failed jobs  
+- Monitor execution history  
+
+### Jobs by Type
+Breakdown of jobs by category.
+
+- **Build API**
+- **Build OpenAPI Spec**
+- **Build SDK**
+- **Refactor Code**
+
+Provides insight into:
+- Most common automation tasks  
+- Distribution of agent activity  
+
+---
+
+## Workload and Technology Insights
+
+This section helps you understand how jobs are distributed across technologies and APIs.
+
+<ImageCard src="/Home - agentic - 3.png" />
+
+### Technology Across Jobs
+Shows which technologies are most used in agent-driven workflows.
+
+Examples:
+- MuleSoft  
+- AWS API Gateway  
+- Azure API Management  
+- Django  
+- Laravel  
+
+Helps identify:
+- Technology adoption trends  
+- Infrastructure usage patterns  
+
+### APIs with Most Jobs
+Lists APIs with the highest number of executed jobs.
+
+- **API**: Name of the API  
+- **Total Job #**: Number of jobs executed  
+
+Helps you:
+- Identify heavily automated APIs  
+- Understand where most agent activity is concentrated  
+
+---
+
+## Filters & Controls
+
+At the top-right of the dashboard, you can filter data by:
+
+- **Environment** (e.g. production, staging)
+- **Category** (e.g. end user, department)
+- **Time range** (e.g. last 24 hours)
+
+---
+
+<PaginationCards />

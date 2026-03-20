@@ -193,7 +193,7 @@ export default function Home() {
                             description="Connect your API to unlock real-time monitoring and insights."
                         />
                     </Link>
-                    <Link href="/explore-treblle/workspace/home" className={landingPageLink}>
+                    <Link href="/explore-treblle/workspace/home/home-overview" className={landingPageLink}>
                         <LandingPageCards
                             icon={
                                 <Icon

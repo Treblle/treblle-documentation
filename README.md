@@ -115,11 +115,196 @@ treblle-documentation/
 
 ### Using Components
 
-The documentation supports React components within MDX:
+The documentation supports React components within MDX. All components listed below can be used directly in any `.mdx` page file. You do **not** need to import them — they are available globally.
+
+---
+
+## 🧩 Component Reference for Content Authors
+
+This section is for the **marketing and content team**. Below is a complete guide to every component you can use when writing documentation pages.
+
+---
+
+### Alert / Callout Cards
+
+Use these to draw attention to important information inline in your content.
+
+#### `<NoteCard>`
+A blue info box. Use for helpful context or extra detail.
+```mdx
+<NoteCard>
+    Treblle automatically masks sensitive fields like passwords and tokens before they leave your server.
+</NoteCard>
+```
+
+#### `<TipCard>`
+A green box. Use for best-practice tips or shortcuts.
+```mdx
+<TipCard>
+    Randomly select an endpoint for each request to get a more accurate performance benchmark.
+</TipCard>
+```
+
+#### `<CautionCard>`
+A red/orange warning box. Use for important warnings or destructive actions.
+```mdx
+<CautionCard>
+    Deleting an API project is permanent and cannot be undone.
+</CautionCard>
+```
+
+---
+
+### Images
+
+#### `<ImageCard>`
+Use this instead of plain Markdown images. Renders with rounded corners and proper spacing.
+
+| Prop | Required | Description |
+|------|----------|-------------|
+| `src` | Yes | Path to image (e.g. `/platform/requests/listview.png`) |
+| `alt` | Yes | Descriptive text for accessibility |
 
 ```mdx
-<CustomBox>Your highlighted content here</CustomBox>
+<ImageCard src="/platform/requests/listview.png" alt="List View of Requests" />
 ```
+
+---
+
+### Videos
+
+#### `<YoutubeEmbed>`
+Embeds a YouTube video in a responsive 16:9 player.
+
+| Prop | Required | Description |
+|------|----------|-------------|
+| `postId` | Yes | The YouTube video ID (the part after `?v=` in the URL) |
+
+```mdx
+<YoutubeEmbed postId="dQw4w9WgXcQ" />
+```
+
+---
+
+### Info Tables
+
+#### `<InfoTable>`
+A two-column table — left column for the term/title (30%), right for the description (70%).
+
+| Prop | Required | Description |
+|------|----------|-------------|
+| `title` | No | Header for the left column |
+| `description` | No | Header for the right column |
+
+```mdx
+<InfoTable title="Field" description="What it means">
+    <InfoTable.Row title="HTTP Method" description="The type of request: GET, POST, PUT, DELETE" />
+    <InfoTable.Row title="Response Code" description="The status code returned (e.g. 200, 404)" />
+    <InfoTable.Row title="Load Time" description="How long the request took in milliseconds" />
+</InfoTable>
+```
+
+---
+
+### Checklists
+
+#### `<Checklist>`
+An interactive checklist users can tick off. Great for setup guides or verification steps.
+
+Each `<Checklist.item>` needs a unique `id`.
+
+```mdx
+<Checklist>
+    <Checklist.item id="install">Install the Treblle SDK</Checklist.item>
+    <Checklist.item id="key">Add your API key to the config</Checklist.item>
+    <Checklist.item id="test">Send a test request</Checklist.item>
+</Checklist>
+```
+
+---
+
+### FAQ Sections
+
+#### `<FAQ>` + `<FAQItem>`
+Expandable question-and-answer sections. Each `FAQItem` shows the answer when clicked.
+
+```mdx
+<FAQ>
+    <FAQItem question="Does Treblle slow down my API?">
+        No. Treblle operates asynchronously and has zero impact on API response times.
+    </FAQItem>
+    <FAQItem question="Which frameworks are supported?">
+        Treblle supports Node.js, PHP, Python, Java, Go, .NET, Ruby, and more.
+    </FAQItem>
+</FAQ>
+```
+
+---
+
+### Integration Cards
+
+#### `<IntegrationCards>`
+A responsive card grid for listing integrations, SDKs, or related links.
+
+```mdx
+<IntegrationCards>
+    <IntegrationCards.Card
+        title="Node.js SDK"
+        link="/integrate-treblle/integrations/node"
+        linkTitle="View Docs"
+    >
+        Add Treblle to your Express or Fastify app in minutes.
+    </IntegrationCards.Card>
+    <IntegrationCards.Card
+        title="Laravel SDK"
+        link="/integrate-treblle/integrations/laravel"
+        linkTitle="View Docs"
+    >
+        Native Laravel middleware for automatic API logging.
+    </IntegrationCards.Card>
+</IntegrationCards>
+```
+
+| Prop | Required | Description |
+|------|----------|-------------|
+| `title` | No | Card heading |
+| `link` | No | URL to link to |
+| `linkTitle` | No | Text label for the link |
+| `children` | No | Short description inside the card |
+
+---
+
+### Pagination (Previous / Next)
+
+#### `<PaginationCards>`
+Adds automatic previous/next page navigation at the bottom of a page. No props needed — it reads the page structure automatically.
+
+Place this at the very end of any page:
+```mdx
+<PaginationCards />
+```
+
+---
+
+### Page Frontmatter
+
+Every page must start with a frontmatter block (between `---` lines). This controls the page title, browser tab title, and SEO description.
+
+```mdx
+---
+title: "Your Page Title"
+metaTitle: "Your Page Title - Treblle Documentation"
+description: "A short 1-2 sentence description for search engines."
+---
+```
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `title` | Yes | Shown as the H1 heading on the page |
+| `metaTitle` | Yes | Shown in the browser tab and search results |
+| `description` | Yes | Used by search engines (keep under 160 characters) |
+
+---
 
 ### Styling with PandaCSS
 
@@ -186,33 +371,3 @@ We welcome contributions to improve the Treblle documentation!
 - Write clear commit messages
 - Test your changes thoroughly
 - Update documentation as needed
-
-### Reporting Issues
-
-- Use GitHub Issues for bug reports and feature requests
-- Include steps to reproduce for bugs
-- Provide context for feature requests
-
-## 📞 Support
-
-- **Documentation Issues**: [GitHub Issues](https://github.com/Treblle/treblle-documentation/issues)
-- **Product Support**: [support@treblle.com](mailto:support@treblle.com)
-- **Community**: [Discord](https://treblle.com/chat)
-- **Website**: [treblle.com](https://treblle.com)
-
-## 📄 License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## 🔗 Related Links
-
-- **Main Website**: [treblle.com](https://treblle.com)
-- **Live Documentation**: [docs.treblle.com](https://docs.treblle.com)
-- **GitHub Organization**: [github.com/Treblle](https://github.com/Treblle)
-- **API Knowledge Base**: [treblle.com/knowledgebase](https://treblle.com/knowledgebase)
-
----
-
-<div align="center">
-  <strong>Built with ❤️ by the Treblle Team</strong>
-</div>
