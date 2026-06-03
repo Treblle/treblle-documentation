@@ -20,26 +20,23 @@ export async function GET(
             return new NextResponse("Invalid path segment", { status: 400 });
         }
 
-        const originUrl = request.nextUrl;
-
-        // Restrict protocol and disallow typical internal/loopback SSRF targets
-        if (originUrl.protocol !== "http:" && originUrl.protocol !== "https:") {
-            return new NextResponse("Invalid origin protocol", { status: 400 });
+        const configuredBaseUrl = process.env.NEXT_PUBLIC_SITE_URL;
+        if (!configuredBaseUrl) {
+            return new NextResponse("Server misconfiguration: missing base URL", { status: 500 });
         }
 
-        const hostname = originUrl.hostname.toLowerCase();
-        const disallowedHosts = new Set<string>([
-            "localhost",
-            "127.0.0.1",
-            "::1",
-        ]);
-        const isIpLiteral = /^[0-9.]+$/.test(hostname) || hostname.includes(":");
-        if (disallowedHosts.has(hostname) || isIpLiteral) {
-            return new NextResponse("Disallowed origin host", { status: 400 });
+        let trustedBaseUrl: URL;
+        try {
+            trustedBaseUrl = new URL(configuredBaseUrl);
+        } catch {
+            return new NextResponse("Server misconfiguration: invalid base URL", { status: 500 });
         }
 
-        const baseUrl = originUrl.origin;
-        const targetUrl = `${baseUrl}${originalPath}`;
+        if (trustedBaseUrl.protocol !== "http:" && trustedBaseUrl.protocol !== "https:") {
+            return new NextResponse("Server misconfiguration: invalid base URL protocol", { status: 500 });
+        }
+
+        const targetUrl = new URL(originalPath, trustedBaseUrl).toString();
 
         const response = await fetch(targetUrl, {
             headers: {
