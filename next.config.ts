@@ -549,17 +549,32 @@ const nextConfig: NextConfig = {
             // Alfred AI
             {
                 source: "/treblle/alfred",
-                destination: "/explore-treblle/workspace/alfred-ai",
+                destination: "/explore-treblle/workspace/catalog",
                 permanent: true,
             },
             {
                 source: "/treblle/alfred-ai",
-                destination: "/explore-treblle/workspace/alfred-ai",
+                destination: "/explore-treblle/workspace/catalog",
+                permanent: true,
+            },
+            {
+                source: "/treblle/alfred-ai/",
+                destination: "/explore-treblle/workspace/catalog",
                 permanent: true,
             },
             {
                 source: "/treblle/ai-assistant",
-                destination: "/explore-treblle/workspace/alfred-ai",
+                destination: "/explore-treblle/workspace/catalog",
+                permanent: true,
+            },
+            {
+                source: "/explore-treblle/workspace/alfred-ai",
+                destination: "/explore-treblle/workspace/catalog",
+                permanent: true,
+            },
+            {
+                source: "/explore-treblle/workspace/alfred-ai/",
+                destination: "/explore-treblle/workspace/catalog",
                 permanent: true,
             },
 
@@ -597,22 +612,32 @@ const nextConfig: NextConfig = {
             // Home/Dashboard
             {
                 source: "/treblle/workspace-dashboard",
-                destination: "/explore-treblle/workspace/home",
+                destination: "/explore-treblle/workspace/home/home-overview",
                 permanent: true,
             },
             {
                 source: "/treblle/dashboard",
-                destination: "/explore-treblle/workspace/home",
+                destination: "/explore-treblle/workspace/home/home-overview",
+                permanent: true,
+            },
+            {
+                source: "/treblle/dashboard/",
+                destination: "/explore-treblle/workspace/home/home-overview",
                 permanent: true,
             },
             {
                 source: "/en/dashboard",
-                destination: "/explore-treblle/workspace/home",
+                destination: "/explore-treblle/workspace/home/home-overview",
                 permanent: true,
             },
             {
                 source: "/en/dashboard/customize-dashboard",
-                destination: "/explore-treblle/workspace/home",
+                destination: "/explore-treblle/workspace/home/home-overview",
+                permanent: true,
+            },
+            {
+                source: "/explore-treblle/workspace/home",
+                destination: "/explore-treblle/workspace/home/home-overview",
                 permanent: true,
             },
 
@@ -901,7 +926,7 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/explore-treblle/workspace",
-                destination: "/explore-treblle/workspace/home",
+                destination: "/explore-treblle/workspace/home/home-overview",
                 permanent: true,
             },
 
