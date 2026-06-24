@@ -1,0 +1,314 @@
+---
+title: "Windows IIS Agent for Treblle"
+metaTitle: "Set Up Treblle on Windows IIS - Treblle Documentation"
+description: "Install the Treblle IIS agent to passively monitor JSON API traffic on Windows Server 2022/2025 with zero impact on availability or latency."
+image: "/og-images/treblle-iis.jpg"
+---
+
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import { InfoTable } from "~components/tables/info-table";
+import PaginationCards from "~components/cards/pagination-cards";
+
+## Windows IIS Agent
+
+The Treblle IIS Agent is a native C++ module for **Windows Server 2022 / 2025** that passively monitors JSON API traffic and sends data to Treblle. It hooks into the IIS request pipeline via a DLL, giving you full API observability with zero impact on availability or latency.
+
+```
+IIS Worker Process (w3wp.exe)
+  └── TreblleAgent.dll
+        ├── OnBeginRequest   → route check → capture request headers + body
+        ├── OnSendResponse   → capture response headers + body chunks
+        └── OnEndRequest     → build JSON payload → push to background queue
+                                    │
+                                    └── Background thread
+                                          └── WinHTTP HTTPS POST → ingress.treblle.com
+```
+
+<NoteCard>
+The IIS request thread only pushes a string to an in-memory queue. All network I/O happens on a dedicated background thread, so Treblle never blocks your API.
+</NoteCard>
+
+## Prerequisites
+
+| Requirement | Version |
+|---|---|
+| Windows Server | 2022 or 2025 |
+| IIS | 10.0 |
+| Architecture | x64 only |
+| Privileges | Local Administrator (install only) |
+| Visual Studio (to build) | 2022 with "Desktop development with C++" |
+| Windows SDK (to build) | 10.0 |
+
+You will also need a Treblle account with an **API Key** and **SDK Token**.
+
+## Installation
+
+### Step 1 — Get the DLL
+
+**Option A: Download a pre-built release**
+
+Download `TreblleAgent.dll` from the [Releases page](https://github.com/Treblle/treblle-iis/releases).
+
+<CautionCard>
+Windows marks files downloaded from the internet as blocked and IIS may refuse to load them. Before running the installer, unblock the DLL:
+
+```powershell copy
+Unblock-File -Path "TreblleAgent.dll"
+```
+
+Alternatively: right-click the file → **Properties** → tick **Unblock** → **OK**.
+</CautionCard>
+
+**Option B: Build from source**
+
+Open `TreblleAgent.sln` in Visual Studio 2022, select **Release | x64**, and build. Or build from the command line:
+
+```powershell copy
+msbuild TreblleAgent.sln /p:Configuration=Release /p:Platform=x64
+```
+
+The output is `x64\Release\TreblleAgent.dll`.
+
+### Step 2 — Run the installer
+
+Copy `TreblleAgent.dll` into the `installer\` directory, then run the installer as Administrator:
+
+```powershell copy
+# Right-click PowerShell → Run as Administrator
+cd path\to\treblle-iis\installer
+.\install.ps1
+```
+
+<NoteCard>
+If PowerShell refuses to run with "running scripts is disabled on this system", allow scripts for the current session and retry:
+
+```powershell copy
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process
+.\install.ps1
+```
+
+The `-Scope Process` flag applies only to the current window and reverts when the session closes.
+</NoteCard>
+
+The installer will:
+
+- Copy `TreblleAgent.dll` to `C:\iismodules\treblle\`
+- Prompt you for your **API Key**, **SDK Token**, and optional exclusion patterns
+- Write `C:\iismodules\treblle\treblle.config`
+- Register the agent globally in IIS
+- Restart IIS
+
+### Step 3 — Grant app-pool permissions (if needed)
+
+On some servers, the new `C:\iismodules\treblle\` directory does not inherit the ACEs needed for IIS worker-process accounts, preventing the DLL from loading. If IIS fails to start after installation, grant read and execute access:
+
+```powershell copy
+# Covers every application pool via the built-in IIS_IUSRS group (recommended)
+icacls "C:\iismodules\treblle" /grant "IIS_IUSRS:(OI)(CI)RX" /T
+
+# Alternative — grant a single named application pool only
+icacls "C:\iismodules\treblle" /grant "IIS AppPool\DefaultAppPool:(OI)(CI)RX" /T
+```
+
+Replace `DefaultAppPool` with the name of your app pool. To list all pools:
+
+```powershell copy
+%windir%\system32\inetsrv\appcmd.exe list apppool
+```
+
+Then restart IIS:
+
+```powershell copy
+iisreset
+```
+
+### Step 4 — Verify
+
+```powershell copy
+%windir%\system32\inetsrv\appcmd.exe list module
+# Should include:
+# MODULE "TreblleAgent" (image:C:\iismodules\treblle\TreblleAgent.dll)
+```
+
+Make a request to one of your API endpoints and check your [Treblle dashboard](https://treblle.com).
+
+## Configuration
+
+The config file lives at `C:\iismodules\treblle\treblle.config`. **Edits take effect immediately** — the agent checks the file modification time on every request and reloads it without an IIS restart.
+
+```json copy
+{
+  "api_key":    "YOUR_TREBLLE_API_KEY",
+  "sdk_token":  "YOUR_TREBLLE_SDK_TOKEN",
+  "treblle_url": "https://ingress.treblle.com",
+  "debug": false,
+  "disabled": false,
+  "exclude_routes": [
+    { "host": "internal.yourdomain.com" },
+    { "host": "api.yourdomain.com", "path": "/health" },
+    { "host": "api.yourdomain.com", "path": "/metrics" }
+  ],
+  "masked_keywords": [
+    "password", "pwd", "secret",
+    "password_confirmation", "passwordConfirmation",
+    "cc", "card_number", "cardNumber", "ccv",
+    "credit_score", "creditScore", "ssn"
+  ]
+}
+```
+
+### Configuration reference
+
+<InfoTable title="Field" description="Type, Default and Description">
+    <InfoTable.Row
+        title="api_key"
+        description="string — Required. Your Treblle API key."
+    />
+    <InfoTable.Row
+        title="sdk_token"
+        description="string — Required. Your Treblle SDK token."
+    />
+    <InfoTable.Row
+        title="treblle_url"
+        description="string — Default: https://ingress.treblle.com. Override only if directed by Treblle support."
+    />
+    <InfoTable.Row
+        title="debug"
+        description="bool — Default: false. When true, errors are written to the Windows Application Event Log (source: Treblle). Leave false in production."
+    />
+    <InfoTable.Row
+        title="disabled"
+        description="bool — Default: false. When true, the agent stops monitoring entirely. Takes effect immediately."
+    />
+    <InfoTable.Row
+        title="exclude_routes"
+        description="array — Default: []. List of route objects to exclude from monitoring. Empty means all JSON API traffic is monitored."
+    />
+    <InfoTable.Row
+        title="masked_keywords"
+        description="array — List of field names whose values are redacted before sending to Treblle. Omit to use built-in defaults. Set to [] to disable masking."
+    />
+</InfoTable>
+
+Each object in `exclude_routes`:
+
+<InfoTable title="Field" description="Required and Description">
+    <InfoTable.Row
+        title="host"
+        description="string — Required. Hostname to exclude (case-insensitive). Must match the HTTP Host header, excluding port."
+    />
+    <InfoTable.Row
+        title="path"
+        description="string — Optional. URL path prefix to exclude (case-insensitive). If omitted, the entire host is excluded."
+    />
+</InfoTable>
+
+## Excluding routes
+
+The agent monitors **all JSON API traffic by default**. A request is excluded only when its `Host` header matches an entry's `host` field, and its URL path starts with the entry's `path` prefix (if specified). All non-JSON responses (HTML, CSS, JS, images) are automatically ignored — no configuration needed.
+
+```json copy
+// Exclude an entire internal host
+{ "host": "internal.yourdomain.com" }
+
+// Exclude health and metrics endpoints on a specific host
+{ "host": "api.yourdomain.com", "path": "/health" },
+{ "host": "api.yourdomain.com", "path": "/metrics" }
+
+// Exclude a legacy API version
+{ "host": "api.yourdomain.com", "path": "/v1" }
+```
+
+## Sensitive data masking
+
+The agent redacts field values matching `masked_keywords` before any data leaves the server. Masking applies to request bodies, response bodies, request headers, and response headers. Each character of a matched value is replaced with `*` so the length is preserved.
+
+The following fields are masked by default when `masked_keywords` is omitted:
+
+`password`, `pwd`, `secret`, `password_confirmation`, `passwordConfirmation`, `cc`, `card_number`, `cardNumber`, `ccv`, `credit_score`, `creditScore`, `ssn`
+
+To add custom keywords, specify your full list (it replaces the defaults entirely):
+
+```json copy
+"masked_keywords": [
+  "password", "pwd", "secret",
+  "password_confirmation", "passwordConfirmation",
+  "cc", "card_number", "cardNumber", "ccv",
+  "credit_score", "creditScore", "ssn",
+  "api_token", "access_token", "private_key"
+]
+```
+
+## Updating the agent
+
+Run the installer again — it handles re-registration automatically:
+
+```powershell copy
+.\installer\install.ps1
+```
+
+For a manual update:
+
+```powershell copy
+iisreset /stop
+Copy-Item new\TreblleAgent.dll C:\iismodules\treblle\TreblleAgent.dll
+iisreset /start
+```
+
+## Uninstalling
+
+```powershell copy
+.\installer\uninstall.ps1
+```
+
+This removes the agent from IIS and optionally deletes `C:\iismodules\treblle\` including your `treblle.config`.
+
+## Debug mode
+
+Set `"debug": true` in `treblle.config` to write errors to the Windows Application Event Log under source `Treblle`. Open **Event Viewer → Windows Logs → Application** and filter by source `Treblle`.
+
+Common log entries:
+
+| Entry | Cause |
+|---|---|
+| `WinHttpCrackUrl failed for URL: ...` | Check `treblle_url` format |
+| `WinHttpSendRequest failed (0x...)` | Network connectivity issue |
+| `ingress returned HTTP 401` | Check `api_key` and `sdk_token` |
+
+<CautionCard>
+Always set `debug` back to `false` in production — Event Log writes have a small overhead.
+</CautionCard>
+
+## Troubleshooting
+
+**Agent doesn't appear in `appcmd list module`**
+
+- Confirm you ran the installer as Administrator
+- Look in **Event Viewer → Windows Logs → System** for IIS startup errors
+- Confirm the DLL was compiled for x64 (not x86)
+
+**Agent is registered but no data appears in Treblle**
+
+1. Confirm the API returns `Content-Type: application/json` in the response
+2. Check that the host/path is not matched by an `exclude_routes` entry
+3. Enable `"debug": true` and check the Application Event Log
+4. Verify network access from the server to `ingress.treblle.com:443`
+
+**IIS fails to start after installing the agent**
+
+- Confirm the DLL path in `C:\Windows\System32\inetsrv\config\applicationHost.config` matches the actual file location
+- Temporarily rename `TreblleAgent.dll` and restart IIS to confirm it is the cause
+- Grant app-pool read permissions as described in Step 3 above
+
+**Request bodies are empty in Treblle**
+
+- Confirm the request includes `Content-Type: application/json`
+- Bodies larger than 2 MB are intentionally not captured
+
+<TipCard>
+For more details and source code, see the [treblle-iis GitHub repository](https://github.com/Treblle/treblle-iis).
+</TipCard>
+
+<PaginationCards />
