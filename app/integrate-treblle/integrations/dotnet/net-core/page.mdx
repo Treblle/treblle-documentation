@@ -10,14 +10,27 @@ import PaginationCards from "~components/cards/pagination-cards";
 import { TipCard } from "~components/cards/tip";
 import { InfoTable } from "~components/tables/info-table";
 import { CautionCard } from "~components/cards/caution";
+import { InfoCard } from "~components/cards/info-card";
+import Link from "next/link";
+
+<InfoCard type="individual">
+    <InfoCard.title>
+        <Link href="https://github.com/Treblle/treblle-net-core" target="_blank">GitHub</Link>
+    </InfoCard.title>
+    <InfoCard.description>
+        The official Treblle SDK for .NET Core. Seamlessly integrate Treblle to monitor all your API endpoints, capture errors, and secure sensitive data — with zero-configuration auto-discovery.
+    </InfoCard.description>
+</InfoCard>
 
 # Treblle with .NET Core
 
 ## Requirements
 
-- .NET: 6.0+
-- ASP.NET Core: 6.0+
-- C#: 10.0+
+| Requirement | Version |
+|-------------|---------|
+| **.NET** | 6.0+ |
+| **ASP.NET Core** | 6.0+ |
+| **C#** | 10.0+ |
 
 **Supported Platforms:**
 - Windows, macOS, Linux
@@ -31,23 +44,26 @@ import { CautionCard } from "~components/cards/caution";
 - Web APIs
 - Mixed controller/minimal API applications
 
+**Dependencies:**
+- `Microsoft.AspNetCore.App` (framework reference)
+- `System.Text.Json` 6.0+
+- No external dependencies required
+
 ## Installation
 
-You can install Treblle .NET Core via [NuGet](https://www.nuget.org/packages/Treblle.Net.Core/). Simply run the following command:
+**Step 1 — Install the package:**
 
 ```bash copy
 dotnet add package Treblle.Net.Core
 ```
 
-## Get Your Credentials
+**Step 2 — Get your credentials:**
 
 Get your SDK Token and API Key from the [Treblle Dashboard](https://platform.treblle.com).
 
-## Configuration
+**Step 3 — Configure Treblle:**
 
-Treblle v2.0 now supports **automatic endpoint discovery**, so you no more need to manually add \`[Treblle]\` attributes. 
-
-Choose from these configuration options:
+Treblle v2.0 supports **automatic endpoint discovery**, so you no longer need to manually add `[Treblle]` attributes. Choose from these configuration options:
 
 ### Option A: Environment Variables (Recommended for Production)
 
@@ -73,27 +89,27 @@ app.UseTreblle();
 
 <NoteCard>
 **Where to place this code:**
-- **Program.cs** (new minimal hosting model): Add \`builder.Services.AddTreblle()\` before \`builder.Build()\` and \`app.UseTreblle()\` after \`var app = builder.Build()\`
-- **Startup.cs** (legacy): Add \`services.AddTreblle()\` in \`ConfigureServices()\` and \`app.UseTreblle()\` in \`Configure()\`
+- **Program.cs** (new minimal hosting model): Add `builder.Services.AddTreblle()` before `builder.Build()` and `app.UseTreblle()` after `var app = builder.Build()`
+- **Startup.cs** (legacy): Add `services.AddTreblle()` in `ConfigureServices()` and `app.UseTreblle()` in `Configure()`
 - **Web API templates**: Place after authentication/authorization middleware but before routing
 </NoteCard>
 
-### Using .env Files with DotNetEnv
+**Using .env Files with DotNetEnv**
 
-For development environments, you can use \`.env\` files:
- 
+For development environments, you can use `.env` files with the DotNetEnv package:
+
 ```bash copy
 dotnet add package DotNetEnv
 ```
 
-Create a \`.env\` file in your project root:
+Create a `.env` file in your project root:
 
 ```
 TREBLLE_SDK_TOKEN=your_sdk_token
 TREBLLE_API_KEY=your_api_key
 ```
 
-Then load the environment variables:
+Then load the environment variables in your `Program.cs`:
 
 ```csharp copy
 using Treblle.Net.Core;
@@ -108,6 +124,10 @@ builder.Services.AddTreblle();
 var app = builder.Build();
 app.UseTreblle();
 ```
+
+<NoteCard>
+The `DotNetEnv` package is only needed if you want to load variables from `.env` files. Standard environment variables work without any additional packages.
+</NoteCard>
 
 ### Option B: appsettings.json
 
@@ -142,7 +162,84 @@ app.UseTreblle();
 
 That's it! Treblle will now **automatically track all your API endpoints**.
 
-## Advanced Configuration
+## Multi-Environment Configuration
+
+For applications with multiple environments (Development, Staging, Production), use environment-specific `appsettings.{Environment}.json` files:
+
+**appsettings.Development.json:**
+
+```json copy
+{
+  "Treblle": {
+    "SdkToken": "dev_sdk_token",
+    "ApiKey": "dev_api_key"
+  }
+}
+```
+
+**appsettings.Production.json:**
+
+```json copy
+{
+  "Treblle": {
+    "SdkToken": "prod_sdk_token",
+    "ApiKey": "prod_api_key"
+  }
+}
+```
+
+**Program.cs (works for .NET 6, 8, and 9+):**
+
+```csharp copy
+using Treblle.Net.Core;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Auto-detects credentials from appsettings.{Environment}.json
+builder.Services.AddTreblle();
+
+// OR explicitly read from configuration
+builder.Services.AddTreblle(
+    builder.Configuration["Treblle:SdkToken"]!,
+    builder.Configuration["Treblle:ApiKey"]!
+);
+
+var app = builder.Build();
+app.UseTreblle();
+app.Run();
+```
+
+**Legacy Startup.cs (still supported):**
+
+```csharp copy
+using Treblle.Net.Core;
+
+public class Startup
+{
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Auto-detects credentials from appsettings.{Environment}.json
+        services.AddTreblle();
+    }
+
+    public void Configure(IApplicationBuilder app)
+    {
+        app.UseTreblle();
+        app.UseRouting();
+        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+    }
+}
+```
+
+<CautionCard>
+Do NOT use `app.config` files. The SDK only reads from:
+
+1. Environment variables: `TREBLLE_SDK_TOKEN` and `TREBLLE_API_KEY`
+2. appsettings.json: `Treblle:SdkToken` and `Treblle:ApiKey`
+3. Manual configuration via `AddTreblle(sdkToken, apiKey)` parameters
+</CautionCard>
+
+## Configuration Options
 
 <InfoTable title="Option" description="Default and Description">
     <InfoTable.Row
@@ -156,6 +253,10 @@ That's it! Treblle will now **automatically track all your API endpoints**.
     <InfoTable.Row
         title="DisableMasking"
         description="false - Disable data masking if not needed"
+    />
+    <InfoTable.Row
+        title="CustomIngressEndpoint"
+        description="null - Custom endpoint URL for sending telemetry data"
     />
 </InfoTable>
 
@@ -175,68 +276,348 @@ var app = builder.Build();
 app.UseTreblle();
 ```
 
-## Exception Handling Configuration
+### Debug Mode
 
-The Treblle .NET Core SDK includes built-in exception handling capabilities. As of v2.0.4, the `useExceptionHandler` parameter is enabled by default and helps capture API errors without exposing sensitive information in response bodies.
+For troubleshooting and development purposes, you can enable debug mode to get detailed logging about SDK operations:
 
-### Usage
-
-```csharp
-// Import the Treblle SDK
+```csharp copy
 using Treblle.Net.Core;
 
-// Register Treblle Services
-builder.Services.AddTreblle();
+// Option 1: Via AddTreblle parameter
+builder.Services.AddTreblle("YOUR_SDK_TOKEN", "YOUR_API_KEY", null, disableMasking: false, debugMode: true);
 
-// Build your application
+// Option 2: Via configuration options
+builder.Services.AddTreblle(options =>
+{
+    options.DebugMode = true;
+});
+
 var app = builder.Build();
-
-// Enable the Treblle Middleware with exception handler (enabled by default in v2.0.4+)
 app.UseTreblle();
+```
 
-// Or explicitly disable if needed
+All debug logs are prefixed with `[TREBLLE]:` and use `LogDebug` level. To see them in the console, add this to your `appsettings.json`:
+
+```json copy
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Treblle.Net.Core": "Debug"
+    }
+  }
+}
+```
+
+<NoteCard>
+Debug mode should only be enabled in development or staging environments as it increases log verbosity.
+</NoteCard>
+
+### Custom Ingress Endpoint
+
+If you need to route data through a specific regional endpoint or a custom ingress URL:
+
+**Option A: Environment Variable**
+
+```bash copy
+export TREBLLE_CUSTOM_INGRESS_ENDPOINT=https://ingress-eu.treblle.com
+```
+
+**Option B: appsettings.json**
+
+```json copy
+{
+  "Treblle": {
+    "SdkToken": "your_sdk_token",
+    "ApiKey": "your_api_key",
+    "CustomIngressEndpoint": "https://ingress-eu.treblle.com"
+  }
+}
+```
+
+**Option C: Programmatic Configuration**
+
+```csharp copy
+using Treblle.Net.Core;
+
+builder.Services.AddTreblle(options =>
+{
+    options.CustomIngressEndpoint = "https://ingress-eu.treblle.com";
+});
+
+var app = builder.Build();
+app.UseTreblle();
+```
+
+### Per-Endpoint API Key Override
+
+If you need a specific controller or endpoint to report to a different Treblle project, pass an API key directly to the `[Treblle]` attribute.
+
+**Option A: Hardcoded API key**
+
+```csharp copy
+[Treblle("your_per_endpoint_api_key")]
+public class OrdersController : ControllerBase { }
+```
+
+**Option B: Resolved from environment variable at startup**
+
+Useful when the key differs per environment (development, staging, production):
+
+```csharp copy
+[Treblle(keyEnvVarName: "ORDERS_API_KEY")]
+public class OrdersController : ControllerBase { }
+
+[Treblle(keyEnvVarName: "PAYMENTS_API_KEY")]
+public class PaymentsController : ControllerBase { }
+```
+
+Set the corresponding variables in your `.env` file or as OS environment variables:
+
+```bash copy
+ORDERS_API_KEY=your_orders_project_id
+PAYMENTS_API_KEY=your_payments_project_id
+```
+
+<NoteCard>
+The environment variable is resolved once at application startup — there is no per-request overhead. If the variable is not set, the request falls back to the globally configured API key.
+
+`app.UseTreblle()` must come after `app.UseRouting()` for this to work.
+</NoteCard>
+
+### Excluding Endpoints or Paths
+
+By default, Treblle automatically tracks **all endpoints** without requiring manual `[Treblle]` attributes. You can exclude specific paths using the `ExcludedPaths` configuration:
+
+```csharp copy
+using Treblle.Net.Core;
+
+builder.Services.AddTreblle("YOUR_SDK_TOKEN", "YOUR_API_KEY", options =>
+{
+    options.ExcludedPaths = new[] { "/health", "/metrics", "/admin/*" };
+});
+
+var app = builder.Build();
+app.UseTreblle();
+```
+
+**Advanced exclusion patterns:**
+
+```csharp copy
+builder.Services.AddTreblle("YOUR_SDK_TOKEN", "YOUR_API_KEY", options =>
+{
+    options.ExcludedPaths = new[]
+    {
+        "/health",           // Exact match
+        "/metrics",          // Exact match
+        "/admin/*",          // Wildcard: excludes /admin/users, /admin/settings, etc.
+        "/api/v*/internal",  // Complex wildcard: excludes /api/v1/internal, /api/v2/internal, etc.
+        "/debug/*",          // Wildcard: excludes all debug endpoints
+        "/_*"                // Wildcard: excludes all endpoints starting with underscore
+    };
+});
+```
+
+Pattern matching is **case-insensitive** and supports `*` (any number of characters) and `?` (exactly one character) wildcards with performance-optimized regex compilation and result caching.
+
+### Masking Data
+
+Treblle automatically masks sensitive fields in request and response bodies. The following fields are masked by default:
+
+`password`, `pwd`, `secret`, `password_confirmation`, `passwordConfirmation`, `cc`, `card_number`, `cardNumber`, `ccv`, `ssn`, `credit_score`, `creditScore`
+
+To expand the list of masked fields, pass custom field names and maskers to `AddTreblle`:
+
+```csharp copy
+using Treblle.Net.Core;
+
+builder.Services.AddTreblle(
+    builder.Configuration["Treblle:SdkToken"],
+    builder.Configuration["Treblle:ApiKey"],
+    new Dictionary<string, string>()
+    {
+        { "customercreditCard", "CreditCardMasker" },
+        { "firstName", "DefaultStringMasker" }
+    }
+);
+
+var app = builder.Build();
+app.UseTreblle();
+```
+
+**Available maskers:**
+
+```csharp copy
+// DefaultStringMasker
+masker.Mask("Hello World");              // output: ***********
+masker.Mask("1234-5678");                // output: **********
+
+// CreditCardMasker
+masker.Mask("1234-5678-1234-5678");      // output: ****-****-****-5678
+masker.Mask("1234567812345678");          // output: ****-****-****-5678
+
+// DateMasker
+masker.Mask("24-12-2024");               // output: 24-12-****
+
+// EmailMasker
+masker.Mask("user123@example.com");      // output: *******@example.com
+
+// PostalCodeMasker
+masker.Mask("SW1A 1AA");                 // output: SW1A ***
+
+// SocialSecurityMasker
+masker.Mask("123-45-6789");              // output: ***-**-6789
+```
+
+You can also implement custom maskers by extending `DefaultStringMasker` and implementing `IStringMasker`.
+
+### Disabling Data Masking
+
+For high-volume scenarios where data masking is not required, you can disable it entirely:
+
+```csharp copy
+using Treblle.Net.Core;
+
+// Option 1: Via AddTreblle parameter
+builder.Services.AddTreblle("YOUR_SDK_TOKEN", "YOUR_API_KEY", null, disableMasking: true);
+
+// Option 2: Via configuration options
+builder.Services.AddTreblle(options =>
+{
+    options.DisableMasking = true;
+});
+
+var app = builder.Build();
+app.UseTreblle();
+```
+
+<NoteCard>
+Disabling masking can reduce memory usage by up to 70% for large payloads, as it skips JSON parsing, object tree creation, and field processing operations. This is particularly beneficial for APIs handling large response bodies or high request volumes.
+</NoteCard>
+
+## SQL Query Capture
+
+The SDK automatically captures SQL queries executed during each API request and includes them in the telemetry payload sent to Treblle. This works out of the box with no configuration required.
+
+Treblle listens to [EF Core's diagnostic events](https://learn.microsoft.com/en-us/ef/core/logging-events-diagnostics/diagnostic-listeners). When EF Core executes a database command, the SDK captures the SQL and execution time and associates them with the current HTTP request.
+
+Each query entry in the `data.queries` array contains:
+
+- **`sql`**: The SQL query with `?` placeholders — parameter values are not captured
+- **`time`**: Execution time in milliseconds
+
+## Exception Handling
+
+By default, Treblle captures and reports exceptions that occur during request processing. To disable this behavior:
+
+```csharp copy
 app.UseTreblle(useExceptionHandler: false);
 ```
 
-### Configuration Options
+<CautionCard>
+When the exception handler is disabled, requests that result in exceptions will not appear on your Treblle dashboard.
+</CautionCard>
 
-The `useExceptionHandler` parameter controls whether Treblle should use its built-in exception handling middleware:
+You may want to disable Treblle's exception handler if you're using a custom exception handling middleware or have specific exception handling requirements.
 
-- **`true` (default in v2.0.4+)**: Enables automatic exception capture and error tracking
-- **`false`**: Disables the exception handler if you're using a custom error handling solution
+## Disabling Default .NET HTTP Logging
 
-### Example with Exception Handling
+You may see HTTP client logging messages like:
 
-```csharp
-// Import the Treblle SDK
-using Treblle.Net.Core;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Register Treblle Services
-builder.Services.AddTreblle();
-
-// Build your application
-var app = builder.Build();
-
-// Enable the Treblle Middleware (useExceptionHandler is true by default)
-app.UseTreblle();
-
-app.MapControllers();
-app.Run();
+```
+info: System.Net.Http.HttpClient.Treblle.LogicalHandler[100]
+      Start processing HTTP request POST https://rocknrolla.treblle.com/
 ```
 
-### What It Does
+These are normal messages showing Treblle successfully sending data. To reduce their verbosity, configure logging in `appsettings.json`:
 
-When `useExceptionHandler` is enabled:
-- Captures exceptions thrown by your API endpoints
-- Logs error details to Treblle for monitoring and debugging
-- Prevents sensitive information from being exposed in error responses
-- Records 500-level errors with proper error tracking
+```json copy
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "System.Net.Http.HttpClient.Treblle": "Warning"
+    }
+  }
+}
+```
 
-### Note
+Or in `Program.cs`:
 
-In v2.0.4 and later, the duplicate request logging issue that occurred when exceptions were thrown has been resolved. The exception handler now correctly tracks errors without creating duplicate entries in your Treblle dashboard.
+```csharp copy
+builder.Logging.AddFilter("System.Net.Http.HttpClient.Treblle", LogLevel.Warning);
+```
+
+## Upgrading to v2.0
+
+Treblle .NET Core v2.0 introduces major improvements with breaking changes.
+
+**What's new in v2.0:**
+- Zero-Configuration Auto-Discovery — No more manual `[Treblle]` attributes required
+- Auto-Configuration — Automatic credential detection from environment/config
+- Smart Path Exclusions — Wildcard patterns like `/admin/*`, `/api/v*/internal`
+- Enhanced Debug Mode — Comprehensive logging for troubleshooting
+- Performance Optimizations — Cached pattern matching, memory improvements
+
+### Step 1: Update Package Reference
+
+```xml copy
+<PackageReference Include="Treblle.Net.Core" Version="2.0.0" />
+```
+
+### Step 2: Update SDK Initialization
+
+```csharp copy
+// v1.x
+builder.Services.AddTreblle(
+    builder.Configuration["Treblle:ApiKey"],
+    builder.Configuration["Treblle:ProjectId"]);
+
+// v2.0
+builder.Services.AddTreblle();
+```
+
+### Step 3: Update Naming Conventions
+
+**v1.x appsettings.json:**
+
+```json copy
+{
+  "Treblle": {
+    "ApiKey": "your_api_key",
+    "ProjectId": "your_project_id"
+  }
+}
+```
+
+**v2.0 appsettings.json:**
+
+```json copy
+{
+  "Treblle": {
+    "SdkToken": "your_sdk_token",
+    "ApiKey": "your_api_key"
+  }
+}
+```
+
+### Step 4: Remove Manual Attributes
+
+```csharp copy
+// v1.x
+[Treblle]
+public class ProductsController : ControllerBase
+{
+    [Treblle]
+    public IActionResult GetProducts() => Ok();
+}
+
+// v2.0 — no attributes needed, all endpoints are tracked automatically
+public class ProductsController : ControllerBase
+{
+    public IActionResult GetProducts() => Ok();
+}
+```
 
 <TipCard>
 If you have problems of any kind, feel free to reach out via email support@treblle.com and we'll do our best to help you out.

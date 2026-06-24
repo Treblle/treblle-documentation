@@ -6,6 +6,7 @@ image: "/og-images/treblle-symfony.jpg"
 ---
 
 import { TipCard } from "~components/cards/tip";
+import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
 import { InfoCard } from "~components/cards/info-card";
 import { InfoTable } from "~components/tables/info-table";
@@ -16,7 +17,7 @@ import Link from "next/link";
         <Link href="https://github.com/Treblle/treblle-symfony" target="_blank">GitHub</Link>
     </InfoCard.title>
     <InfoCard.description>
-        The official Treblle SDK for JavaScript frameworks including Symfony. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+        The official Treblle SDK for Symfony. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
     </InfoCard.description>
 </InfoCard>
 
@@ -24,109 +25,405 @@ import Link from "next/link";
 
 ## Requirements
 
-- PHP 7.4+
-- Symfony 4.4+
+| Dependency | Version |
+|---|---|
+| PHP | 8.2, 8.3, 8.4 |
+| Symfony | 6.4, 7.x, 8.x |
+| ext-curl | any |
+| ext-json | any |
+| ext-zlib | any |
+
+<NoteCard>
+**Async mode** (optional): requires `symfony/messenger` with a Redis or AMQP transport.
+</NoteCard>
 
 ## Installation
-
-To install the SDK you will need to be using [Composer](https://getcomposer.org) in your api. To install it please see the [docs](https://getcomposer.org/download).
 
 ```bash copy
 composer require treblle/treblle-symfony
 ```
 
-## Enable the Bundle
+<TipCard>
+Symfony Flex users: the setup steps below happen automatically on install.
+</TipCard>
 
-Enable it by adding it to the list of registered bundles depending on the Symfony version you're using.
+## Setup
+
+### 1. Register the bundle
+
+Add the bundle to `config/bundles.php`:
 
 ```php copy
-// config/bundles.php
-{
-    return [
-        // ...
-        new Treblle\Symfony\TreblleBundle(),
-    ];
-}
+return [
+    // ...
+    Treblle\Symfony\TreblleBundle::class => ['all' => true],
+];
 ```
 
-## Configuration of the SDK
+### 2. Configure the SDK
 
-Configure the SDK by adding the following snippet to your api configuration. If you have Symfony 3.4 add it to `app/config/config_prod.yml`. For Symfony 4 or newer add the value to `config/packages/treblle.yaml`.
+Create `config/packages/treblle.yaml`:
 
 ```yaml copy
 treblle:
   sdk_token: "%env(TREBLLE_SDK_TOKEN)%"
   api_key: "%env(TREBLLE_API_KEY)%"
-  debug: false
-  masked:
-    - password
-    - api_key
-    - secret
-  endpoint_url: "https://rocknrolla.treblle.com" // optional
 ```
 
-## Overriding data providers
+### 3. Set your credentials
 
-Treblle SDK allows you to take over control over how the data is collected, processed, and sent to the Treblle service.
+Add to your `.env`:
 
-By default, the SDK will take all values from the `masked` configuration key and combine it with well-known keys such as `password` or `ssn` to compile a list of sensitive information. These values will never be sent in a plain text, but rather will be masked.
+```dotenv copy
+TREBLLE_SDK_TOKEN=your-sdk-token-from-treblle-dashboard
+TREBLLE_API_KEY=your-api-key-from-treblle-dashboard
+```
 
-Default service configuration for Treblle looks like this:
+Both values are available in your [Treblle Dashboard](https://treblle.com).
+
+## Configuration Reference
+
+All options with their defaults:
 
 ```yaml copy
-services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
+treblle:
+  sdk_token: ""               # Required - SDK Token from Treblle Dashboard
+  api_key: ""                 # Required - API Key from Treblle Dashboard
+  enabled: true               # Set to false to disable Treblle (e.g. in dev/test)
+  async: false                # Dispatch via Symfony Messenger (requires Redis or AMQP transport)
+  masked_keywords:            # Fields to mask - set to [] to disable masking entirely
+    - password
+    - pwd
+    - secret
+    - password_confirmation
+    - passwordConfirmation
+    - cc
+    - card_number
+    - cardNumber
+    - ccv
+    - ssn
+    - credit_score
+    - creditScore
+  excluded_paths: []          # Paths to skip (exact or wildcard)
+  ingress_url: "https://ingress.treblle.com"  # Ingress endpoint
+  metadata: {}                # Key/Value metadata added to every request
+```
 
-  treblle-client:
-    class: GuzzleHttp\Client
+### `sdk_token`
 
-  Treblle\Treblle:
-    factory:
-      [Treblle\Symfony\DependencyInjection\TreblleFactory, 'createTreblle']
-    arguments:
-      $client: '@treblle-client'
+Your SDK Token from the Treblle Dashboard. Sent as the `x-api-key` header on every request to the ingress.
 
-  Treblle\PayloadAnonymizer:
-    factory:
-      [Treblle\Symfony\DependencyInjection\TreblleFactory, 'createAnonymizer']
+### `api_key`
 
-  Treblle\Symfony\DataProvider: ~
-  Treblle\Symfony\EventSubscriber\TreblleEventSubscriber: ~
-  Treblle\InMemoryErrorDataProvider: ~
-  Treblle\PhpHelper: ~
-  Treblle\PhpLanguageDataProvider: ~
-  Treblle\SuperglobalsServerDataProvider: ~
+Your project's API Key from the Treblle Dashboard. Identifies which project this data belongs to.
 
-  Treblle\Contract\ErrorDataProvider: '@Treblle\InMemoryErrorDataProvider'
-  Treblle\Contract\LanguageDataProvider: '@Treblle\PhpLanguageDataProvider'
-  Treblle\Contract\RequestDataProvider: '@Treblle\Symfony\DataProvider'
-  Treblle\Contract\ResponseDataProvider: '@Treblle\Symfony\DataProvider'
-  Treblle\Contract\ServerDataProvider: '@Treblle\SuperglobalsServerDataProvider'
+### `enabled`
+
+Controls whether Treblle is active. Defaults to `true`. Set to `false` to disable in specific environments without removing your credentials.
+
+The recommended approach is an environment-specific config file:
+
+```yaml copy
+# config/packages/dev/treblle.yaml
+treblle:
+  enabled: false
+```
+
+```yaml copy
+# config/packages/test/treblle.yaml
+treblle:
+  enabled: false
+```
+
+You can also drive it from an environment variable:
+
+```yaml copy
+treblle:
+  enabled: "%env(bool:TREBLLE_ENABLED)%"
+```
+
+### `masked_keywords`
+
+The list of field names to mask in request bodies, response bodies, request headers, and response headers. Masking replaces each character of the value with `*`, preserving the original length, and is applied recursively to nested objects and arrays.
+
+**Adding fields to the default list:**
+
+```yaml copy
+treblle:
+  masked_keywords:
+    - password
+    - pwd
+    - secret
+    - password_confirmation
+    - passwordConfirmation
+    - cc
+    - card_number
+    - cardNumber
+    - ccv
+    - ssn
+    - credit_score
+    - creditScore
+    - authorization
+    - x-api-key
+    - access_token
+```
+
+**Disabling masking entirely:**
+
+```yaml copy
+treblle:
+  masked_keywords: []
+```
+
+### `excluded_paths`
+
+Paths that should not be tracked by Treblle. Supports exact paths and wildcard patterns. Paths are matched against the request path without the leading `/`.
+
+```yaml copy
+treblle:
+  excluded_paths:
+    - health           # exact: /health
+    - health/check     # exact: /health/check
+    - admin/*          # wildcard: /admin/anything
+    - internal/*       # wildcard: /internal/anything
+```
+
+### `ingress_url`
+
+Override the default ingress endpoint. Useful for EU-hosted or self-hosted Treblle deployments:
+
+```yaml copy
+treblle:
+  ingress_url: "https://ingress-eu.treblle.com"
+```
+
+### `metadata`
+
+Key/Value metadata attached to every request. Useful for environment tags, region, tier, or any data you always want visible and searchable in Treblle.
+
+```yaml copy
+treblle:
+  metadata:
+    env: production
+    region: us-east-1
+    tier: enterprise
 ```
 
 <TipCard>
-If you want to replace any component, feel free to provide your own implementation and register it in the DI container. When you alias the interface to point to your implementation instead of the default one, Treblle will use it.
+`user-id` is a reserved keyword. When present in metadata, Treblle uses it to enable **Customer Tracking** — linking requests to individual users so you can filter, search, and analyse traffic per customer in the dashboard.
 </TipCard>
 
-### Example: Override Request Data Collection
+### `async`
 
-We want to override how Request data is collected and passed to Treblle
+When `true`, the SDK dispatches payloads as Symfony Messenger messages instead of sending them inline. This moves the HTTP call to a background worker, freeing your application immediately.
 
-1. We implement our own service satisfying the `Treblle\Contract\RequestDataProvider` interface in `App\Utils\AcmeRequestDataProvider`
-2. We register the service in our own `services.yaml`:
+By default, the SDK sends data in the `kernel.terminate` event — after the HTTP response has already been delivered to your client. For most applications this is sufficient. Enable `async: true` if you run at high request volume or your hosting environment does not use PHP-FPM.
 
-```yaml copy
-App\Utils\AcmeRequestDataProvider: ~
+**Setup:**
+
+1. Install Symfony Messenger:
+
+```bash copy
+composer require symfony/messenger
 ```
 
-3. We define service alias: `Treblle\Contract\RequestDataProvider: '@AcmeRequestDataProvider'`
+2. Configure a transport in `config/packages/messenger.yaml`:
 
+**Redis:**
 ```yaml copy
-Treblle\Contract\RequestDataProvider: '@App\Utils\AcmeRequestDataProvider'
+framework:
+    messenger:
+        transports:
+            treblle:
+                dsn: "%env(REDIS_URL)%"
+                options:
+                    stream: treblle_payloads
+
+        routing:
+            'Treblle\Symfony\Messenger\SendTrebllePayload': treblle
 ```
 
-Now all instances depending on the `RequestDataProvider` interface will use your service.
+**AMQP (RabbitMQ):**
+```yaml copy
+framework:
+    messenger:
+        transports:
+            treblle:
+                dsn: "%env(RABBITMQ_URL)%"
+                options:
+                    exchange:
+                        name: treblle
+
+        routing:
+            'Treblle\Symfony\Messenger\SendTrebllePayload': treblle
+```
+
+3. Enable async in your Treblle config:
+
+```yaml copy
+treblle:
+  async: true
+```
+
+4. Start the Messenger worker:
+
+```bash copy
+php bin/console messenger:consume treblle --time-limit=3600
+```
+
+<NoteCard>
+Run the worker as a supervised process (Supervisor, systemd, etc.) so it restarts automatically. If `async: true` is set but `symfony/messenger` is not installed, the SDK silently falls back to synchronous sending — no errors, no data loss.
+</NoteCard>
+
+## Per-request metadata
+
+Inject `MetadataRegistry` into any controller or service and call `add()` with an associative array. Values are merged with the globally defined metadata for that request only and cleared automatically after the response is sent.
+
+```php copy
+use Treblle\Symfony\Metadata\MetadataRegistry;
+
+final class OrderController extends AbstractController
+{
+    public function __construct(private readonly MetadataRegistry $treblle) {}
+
+    #[Route('/orders', methods: ['POST'])]
+    public function create(Request $request): JsonResponse
+    {
+        $this->treblle->add([
+            'user-id'  => $this->getUser()?->getId(),
+            'plan'     => 'enterprise',
+            'tenant'   => 'acme-corp',
+        ]);
+
+        // ... handle request
+    }
+}
+```
+
+Multiple calls within the same request are merged together:
+
+```php copy
+$this->treblle->add(['user-id' => 42]);
+$this->treblle->add(['plan' => 'pro']);
+// payload contains: { user-id: 42, plan: "pro" }
+```
+
+Runtime values take precedence over any static keys defined under `treblle.metadata` in your config.
+
+## SDK Log Events
+
+The SDK logs through Symfony's standard logging system using a dedicated `treblle` Monolog channel. Log visibility is controlled entirely by your existing `monolog.yaml` configuration.
+
+| Level | Message |
+|---|---|
+| `debug` | Payload sent (with HTTP status code) |
+| `debug` | Skipped paths, disabled state, async dispatch |
+| `warning` | Missing `sdk_token` or `api_key` configuration |
+| `warning` | cURL errors or non-2xx responses from the ingress |
+
+The `treblle` channel appears automatically in the **Symfony Web Profiler** under the Logs tab. No configuration is needed.
+
+**Routing logs to a dedicated file:**
+
+```yaml copy
+monolog:
+    handlers:
+        treblle:
+            type: stream
+            path: "%kernel.logs_dir%/treblle.log"
+            level: debug
+            channels: [treblle]
+```
+
+**Silencing Treblle logs in production:**
+
+```yaml copy
+# config/packages/prod/monolog.yaml
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            channels: ['!treblle']
+```
+
+## Migrating from v3 to v4
+
+### 1. Update the package
+
+```bash copy
+composer require treblle/treblle-symfony:^4.0
+```
+
+### 2. Update your config file
+
+The following keys changed in `config/packages/treblle.yaml`:
+
+| v3 key | v4 key | Notes |
+|---|---|---|
+| `masked_fields` | `masked_keywords` | Renamed |
+| `url` | `ingress_url` | Renamed |
+| `ignored_environments` | _(removed)_ | Use `enabled` instead |
+| `debug` | _(removed)_ | Use Monolog `treblle` channel instead |
+| `excluded_headers` | `excluded_paths` | Different concept — now excludes by path, not header name |
+
+**Before (v3):**
+
+```yaml copy
+treblle:
+  api_key: "%env(TREBLLE_API_KEY)%"
+  sdk_token: "%env(TREBLLE_SDK_TOKEN)%"
+  debug: false
+  ignored_environments: dev,test,testing
+  masked_fields:
+    - password
+    - secret
+  excluded_headers:
+    - Authorization
+  url: "https://custom.treblle.com"
+```
+
+**After (v4):**
+
+```yaml copy
+treblle:
+  api_key: "%env(TREBLLE_API_KEY)%"
+  sdk_token: "%env(TREBLLE_SDK_TOKEN)%"
+  masked_keywords:
+    - password
+    - secret
+  excluded_paths:
+    - admin/*
+  ingress_url: "https://custom.treblle.com"
+```
+
+### 3. Replace `ignored_environments` with `enabled`
+
+v4 has no `ignored_environments` option. Instead, disable Treblle per environment using Symfony's standard config override mechanism:
+
+```yaml copy
+# config/packages/dev/treblle.yaml
+treblle:
+  enabled: false
+```
+
+```yaml copy
+# config/packages/test/treblle.yaml
+treblle:
+  enabled: false
+```
+
+### 4. Remove the `debug` key
+
+The `debug` flag no longer exists. Log output is controlled through your `monolog.yaml` configuration via the `treblle` channel.
+
+### 5. Review `excluded_headers` vs `excluded_paths`
+
+`excluded_headers` (v3) excluded specific header names from being tracked. `excluded_paths` (v4) excludes entire request paths. Use `masked_keywords` if you need to hide sensitive header values.
+
+### 6. Clear your cache
+
+```bash copy
+php bin/console cache:clear
+```
 
 <PaginationCards />
