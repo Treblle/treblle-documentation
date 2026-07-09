@@ -1,8 +1,8 @@
 ---
-title: "Treblle with Fastify"
-metaTitle: "Set Up Treblle in Fastify | Treblle Docs"
-description: "Learn how to integrate Treblle with Fastify to capture API requests, enhance security, and gain real-time insights. Follow our setup guide to get started"
-image: "/og-images/treblle-fastify.jpg"
+title: "Treblle with Hono"
+metaTitle: "Set Up Treblle in Hono | Treblle Docs"
+description: "Integrate Treblle with Hono using our official SDK to capture API requests, track errors, and secure sensitive data. Works across Node.js, Bun, and Deno runtimes."
+image: "/og-images/treblle-nodejs.jpg"
 ---
 
 import { NoteCard } from "~components/cards/note";
@@ -18,18 +18,20 @@ import Link from "next/link";
         <Link href="https://github.com/Treblle/treblle-node" target="_blank">treblle-node</Link>
     </InfoCard.title>
     <InfoCard.description>
-        The official Treblle SDK for JavaScript frameworks including Fastify. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
+        The official Treblle SDK for JavaScript frameworks including Hono. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
     </InfoCard.description>
 </InfoCard>
 
-# Treblle with Fastify
+# Treblle with Hono
 
-To integrate Treblle with <Link href="https://fastify.dev" target="_blank">Fastify</Link>, we provide an official unified SDK for JavaScript frameworks - <Link href="https://github.com/Treblle/treblle-node" target="_blank">`treblle`</Link>.
+To integrate Treblle with <Link href="https://hono.dev" target="_blank">Hono</Link>, we provide an official unified SDK for JavaScript frameworks - <Link href="https://github.com/Treblle/treblle-node" target="_blank">`treblle`</Link>.
 
 ## Requirements
 
 - Node.js: `>=18.0.0` (relies on the built-in global `fetch`)
-- Fastify: `4.x` or `5.x`
+- Hono: `4.x`
+
+Hono is multi-runtime, and the Treblle SDK works across Node.js, Bun, and Deno.
 
 ## Installation
 
@@ -39,17 +41,17 @@ Install the Treblle JavaScript SDK via [NPM](https://www.npmjs.com/package/trebl
 npm install treblle@^3.0.0
 ```
 
-Load the required modules in your `app.js`:
+Load the required module in your app:
 
 ```js copy
-const { useFastifyTreblle } = require("treblle");
+import { honoTreblle } from "treblle";
 ```
 
 <NoteCard>
-New in v3: per-framework subpath imports let bundlers include only the adapter you use. For Fastify you can import from `treblle/fastify`:
+New in v3: per-framework subpath imports let bundlers include only the adapter you use. For Hono you can import from `treblle/hono`:
 
 ```js copy
-const { useFastifyTreblle } = require("treblle/fastify");
+import { honoTreblle } from "treblle/hono";
 ```
 </NoteCard>
 
@@ -68,28 +70,31 @@ TREBLLE_API_KEY=your_api_key
 
 ## Basic Setup
 
-<NoteCard>
-Unlike middleware-style integrations, Fastify is wired up by registering Treblle's lifecycle hooks on your instance. Call `useFastifyTreblle` on the root instance **before** you register your routes so the hooks apply to every route.
-</NoteCard>
-
-Initialize Treblle in your `app.js` file. `useFastifyTreblle` registers the request/response and error-handling hooks on your Fastify instance:
+Initialize Treblle in your app by registering the `honoTreblle` middleware on all routes:
 
 ```js copy
-const Fastify = require("fastify");
-const { useFastifyTreblle } = require("treblle");
+import { Hono } from "hono";
+import { honoTreblle } from "treblle";
 
-const app = Fastify();
+const app = new Hono();
 
-// Register Treblle before your routes
-useFastifyTreblle(app, {
-  sdkToken: process.env.TREBLLE_SDK_TOKEN,
-  apiKey: process.env.TREBLLE_API_KEY,
+// Add Treblle middleware to all routes
+app.use(
+  "*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+  })
+);
+
+// Add your routes
+app.get("/api/users", (c) => c.json({ users: [] }));
+app.post("/api/users", async (c) => {
+  const body = await c.req.json();
+  return c.json({ success: true, user: body });
 });
 
-app.get("/api/users", async () => ({ users: [] }));
-app.post("/api/users", async (request) => ({ success: true, user: request.body }));
-
-app.listen({ port: 3000 });
+export default app;
 ```
 
 That's it! Your API requests and responses are now being sent to your Treblle Dashboard. You'll get features like auto-documentation, real-time request/response monitoring, and error tracking.
@@ -99,14 +104,17 @@ That's it! Your API requests and responses are now being sent to your Treblle Da
 You can pass additional configuration options:
 
 ```js copy
-useFastifyTreblle(app, {
-  sdkToken: process.env.TREBLLE_SDK_TOKEN,
-  apiKey: process.env.TREBLLE_API_KEY,
-  maskedKeywords: ["customSecret", "internalId"], // Optional: Mask additional fields
-  blockedPaths: ["admin", "health"], // Optional: Skip logging certain paths
-  debug: true, // Optional: Show Treblle errors in console (default: false)
-  ingressEndpoint: "https://ingress-eu.treblle.com", // Optional: Custom ingress endpoint
-});
+app.use(
+  "*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+    maskedKeywords: ["customSecret", "internalId"], // Optional: Mask additional fields
+    blockedPaths: ["admin", "health"], // Optional: Skip logging certain paths
+    debug: true, // Optional: Show Treblle errors in console (default: false)
+    ingressEndpoint: "https://ingress-eu.treblle.com", // Optional: Custom ingress endpoint
+  })
+);
 ```
 
 ### Available options
@@ -138,18 +146,29 @@ useFastifyTreblle(app, {
     />
 </InfoTable>
 
-## NestJS on the Fastify platform
+## Selective route monitoring
 
-If your NestJS app runs on the Fastify adapter, use `useNestFastifyTreblle` and pass the underlying Fastify instance:
+Hono's routing lets you scope the Treblle middleware to only the routes you care about:
 
-```ts copy
-import { useNestFastifyTreblle } from "treblle";
+```js copy
+// Monitor only API routes
+app.use(
+  "/api/*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+  })
+);
 
-const app = await NestFactory.create(AppModule, new FastifyAdapter());
-useNestFastifyTreblle(app.getHttpAdapter().getInstance(), {
-  sdkToken: process.env.TREBLLE_SDK_TOKEN,
-  apiKey: process.env.TREBLLE_API_KEY,
-});
+// Or exclude specific paths
+app.use(
+  "*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+    blockedPaths: /^\/(health|metrics|admin)/, // Using RegExp for complex patterns
+  })
+);
 ```
 
 ## Choosing where data is sent (data region)
@@ -157,11 +176,14 @@ useNestFastifyTreblle(app.getHttpAdapter().getInstance(), {
 By default the SDK sends all data to `https://ingress.treblle.com`. If you need your data processed in a specific region, set the `ingressEndpoint` option to the appropriate Treblle ingress URL:
 
 ```js copy
-useFastifyTreblle(app, {
-  sdkToken: process.env.TREBLLE_SDK_TOKEN,
-  apiKey: process.env.TREBLLE_API_KEY,
-  ingressEndpoint: "https://ingress-eu.treblle.com", // send data to the EU ingress
-});
+app.use(
+  "*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+    ingressEndpoint: "https://ingress-eu.treblle.com", // send data to the EU ingress
+  })
+);
 ```
 
 When `ingressEndpoint` is omitted (or empty), the SDK falls back to the default `https://ingress.treblle.com`.
@@ -196,13 +218,16 @@ When you don't set `maskedKeywords`, the following keywords are masked by defaul
 Because your array replaces the defaults, extend them by spreading the exported `DEFAULT_MASKED_KEYWORDS` list rather than listing every default by hand:
 
 ```js copy
-const { useFastifyTreblle, DEFAULT_MASKED_KEYWORDS } = require("treblle");
+import { honoTreblle, DEFAULT_MASKED_KEYWORDS } from "treblle";
 
-useFastifyTreblle(app, {
-  sdkToken: process.env.TREBLLE_SDK_TOKEN,
-  apiKey: process.env.TREBLLE_API_KEY,
-  maskedKeywords: [...DEFAULT_MASKED_KEYWORDS, "customSecret", "internalId"],
-});
+app.use(
+  "*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+    maskedKeywords: [...DEFAULT_MASKED_KEYWORDS, "customSecret", "internalId"],
+  })
+);
 ```
 
 ### Turning masking off
@@ -210,11 +235,14 @@ useFastifyTreblle(app, {
 Pass an empty array to disable masking completely:
 
 ```js copy
-useFastifyTreblle(app, {
-  sdkToken: process.env.TREBLLE_SDK_TOKEN,
-  apiKey: process.env.TREBLLE_API_KEY,
-  maskedKeywords: [], // masking disabled
-});
+app.use(
+  "*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+    maskedKeywords: [], // masking disabled
+  })
+);
 ```
 
 <CautionCard>
@@ -240,14 +268,14 @@ blockedPaths: ["admin", /^\/api\/v1\/internal/];
 
 Treblle can show the SQL queries executed during each request (with their execution time) in the `data.queries` array of the payload. Node has no framework-wide "a query ran" event, so query tracking is **opt-in**: you wire your database layer's query event to Treblle's `trackQuery` helper **once**, and every query made during a request is captured automatically. Until you do this, `data.queries` is simply an empty array.
 
-`trackQuery(sql, time)` records a query against the request currently in flight (it uses `AsyncLocalStorage` under the hood, so you don't need access to `req`). It is a no-op when called outside of a request.
+`trackQuery(sql, time)` records a query against the request currently in flight (it uses `AsyncLocalStorage` under the hood, so you don't need access to `c`). It is a no-op when called outside of a request.
 
 <CautionCard>
 Only pass the **parameterized** SQL string (e.g. `SELECT * FROM users WHERE id = $1`) - never the parameter bindings. As a safety net, `trackQuery` also scrubs any inline string/number literals it finds (replacing them with `?`).
 </CautionCard>
 
 ```js copy
-const { trackQuery } = require("treblle");
+import { trackQuery } from "treblle";
 ```
 
 **Prisma** - enable the `query` event log and forward each event:
@@ -290,16 +318,16 @@ const sequelize = new Sequelize(connectionString, {
 
 Attach your own key/value properties to each request - for example `user-id`, `plan`, or `region` - so you can search and filter on them in Treblle. The pairs are sent in the payload as a `data.metadata` object.
 
-`setMetadata` works the same way in every framework with no extra setup. Like `trackQuery`, it uses `AsyncLocalStorage` under the hood, so you can call it from anywhere during a request without access to `req` - and it is a no-op when called outside of one. It accepts either a single key/value or an object of pairs:
+`setMetadata` works the same way in every framework with no extra setup. Like `trackQuery`, it uses `AsyncLocalStorage` under the hood, so you can call it from anywhere during a request without access to `c` - and it is a no-op when called outside of one. It accepts either a single key/value or an object of pairs:
 
 ```js copy
-const { setMetadata } = require("treblle");
+import { setMetadata } from "treblle";
 
-app.get("/orders", async (request) => {
-  setMetadata("user-id", request.user.id);
-  setMetadata({ plan: request.user.plan, region: "eu" });
+app.get("/orders", (c) => {
+  setMetadata("user-id", c.get("userId"));
+  setMetadata({ plan: "premium", region: "eu" });
 
-  return { ok: true };
+  return c.json({ ok: true });
 });
 ```
 
@@ -318,13 +346,16 @@ Metadata is **not** masked - values are sent verbatim. Never put secrets, tokens
 Run Treblle only in production:
 
 ```js copy
-const app = Fastify();
+const app = new Hono();
 
 if (process.env.NODE_ENV === "production") {
-  useFastifyTreblle(app, {
-    sdkToken: process.env.TREBLLE_SDK_TOKEN,
-    apiKey: process.env.TREBLLE_API_KEY,
-  });
+  app.use(
+    "*",
+    honoTreblle({
+      sdkToken: process.env.TREBLLE_SDK_TOKEN,
+      apiKey: process.env.TREBLLE_API_KEY,
+    })
+  );
 }
 ```
 
@@ -333,11 +364,14 @@ if (process.env.NODE_ENV === "production") {
 Enable debug mode to see Treblle errors in your console:
 
 ```js copy
-useFastifyTreblle(app, {
-  sdkToken: process.env.TREBLLE_SDK_TOKEN,
-  apiKey: process.env.TREBLLE_API_KEY,
-  debug: true,
-});
+app.use(
+  "*",
+  honoTreblle({
+    sdkToken: process.env.TREBLLE_SDK_TOKEN,
+    apiKey: process.env.TREBLLE_API_KEY,
+    debug: true,
+  })
+);
 ```
 
 <TipCard>
@@ -368,6 +402,8 @@ Several configuration options were renamed for clarity and consistency in v3. `s
 </InfoTable>
 
 <NoteCard>
+**Masking now on by default:** in v2, `honoTreblle` accidentally disabled masking when `maskedKeywords` was omitted. v3 fixes this - the default keywords are always masked unless you explicitly pass `maskedKeywords: []`.
+
 **Cloudflare Workers support removed:** the `moduleWorkerTreblle` and `serviceWorkerTreblle` exports have been removed. If you use Treblle in Cloudflare Workers, stay on `treblle@2.x` for now - a dedicated web-standards edge SDK is coming as a separate package.
 
 **Node.js `>=18` required:** v3 dropped the `node-fetch` fallback and relies on the built-in global `fetch`.
