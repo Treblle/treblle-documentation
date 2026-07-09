@@ -46,6 +46,29 @@ const nextConfig: NextConfig = {
                 permanent: true,
             },
 
+            // Dropped JavaScript frameworks (no longer supported by the SDK)
+            // redirect their canonical pages to the integrations hub
+            {
+                source: "/integrate-treblle/integrations/javascript/node",
+                destination: "/integrate-treblle/treblle-integrations",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/integrations/javascript/adonis",
+                destination: "/integrate-treblle/treblle-integrations",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/integrations/javascript/directus",
+                destination: "/integrate-treblle/treblle-integrations",
+                permanent: true,
+            },
+            {
+                source: "/integrate-treblle/integrations/javascript/sails",
+                destination: "/integrate-treblle/treblle-integrations",
+                permanent: true,
+            },
+
             // PHP SDKs (catch-all)
             {
                 source: "/integrate-treblle/sdks/php/:path*",
@@ -139,32 +162,32 @@ const nextConfig: NextConfig = {
             // JavaScript frameworks
             {
                 source: "/en/integrations/sails",
-                destination: "/integrate-treblle/integrations/javascript/sails",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/sails",
-                destination: "/integrate-treblle/integrations/javascript/sails",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/sails/",
-                destination: "/integrate-treblle/integrations/javascript/sails",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/en/integrations/adonisjs",
-                destination: "/integrate-treblle/integrations/javascript/adonis",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/adonis",
-                destination: "/integrate-treblle/integrations/javascript/adonis",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/adonis/",
-                destination: "/integrate-treblle/integrations/javascript/adonis",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
@@ -199,17 +222,17 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/en/integrations/node",
-                destination: "/integrate-treblle/integrations/javascript/node",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/node",
-                destination: "/integrate-treblle/integrations/javascript/node",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/node/",
-                destination: "/integrate-treblle/integrations/javascript/node",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
@@ -244,17 +267,17 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/en/integrations/directus",
-                destination: "/integrate-treblle/integrations/javascript/directus",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/directus",
-                destination: "/integrate-treblle/integrations/javascript/directus",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {
                 source: "/integrations/javascript/directus/",
-                destination: "/integrate-treblle/integrations/javascript/directus",
+                destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
             {

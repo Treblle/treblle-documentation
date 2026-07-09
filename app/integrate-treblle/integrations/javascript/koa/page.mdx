@@ -5,16 +5,17 @@ description: "Integrate Treblle with Koa to capture API requests, track errors, 
 image: "/og-images/treblle-koa.jpg"
 ---
 
-import { InfoCard } from "~components/cards/info-card";
-import PaginationCards from "~components/cards/pagination-cards";
 import { NoteCard } from "~components/cards/note";
 import { TipCard } from "~components/cards/tip";
+import { CautionCard } from "~components/cards/caution";
+import PaginationCards from "~components/cards/pagination-cards";
+import { InfoCard } from "~components/cards/info-card";
 import { InfoTable } from "~components/tables/info-table";
 import Link from "next/link";
 
 <InfoCard type="individual">
     <InfoCard.title>
-        <Link href="https://github.com/Treblle/treblle-node" target="_blank">treblle</Link>
+        <Link href="https://github.com/Treblle/treblle-node" target="_blank">treblle-node</Link>
     </InfoCard.title>
     <InfoCard.description>
         The official Treblle SDK for JavaScript frameworks including Koa. Seamlessly integrate Treblle to manage communication with your dashboard, send errors, and secure sensitive data.
@@ -23,29 +24,38 @@ import Link from "next/link";
 
 # Treblle with Koa
 
-To integrate Treblle with <Link href="https://koajs.com" target="_blank">Koa</Link>, we provide an official unified SDK for JavaScript frameworks - <Link href="https://github.com/Treblle/treblle-node" target="_blank">`treblle-node`</Link>.
+To integrate Treblle with <Link href="https://koajs.com" target="_blank">Koa</Link>, we provide an official unified SDK for JavaScript frameworks - <Link href="https://github.com/Treblle/treblle-node" target="_blank">`treblle`</Link>.
 
 ## Requirements
 
-- Node.js: `>=18.0.0`
+- Node.js: `>=18.0.0` (relies on the built-in global `fetch`)
 - Koa: `2.x` or `3.x`
 
 ## Installation
 
+Install the Treblle JavaScript SDK via [NPM](https://www.npmjs.com/package/treblle):
+
 ```sh copy
-npm install treblle@^2.0.0
+npm install treblle@^3.0.0
 ```
 
-Don't forget to load the required modules in your app file:
+Load the required modules in your `app.js`:
 
 ```js copy
-const Koa = require("koa");
 const { koaTreblle } = require("treblle");
 ```
 
+<NoteCard>
+New in v3: per-framework subpath imports let bundlers include only the adapter you use. For Koa you can import from `treblle/koa`:
+
+```js copy
+const { koaTreblle } = require("treblle/koa");
+```
+</NoteCard>
+
 ## Setting up credentials
 
-Create a free account on <Link href="https://treblle.com" target="_blank">treblle.com</Link> to get your credentials:
+Create a free account on [treblle.com](https://treblle.com) to get your credentials:
 - `sdkToken` (SDK Token)
 - `apiKey` (API Key)
 
@@ -58,7 +68,7 @@ TREBLLE_API_KEY=your_api_key
 
 ## Basic Setup
 
-Initialize Treblle in your application:
+Initialize Treblle in your `app.js` file. `koaTreblle` returns middleware that handles both request/response tracking and error handling:
 
 ```js copy
 const Koa = require("koa");
@@ -69,7 +79,7 @@ const { koaTreblle } = require("treblle");
 const app = new Koa();
 const router = new KoaRouter();
 
-// Treblle middleware (add before body parsing)
+// Add Treblle middleware
 app.use(
   koaTreblle({
     sdkToken: process.env.TREBLLE_SDK_TOKEN,
@@ -77,10 +87,10 @@ app.use(
   })
 );
 
-// Body parsing
+// Add other middleware
 app.use(KoaBody());
 
-// Routes
+// Add routes
 router.get("/api/users", (ctx) => {
   ctx.body = { users: [] };
 });
@@ -89,28 +99,24 @@ app.use(router.routes());
 app.listen(3000);
 ```
 
-<TipCard>
 That's it! Your API requests and responses are now being sent to your Treblle Dashboard. You'll get features like auto-documentation, real-time request/response monitoring, and error tracking.
-</TipCard>
 
 ## Configuration Options
 
 You can pass additional configuration options:
 
 ```js copy
-app.use(
-  koaTreblle({
-    sdkToken: process.env.TREBLLE_SDK_TOKEN,
-    apiKey: process.env.TREBLLE_API_KEY,
-    additionalFieldsToMask: ["customSecret", "internalId"], // Optional
-    blocklistPaths: ["admin", "health"], // Optional: Skip logging certain paths
-    ignoreDefaultBlockedPaths: false, // Optional: Disable default blocked paths
-    debug: true, // Optional: Show Treblle errors in console
-  })
-);
+koaTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+  maskedKeywords: ["customSecret", "internalId"], // Optional: Mask additional fields
+  blockedPaths: ["admin", "health"], // Optional: Skip logging certain paths
+  debug: true, // Optional: Show Treblle errors in console (default: false)
+  ingressEndpoint: "https://ingress-eu.treblle.com", // Optional: Custom ingress endpoint
+});
 ```
 
-### Available options:
+### Available options
 
 <InfoTable title="Option" description="Description">
     <InfoTable.Row
@@ -122,22 +128,183 @@ app.use(
         description="Your Treblle API key"
     />
     <InfoTable.Row
-        title="additionalFieldsToMask (optional)"
-        description="Array of field names to mask in addition to default fields"
+        title="maskedKeywords (optional)"
+        description="Keywords to mask in request/response bodies and headers. Replaces the default keywords - spread DEFAULT_MASKED_KEYWORDS to extend them. Pass [] to turn masking off."
     />
     <InfoTable.Row
-        title="blocklistPaths (optional)"
+        title="blockedPaths (optional)"
         description="Array of path prefixes or RegExp to exclude from logging"
-    />
-    <InfoTable.Row
-        title="ignoreDefaultBlockedPaths (optional)"
-        description="Boolean to disable default blocked paths (default: false)"
     />
     <InfoTable.Row
         title="debug (optional)"
         description="Boolean to show Treblle-related errors in console (default: false)"
     />
+    <InfoTable.Row
+        title="ingressEndpoint (optional)"
+        description="Custom Treblle ingress endpoint URL to send data to (default: https://ingress.treblle.com)"
+    />
 </InfoTable>
+
+## Choosing where data is sent (data region)
+
+By default the SDK sends all data to `https://ingress.treblle.com`. If you need your data processed in a specific region, set the `ingressEndpoint` option to the appropriate Treblle ingress URL:
+
+```js copy
+koaTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+  ingressEndpoint: "https://ingress-eu.treblle.com", // send data to the EU ingress
+});
+```
+
+When `ingressEndpoint` is omitted (or empty), the SDK falls back to the default `https://ingress.treblle.com`.
+
+## Masking sensitive data
+
+Treblle masks sensitive values in request/response **bodies and headers** before anything leaves your server. Matching is case-insensitive and applies to values of any type. Masking is driven entirely by the `maskedKeywords` option:
+
+<InfoTable title="maskedKeywords" description="Behavior">
+    <InfoTable.Row
+        title="not set (default)"
+        description="The built-in default keywords are masked"
+    />
+    <InfoTable.Row
+        title="your own array"
+        description="Exactly the keywords you list are masked - this replaces the defaults"
+    />
+    <InfoTable.Row
+        title="[] (empty array)"
+        description="Masking is turned off entirely - bodies and headers are sent as-is"
+    />
+</InfoTable>
+
+### Default masked keywords
+
+When you don't set `maskedKeywords`, the following keywords are masked by default:
+
+`password`, `pwd`, `secret`, `password_confirmation`, `passwordConfirmation`, `cc`, `card_number`, `cardNumber`, `ccv`, `ssn`, `credit_score`, `creditScore`, `authorization`, `cookie`, `set-cookie`, `x-api-key`, `api_key`, `apikey`, `token`, `access_token`, `accessToken`, `refresh_token`, `refreshToken`, `bearer`, `x-auth-token`
+
+### Adding to the defaults
+
+Because your array replaces the defaults, extend them by spreading the exported `DEFAULT_MASKED_KEYWORDS` list rather than listing every default by hand:
+
+```js copy
+const { koaTreblle, DEFAULT_MASKED_KEYWORDS } = require("treblle");
+
+koaTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+  maskedKeywords: [...DEFAULT_MASKED_KEYWORDS, "customSecret", "internalId"],
+});
+```
+
+### Turning masking off
+
+Pass an empty array to disable masking completely:
+
+```js copy
+koaTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+  maskedKeywords: [], // masking disabled
+});
+```
+
+<CautionCard>
+With masking off, sensitive request/response body fields **and headers** - including `Authorization`, `Cookie`, API keys and tokens - are sent to Treblle in plaintext. Only disable masking when you are certain no sensitive data flows through the monitored endpoints.
+</CautionCard>
+
+## Path blocking examples
+
+Block specific paths or patterns from being logged:
+
+```js copy
+// Block specific paths (string array)
+blockedPaths: ["admin", "health", "metrics"];
+
+// Block using RegExp for complex patterns
+blockedPaths: /^\/(admin|health|metrics)/;
+
+// Mixed array with strings and RegExp
+blockedPaths: ["admin", /^\/api\/v1\/internal/];
+```
+
+## Tracking database queries
+
+Treblle can show the SQL queries executed during each request (with their execution time) in the `data.queries` array of the payload. Node has no framework-wide "a query ran" event, so query tracking is **opt-in**: you wire your database layer's query event to Treblle's `trackQuery` helper **once**, and every query made during a request is captured automatically. Until you do this, `data.queries` is simply an empty array.
+
+`trackQuery(sql, time)` records a query against the request currently in flight (it uses `AsyncLocalStorage` under the hood, so you don't need access to `ctx`). It is a no-op when called outside of a request.
+
+<CautionCard>
+Only pass the **parameterized** SQL string (e.g. `SELECT * FROM users WHERE id = $1`) - never the parameter bindings. As a safety net, `trackQuery` also scrubs any inline string/number literals it finds (replacing them with `?`).
+</CautionCard>
+
+```js copy
+const { trackQuery } = require("treblle");
+```
+
+**Prisma** - enable the `query` event log and forward each event:
+
+```js copy
+const prisma = new PrismaClient({
+  log: [{ level: "query", emit: "event" }],
+});
+
+prisma.$on("query", (e) => trackQuery(e.query, e.duration));
+```
+
+<NoteCard>
+Prisma emits `query` events on an internal async channel, which can lose the request's context in some setups. If queries don't appear, prefer a per-request Prisma extension/middleware that calls `trackQuery`.
+</NoteCard>
+
+**Knex** - subscribe to its (synchronous, reliable) query events:
+
+```js copy
+const timers = new Map();
+knex.on("query", (q) => timers.set(q.__knexQueryUid, process.hrtime.bigint()));
+knex.on("query-response", (_res, q) => {
+  const start = timers.get(q.__knexQueryUid);
+  const ms = start ? Number(process.hrtime.bigint() - start) / 1e6 : 0;
+  timers.delete(q.__knexQueryUid);
+  trackQuery(q.sql, ms);
+});
+```
+
+**Sequelize** - turn on `benchmark` and forward from the `logging` callback:
+
+```js copy
+const sequelize = new Sequelize(connectionString, {
+  benchmark: true, // provides the execution time (ms) as the 2nd arg
+  logging: (sql, ms) => trackQuery(sql, ms),
+});
+```
+
+## Adding custom metadata
+
+Attach your own key/value properties to each request - for example `user-id`, `plan`, or `region` - so you can search and filter on them in Treblle. The pairs are sent in the payload as a `data.metadata` object.
+
+`setMetadata` works the same way in every framework with no extra setup. Like `trackQuery`, it uses `AsyncLocalStorage` under the hood, so you can call it from anywhere during a request without access to `ctx` - and it is a no-op when called outside of one. It accepts either a single key/value or an object of pairs:
+
+```js copy
+const { setMetadata } = require("treblle");
+
+router.get("/orders", (ctx) => {
+  setMetadata("user-id", ctx.state.user.id);
+  setMetadata({ plan: ctx.state.user.plan, region: "eu" });
+
+  ctx.body = { ok: true };
+});
+```
+
+To keep the payload small and search-friendly, metadata is limited:
+
+- **Max 20 keys** per request (extra new keys are dropped).
+- **Keys** up to **64 characters** (longer keys are truncated).
+- **Values** must be a **string, number, or boolean**; strings up to **128 characters** (longer values are truncated, unsupported types are dropped).
+
+<CautionCard>
+Metadata is **not** masked - values are sent verbatim. Never put secrets, tokens, or sensitive personal data in metadata.
+</CautionCard>
 
 ## Production-only Setup
 
@@ -156,39 +323,53 @@ if (process.env.NODE_ENV === "production") {
 }
 ```
 
-## Masking Sensitive Data
-
-The following fields are automatically masked:
-
-- `password`, `pwd`, `secret`, `password_confirmation`, `passwordConfirmation`
-- `cc`, `card_number`, `cardNumber`, `ccv`
-- `ssn`
-- `credit_score`, `creditScore`
-
-Add custom fields to mask:
-
-```js copy
-app.use(
-  koaTreblle({
-    sdkToken: process.env.TREBLLE_SDK_TOKEN,
-    apiKey: process.env.TREBLLE_API_KEY,
-    additionalFieldsToMask: ["customSecret", "licensee_key"],
-  })
-);
-```
-
 ## Debugging
 
 Enable debug mode to see Treblle errors in your console:
 
 ```js copy
-app.use(
-  koaTreblle({
-    sdkToken: process.env.TREBLLE_SDK_TOKEN,
-    apiKey: process.env.TREBLLE_API_KEY,
-    debug: true,
-  })
-);
+koaTreblle({
+  sdkToken: process.env.TREBLLE_SDK_TOKEN,
+  apiKey: process.env.TREBLLE_API_KEY,
+  debug: true,
+});
 ```
+
+<TipCard>
+For production environments, consider using environment-based configuration to automatically enable or disable debug mode without code changes.
+</TipCard>
+
+## Migrating from v2 to v3
+
+Several configuration options were renamed for clarity and consistency in v3. `sdkToken` and `apiKey` keep their names. Update your config:
+
+<InfoTable title="v2 option" description="v3 replacement">
+    <InfoTable.Row
+        title="additionalFieldsToMask"
+        description="maskedKeywords - same behavior; replaces the defaults, [] turns masking off"
+    />
+    <InfoTable.Row
+        title="blocklistPaths"
+        description="blockedPaths - same behavior"
+    />
+    <InfoTable.Row
+        title="endpoint"
+        description="ingressEndpoint - same behavior"
+    />
+    <InfoTable.Row
+        title="ignoreDefaultBlockedPaths"
+        description="removed - the default blocked paths are now always applied and cannot be disabled"
+    />
+</InfoTable>
+
+<NoteCard>
+**Masking now on by default in Koa:** in v2, `koaTreblle` accidentally disabled masking when `maskedKeywords` was omitted. v3 fixes this so the default keywords are always masked unless you explicitly pass `maskedKeywords: []`.
+</NoteCard>
+
+<NoteCard>
+**Cloudflare Workers support removed:** the `moduleWorkerTreblle` and `serviceWorkerTreblle` exports have been removed. If you use Treblle in Cloudflare Workers, stay on `treblle@2.x` for now - a dedicated web-standards edge SDK is coming as a separate package.
+
+**Node.js `>=18` required:** v3 dropped the `node-fetch` fallback and relies on the built-in global `fetch`.
+</NoteCard>
 
 <PaginationCards />
