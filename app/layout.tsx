@@ -20,6 +20,7 @@ import { Box } from "~styled-system/jsx";
 
 import { fontClassName } from "../styles/fonts";
 import MyStatsig from "./my-statsig";
+import { getFeaturedStory, getLatestBlogPost } from "~sanity/nav-queries";
 
 export const metadata: Metadata = {
     title: {
@@ -30,6 +31,10 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { readonly children: React.ReactNode }) {
+    const [featuredStory, latestBlogPost] = await Promise.all([
+        getFeaturedStory(),
+        getLatestBlogPost(),
+    ]);
     return (
         <html
             // Not required, but good for SEO
@@ -49,7 +54,7 @@ export default async function RootLayout({ children }: { readonly children: Reac
                 <Box className="layout">
                     <Layout
                         banner={false}
-                        navbar={<Navbar />}
+                        navbar={<Navbar featuredStory={featuredStory} resourcesBlogPost={latestBlogPost} />}
                         pageMap={await getPageMap()}
                         docsRepositoryBase="https://github.com/Treblle/treblle-documentation"
                         footer={<Footer />}

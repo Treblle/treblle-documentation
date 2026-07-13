@@ -3,13 +3,15 @@
 import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Box, Flex, VStack } from "~styled-system/jsx";
-import { SubmenuWhyTreblleMobile } from "./mobile/submenu-why-treblle";
-import { SubmenuPlatformMobile } from "./mobile/submenu-platform";
-import { SubmenuTrustMobile } from "./mobile/submenu-trust";
-import { SubmenuResourcesMobile, type LatestBlogPost } from "./mobile/submenu-resources";
-import { SubmenuCompanyMobile } from "./mobile/submenu-company";
-import { Icon } from "../../../theme/icons";
-import Link from "next/link";
+import { SubmenuWhyTreblleMobile } from "./submenu-why-treblle";
+import { SubmenuPlatformMobile } from "./submenu-platform";
+import { SubmenuTrustMobile } from "./submenu-trust";
+import { SubmenuResourcesMobile } from "./submenu-resources";
+import { SubmenuCompanyMobile } from "./submenu-company";
+import { NavLink as Link } from "../nav-link";
+import { Icon } from "../../../../theme/icons";
+import { css } from "~styled-system/css";
+import type { FeaturedStory, LatestBlogPost } from "~sanity/nav-queries";
 
 type MenuKey = "why-treblle" | "platform" | "trust" | "resources" | "company";
 
@@ -54,8 +56,16 @@ function ChevronRightIcon() {
   );
 }
 
-function SubmenuContent({ menuKey, resourcesBlogPost }: { menuKey: MenuKey; resourcesBlogPost?: LatestBlogPost | null | undefined }) {
-  if (menuKey === "why-treblle") return <SubmenuWhyTreblleMobile />;
+function SubmenuContent({
+  menuKey,
+  featuredStory,
+  resourcesBlogPost,
+}: {
+  menuKey: MenuKey;
+  featuredStory?: FeaturedStory | null | undefined;
+  resourcesBlogPost?: LatestBlogPost | null | undefined;
+}) {
+  if (menuKey === "why-treblle") return <SubmenuWhyTreblleMobile featuredStory={featuredStory} />;
   if (menuKey === "platform") return <SubmenuPlatformMobile />;
   if (menuKey === "trust") return <SubmenuTrustMobile />;
   if (menuKey === "resources") return <SubmenuResourcesMobile post={resourcesBlogPost} />;
@@ -65,11 +75,16 @@ function SubmenuContent({ menuKey, resourcesBlogPost }: { menuKey: MenuKey; reso
 function BottomButtons() {
   return (
     <VStack css={{ gap: "4", w: "full", flexShrink: "0" }}>
-      <Link href="https://platform.treblle.com/login" style={{ width: "100%" }}>
+      <Link
+        href={"https://app.treblle.com"}
+        target="_blank"
+        className={css({ w: "full" })}
+      >
         <Box
           css={{
             background: "transparent",
-            border: "1px solid #29304B",
+            border: "1px solid",
+            borderColor: "[#29304B]",
             borderRadius: "56px",
             h: "40px",
             display: "flex",
@@ -78,17 +93,17 @@ function BottomButtons() {
             w: "full",
             fontSize: "sm",
             fontWeight: "medium",
-            color: "#FFFFFF",
+            color: "white",
             cursor: "pointer",
           }}
         >
           Sign In
         </Box>
       </Link>
-      <Link href="https://treblle.com/book-a-demo" style={{ width: "100%" }}>
+      <Link href={"https://treblle.com/book-a-demo"} className={css({ w: "full" })}>
         <Box
           css={{
-            background: "#0047BB",
+            background: "[#0047BB]",
             borderRadius: "56px",
             h: "40px",
             display: "flex",
@@ -97,7 +112,7 @@ function BottomButtons() {
             w: "full",
             fontSize: "sm",
             fontWeight: "medium",
-            color: "#FFFFFF",
+            color: "white",
             cursor: "pointer",
           }}
         >
@@ -108,13 +123,22 @@ function BottomButtons() {
   );
 }
 
-export function MobileNavbar({ resourcesBlogPost }: { resourcesBlogPost?: LatestBlogPost | null | undefined }) {
+export function MobileNavbar({
+  featuredStory,
+  resourcesBlogPost,
+}: {
+  featuredStory?: FeaturedStory | null | undefined;
+  resourcesBlogPost?: LatestBlogPost | null | undefined;
+}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [animState, setAnimState] = useState<"opening" | "closing" | null>(null);
+  const [animState, setAnimState] = useState<"opening" | "closing" | null>(
+    null,
+  );
   const [activeSubmenu, setActiveSubmenu] = useState<MenuKey | null>(null);
   const pathname = usePathname();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsOpen(false);
     setActiveSubmenu(null);
     setAnimState(null);
@@ -138,10 +162,14 @@ export function MobileNavbar({ resourcesBlogPost }: { resourcesBlogPost?: Latest
   if (!isOpen) {
     return (
       <Flex
-        style={{ backdropFilter: "blur(30px)", WebkitBackdropFilter: "blur(30px)" }}
+        style={{
+          backdropFilter: "blur(30px)",
+          WebkitBackdropFilter: "blur(30px)",
+        }}
         css={{
-          background: "rgba(20, 24, 47, 0.8)",
-          border: "1px solid #29304B",
+          background: "[rgba(20,24,47,0.95)]",
+          border: "1px solid",
+          borderColor: "[#29304B]",
           borderRadius: "36px",
           px: "6",
           py: "4",
@@ -150,10 +178,18 @@ export function MobileNavbar({ resourcesBlogPost }: { resourcesBlogPost?: Latest
           justifyContent: "space-between",
         }}
       >
-        <Link href="/">
+        <Link href={"/"}>
           <Icon icon="TreblleLogo" />
         </Link>
-        <Box css={{ cursor: "pointer", color: "#FFFFFF", display: "flex", alignItems: "center" }} onClick={open}>
+        <Box
+          css={{
+            cursor: "pointer",
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+          }}
+          onClick={open}
+        >
           <HamburgerIcon />
         </Box>
       </Flex>
@@ -173,8 +209,9 @@ export function MobileNavbar({ resourcesBlogPost }: { resourcesBlogPost?: Latest
               : undefined,
       }}
       css={{
-        background: "rgba(20, 24, 47, 0.95)",
-        border: "1px solid #29304B",
+        background: "[rgba(20,24,47,0.95)]",
+        border: "1px solid",
+        borderColor: "[#29304B]",
         borderRadius: "36px",
         px: "6",
         py: "[22px]",
@@ -186,21 +223,42 @@ export function MobileNavbar({ resourcesBlogPost }: { resourcesBlogPost?: Latest
       }}
     >
       {/* Header row */}
-      <Flex css={{ alignItems: "center", justifyContent: "space-between", h: "28px", flexShrink: "0" }}>
+      <Flex
+        css={{
+          alignItems: "center",
+          justifyContent: "space-between",
+          h: "28px",
+          flexShrink: "0",
+        }}
+      >
         {activeSubmenu ? (
           <Flex
-            css={{ gap: "2", alignItems: "center", cursor: "pointer", color: "#FFFFFF", flex: "1" }}
+            css={{
+              gap: "2",
+              alignItems: "center",
+              cursor: "pointer",
+              color: "white",
+              flex: "1",
+            }}
             onClick={() => setActiveSubmenu(null)}
           >
             <ChevronLeftIcon />
             <Box css={{ fontSize: "sm", fontWeight: "medium" }}>Back</Box>
           </Flex>
         ) : (
-          <Link href="/">
+          <Link href={"/"}>
             <Icon icon="TreblleLogo" />
           </Link>
         )}
-        <Box css={{ cursor: "pointer", color: "#FFFFFF", display: "flex", alignItems: "center" }} onClick={close}>
+        <Box
+          css={{
+            cursor: "pointer",
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+          }}
+          onClick={close}
+        >
           <CloseIcon />
         </Box>
       </Flex>
@@ -208,28 +266,61 @@ export function MobileNavbar({ resourcesBlogPost }: { resourcesBlogPost?: Latest
       {/* Scrollable content */}
       <Box css={{ overflowY: "auto", flex: "1", minH: "0" }}>
         {activeSubmenu ? (
-          <SubmenuContent menuKey={activeSubmenu} resourcesBlogPost={resourcesBlogPost} />
+          <SubmenuContent
+            menuKey={activeSubmenu}
+            featuredStory={featuredStory}
+            resourcesBlogPost={resourcesBlogPost}
+          />
         ) : (
           <VStack css={{ gap: "[29px]", alignItems: "flex-start", w: "full" }}>
             {navItems.map((item) =>
               item.link ? (
                 <Link key={item.key} href={item.link}>
-                  <Box css={{ fontSize: "sm", fontWeight: "medium", color: "#FFFFFF" }}>{item.label}</Box>
+                  <Box
+                    css={{
+                      fontSize: "sm",
+                      fontWeight: "medium",
+                      color: "white",
+                    }}
+                  >
+                    {item.label}
+                  </Box>
                 </Link>
               ) : (
                 <Flex
                   key={item.key}
-                  css={{ alignItems: "center", justifyContent: "space-between", w: "full", cursor: "pointer" }}
-                  onClick={() => { if (item.hasSubmenu) setActiveSubmenu(item.key as MenuKey); }}
+                  css={{
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    w: "full",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    if (item.hasSubmenu) setActiveSubmenu(item.key as MenuKey);
+                  }}
                 >
-                  <Box css={{ fontSize: "sm", fontWeight: "medium", color: "#FFFFFF" }}>{item.label}</Box>
+                  <Box
+                    css={{
+                      fontSize: "sm",
+                      fontWeight: "medium",
+                      color: "white",
+                    }}
+                  >
+                    {item.label}
+                  </Box>
                   {item.hasSubmenu && (
-                    <Box css={{ color: "#FFFFFF", display: "flex", alignItems: "center" }}>
+                    <Box
+                      css={{
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
                       <ChevronRightIcon />
                     </Box>
                   )}
                 </Flex>
-              )
+              ),
             )}
           </VStack>
         )}

@@ -1,17 +1,18 @@
-import Link from "next/link";
+import { NavLink as Link } from "../nav-link";
 import { Box, Flex, VStack } from "~styled-system/jsx";
-
-export type LatestBlogPost = { slug: string; title: string; heroImage: string | null };
+import { css } from "~styled-system/css";
+import type { LatestBlogPost } from "~sanity/nav-queries";
 
 const navItems = [
   { label: "Blog", href: "https://treblle.com/blog" },
-  { label: "Documentation", href: "/" },
+  { label: "eBooks", href: "https://treblle.com/ebooks" },
+  { label: "Events", href: "https://treblle.com/events" },
 ];
 
 function ChevronRight() {
   return (
     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M5.5 3.5L9 7L5.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2 7H12M8 3L12 7L8 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -21,10 +22,22 @@ export function SubmenuResourcesMobile({ post }: { post?: LatestBlogPost | null 
     <VStack css={{ gap: "10", alignItems: "flex-start", w: "full" }}>
       <VStack css={{ gap: "[22px]", alignItems: "flex-start", w: "full" }}>
         {navItems.map((item) => (
-          <Link href={item.href} key={item.label}>
-            <Box css={{ fontSize: "sm", fontWeight: "medium", color: "#FFFFFF", cursor: "pointer", _hover: { color: "#5192FF" } }}>
-              {item.label}
-            </Box>
+          <Link
+            href={item.href}
+            key={item.label}
+            className={css({
+              fontSize: "sm",
+              fontWeight: "medium",
+              color: "white",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "1.5",
+              _hover: { color: "[#5192FF]" },
+            })}
+          >
+            {item.label}
+            <ChevronRight />
           </Link>
         ))}
       </VStack>
@@ -33,22 +46,33 @@ export function SubmenuResourcesMobile({ post }: { post?: LatestBlogPost | null 
         <Link href={`https://treblle.com/blog/${post.slug}`} style={{ display: "contents" }}>
           <Box
             css={{
-              background: "#22263C",
+              background: "[#22263C]",
+              border: "1px solid",
+              borderColor: "[#29304B]",
               borderRadius: "10px",
               p: "4",
               w: "full",
               display: "flex",
               flexDirection: "column",
-              gap: "3",
+              gap: "6",
               cursor: "pointer",
+              _hover: { opacity: "0.85" },
+              transition: "opacity 0.15s",
             }}
           >
             <VStack css={{ gap: "2.5", alignItems: "flex-start" }}>
-              <Box css={{ fontSize: "sm", fontWeight: "medium", color: "#9EA2BD" }}>From Our Blog</Box>
-              <Box css={{ fontSize: "sm", color: "#FFFFFF", lineHeight: "[20px]" }}>{post.title}</Box>
+              <Box css={{ fontSize: "sm", fontWeight: "medium", color: "[#9EA2BD]" }}>
+                Featured Blog Post
+              </Box>
+              <Box css={{ fontSize: "sm", color: "white", lineHeight: "[20px]" }}>
+                {post.title}
+              </Box>
             </VStack>
-            <Flex css={{ gap: "1.5", alignItems: "center", color: "#FFFFFF" }}>
-              <Box css={{ fontSize: "sm", fontWeight: "medium", whiteSpace: "nowrap" }}>Read Post</Box>
+
+            <Flex css={{ gap: "1.5", alignItems: "center", color: "white" }}>
+              <Box css={{ fontSize: "sm", fontWeight: "medium", whiteSpace: "nowrap" }}>
+                Read Post
+              </Box>
               <ChevronRight />
             </Flex>
           </Box>
