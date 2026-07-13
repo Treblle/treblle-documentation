@@ -7,6 +7,15 @@ export const colors = defineTokens.colors({
     transparent: {
         value: "rgb(0 0 0 / 0)",
     },
+    // Navigation tokens ported from main-website (Figma nav design system)
+    black: { value: "#000000" },
+    white: { value: "#FFFFFF" },
+    bluePrimary: { value: "#0A5EFF" },
+    borderLight: { value: "#f2f2f2" },
+    grey: { value: "#77879D" },
+    darkGrey: { value: "#4B5B6D" },
+    whiteAlpha50: { value: "rgba(255, 255, 255, 0.5)" },
+    whiteAlpha60: { value: "rgba(255, 255, 255, 0.6)" },
     electric: {
         500: {
             value: "#162F6B",
