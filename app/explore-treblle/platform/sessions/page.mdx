@@ -1,0 +1,99 @@
+---
+title: "Sessions Dashboard"
+metaTitle: "Sessions Dashboard - Treblle Documentation"
+description: "The Sessions dashboard in Treblle - Who calls your APIs, When, and What they do"
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Overview
+
+Find the needle in a haystack
+With sessions, you remove the endless stream of requests per user. Each session is a snapshot of user activity you can easily digest.
+
+Catch problems without opening a single log
+Every session has an AI summary that explains what the user intent was and what actually happened in plain English.
+
+Track real usage and performance, per user
+Your team can spot regressions early and measure growth because each session has a request count, duration, and an average load time.
+
+# Sessions Dashboard
+
+The Sessions tab in your API Dashboard provides real-time visibility into who calls your APIs, when, and what they do with it.
+
+What exactly is a session?
+A session is a group of API requests a single user makes during an activity window. It stays open for 30min after their most recent request and keeps extending as long as they're active, up to a max of 4h from the session's start.
+
+## Overview of the Sessions Dashboard
+
+The Sessions dashboard allows you to view and analyze sessions for a given API with two display options:
+
+- **List View**: Displays each session with detailed metrics relevant to that session.
+  
+<ImageCard src="/platform/sessions/sessions - list.png" alt="List View" />
+
+- **Table View**: Offers a compact, tabular format for easier comparisons.
+  
+<ImageCard src="/platform/sessions/sessions - table.png" alt="Table View" />
+
+### Key Metrics
+
+Each session entry includes:
+
+- **Unique Identifier**: Unique identifier of the session
+- **Number of requests related**: How many requests did the consumer do in a particular session
+- **Total Load Time**: Total load time of all requests made within the session
+- **Average Load Time**: Average load time of all requests made within the session
+- **AI Summary**: What did the consumer do throught the session
+- **Consumer ID**: Unique identifier for the client that made the session
+- **Time Taken**: How long did the session last
+- **Time Range**: Time range from when the session started to when it ended
+
+<ImageCard src="/platform/sessions/session card.png" alt="Session Card" />
+
+## Session Details
+
+When you want to know more about a specific session, click on a card to access its detailed view, organized from top to bottom:
+
+- **Session card**: Shows the same details of the session as seen on list page.
+
+- **Associated requests**: Displays all requests made by a consumer within the session time range.
+
+Each request associated can be inspected in detail, just like on Requests page, and each request is organized into tabs:
+
+- **General**: Shows request body, headers, and response data.
+
+- **Info**: Displays metadata such as user agent and IP address.
+
+- **Security**: Highlights potential vulnerabilities.
+
+- **API Compliance**: Validates adherence to compliance standards.
+
+- **Metadata**: Provides debugging details for advanced troubleshooting.
+
+<ImageCard src="/platform/sessions/sessions - single.png" alt="Session Details" />
+
+## Filtering and Sorting
+
+You're asked to give a performance report. And you only need to show all sessions that had a filed request. 
+
+Instead of going through each session, you can filter the sessions in the Sessions page. 
+
+You also have the option to **sort by** by the consumer ID, request count or session date.
+
+<ImageCard src="/platform/sessions/sessions - filter.png" alt="Filter and Sort Options" />
+
+## AI Session Summary
+
+What's the AI summary, and why does it matter?
+Treblle’s AI analyzes every request in a session to generate a 250-character summary of errors, failures, and slow load times. Instead of manually reviewing logs, you can spot unhealthy sessions in seconds.
+
+<ImageCard src="/platform/sessions/generating summary.png" alt="Generating AI summary" />
+<ImageCard src="/platform/sessions/summary.png" alt="Example of a generated summary" />
+
+## How do I enable sessions?
+Sessions are already available in your Treblle Dashboard and are closely tied to our Customer Intelligence product. 
+For sessions to work, you need to send a user-id with a request using the Treblle Metadata feature available via HTTP Headers or directly in your SDK.
+
+<PaginationCards />
