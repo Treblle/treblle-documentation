@@ -79,17 +79,11 @@ cc, card_number, ccv, ssn, credit_score, api_key
 
 ### 3. Treblle Payload Format
 
-Your Integration must format data according to Treblle's JSON schema and send it to one of these endpoints:
+Your Integration must format data according to Treblle's JSON schema and send it to the Treblle Ingress endpoint:
 
 ```
-https://rocknrolla.treblle.com
-https://punisher.treblle.com  
-https://sicario.treblle.com
+https://ingress.treblle.com
 ```
-
-<TipCard>
-Randomly select an endpoint for each request to distribute load across Treblle's infrastructure.
-</TipCard>
 
 ## Implementation Steps
 
@@ -152,13 +146,7 @@ Make an asynchronous POST request:
 
 ```javascript copy
 function sendToTreblle(data) {
-  const endpoints = [
-    'https://rocknrolla.treblle.com',
-    'https://punisher.treblle.com', 
-    'https://sicario.treblle.com'
-  ];
-  
-  const endpoint = endpoints[Math.floor(Math.random() * endpoints.length)];
+  const endpoint = 'https://ingress.treblle.com';
   
   // Send POST request with data
   // Handle errors gracefully - don't break user's API
