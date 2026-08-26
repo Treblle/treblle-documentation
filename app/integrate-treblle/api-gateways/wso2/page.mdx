@@ -328,12 +328,10 @@ After you update a custom property on an API in the WSO2 Publisher portal and re
 
 ### Custom Endpoint Configuration
 
-**Load Balancing (Default Behavior):**
+**Default Behavior:**
 
-If `TREBLLE_GATEWAY_URL` is NOT set, the extension automatically load-balances across Treblle's endpoints:
-- `https://rocknrolla.treblle.com`
-- `https://punisher.treblle.com`
-- `https://sicario.treblle.com`
+If `TREBLLE_GATEWAY_URL` is NOT set, the extension sends data to Treblle's default endpoint:
+- `https://ingress.treblle.com`
 
 **Custom Endpoint:**
 
@@ -414,9 +412,7 @@ If you see "Event queue is full" errors in logs:
 
 3. **Check network connectivity** to Treblle endpoints:
    ```bash copy
-   curl -I https://rocknrolla.treblle.com
-   curl -I https://punisher.treblle.com
-   curl -I https://sicario.treblle.com
+   curl -I https://ingress.treblle.com
    ```
 
 ### Memory Issues
