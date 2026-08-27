@@ -38,21 +38,50 @@ The IIS request thread only pushes a string to an in-memory queue. All network I
 | IIS | 10.0 |
 | Architecture | x64 only |
 | Privileges | Local Administrator (install only) |
-| Visual Studio (to build) | 2022 with "Desktop development with C++" |
-| Windows SDK (to build) | 10.0 |
 
 You will also need a Treblle account with an **API Key** and **SDK Token**.
 
-## Installation
+## Security
 
-### Step 1 — Get the DLL
+### Code signing
 
-**Option A: Download a pre-built release**
+Every `TreblleAgent.dll` on the [Releases page](https://github.com/Treblle/treblle-iis/releases) is digitally signed (Authenticode) with a **Sectigo OV code signing certificate issued to Treblle**. OV means Sectigo verified Treblle as a real, registered company before issuing it. The signature is also timestamped, so it stays valid even after the certificate itself expires.
 
-Download `TreblleAgent.dll` from the [Releases page](https://github.com/Treblle/treblle-iis/releases).
+The practical benefit: Windows and your security tools can see exactly who published the DLL, so it is treated as software from a known company rather than an unknown file. That usually means fewer security exceptions for your team to request before the agent can run:
+
+- **Antivirus and EDR (endpoint detection and response)** - signed binaries rarely trigger the false positives that unsigned native DLLs do, so you typically do not need a per-file allowlist entry
+- **AppLocker and WDAC (Windows Defender Application Control)** - you can allow the agent with a publisher rule for Treblle, which keeps working across updates, instead of a file hash rule that has to be updated every time the DLL changes
+- **SmartScreen** - a signed file from a known publisher is not flagged as an app from an unrecognized publisher
+
+You do not have to do anything with the signature. Windows and your security tools check it automatically. If you or your security team want to see it for yourselves, this is optional but easy:
+
+```powershell copy
+Get-AuthenticodeSignature -FilePath "TreblleAgent.dll" | Format-List Status, StatusMessage, SignerCertificate, TimeStamperCertificate
+```
+
+`Status` should come back as `Valid`, and the signer certificate should be issued to Treblle. If you have the Windows SDK installed, `signtool` shows the same result plus the full certificate chain:
+
+```powershell copy
+signtool verify /pa /v "TreblleAgent.dll"
+```
 
 <CautionCard>
-Windows marks files downloaded from the internet as blocked and IIS may refuse to load them. Before running the installer, unblock the DLL:
+If you check and `Status` is anything other than `Valid` (for example `NotSigned` or `HashMismatch`), the file may have been altered after Treblle published it. Download it again from the official Releases page before installing.
+</CautionCard>
+
+## Installation
+
+### Step 1 - Download the agent
+
+From the [Releases page](https://github.com/Treblle/treblle-iis/releases), download two things:
+
+1. `TreblleAgent.dll` - the agent itself, code-signed by Treblle
+2. The installer package, which contains the `installer\` folder with `install.ps1` and `uninstall.ps1`
+
+Put `TreblleAgent.dll` inside the `installer\` folder so both sit next to each other.
+
+<CautionCard>
+Windows marks any file downloaded from the internet as blocked - signed or not - and IIS may refuse to load a blocked DLL. Unblock it before running the installer:
 
 ```powershell copy
 Unblock-File -Path "TreblleAgent.dll"
@@ -61,23 +90,17 @@ Unblock-File -Path "TreblleAgent.dll"
 Alternatively: right-click the file → **Properties** → tick **Unblock** → **OK**.
 </CautionCard>
 
-**Option B: Build from source**
+<TipCard>
+If you want to confirm the DLL really comes from Treblle before installing it, see [Code signing](#code-signing) above. This is optional.
+</TipCard>
 
-Open `TreblleAgent.sln` in Visual Studio 2022, select **Release | x64**, and build. Or build from the command line:
+### Step 2 - Run the installer
 
-```powershell copy
-msbuild TreblleAgent.sln /p:Configuration=Release /p:Platform=x64
-```
-
-The output is `x64\Release\TreblleAgent.dll`.
-
-### Step 2 — Run the installer
-
-Copy `TreblleAgent.dll` into the `installer\` directory, then run the installer as Administrator:
+Open PowerShell as Administrator, go to the `installer\` folder, and run the install script:
 
 ```powershell copy
 # Right-click PowerShell → Run as Administrator
-cd path\to\treblle-iis\installer
+cd path\to\installer
 .\install.ps1
 ```
 
@@ -97,18 +120,18 @@ The installer will:
 - Copy `TreblleAgent.dll` to `C:\iismodules\treblle\`
 - Prompt you for your **API Key**, **SDK Token**, and optional exclusion patterns
 - Write `C:\iismodules\treblle\treblle.config`
-- Register the agent globally in IIS
+- Register the agent globally in IIS, so it applies to every site on the server
 - Restart IIS
 
-### Step 3 — Grant app-pool permissions (if needed)
+### Step 3 - Grant app-pool permissions (if needed)
 
-On some servers, the new `C:\iismodules\treblle\` directory does not inherit the ACEs needed for IIS worker-process accounts, preventing the DLL from loading. If IIS fails to start after installation, grant read and execute access:
+On some servers, the new `C:\iismodules\treblle\` folder does not inherit permissions for the accounts IIS worker processes run as, so IIS cannot read the DLL and fails to load it. If IIS does not start after installation, give those accounts read and execute access:
 
 ```powershell copy
 # Covers every application pool via the built-in IIS_IUSRS group (recommended)
 icacls "C:\iismodules\treblle" /grant "IIS_IUSRS:(OI)(CI)RX" /T
 
-# Alternative — grant a single named application pool only
+# Alternative - grant a single named application pool only
 icacls "C:\iismodules\treblle" /grant "IIS AppPool\DefaultAppPool:(OI)(CI)RX" /T
 ```
 
@@ -124,7 +147,9 @@ Then restart IIS:
 iisreset
 ```
 
-### Step 4 — Verify
+### Step 4 - Verify
+
+List the registered IIS modules and look for `TreblleAgent`:
 
 ```powershell copy
 %windir%\system32\inetsrv\appcmd.exe list module
@@ -136,7 +161,7 @@ Make a request to one of your API endpoints and check your [Treblle dashboard](h
 
 ## Configuration
 
-The config file lives at `C:\iismodules\treblle\treblle.config`. **Edits take effect immediately** — the agent checks the file modification time on every request and reloads it without an IIS restart.
+The config file lives at `C:\iismodules\treblle\treblle.config`. **Edits take effect immediately** - the agent notices the file has changed and reloads it on the next request, so there is no need to restart IIS.
 
 ```json copy
 {
@@ -164,31 +189,31 @@ The config file lives at `C:\iismodules\treblle\treblle.config`. **Edits take ef
 <InfoTable title="Field" description="Type, Default and Description">
     <InfoTable.Row
         title="api_key"
-        description="string — Required. Your Treblle API key."
+        description="string - Required. Your Treblle API key."
     />
     <InfoTable.Row
         title="sdk_token"
-        description="string — Required. Your Treblle SDK token."
+        description="string - Required. Your Treblle SDK token."
     />
     <InfoTable.Row
         title="treblle_url"
-        description="string — Default: https://ingress.treblle.com. Override only if directed by Treblle support."
+        description="string - Default: https://ingress.treblle.com. Override only if directed by Treblle support."
     />
     <InfoTable.Row
         title="debug"
-        description="bool — Default: false. When true, errors are written to the Windows Application Event Log (source: Treblle). Leave false in production."
+        description="bool - Default: false. When true, errors are written to the Windows Application Event Log (source: Treblle). Leave false in production."
     />
     <InfoTable.Row
         title="disabled"
-        description="bool — Default: false. When true, the agent stops monitoring entirely. Takes effect immediately."
+        description="bool - Default: false. When true, the agent stops monitoring entirely. Takes effect immediately."
     />
     <InfoTable.Row
         title="exclude_routes"
-        description="array — Default: []. List of route objects to exclude from monitoring. Empty means all JSON API traffic is monitored."
+        description="array - Default: []. List of route objects to exclude from monitoring. Empty means all JSON API traffic is monitored."
     />
     <InfoTable.Row
         title="masked_keywords"
-        description="array — List of field names whose values are redacted before sending to Treblle. Omit to use built-in defaults. Set to [] to disable masking."
+        description="array - List of field names whose values are redacted before sending to Treblle. Omit to use built-in defaults. Set to [] to disable masking."
     />
 </InfoTable>
 
@@ -197,17 +222,19 @@ Each object in `exclude_routes`:
 <InfoTable title="Field" description="Required and Description">
     <InfoTable.Row
         title="host"
-        description="string — Required. Hostname to exclude (case-insensitive). Must match the HTTP Host header, excluding port."
+        description="string - Required. Hostname to exclude (case-insensitive). Must match the HTTP Host header, excluding port."
     />
     <InfoTable.Row
         title="path"
-        description="string — Optional. URL path prefix to exclude (case-insensitive). If omitted, the entire host is excluded."
+        description="string - Optional. URL path prefix to exclude (case-insensitive). If omitted, the entire host is excluded."
     />
 </InfoTable>
 
 ## Excluding routes
 
-The agent monitors **all JSON API traffic by default**. A request is excluded only when its `Host` header matches an entry's `host` field, and its URL path starts with the entry's `path` prefix (if specified). All non-JSON responses (HTML, CSS, JS, images) are automatically ignored — no configuration needed.
+The agent monitors **all JSON API traffic by default**. A request is excluded only when its `Host` header matches an entry's `host` field, and its URL path starts with the entry's `path` prefix (if specified). All non-JSON responses (HTML, CSS, JS, images) are automatically ignored - no configuration needed.
+
+The snippets below are example entries for the `exclude_routes` array in your config file. The `//` comments are only there to explain each one - leave them out of the real file.
 
 ```json copy
 // Exclude an entire internal host
@@ -243,27 +270,27 @@ To add custom keywords, specify your full list (it replaces the defaults entirel
 
 ## Updating the agent
 
-Run the installer again — it handles re-registration automatically:
+Download the new `TreblleAgent.dll` from the Releases page, put it in the `installer\` folder, and run the install script again - it handles re-registration automatically:
 
 ```powershell copy
-.\installer\install.ps1
+.\install.ps1
 ```
 
-For a manual update:
+To update manually, stop IIS, replace the DLL with the newly downloaded one, then start IIS again:
 
 ```powershell copy
 iisreset /stop
-Copy-Item new\TreblleAgent.dll C:\iismodules\treblle\TreblleAgent.dll
+Copy-Item path\to\new\TreblleAgent.dll C:\iismodules\treblle\TreblleAgent.dll
 iisreset /start
 ```
 
 ## Uninstalling
 
 ```powershell copy
-.\installer\uninstall.ps1
+.\uninstall.ps1
 ```
 
-This removes the agent from IIS and optionally deletes `C:\iismodules\treblle\` including your `treblle.config`.
+This unregisters the agent from IIS and asks whether you also want to delete `C:\iismodules\treblle\`, which contains your `treblle.config`.
 
 ## Debug mode
 
@@ -278,7 +305,7 @@ Common log entries:
 | `ingress returned HTTP 401` | Check `api_key` and `sdk_token` |
 
 <CautionCard>
-Always set `debug` back to `false` in production — Event Log writes have a small overhead.
+Always set `debug` back to `false` in production - Event Log writes have a small overhead.
 </CautionCard>
 
 ## Troubleshooting
@@ -287,7 +314,7 @@ Always set `debug` back to `false` in production — Event Log writes have a sma
 
 - Confirm you ran the installer as Administrator
 - Look in **Event Viewer → Windows Logs → System** for IIS startup errors
-- Confirm the DLL was compiled for x64 (not x86)
+- Confirm you downloaded the x64 release DLL (the agent does not run on x86)
 
 **Agent is registered but no data appears in Treblle**
 
