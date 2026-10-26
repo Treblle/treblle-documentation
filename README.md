@@ -1,11 +1,30 @@
 # Treblle Documentation
 
-[![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black)](https://nextjs.org/)
-[![Nextra](https://img.shields.io/badge/Nextra-4.5.1-blue)](https://nextra.site/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-blue)](https://www.typescriptlang.org/)
-[![PandaCSS](https://img.shields.io/badge/PandaCSS-1.4.1-orange)](https://panda-css.com/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.1.7-black)](https://nextjs.org/)
+[![Nextra](https://img.shields.io/badge/Nextra-4.6.1-blue)](https://nextra.site/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.3-blue)](https://www.typescriptlang.org/)
+[![PandaCSS](https://img.shields.io/badge/PandaCSS-1.9.0-orange)](https://panda-css.com/)
 
 The official documentation website for [Treblle](https://treblle.com), the API Intelligence Platform that helps engineering and product teams build, ship, and understand their REST APIs in one place.
+
+**Live site:** [docs.treblle.com](https://docs.treblle.com)
+
+---
+
+## Table of Contents
+
+- [About Treblle](#-about-treblle)
+- [Tech Stack](#-tech-stack)
+- [Prerequisites](#-prerequisites)
+- [Quick Start](#-quick-start)
+- [Project Structure](#-project-structure)
+- [Available Scripts](#-available-scripts)
+- [Writing Documentation](#-writing-documentation)
+- [Component Reference](#-component-reference-for-content-authors)
+- [Search](#-search-functionality)
+- [Theming & Styling](#-theming--styling)
+- [Deployment](#-deployment)
+- [Contributing](#-contributing)
 
 ## 🚀 About Treblle
 
@@ -355,19 +374,56 @@ pnpm start
 
 ## 🤝 Contributing
 
-We welcome contributions to improve the Treblle documentation!
+Whether you're fixing a typo, improving an explanation, or adding a new docs page — here's how to do it.
 
-### Getting Started
+### 1. Set up locally
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/your-feature`
-3. Make your changes
-4. Test locally: `pnpm dev`
-5. Submit a pull request
+Follow the [Quick Start](#-quick-start) steps above to get the dev server running.
 
-### Guidelines
+### 2. Create a branch
 
-- Follow the existing code style (ESLint + Prettier configured)
-- Write clear commit messages
-- Test your changes thoroughly
-- Update documentation as needed
+Branch off `main` using kebab-case names that describe what you're changing:
+
+```bash
+git checkout -b add-nodejs-sdk-page
+git checkout -b fix-broken-links
+git checkout -b update-getting-started
+```
+
+### 3. Make your changes
+
+- For new or updated documentation, see the [Writing Documentation](#-writing-documentation) and [Component Reference](#-component-reference-for-content-authors) sections
+- Check your changes look correct at [http://localhost:3000](http://localhost:3000)
+
+### 4. Before committing
+
+Run these checks — the CI pipeline will catch them anyway, so it's faster to fix locally:
+
+```bash
+pnpm lint          # ESLint
+pnpm typecheck     # TypeScript
+pnpm format:check  # Prettier
+
+# Fix formatting automatically:
+pnpm format:fix
+```
+
+### 5. Commit your changes
+
+Use `pnpm commit` for a guided commit message prompt (follows [Conventional Commits](https://www.conventionalcommits.org/)):
+
+```bash
+pnpm commit
+```
+
+Or write the message manually using the conventional format:
+
+```
+feat: add PHP SDK documentation page
+fix: correct broken link in quickstart guide
+docs: update getting started prerequisites
+```
+
+### 6. Open a pull request
+
+Push your branch and open a PR against `main`. Add a short description of what changed and why. PRs are squash-merged.
