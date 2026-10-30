@@ -1,5 +1,9 @@
 import type { ComponentPropsWithoutRef } from "react";
 
+// XML namespace identifiers must match exactly; this is not a fetchable URL.
+// eslint-disable-next-line unicorn/prefer-https
+const XLINK_NAMESPACE = "http://www.w3.org/1999/xlink";
+
 const TreblleLogo = (properties: ComponentPropsWithoutRef<"svg">) => (
     <svg
         id="Layer_1"
@@ -282,7 +286,7 @@ const IoT = (properties: ComponentPropsWithoutRef<"svg">) => (
         viewBox="0 0 24 25"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
+        xmlnsXlink={XLINK_NAMESPACE}
         {...properties}
     >
         <title>iot</title>
@@ -521,7 +525,7 @@ const Menu = (properties: ComponentPropsWithoutRef<"svg">) => (
         viewBox="0 0 26 18"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
+        xmlnsXlink={XLINK_NAMESPACE}
         {...properties}
     >
         <title>Menu</title>
@@ -1126,7 +1130,7 @@ const Implementation = (properties: ComponentPropsWithoutRef<"svg">) => (
         viewBox="0 0 25 25"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
+        xmlnsXlink={XLINK_NAMESPACE}
         {...properties}
     >
         <g id="knowledgebase" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
@@ -1156,7 +1160,7 @@ const Telescope = (properties: ComponentPropsWithoutRef<"svg">) => (
         viewBox="0 0 26 25"
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
-        xmlnsXlink="http://www.w3.org/1999/xlink"
+        xmlnsXlink={XLINK_NAMESPACE}
         {...properties}
     >
         <title>Combined Shape</title>

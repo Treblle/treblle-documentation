@@ -1,12 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
-import TurndownService from "turndown";
 import * as cheerio from "cheerio";
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import TurndownService from "turndown";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(
     _request: NextRequest,
-    { params }: { params: Promise<{ page?: string[] }> }
+    { params }: { params: Promise<{ page?: Array<string> }> }
 ) {
     try {
         const { page } = await params;
@@ -33,7 +34,9 @@ export async function GET(
         }
 
         if (trustedBaseUrl.protocol !== "http:" && trustedBaseUrl.protocol !== "https:") {
-            return new NextResponse("Server misconfiguration: invalid base URL protocol", { status: 500 });
+            return new NextResponse("Server misconfiguration: invalid base URL protocol", {
+                status: 500,
+            });
         }
 
         const targetUrl = new URL(originalPath, trustedBaseUrl).toString();
@@ -80,11 +83,13 @@ export async function GET(
             "noscript",
         ];
 
-        selectorsToRemove.forEach((selector) => {
+        for (const selector of selectorsToRemove) {
             $(selector).remove();
-        });
+        }
 
-        let mainContent = $("main[data-pagefind-body]").html() || $("main").html() || "";
+        // `||` (not `??`) so an empty pagefind body still falls back to <main>
+        // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+        const mainContent = $("main[data-pagefind-body]").html() || $("main").html() || "";
         if (!mainContent) {
             return new NextResponse("No content found", { status: 404 });
         }
@@ -100,7 +105,7 @@ export async function GET(
 
         const markdown = turndownService.turndown(mainContent);
 
-        const cleanedMarkdown = markdown.replace(/\n{3,}/g, "\n\n").trim();
+        const cleanedMarkdown = markdown.replaceAll(/\n{3,}/g, "\n\n").trim();
 
         return new NextResponse(cleanedMarkdown, {
             status: 200,

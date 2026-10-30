@@ -19,26 +19,26 @@ const latestBlogPostQuery = `
   }
 `;
 
-export async function getFeaturedStory(): Promise<FeaturedStory | null> {
-  try {
-    return await sanityClient.fetch<FeaturedStory | null>(
-      featuredStoryQuery,
-      {},
-      { next: { tags: ["customerStory"] } },
-    );
-  } catch {
-    return null;
-  }
+export async function getFeaturedStory(): Promise<FeaturedStory | null | undefined> {
+    try {
+        return await sanityClient.fetch<FeaturedStory | null>(
+            featuredStoryQuery,
+            {},
+            { next: { tags: ["customerStory"] } }
+        );
+    } catch {
+        return undefined;
+    }
 }
 
-export async function getLatestBlogPost(): Promise<LatestBlogPost | null> {
-  try {
-    return await sanityClient.fetch<LatestBlogPost | null>(
-      latestBlogPostQuery,
-      {},
-      { next: { tags: ["blogPost"] } },
-    );
-  } catch {
-    return null;
-  }
+export async function getLatestBlogPost(): Promise<LatestBlogPost | null | undefined> {
+    try {
+        return await sanityClient.fetch<LatestBlogPost | null>(
+            latestBlogPostQuery,
+            {},
+            { next: { tags: ["blogPost"] } }
+        );
+    } catch {
+        return undefined;
+    }
 }
