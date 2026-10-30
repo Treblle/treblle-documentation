@@ -1,5 +1,9 @@
-import nextra from "nextra";
 import type { NextConfig } from "next";
+import type { WebpackConfigContext } from "next/dist/server/config-shared";
+import nextra from "nextra";
+
+type WebpackRule = { test?: unknown; use?: unknown; oneOf?: Array<WebpackRule> } | null | undefined;
+type WebpackConfig = { module: { rules: Array<WebpackRule> } };
 
 // Set up Nextra with its configuration
 const withNextra = nextra({
@@ -14,8 +18,39 @@ const withNextra = nextra({
 });
 
 const nextConfig: NextConfig = {
-    async redirects() {
-        return [
+    // Workaround for a Next.js >=16.2 webpack regression: Nextra's MDX rule uses the
+    // layer-less `defaultLoaders.babel`, so page.mdx files miss the RSC layer and
+    // `export const metadata` fails with "marked with use client".
+    // Mirrors the upstream fix: https://github.com/vercel/next.js/pull/95057
+    // Remove once that fix ships in a Next.js release.
+    webpack(
+        config: WebpackConfig,
+        { isServer, nextRuntime, defaultLoaders }: WebpackConfigContext
+    ) {
+        if (!isServer || nextRuntime !== "nodejs") return config;
+
+        const swcLoader = defaultLoaders.babel as { options: object };
+        const rscSwcLoader = {
+            ...swcLoader,
+            options: { ...swcLoader.options, bundleLayer: "rsc", esm: true },
+        };
+        const markdownRule = config.module.rules.find(
+            (rule) =>
+                rule?.test instanceof RegExp &&
+                rule.test.test("page.mdx") &&
+                Array.isArray(rule.oneOf)
+        );
+        for (const branch of markdownRule?.oneOf ?? []) {
+            if (branch && Array.isArray(branch.use)) {
+                branch.use = branch.use.map((use: unknown) =>
+                    use === swcLoader ? rscSwcLoader : use
+                );
+            }
+        }
+        return config;
+    },
+    redirects() {
+        return Promise.resolve([
             // ============================================================================
             // SDK TO INTEGRATIONS MIGRATION REDIRECTS
             // ============================================================================
@@ -556,7 +591,7 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/resources/use-case-tutorials",
-                destination:"/resources/use-case-tutorials/monitor-first-api",
+                destination: "/resources/use-case-tutorials/monitor-first-api",
                 permanent: true,
             },
             {
@@ -1118,7 +1153,7 @@ const nextConfig: NextConfig = {
                 destination: "/integrate-treblle/treblle-integrations",
                 permanent: true,
             },
-        ];
+        ]);
     },
 };
 
