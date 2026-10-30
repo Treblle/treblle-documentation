@@ -6,9 +6,13 @@ type FAQProperties = {
 };
 
 export function FAQ({ children }: FAQProperties) {
-    return <Box className={css({
-        marginBottom: "60px",
-    })}>
-        {children}
-    </Box>;
+    return (
+        <Box
+            className={css({
+                marginBottom: "60px",
+            })}
+        >
+            {children}
+        </Box>
+    );
 }
