@@ -13,7 +13,61 @@ const withNextra = nextra({
     },
 });
 
+/**
+ * Next.js >= 16.4 passes `pageExtensions` (which Nextra extends with `mdx`) to SWC,
+ * so `.mdx` app pages are now checked for "metadata exported from a client component".
+ * Nextra 4.6.1 compiles MDX with Next's generic SWC loader, which carries no bundle
+ * layer, so SWC assumes the client layer and every MDX page fails that check.
+ *
+ * Fix: for MDX modules compiled in the React Server Components layer, use a copy of
+ * the SWC loader that is told it runs in that layer (as Next does for its own .tsx
+ * server files). Remove once Nextra ships a fix.
+ */
+const RSC_LAYER = "rsc";
+
+type LoaderItem = { loader?: string; options?: Record<string, unknown> } | string;
+type Rule = { test?: unknown; oneOf?: Array<Rule>; use?: unknown; issuerLayer?: string };
+type WebpackConfig = { module?: { rules?: Array<unknown> } };
+
+function useServerLayerSwcLoaderForMdx(config: WebpackConfig, defaultSwcLoader: LoaderItem): void {
+    if (typeof defaultSwcLoader !== "object" || !defaultSwcLoader.options) {
+        return;
+    }
+    const rscSwcLoader = {
+        ...defaultSwcLoader,
+        options: {
+            ...defaultSwcLoader.options,
+            bundleLayer: RSC_LAYER,
+            serverComponents: true,
+            esm: true,
+        },
+    };
+
+    for (const rule of (config.module?.rules ?? []) as Array<Rule | null | undefined>) {
+        if (!rule || typeof rule !== "object" || !(rule.test instanceof RegExp)) continue;
+        if (!rule.test.test("page.mdx") || !Array.isArray(rule.oneOf)) continue;
+
+        rule.oneOf = rule.oneOf.flatMap((branch: Rule) => {
+            if (!branch || typeof branch !== "object" || !Array.isArray(branch.use)) {
+                return [branch];
+            }
+            const serverBranch: Rule = {
+                ...branch,
+                issuerLayer: RSC_LAYER,
+                use: (branch.use as Array<unknown>).map((item) =>
+                    item === defaultSwcLoader ? rscSwcLoader : item
+                ),
+            };
+            return [serverBranch, branch];
+        });
+    }
+}
+
 const nextConfig: NextConfig = {
+    webpack(config: WebpackConfig, options: { defaultLoaders: { babel: LoaderItem } }) {
+        useServerLayerSwcLoaderForMdx(config, options.defaultLoaders.babel);
+        return config;
+    },
     async redirects() {
         return [
             // ============================================================================
@@ -556,7 +610,7 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/resources/use-case-tutorials",
-                destination:"/resources/use-case-tutorials/monitor-first-api",
+                destination: "/resources/use-case-tutorials/monitor-first-api",
                 permanent: true,
             },
             {
