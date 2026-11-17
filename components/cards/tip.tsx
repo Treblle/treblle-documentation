@@ -26,7 +26,7 @@ export function TipCard({ children }: { readonly children: React.ReactNode }) {
                     Tip
                 </h1>
             </Box>
-            <p className={css({ marginTop: "0" })}>{children}</p>
+            <div className={css({ marginTop: "0" })}>{children}</div>
         </InfoCard>
     );
 }

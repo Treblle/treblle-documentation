@@ -1,0 +1,27 @@
+diff --git a/dist/mdx-components/wrapper.client.js b/dist/mdx-components/wrapper.client.js
+index 2805d8bc2499ddaca5df9848e5d6809faf847c5d..76ae6446c92ae6b0903eec426e681c3fc14a6ebe 100644
+--- a/dist/mdx-components/wrapper.client.js
++++ b/dist/mdx-components/wrapper.client.js
+@@ -5,6 +5,13 @@ import cn from "clsx";
+ import { cloneElement } from "react";
+ import { Breadcrumb, CopyPage, Pagination, TOC } from "../components";
+ import { useConfig, useThemeConfig } from "../stores";
++// Patched: in development, React (Next >= 16.4) may pass this element to the client as a
++// lazy wrapper. cloneElement() on a lazy wrapper yields an element with an undefined type
++// ("Element type is invalid" 500s in `next dev`), so unwrap it first. No-op in production.
++const REACT_LAZY_TYPE = Symbol.for("react.lazy");
++function unwrapLazy(element) {
++  return element && element.$$typeof === REACT_LAZY_TYPE ? element._init(element._payload) : element;
++}
+ const ClientWrapper = (t0) => {
+   const $ = _c(31);
+   const {
+@@ -61,7 +68,7 @@ const ClientWrapper = (t0) => {
+   }
+   let t6;
+   if ($[14] !== date || $[15] !== themeConfig.lastUpdated) {
+-    t6 = date ? /* @__PURE__ */ jsx("div", { className: "x:mt-12 x:mb-8 x:text-xs x:text-gray-600 x:text-end x:dark:text-gray-400", children: cloneElement(themeConfig.lastUpdated, {
++    t6 = date ? /* @__PURE__ */ jsx("div", { className: "x:mt-12 x:mb-8 x:text-xs x:text-gray-600 x:text-end x:dark:text-gray-400", children: cloneElement(unwrapLazy(themeConfig.lastUpdated), {
+       date: new Date(date)
+     }) }) : /* @__PURE__ */ jsx("div", { className: "x:mt-16" });
+     $[14] = date;
