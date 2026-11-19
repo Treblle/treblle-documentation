@@ -19,7 +19,6 @@ import MobileSidebarToggle from "~components/ui/mobile-sidebar-toggle";
 import { Box } from "~styled-system/jsx";
 
 import { fontClassName } from "../styles/fonts";
-import MyStatsig from "./my-statsig";
 import { getFeaturedStory, getLatestBlogPost } from "~sanity/nav-queries";
 
 export const metadata: Metadata = {
@@ -67,10 +66,8 @@ export default async function RootLayout({ children }: { readonly children: Reac
                         copyPageButton={false}
                     >
                         <GoogleAnalytics />
-                        <MyStatsig>
-                            <MobileSidebarToggle title="Treblle Docs" sectionClass="nextra-sidebar" />
-                            {children}
-                        </MyStatsig>
+                        <MobileSidebarToggle title="Treblle Docs" sectionClass="nextra-sidebar" />
+                        {children}
                     </Layout>
                 </Box>
             </body>
