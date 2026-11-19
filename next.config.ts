@@ -13,7 +13,69 @@ const withNextra = nextra({
     },
 });
 
+// TODO: Nextra 4.6.1 workarounds for Next.js 16.4. When upgrading nextra / nextra-theme-docs
+// past 4.6.1, check whether they are still needed and remove them if not:
+//   1. `excludeMdxFromSwcPageExtensions` below (fixes `next build` failing on MDX `metadata`).
+//   2. The pnpm patch `patches/nextra-theme-docs@4.6.1.patch`, together with the
+//      `pnpm.patchedDependencies` entry in package.json (fixes "Element type is invalid"
+//      500s in `next dev`). Then run `pnpm install`. pnpm also errors if the patch
+//      no longer applies to a new nextra-theme-docs version.
+/**
+ * Next.js >= 16.4 passes `pageExtensions` (which Nextra extends with `mdx`) to SWC, so SWC
+ * now treats `.mdx` files as app pages and rejects their `metadata` export ("metadata
+ * exported from a client component"): Nextra 4.6.1 compiles MDX with Next's generic SWC
+ * loader, which has no server-layer info. Next <= 16.3 never treated `.mdx` as a page here.
+ *
+ * Fix: give Nextra's MDX rule its own copy of that loader whose config leaves `mdx` out of
+ * `pageExtensions`, restoring the pre-16.4 behaviour for `.mdx` files only. Routing is
+ * unaffected (it reads `pageExtensions` from the real config). Remove once Nextra ships a fix.
+ */
+type LoaderItem = { loader?: string; options?: Record<string, unknown> } | string;
+type Rule = { test?: unknown; oneOf?: Array<Rule>; use?: unknown };
+type WebpackConfig = { module?: { rules?: Array<unknown> } };
+
+function excludeMdxFromSwcPageExtensions(
+    config: WebpackConfig,
+    defaultSwcLoader: LoaderItem
+): void {
+    const nextOptions = typeof defaultSwcLoader === "object" ? defaultSwcLoader.options : undefined;
+    const loaderNextConfig = nextOptions?.["nextConfig"] as
+        | { pageExtensions?: Array<string> }
+        | undefined;
+    if (!nextOptions || !loaderNextConfig?.pageExtensions) return;
+
+    const mdxSwcLoader = {
+        ...(defaultSwcLoader as object),
+        options: {
+            ...nextOptions,
+            nextConfig: {
+                ...loaderNextConfig,
+                pageExtensions: loaderNextConfig.pageExtensions.filter(
+                    (ext) => ext !== "md" && ext !== "mdx"
+                ),
+            },
+        },
+    };
+
+    for (const rule of (config.module?.rules ?? []) as Array<Rule | null | undefined>) {
+        if (!rule || typeof rule !== "object" || !(rule.test instanceof RegExp)) continue;
+        if (!rule.test.test("page.mdx") || !Array.isArray(rule.oneOf)) continue;
+
+        for (const branch of rule.oneOf) {
+            if (branch && typeof branch === "object" && Array.isArray(branch.use)) {
+                branch.use = branch.use.map((item: unknown) =>
+                    item === defaultSwcLoader ? mdxSwcLoader : item
+                );
+            }
+        }
+    }
+}
+
 const nextConfig: NextConfig = {
+    webpack(config: WebpackConfig, options: { defaultLoaders: { babel: LoaderItem } }) {
+        excludeMdxFromSwcPageExtensions(config, options.defaultLoaders.babel);
+        return config;
+    },
     async redirects() {
         return [
             // ============================================================================
@@ -556,7 +618,7 @@ const nextConfig: NextConfig = {
             },
             {
                 source: "/resources/use-case-tutorials",
-                destination:"/resources/use-case-tutorials/monitor-first-api",
+                destination: "/resources/use-case-tutorials/monitor-first-api",
                 permanent: true,
             },
             {

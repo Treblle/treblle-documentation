@@ -32,7 +32,7 @@ export function CautionCard({ children }: { readonly children: React.ReactNode }
                     Caution
                 </h1>
             </Box>
-            <p className={css({ marginTop: "0" })}>{children}</p>
+            <div className={css({ marginTop: "0" })}>{children}</div>
 
         </InfoCard>
     );

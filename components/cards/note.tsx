@@ -32,7 +32,7 @@ export function NoteCard({ children }: { readonly children: React.ReactNode }) {
                     Note
                 </h1>
             </Box>
-            <p className={css({ marginTop: "0" })}>{children}</p>
+            <div className={css({ marginTop: "0" })}>{children}</div>
         </InfoCard>
     );
 }
