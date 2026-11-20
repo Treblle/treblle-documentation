@@ -7,12 +7,9 @@ import {
     tsTypecheckDisabled,
     tsTypechecked,
     prettier,
-} from "./eslint.base.js";
+} from "./eslint.base";
 
 export default tseslint.config(
-    {
-        ignores: [".next/**", "styled-system/**", "node_modules/**"],
-    },
     {
         files: ["**/*.{ts,tsx}"],
         extends: [base, browser, react, next, tsTypechecked],

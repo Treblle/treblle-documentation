@@ -31,7 +31,7 @@ const base = tseslint.config({
     },
     rules: {
         ...eslint.configs.recommended.rules,
-        ...eslintPluginUnicorn.configs.recommended.rules,
+        ...eslintPluginUnicorn.configs["flat/recommended"].rules,
         "simple-import-sort/imports": "error",
         "simple-import-sort/exports": "error",
         "unicorn/better-regex": "warn",
@@ -74,9 +74,11 @@ const react = tseslint.config({
     },
     plugins: {
         react: reactPlugin,
+        // @ts-expect-error - types are wrong
         "react-hooks": reactHooks,
         "jsx-a11y": jsxA11y,
     },
+    // @ts-expect-error - types are wrong
     rules: {
         ...reactPlugin.configs.flat?.["recommended"].rules,
         ...reactPlugin.configs.flat?.["jsx-runtime"].rules,
@@ -96,6 +98,7 @@ const next = tseslint.config({
     plugins: {
         "@next/next": pluginNext,
     },
+    // @ts-expect-error - types are wrong
     rules: {
         ...pluginNext.configs.recommended.rules,
         ...pluginNext.configs["core-web-vitals"].rules,
