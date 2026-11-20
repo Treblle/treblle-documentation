@@ -15,6 +15,9 @@ export default defineConfig({
     // Files to exclude
     exclude: [],
 
+    // Presets are explicit in v2 — preset-base must be listed to get utilities, conditions and patterns
+    presets: ["@pandacss/preset-base"],
+
     // Useful for theme customization
     theme: {
         extend: {
@@ -30,4 +33,6 @@ export default defineConfig({
 
     jsxFramework: "react",
     jsxStyleProps: "minimal",
+    outExtension: "js",
+    forceImportExtension: true,
 });
