@@ -15,8 +15,8 @@ export default defineConfig({
     // Files to exclude
     exclude: [],
 
-    // Presets are explicit in v2 — preset-base must be listed to get utilities, conditions and patterns
-    presets: ["@pandacss/preset-base"],
+    // Presets are explicit in v2: preset-base = utilities/conditions/patterns, preset-panda = default tokens (spacing, sizes, radii, shadows, colors)
+    presets: ["@pandacss/preset-base", "@pandacss/preset-panda"],
 
     // Useful for theme customization
     theme: {
