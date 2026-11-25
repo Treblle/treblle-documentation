@@ -1,0 +1,110 @@
+---
+title: "Agents"
+metaTitle: "Agents – AI-Powered API Automation - Treblle Documentation"
+description: "Use Treblle's AI Agents to automate API tasks like building OpenAPI specs, refactoring code, generating SDKs, building CLIs and MCP servers, and fixing governance issues."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { InfoCard } from "~components/cards/info-card";
+import { InfoCards } from "~components/cards/info-cards";
+import { NoteCard } from "~components/cards/note";
+import { TipCard } from "~components/cards/tip";
+import { InfoTable } from "~components/tables/info-table";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Agents
+
+The **Agents** page gives you a full view of all AI-powered automation jobs running against a specific API. Agents perform complex tasks on your behalf — from generating an OpenAPI specification from live traffic to refactoring your codebase — so your team can move faster without manual work.
+
+## Overview
+
+The Agents page shows four status widgets at the top, giving you an instant picture of your automation workload:
+
+<InfoCards>
+    <InfoCard type="group">
+        <InfoCard.title>Pending</InfoCard.title>
+        <InfoCard.description>
+            Jobs that have been queued and are waiting to start.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>In Progress</InfoCard.title>
+        <InfoCard.description>
+            Jobs currently being executed by an agent.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Completed</InfoCard.title>
+        <InfoCard.description>
+            Jobs that finished successfully.
+        </InfoCard.description>
+    </InfoCard>
+    <InfoCard type="group">
+        <InfoCard.title>Failed</InfoCard.title>
+        <InfoCard.description>
+            Jobs that encountered an error during execution.
+        </InfoCard.description>
+    </InfoCard>
+</InfoCards>
+
+Below the widgets, all agent jobs are listed as cards. Each card shows the agent type, its current status, who created it, and when it was started.
+
+## Creating a New Agent Job
+
+Click the **New Agent** button in the top-right corner to open the agent type selector. Choose from the following agent types:
+
+<InfoTable title="Available Agent Types" description="What each agent does">
+    <InfoTable.Row
+        title="Build OpenAPI Spec"
+        description="Generates an OpenAPI specification for your API based on observed traffic. Requires GitHub to be connected if you want to push the spec to your repository."
+    />
+    <InfoTable.Row
+        title="Refactor API"
+        description="Analyzes your API code and suggests or applies refactoring improvements. Requires GitHub to be connected."
+    />
+    <InfoTable.Row
+        title="Build SDK"
+        description="Generates a client SDK for your API in a target language. Requires GitHub to be connected."
+    />
+    <InfoTable.Row
+        title="Build CLI"
+        description="Creates a command-line interface for your API. Requires GitHub to be connected."
+    />
+    <InfoTable.Row
+        title="Build MCP"
+        description="Generates a Model Context Protocol (MCP) server for your API, making it accessible to AI assistants and tools."
+    />
+    <InfoTable.Row
+        title="Integrate Treblle"
+        description="Automatically integrates the Treblle SDK into your codebase so your API starts sending traffic to Treblle. Only shown if the API is not yet integrated."
+    />
+    <InfoTable.Row
+        title="Fix Run-Time Governance"
+        description="Analyzes run-time governance violations and applies fixes to bring your API back into compliance."
+    />
+</InfoTable>
+
+<NoteCard>
+Most agent types require a GitHub connection. Connect GitHub in **Workspace Settings** before running agents that modify or push code.
+</NoteCard>
+
+## Agent Job Cards
+
+Each job in the list shows:
+
+- **Agent type** — what the agent was asked to do
+- **Status** — Pending, In Progress, Completed, or Failed
+- **Started at** — timestamp of when the job began executing
+- **Created by** — the workspace member who triggered the job
+
+Click on a job card to open the **Job Drawer**, which shows the full execution log, output, and any files or artifacts produced by the agent.
+
+## Filtering and Sorting
+
+Use the **Filter** button to narrow down jobs by status or agent type. Use the **Sort** dropdown to order the list by creation date or status.
+
+<TipCard>
+If a job fails, open the job drawer to review the error log. Common causes include missing GitHub permissions or an API that hasn't received enough traffic for the agent to work with.
+</TipCard>
+
+<PaginationCards />

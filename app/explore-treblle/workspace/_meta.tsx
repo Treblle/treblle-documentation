@@ -1,5 +1,7 @@
 export default {
     "home": "Home",
     "apis": "APIs",
-    "catalog": "Catalog"
+    "catalog": "Catalog",
+    "trace": "Trace",
+    "security-dashboard": "Security Dashboard"
   }

@@ -1,7 +1,7 @@
 ---
-title: "Customers"
-metaTitle: "Track API Usage by Customer - Treblle Documentation"
-description: "Gain insights into how individual customers use your API. Track request history, analyze trends, and optimize API performance with Treblle's Customer Dashboard at the API level."
+title: "Consumers"
+metaTitle: "Track API Usage by Consumer - Treblle Documentation"
+description: "Gain insights into how individual consumers use your API. Track request history, analyze trends, and optimize API performance with Treblle's Consumers Dashboard at the API level."
 ---
 
 import { YoutubeEmbed } from "~components/video/youtube-embed";
@@ -13,15 +13,15 @@ import { CautionCard } from "~components/cards/caution";
 import { InfoCards } from "~components/cards/info-cards";
 import PaginationCards from "~components/cards/pagination-cards";
 
-# Customers
+# Consumers
 
-The Customer Dashboard in Treblle provides a comprehensive view of your API's usage by individual customers. 
+The Consumers Dashboard in Treblle provides a comprehensive view of your API's usage by individual consumers.
 
-It helps you understand how different customers interact with your API, identify trends in their usage patterns, and pinpoint potential issues or areas for improvement.
+It helps you understand how different consumers interact with your API, identify trends in their usage patterns, and pinpoint potential issues or areas for improvement.
 
 <YoutubeEmbed postId="oW3jfC-WNSs" />
 
-## Customer Workspace Access
+## Consumer Workspace Access
 
 <InfoCard type="individual">
     <InfoCard.title>Important: Customer ID Uniqueness Requirement</InfoCard.title>
@@ -179,12 +179,12 @@ req.headers['treblle-metadata'] = JSON.stringify({
     </InfoCard>
 </InfoCards>
 
-## Accessing the Customer Dashboard
+## Accessing the Consumers Dashboard
 
-The Customer Dashboard is available at the **individual API level**. To access it:
+The Consumers Dashboard is available at the **individual API level**. To access it:
 
 1. Navigate to the specific API you want to analyze.
-2. Click on **"Customers"** in the left navigation bar.
+2. Click on **"Consumers"** in the left navigation bar.
 
 <ImageCard src="/platform/customers/customer.png" alt="Customer Navigation" />
 
@@ -196,13 +196,13 @@ At the workspace level (Home page), you can view a **Top Customers widget** show
 
 <ImageCard src="/platform/customers/workspace-level.jpg" alt="Workspace Level Customers" />
 
-## Customer Dashboard Overview
+## Consumers Dashboard Overview
 
-The Customer Dashboard provides a comprehensive overview of all customers using your API. 
+The Consumers Dashboard provides a comprehensive overview of all consumers using your API.
 
 Here's what you'll find:
-    
-- **Customer Profiles:**  A list of all your customers, identified by their display name or Customer ID. When available, Treblle shows the customer's display name for easier identification instead of technical IDs.
+
+- **Consumer Profiles:**  A list of all your consumers, identified by their display name or Consumer ID. When available, Treblle shows the consumer's display name for easier identification instead of technical IDs.
 - **Request Count:**  The total number of API requests each customer makes.
 - **Overall Percentage:** The percentage of total API requests attributed to each customer, giving you a sense of their impact on your API traffic.
 - **Last Active:** A timestamp indicating when each customer made their last API request.
@@ -225,19 +225,19 @@ You can customize the Customer Dashboard to show the widgets that matter most to
 
 <ImageCard src="/platform/customers/widget.jpg" alt="Dashboard Customization" />
 
-## Individual Customer Profile
+## Individual Consumer Profile
 
-Click on any customer from the list to access their detailed profile and request history.
+Click on any consumer from the list to access their detailed profile and request history.
 
-### Customer Profile Overview
+### Consumer Profile Overview
 
-The Individual Customer Profile provides:
+The Individual Consumer Profile provides:
 
-- **Customer Name:**  The display name or customer ID at the top of the page
-- **Total Requests:**  The total number of API requests made by this customer
-- **Overall Percentage:**  The percentage of total API requests attributed to this customer
-- **Request Graph:**  A visual representation of the customer's API request activity over time, helping you identify peak usage periods, trends, and potential anomalies
-- **Description Field:**  Space to add notes or context about the customer
+- **Consumer Name:**  The display name or consumer ID at the top of the page
+- **Total Requests:**  The total number of API requests made by this consumer
+- **Overall Percentage:**  The percentage of total API requests attributed to this consumer
+- **Request Graph:**  A visual representation of the consumer's API request activity over time, helping you identify peak usage periods, trends, and potential anomalies
+- **Description Field:**  Space to add notes or context about the consumer
 
 <ImageCard src="/platform/customers/individual-customer.jpg" alt="Individual Customer Profile" />
 
