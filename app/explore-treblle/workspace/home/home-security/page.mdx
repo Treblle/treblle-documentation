@@ -1,127 +1,143 @@
 ---
-title: "Home-Security"
+title: "Security"
 metaTitle: "Home - Security - Treblle Documentation"
-description: "The **Home-Security dashboard** provides a real-time overview of your API security posture across all environments, gateways, and services."
+description: "The Security tab on the Home dashboard provides a real-time overview of your API security posture across all environments, gateways, and services."
 ---
 
 import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
 import PaginationCards from "~components/cards/pagination-cards";
 
+# Security
 
-# Home-Security dashboard
+The **Security** tab provides a real-time overview of your API security posture across all environments, gateways, and services. It aggregates key safety metrics into a single view so you can quickly understand what risks exist across your APIs.
 
-The **Home-Security dashboard** provides a real-time overview of your API security posture across all environments, gateways, and services. It aggregates key safety metrics into a single view so you can quickly understand what risks exist across your APIs.
-
-This dashboard is powered by real-time API traffic analysis so you can see what's happening with your APIs in production.
+<NoteCard>
+The Security tab requires a **Team** or **Enterprise** plan.
+</NoteCard>
 
 <ImageCard src="/Home - security.png" alt="Home Security Dashboard" />
 
 ## Security Overview Cards
 
-Below the top banner are key security indicators:
+Four top-level metrics summarize the overall security state of your workspace:
 
 <ImageCard src="/Home - security - 1.png" alt="Security Overview Cards" />
 
-### Vulnerable APIs
-Number of APIs currently flagged with known issues or risks.
+### Security Fail
+Number of APIs currently failing security checks.
 
-### APIs with Incidents
-APIs that have triggered security or operational incidents.
+- Indicates immediate security risks requiring attention
+- Shows count with percentage change trend
+
+### Problematic APIs
+Number of APIs with detected security issues or vulnerabilities.
+
+- Helps prioritize remediation efforts
+- Shows count with percentage change indicator
 
 ### Zombie APIs
 APIs that exist but show little or no recent activity — often forgotten and unmaintained.
 
-### Non-Compliant APIs
-APIs that violate governance, security, or compliance standards.
+- Increases attack surface and maintenance burden
+- Shown as a total count with trend
+
+### Compliance Fail
+Number of APIs failing compliance checks across the workspace.
+
+- Essential for maintaining GDPR, PCI DSS, HIPAA compliance
+- Shows count with percentage change
 
 ---
 
-## PII Footprint
+## Vulnerability Analysis
 
-This table highlights APIs that may expose sensitive data.
-
-<ImageCard src="/Home - security - 2.png" alt="PII Footprint" />
-
-- **API**: API name
-- **Risk**: Severity level (Low, Medium, High)
-- **Problems**: Number of detected issues
-- **Occurrences**: Frequency of incidents
-- **Last Occurrence**: Most recent detection
-
-### Impacted Customers
-This section shows how security issues affect real users.
-
-- **Customer**:  Which customers are impacted
-- **API**: Which APIs are involved
-- **Failed Requests**: Number of failed or problematic requests
-
----
-
-## API Distribution and Vulnerability Analysis
-
-Understanding exposure types helps assess risk boundaries.
-
-<ImageCard src="/Home - security - 3.png" alt="API Distribution and Vulnerability Analysis" />
-
-### APIs by Type
-Breakdown of APIs by:
-- Internal
-- External
-- Partner
-
-### BFLA (Broken Function Level Authorization)
-Shows APIs vulnerable to authorization flaws.
-
-- **API**: Name of the API
-- **BFLA #**: Number of requests that failed the BFLA mechanism check 
-
-### Authentication Types:
-Displays the security level of APIs.
-
-- **API**: Name of the API
-- **Authentication**: The authentication level can be basic, bearer, custom, or No Auth (Authentication)
-- **Status Indicator**: Status can be secure (proper and in place), risky (weak or misconfigured), or No Auth 
-
-### BOLA (Broken Object Level Authorization)
-Lists APIs vulnerable to object-level access issues.
-
-- **API**: Name of the API
-- **BOLA#**: Number of requests that failed the BOLA mechanism check 
-- **Status**: Access status usually marked as 403 with the message Forbidden
-
-### Risky IPs Map
-Visual representation of suspicious or risky traffic sources. Used to:
-
-- **Identify** geographic attack patterns
-- **Detect** unusual traffic spikes
-- **Support** incident investigation
-
----
-
-## Security and Safety Checks
+### OWASP Top 10
 
 Tracks API security issues aligned with OWASP standards.
 
-<ImageCard src="/Home - security - 4.png" alt="Security and Safety Checks" />
+<ImageCard src="/Home - security - 4.png" alt="OWASP 10 Widget" />
 
-### Zombie APIs
-Lists APIs that are inactive or abandoned.
+- **OWASP**: Category of security risk classified as API#1–10
+- **Endpoints**: Shows affected endpoints as a percentage
+- **Status**: Typically marked as Fail
+
+### BOLA (Broken Object Level Authorization)
+
+Lists APIs vulnerable to object-level access issues.
+
+- **API**: Name of the API
+- **BOLA #**: Number of requests that failed the BOLA check
+- **Status**: Usually marked 403 Forbidden
+
+### BFLA (Broken Function Level Authorization)
+
+Shows APIs vulnerable to function-level authorization flaws.
+
+- **API**: Name of the API
+- **BFLA #**: Number of requests that failed the BFLA check
+
+---
+
+## API Visibility and Authentication
+
+### Zombie APIs List
+
+Lists specific APIs that are inactive or abandoned.
 
 - **API**: Name of the API
 - **Last Active**: Last time this API was active
 
-### OWASP 10
-Tracks API security issues aligned with OWASP standards.
-
-- **OWASP**: Shows the category of security risk classified as API#(1-10) with a security misconfiguration (e.g. SQL injection)
-- **Endpoints**: Shows affected endpoints as a percentage
-- **Status**: Status usually marked with Fail
-
 ### Unsecured APIs
+
 Highlights APIs lacking proper authentication.
 
 - **API**: Name of the API
-- **Authentication**: The authentication level can be Bearer Token / OAuth, API Key, Basic Auth, and None/Unknown (defaults when no auth is detected)
+- **Authentication**: Bearer Token / OAuth, API Key, Basic Auth, or None/Unknown
+
+### Authentication Type
+
+Displays the authentication method in use per API and its security status.
+
+- **API**: Name of the API
+- **Authentication**: Basic, Bearer, Custom, or No Auth
+- **Status**: Secure, Risky, or No Auth
+
+---
+
+## Consumer and Data Risk
+
+### Risky Consumers
+
+Shows consumers whose request patterns indicate elevated risk.
+
+- **Consumer**: Which consumers are involved
+- **API**: Which APIs they interacted with
+- **Failed Requests**: Number of failed or problematic requests
+
+### Sensitive APIs
+
+Highlights APIs that may expose sensitive or PII data.
+
+- **API**: API name
+- **Risk**: Severity level (Low, Medium, High)
+- **Issues**: Number of detected issues
+- **Occurrences**: Frequency of incidents
+- **Last Occurrence**: Most recent detection
+
+---
+
+## API Type Distribution
+
+### APIs by Type
+
+Breakdown of APIs by exposure type:
+
+- **Internal**
+- **External**
+- **Partner**
+
+Helps assess security risk across different API audiences.
 
 ---
 
