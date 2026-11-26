@@ -1,0 +1,39 @@
+---
+title: "Authentication"
+metaTitle: "Settings - Authentication - Treblle Documentation"
+description: "Configure SSO and authentication settings for your Treblle workspace."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import { NoteCard } from "~components/cards/note";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Authentication
+
+The **Authentication** settings page lets you configure Single Sign-On (SSO) and other authentication methods for your workspace.
+
+<NoteCard>
+SSO configuration requires a **Team** or **Enterprise** plan.
+</NoteCard>
+
+<ImageCard src="/Settings - authentication.png" alt="Authentication Settings" />
+
+## Single Sign-On (SSO)
+
+Treblle supports SSO integration to allow your team members to sign in using your organization's identity provider.
+
+### Supported Providers
+- SAML 2.0
+- OpenID Connect (OIDC)
+
+### Configuration
+To set up SSO:
+
+1. Navigate to **Settings → Authentication**
+2. Select your identity provider
+3. Enter the required configuration details (Entity ID, SSO URL, certificate)
+4. Test and enable the connection
+
+---
+
+<PaginationCards />

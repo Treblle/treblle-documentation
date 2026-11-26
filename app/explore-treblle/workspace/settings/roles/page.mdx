@@ -1,0 +1,47 @@
+---
+title: "Roles"
+metaTitle: "Settings - Roles - Treblle Documentation"
+description: "Define and manage roles and permissions for workspace members in Treblle."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Roles
+
+The **Roles** page lets you define the permission sets available in your workspace. Roles are assigned to users and groups to control what they can see and do.
+
+<ImageCard src="/Settings - roles.png" alt="Roles Settings" />
+
+## Default Roles
+
+Treblle includes built-in roles:
+
+- **Admin**: Full workspace access, including settings and billing
+- **Member**: Can view and manage APIs, requests, and analytics
+- **Viewer**: Read-only access to workspace data
+
+## Custom Roles
+
+Enterprise plans support creating custom roles with fine-grained permission control.
+
+### Creating a Custom Role
+
+1. Click **Create Role**
+2. Enter a role name and description
+3. Select the permissions to include
+4. Save
+
+### Permission Categories
+
+Permissions are grouped by area:
+
+- **APIs**: View, create, edit, delete
+- **Requests**: View, export
+- **Settings**: View, manage
+- **Users**: Invite, manage, remove
+- **Billing**: View, manage
+
+---
+
+<PaginationCards />

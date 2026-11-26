@@ -1,0 +1,37 @@
+---
+title: "API Access"
+metaTitle: "Settings - API Access - Treblle Documentation"
+description: "Manage API keys and programmatic access tokens for your Treblle workspace."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# API Access
+
+The **API Access** page lets you create and manage API keys for programmatic access to the Treblle API. Use these keys to integrate Treblle into your CI/CD pipelines, scripts, or internal tooling.
+
+<ImageCard src="/Settings - api-access.png" alt="API Access Settings" />
+
+## API Keys
+
+The API keys list shows all active keys for your workspace:
+
+- **Name**: A label to identify what the key is used for
+- **Key**: The masked API key value
+- **Created**: Date the key was created
+- **Last Used**: When the key was last used
+
+## Creating an API Key
+
+1. Click **Create API Key**
+2. Enter a descriptive name
+3. Copy the key immediately — it will not be shown again
+
+## Revoking a Key
+
+To revoke an API key, select it and click **Revoke**. This immediately invalidates the key and any integrations using it will stop working.
+
+---
+
+<PaginationCards />

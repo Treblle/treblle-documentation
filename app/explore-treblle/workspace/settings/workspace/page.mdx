@@ -1,0 +1,86 @@
+---
+title: "Workspace"
+metaTitle: "Settings - Workspace - Treblle Documentation"
+description: "Configure your workspace settings including name, image, credentials, integrations, environments, and categories."
+---
+
+import { ImageCard } from "~components/cards/image-card";
+import PaginationCards from "~components/cards/pagination-cards";
+
+# Workspace
+
+The **Workspace** settings page lets you manage all workspace-level configuration. It is divided into five tabs: **Info**, **Credentials**, **Options**, **Integrations**, and **Environments & Categories**.
+
+<ImageCard src="/Settings - workspace.png" alt="Workspace Settings" />
+
+---
+
+## Info
+
+The Info tab contains basic workspace details.
+
+### Workspace Name
+A text field to update the display name of your workspace.
+
+### Workspace Image
+Upload a custom avatar for your workspace. Accepted formats: `.jpg`, `.jpeg`, `.png`. Maximum file size: 4MB.
+
+Click **Save Changes** to apply any updates.
+
+---
+
+## Credentials
+
+The Credentials tab contains the keys needed to integrate Treblle SDKs.
+
+### SDK Token
+Your API token used to configure Treblle SDK packages. The value is masked — click the copy icon to copy it to your clipboard.
+
+### Workspace ID
+Your unique Workspace ID inside the Treblle platform. Also masked with a copy icon.
+
+---
+
+## Options
+
+The Options tab contains workspace-level controls and danger zone actions.
+
+### Share Feature
+Enable or disable the ability to share requests for all APIs in this workspace. Toggled with a switch.
+
+### Leave Workspace
+Removes your access to the workspace immediately. You will lose access to all APIs, requests, endpoints, documentation, and analytics. The only way back is via an invite from the owner.
+
+### Delete Workspace
+Permanently deletes the workspace and all its data — APIs, endpoints, requests, analytics, and documentation. No backups are kept. Only available to workspace admins.
+
+---
+
+## Integrations
+
+The Integrations tab (visible to admins only) allows you to connect third-party services to your workspace.
+
+### GitHub
+Connect your GitHub account to enable repository-level integrations. Once connected, it displays:
+
+- **Account**: The connected GitHub account login
+- **Connected on**: Date the connection was established
+- **Access**: Whether all or selected repositories are accessible
+
+Click **Connect** to initiate the OAuth flow, or **Disconnect** to remove the integration.
+
+---
+
+## Environments & Categories
+
+This tab lets you manage the environments and categories used to organize your APIs.
+
+### Environments
+A table listing all configured environments (e.g. Production, Staging, Development). You can add new environments and manage existing ones via the table menu.
+
+### Categories
+A table listing all API categories (e.g. AI, Financial, Business). You can add new categories and manage existing ones via the table menu.
+
+---
+
+<PaginationCards />
